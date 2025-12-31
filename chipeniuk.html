@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANK Model Interactive Replication Guide</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2E75B5 0%, #1F4E78 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .authors {
+            font-size: 0.95em;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        
+        .nav-section {
+            padding: 30px;
+            background: #f5f5f5;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .nav-button {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #2E75B5;
+        }
+        
+        .nav-button.active {
+            background: linear-gradient(135deg, #2E75B5 0%, #1F4E78 100%);
+            color: white;
+            border-color: #1F4E78;
+            box-shadow: 0 10px 25px rgba(46,117,181,0.4);
+        }
+        
+        .nav-button .title {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-button .icon {
+            font-size: 1.5em;
+        }
+        
+        .nav-button .description {
+            font-size: 0.9em;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .level-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        
+        .level-beginner {
+            background: #70AD47;
+            color: white;
+        }
+        
+        .level-intermediate {
+            background: #FFC000;
+            color: black;
+        }
+        
+        .level-advanced {
+            background: #ED7D31;
+            color: white;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f0f7ff 100%);
+            border-left: 6px solid #2E75B5;
+            padding: 25px 30px;
+            margin: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: opacity 0.3s ease;
+            opacity: 1;
+        }
+        
+        .info-box h3 {
+            color: #1F4E78;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        
+        .info-box p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+        
+        .info-box p strong {
+            color: #2E75B5;
+            font-weight: 600;
+        }
+        
+        .info-box ul {
+            margin-top: 12px;
+            margin-left: 25px;
+            line-height: 1.9;
+            color: #444;
+        }
+        
+        .info-box ul li {
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+        
+        .info-box ul li::marker {
+            color: #2E75B5;
+            font-weight: bold;
+        }
+        
+        .diagram-container {
+            padding: 40px;
+            background: white;
+            min-height: 600px;
+            transition: opacity 0.3s ease;
+        }
+        
+        #mermaidDiagram {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+        }
+        
+        #mermaidDiagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        footer {
+            background: #333;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        footer a {
+            color: #2E75B5;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .diagram-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HANK and the Transmission of Shocks</h1>
+            <div class="subtitle">Interactive Replication Guide - Australian Economy</div>
+            <div class="authors">Karsten Chipeniuk, Gulnara Nolan & Matt Nolan (2025)</div>
+        </header>
+        
+        <div class="nav-section">
+            <div class="nav-grid">
+                <div class="nav-button" data-diagram="overall" onclick="loadDiagram('overall')">
+                    <div class="title">
+                        <span class="icon">🎯</span>
+                        <span>Overall Workflow</span>
+                    </div>
+                    <div class="description">High-level replication process from data to results</div>
+                    <span class="level-badge level-beginner">BEGINNER</span>
+                </div>
+                
+                <div class="nav-button active" data-diagram="algorithm" onclick="loadDiagram('algorithm')">
+                    <div class="title">
+                        <span class="icon">⚙️</span>
+                        <span>Algorithm Details</span>
+                    </div>
+                    <div class="description">Step-by-step computational solution method</div>
+                    <span class="level-badge level-advanced">ADVANCED</span>
+                </div>
+                
+                <div class="nav-button" data-diagram="files" onclick="loadDiagram('files')">
+                    <div class="title">
+                        <span class="icon">📁</span>
+                        <span>File Dependencies</span>
+                    </div>
+                    <div class="description">Code structure and file relationships</div>
+                    <span class="level-badge level-intermediate">INTERMEDIATE</span>
+                </div>
+                
+                <div class="nav-button" data-diagram="data" onclick="loadDiagram('data')">
+                    <div class="title">
+                        <span class="icon">📊</span>
+                        <span>Data Flow Pipeline</span>
+                    </div>
+                    <div class="description">Complete data processing and analysis pipeline</div>
+                    <span class="level-badge level-intermediate">INTERMEDIATE</span>
+                </div>
+                
+                <div class="nav-button" data-diagram="mechanism" onclick="loadDiagram('mechanism')">
+                    <div class="title">
+                        <span class="icon">🔬</span>
+                        <span>Economic Mechanism</span>
+                    </div>
+                    <div class="description">How heterogeneity affects shock transmission</div>
+                    <span class="level-badge level-beginner">BEGINNER</span>
+                </div>
+                
+                <div class="nav-button" data-diagram="comparison" onclick="loadDiagram('comparison')">
+                    <div class="title">
+                        <span class="icon">📈</span>
+                        <span>Results Comparison</span>
+                    </div>
+                    <div class="description">HANK vs RANK across different shocks</div>
+                    <span class="level-badge level-intermediate">INTERMEDIATE</span>
+                </div>
+            </div>
+        </div>
+        
+        <div id="infoBox" class="info-box">
+            <h3>📘 Algorithm Details</h3>
+            <p><strong>What this diagram shows:</strong> The complete computational algorithm for solving the HANK model, from initial setup through steady state computation to linearization and IRF generation.</p>
+            <p><strong>When to use it:</strong> When you need to understand the detailed solution steps, debug computational issues, or implement the model from scratch.</p>
+            <p><strong>Key insights:</strong></p>
+            <ul>
+                <li>Nested loop structure: outer loop for prices, inner loop for household problem</li>
+                <li>Upwind scheme for HJB equation provides stable convergence</li>
+                <li>Distribution computed via Kolmogorov Forward Equation</li>
+                <li>Linearization allows fast IRF computation after steady state found</li>
+            </ul>
+        </div>
+        
+        <div class="diagram-container">
+            <div id="mermaidDiagram" class="loading">Loading diagram...</div>
+        </div>
+        
+        <footer>
+            <p><strong>HANK Model Replication Guide</strong></p>
+            <p>Based on RBA Research Discussion Paper 2025-04</p>
+            <p style="margin-top: 15px;">
+                <a href="https://www.rba.gov.au/publications/rdp/2025/2025-04/" target="_blank">View Paper</a> | 
+                Contact: <a href="/cdn-cgi/l/email-protection#5c173d2e2f283932721f34352c39323529371c2e3e3226723b332a28723226">Authors</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">
+                Interactive guide created for educational purposes. See accompanying Word document for complete replication details.
+            </p>
+        </footer>
+    </div>
+    
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        const diagrams = {
+            overall: `graph TB
+    Start([Start: HANK Model<br/>Replication]) --> Prep[Data Preparation<br/>Phase]
+    
+    Prep --> Moments[Compute Income<br/>Moments from ATO Data]
+    Moments --> Calibrate[Calibrate Income<br/>Process Parameters]
+    
+    Calibrate --> Model[Model<br/>Construction]
+    
+    Model --> Household[Define Household<br/>Problem & HJB]
+    Model --> Firm[Define Firm<br/>Problem & Phillips Curve]
+    Model --> Policy[Define Policy<br/>Rules]
+    
+    Household --> Solve[Steady State<br/>Solution]
+    Firm --> Solve
+    Policy --> Solve
+    
+    Solve --> Iterate{Converged?}
+    Iterate -->|No| Solve
+    Iterate -->|Yes| Validate[Validate Wealth<br/>Distribution]
+    
+    Validate --> Match{Matches<br/>Data?}
+    Match -->|No| Recalibrate[Adjust<br/>Parameters]
+    Recalibrate --> Solve
+    
+    Match -->|Yes| Linear[Linearization<br/>Around Steady State]
+    
+    Linear --> Compute[Compute<br/>Derivatives]
+    Compute --> Assemble[Assemble Linear<br/>System]
+    
+    Assemble --> Shocks[Define Shocks<br/>to Analyze]
+    
+    Shocks --> MonPol[Monetary Policy<br/>Shock]
+    Shocks --> LabSupply[Labour Supply<br/>Shock]
+    Shocks --> Markup[Mark-up<br/>Shock]
+    
+    MonPol --> IRF[Generate Impulse<br/>Response Functions]
+    LabSupply --> IRF
+    Markup --> IRF
+    
+    IRF --> Compare[Compare HANK<br/>vs RANK]
+    
+    Compare --> Distribute[Analyze Distributional<br/>Effects]
+    
+    Distribute --> Results[Document<br/>Results]
+    
+    Results --> End([End:<br/>Publication])
+    
+    style Start fill:#2E75B5,stroke:#1F4E78,color:#fff
+    style End fill:#2E75B5,stroke:#1F4E78,color:#fff
+    style Prep fill:#70AD47,stroke:#507E32,color:#fff
+    style Model fill:#ED7D31,stroke:#C65911,color:#fff
+    style Solve fill:#FFC000,stroke:#C09000,color:#000
+    style Linear fill:#5B9BD5,stroke:#3A7BB8,color:#fff
+    style IRF fill:#A5A5A5,stroke:#7F7F7F,color:#fff
+    style Results fill:#44546A,stroke:#2E3D52,color:#fff
+    
+    classDef decision fill:#E7E6E6,stroke:#44546A,color:#000
+    class Iterate,Match decision`,
+            
+            algorithm: `graph TB
+    Start([Begin Steady State<br/>Computation]) --> Init[Initialize:<br/>Asset grid: 100-200 points<br/>Productivity states: 5-10<br/>Guess initial values]
+    
+    Init --> OuterLoop{Outer Loop:<br/>Equilibrium<br/>Prices}
+    
+    OuterLoop --> GuessW[Guess Wage W<br/>and Interest Rate R]
+    
+    GuessW --> InnerLoop[Inner Loop:<br/>Household Problem]
+    
+    InnerLoop --> SetupHJB[Setup HJB Equation:<br/>ρv = max u c,n]
+    
+    SetupHJB --> Upwind[Upwind Scheme:<br/>Forward difference<br/>Backward difference<br/>Choose by sign]
+    
+    Upwind --> Optimize[Optimize:<br/>FOC consumption<br/>FOC labor]
+    
+    Optimize --> UpdateV[Update Value Function:<br/>Implicit method iteration]
+    
+    UpdateV --> CheckConv{Value function<br/>converged?}
+    
+    CheckConv -->|No| Upwind
+    CheckConv -->|Yes| Extract[Extract Policy Functions:<br/>Consumption c a,z<br/>Labor n a,z<br/>Savings s a,z]
+    
+    Extract --> KFE[Solve KFE for Distribution:<br/>Kolmogorov Forward Eq]
+    
+    KFE --> Sparse[Build Sparse Matrix:<br/>Diagonal elements<br/>Off-diagonal flows]
+    
+    Sparse --> SolveDist[Solve for Stationary<br/>Distribution]
+    
+    SolveDist --> Aggregate[Compute Aggregates:<br/>Total Consumption<br/>Total Labor<br/>Total Assets]
+    
+    Aggregate --> Market[Check Market Clearing:<br/>Labor market<br/>Goods market<br/>Bond market]
+    
+    Market --> PriceConv{Prices<br/>converged?}
+    
+    PriceConv -->|No| UpdatePrice[Update Prices:<br/>Adjust W and R<br/>based on excess demand]
+    UpdatePrice --> GuessW
+    
+    PriceConv -->|Yes| Steady[Steady State Found:<br/>Value function<br/>Distribution<br/>Equilibrium prices]
+    
+    Steady --> Linear[Begin Linearization<br/>Process]
+    
+    Linear --> Deriv[Compute Derivatives:<br/>Policy functions<br/>wrt aggregates]
+    
+    Deriv --> FirstOrder[Linearize All<br/>Equilibrium Conditions]
+    
+    FirstOrder --> System[Assemble Linear System:<br/>State transition equations]
+    
+    System --> Solve[Solve for IRFs:<br/>Using QZ decomposition]
+    
+    Solve --> End([IRFs Ready for<br/>Analysis])
+    
+    style Start fill:#2E75B5,stroke:#1F4E78,color:#fff
+    style End fill:#2E75B5,stroke:#1F4E78,color:#fff
+    style OuterLoop fill:#ED7D31,stroke:#C65911,color:#fff
+    style InnerLoop fill:#FFC000,stroke:#C09000,color:#000
+    style KFE fill:#70AD47,stroke:#507E32,color:#fff
+    style Linear fill:#5B9BD5,stroke:#3A7BB8,color:#fff
+    style Steady fill:#44546A,stroke:#2E3D52,color:#fff
+    
+    classDef decision fill:#E7E6E6,stroke:#44546A,color:#000
+    class CheckConv,PriceConv decision
+    
+    classDef computation fill:#C5E0B4,stroke:#70AD47,color:#000
+    class Upwind,Optimize,UpdateV,Sparse,SolveDist computation`,
+            
+            files: `graph LR
+    subgraph Input["📥 INPUT DATA"]
+        ATO[("ATO Tax Returns<br/>2014-2019<br/>(Confidential)")]
+        HILDA[("HILDA Survey<br/>Wealth Distribution<br/>(Public)")]
+        Params[("Model Parameters<br/>from Literature")]
+    end
+    
+    subgraph Processing["⚙️ DATA PROCESSING"]
+        Stata["1_moments.do<br/>(Stata)"]
+        ATO --> Stata
+        Stata --> Moments[("Income Moments<br/>• Mean<br/>• Std Dev<br/>• Skewness<br/>• Kurtosis")]
+    end
+    
+    subgraph Calibration["🎯 CALIBRATION"]
+        CalibScript["calibrate_income.jl<br/>(Julia)"]
+        Moments --> CalibScript
+        CalibScript --> IncomeProcess[("Income Process<br/>Parameters<br/>{β, λ, σ}")]
+    end
+    
+    subgraph ModelSetup["🏗️ MODEL SETUP"]
+        MainModel["main_model.jl<br/>(Julia)"]
+        Household["household_problem.jl"]
+        Firm["firm_problem.jl"]
+        Policy["policy_rules.jl"]
+        Utils["utilities.jl<br/>(Helper Functions)"]
+        
+        IncomeProcess --> MainModel
+        Params --> MainModel
+        HILDA --> MainModel
+        
+        MainModel --> Household
+        MainModel --> Firm
+        MainModel --> Policy
+        Utils --> Household
+        Utils --> Firm
+    end
+    
+    subgraph Solution["💡 SOLUTION"]
+        Steady["solve_steady_state.jl"]
+        Linear["linearize_model.jl"]
+        IRFs["compute_irfs.jl"]
+        
+        Household --> Steady
+        Firm --> Steady
+        Policy --> Steady
+        
+        Steady --> SteadyResults[("Steady State<br/>• v*(a,z)<br/>• F*(a,z)<br/>• W*, R*")]
+        
+        SteadyResults --> Linear
+        Linear --> LinearSystem[("Linear System<br/>Matrices")]
+        
+        LinearSystem --> IRFs
+    end
+    
+    subgraph Analysis["📊 ANALYSIS"]
+        MonShock["monetary_shock.jl"]
+        LabShock["labour_shock.jl"]
+        MarkupShock["markup_shock.jl"]
+        Compare["compare_hank_rank.jl"]
+        Distribute["distributional_analysis.jl"]
+        
+        IRFs --> MonShock
+        IRFs --> LabShock
+        IRFs --> MarkupShock
+        
+        MonShock --> IRFResults[("IRF Data")]
+        LabShock --> IRFResults
+        MarkupShock --> IRFResults
+        
+        IRFResults --> Compare
+        IRFResults --> Distribute
+    end
+    
+    subgraph Output["📤 OUTPUT"]
+        Figures["generate_figures.jl"]
+        Tables["generate_tables.jl"]
+        
+        Compare --> Figures
+        Distribute --> Figures
+        Compare --> Tables
+        
+        Figures --> GraphData[("rdp-2025-04-<br/>graph-data.xlsx")]
+        Tables --> PaperTables[("Tables for Paper")]
+    end
+    
+    style ATO fill:#ED7D31,stroke:#C65911,color:#fff
+    style HILDA fill:#70AD47,stroke:#507E32,color:#fff
+    style Moments fill:#FFC000,stroke:#C09000,color:#000
+    style IncomeProcess fill:#FFC000,stroke:#C09000,color:#000
+    style SteadyResults fill:#5B9BD5,stroke:#3A7BB8,color:#fff
+    style LinearSystem fill:#5B9BD5,stroke:#3A7BB8,color:#fff
+    style IRFResults fill:#A5A5A5,stroke:#7F7F7F,color:#fff
+    style GraphData fill:#44546A,stroke:#2E3D52,color:#fff
+    
+    classDef script fill:#E7E6E6,stroke:#44546A,color:#000
+    class Stata,CalibScript,MainModel,Household,Firm,Policy,Utils,Steady,Linear,IRFs,MonShock,LabShock,MarkupShock,Compare,Distribute,Figures,Tables script`,
+            
+            data: `graph TB
+    subgraph Stage1["📊 STAGE 1: RAW DATA"]
+        Raw1["ATO Tax Returns<br/>FY 2014, 2018, 2019"]
+        Raw2["HILDA Wealth Data<br/>Quintile Shares"]
+        Raw3["Literature Parameters"]
+    end
+    
+    subgraph Stage2["🔧 STAGE 2: PROCESSING"]
+        Process1["Stata: 1_moments.do<br/>⏱️ 10-30 min"]
+        Raw1 --> Process1
+        Process1 --> Moments["Income Moments:<br/>Mean, StdDev,<br/>Skewness, Kurtosis"]
+    end
+    
+    subgraph Stage3["🎯 STAGE 3: CALIBRATION"]
+        Calib["Julia: Method of Moments<br/>⏱️ 30-60 min"]
+        Moments --> Calib
+        Raw3 --> Calib
+        Calib --> IncParam["Income Process<br/>Parameters"]
+    end
+    
+    subgraph Stage4["⚡ STAGE 4: SOLUTION"]
+        Setup["Setup Model<br/>⏱️ < 1 min"]
+        IncParam --> Setup
+        Raw2 --> Setup
+        Setup --> SolveSS["Solve Steady State<br/>⏱️ 2-5 min"]
+        SolveSS --> SSResults["SS: v*, F*, W*, R*"]
+        SSResults --> Linearize["Linearize<br/>⏱️ 5-10 min"]
+        Linearize --> LinSys["Linear System"]
+    end
+    
+    subgraph Stage5["📈 STAGE 5: SHOCKS"]
+        DefineShocks["Define Shocks<br/>⏱️ < 1 min"]
+        LinSys --> DefineShocks
+        DefineShocks --> ComputeIRF["Compute IRFs<br/>⏱️ < 1 min/shock"]
+        ComputeIRF --> IRFOutput["IRF Data:<br/>20 quarters"]
+    end
+    
+    subgraph Stage6["📊 STAGE 6: OUTPUT"]
+        Compare["HANK vs RANK<br/>⏱️ 2-5 min"]
+        IRFOutput --> Compare
+        IRFOutput --> Dist["Distributional<br/>Analysis"]
+        Compare --> Final["Final Output:<br/>Figures & Data"]
+        Dist --> Final
+    end
+    
+    style Raw1 fill:#ED7D31,stroke:#C65911,color:#fff
+    style Moments fill:#5B9BD5,stroke:#3A7BB8,color:#fff
+    style IncParam fill:#5B9BD5,stroke:#3A7BB8,color:#fff
+    style SSResults fill:#A5A5A5,stroke:#7F7F7F,color:#fff
+    style IRFOutput fill:#44546A,stroke:#2E3D52,color:#fff
+    style Final fill:#2E75B5,stroke:#1F4E78,color:#fff`,
+            
+            mechanism: `graph TB
+    subgraph Shock["⚡ SHOCK"]
+        MP["Monetary Easing:<br/>↓ Interest Rate 50 bps"]
+    end
+    
+    subgraph RANK["RANK MODEL"]
+        MP --> R_Impact["↓ Real Rate"]
+        R_Impact --> R_Cons["Rep. HH:<br/>↑ Consumption<br/>↓ Savings"]
+        R_Cons --> R_Output["Output: Large ↑"]
+    end
+    
+    subgraph HANK["HANK MODEL"]
+        MP --> H_Split["Split by Wealth"]
+        
+        H_Split --> H_Poor["POOR (Q1):<br/>Work MORE<br/>Save MORE<br/>Consumption FLAT"]
+        H_Split --> H_Middle["MIDDLE (Q2-Q4):<br/>↑ Consumption<br/>(like RANK)"]
+        H_Split --> H_Rich["RICH (Q5):<br/>Lost interest income<br/>↓ Consumption"]
+        
+        H_Poor --> H_Agg["Aggregate:<br/>Partial Offsetting"]
+        H_Middle --> H_Agg
+        H_Rich --> H_Agg
+        
+        H_Agg --> H_Output["Output: Dampened ↑"]
+    end
+    
+    subgraph Result["RESULT"]
+        H_Output --> Key["Key Difference:<br/>HANK ↑ 0.04%<br/>RANK ↑ 0.06%"]
+        R_Output --> Key
+        Key --> Why["Why? High liquid assets<br/>→ Good smoothing<br/>→ Muted response"]
+    end
+    
+    style MP fill:#2E75B5,stroke:#1F4E78,color:#fff
+    style R_Output fill:#ED7D31,stroke:#C65911,color:#fff
+    style H_Output fill:#70AD47,stroke:#507E32,color:#fff
+    style Key fill:#FFC000,stroke:#C09000,color:#000`,
+            
+            comparison: `graph TB
+    subgraph Shocks["SHOCKS ANALYZED"]
+        Shock1["Monetary Policy<br/>(Demand)"]
+        Shock2["Labour Supply<br/>(Supply)"]
+        Shock3["Mark-up<br/>(Supply)"]
+    end
+    
+    subgraph MonPol["💰 MONETARY POLICY"]
+        M1["Output:<br/>HANK 67% of RANK"]
+        M2["Consumption:<br/>HANK 67% of RANK"]
+        M3["Inflation:<br/>HANK ≈ RANK"]
+        M4["Gini:<br/>↓ 0.04% in HANK"]
+    end
+    
+    subgraph LabSupply["👷 LABOUR SUPPLY"]
+        L1["Output:<br/>HANK 71% of RANK"]
+        L2["Consumption:<br/>HANK 81% of RANK"]
+        L3["Heterogeneity:<br/>Large variation<br/>across quintiles"]
+    end
+    
+    subgraph Markup["🏪 MARK-UP"]
+        MU1["Output:<br/>HANK 27% of RANK"]
+        MU2["More homogeneous<br/>responses"]
+        MU3["Smaller inequality<br/>impact"]
+    end
+    
+    Shock1 --> MonPol
+    Shock2 --> LabSupply
+    Shock3 --> Markup
+    
+    subgraph Pattern["PATTERNS"]
+        P1["1. Real effects dampened"]
+        P2["2. Inflation similar"]
+        P3["3. HH-side > Firm-side<br/>for heterogeneity"]
+    end
+    
+    MonPol --> Pattern
+    LabSupply --> Pattern
+    Markup --> Pattern
+    
+    style Shock1 fill:#2E75B5,stroke:#1F4E78,color:#fff
+    style Shock2 fill:#ED7D31,stroke:#C65911,color:#fff
+    style Shock3 fill:#70AD47,stroke:#507E32,color:#fff
+    style P1 fill:#FFC000,stroke:#C09000,color:#000`
+        };
+        
+        const infoContent = {
+            overall: {
+                title: "🎯 Overall Workflow",
+                description: "High-level overview of the complete replication process from raw data to final results.",
+                when: "Use this as your starting point to understand the big picture before diving into technical details.",
+                insights: [
+                    "Iterative process: calibration and validation may require multiple rounds",
+                    "Data preparation is the critical foundation for successful replication",
+                    "Linearization enables efficient shock analysis after finding steady state",
+                    "Three main shock types are analyzed for comprehensive understanding"
+                ]
+            },
+            algorithm: {
+                title: "📘 Algorithm Details",
+                description: "The complete computational algorithm for solving the HANK model, from initial setup through steady state computation to linearization and IRF generation.",
+                when: "Use when you need to understand the detailed solution steps, debug computational issues, or implement the model from scratch.",
+                insights: [
+                    "Nested loop structure with outer loop for prices and inner loop for household problem",
+                    "Upwind scheme for HJB equation provides numerically stable convergence",
+                    "Distribution computed via Kolmogorov Forward Equation using sparse matrices",
+                    "Linearization allows fast IRF computation once steady state is found"
+                ]
+            },
+            files: {
+                title: "📁 File Dependencies",
+                description: "Complete mapping of code files and their relationships showing the modular structure of the replication package.",
+                when: "Use when navigating the code base, understanding which files to run in which order, or modifying specific components.",
+                insights: [
+                    "Julia is the primary language for model solution and analysis",
+                    "Stata is used only for initial data processing with ATO microdata",
+                    "Modular structure allows independent testing of individual components",
+                    "Helper functions in utilities.jl are reused across multiple modules"
+                ]
+            },
+            data: {
+                title: "📊 Data Flow Pipeline",
+                description: "Complete pipeline showing how raw data flows through processing, calibration, solution, and analysis stages with detailed timing estimates.",
+                when: "Use for understanding the sequential workflow, estimating total runtime, or identifying computational bottlenecks in the replication process.",
+                insights: [
+                    "Total runtime is 60-120 minutes excluding data access time",
+                    "Calibration is the most time-intensive step taking 30-60 minutes",
+                    "Once steady state is found, shock analysis is very fast (under 1 minute per shock)",
+                    "Parallelization is possible for analyzing multiple shock scenarios simultaneously"
+                ]
+            },
+            mechanism: {
+                title: "🔬 Economic Mechanism",
+                description: "Shows how household heterogeneity creates different responses to monetary policy shocks across the wealth distribution, leading to dampened aggregate effects compared to representative agent models.",
+                when: "Use for understanding the economic intuition behind HANK vs RANK differences and the crucial role of household heterogeneity in shock transmission.",
+                insights: [
+                    "Poor households work more hours and save more due to precautionary motive",
+                    "Rich households reduce consumption significantly due to lost interest income",
+                    "Middle-class households behave similarly to representative agent models",
+                    "These offsetting behaviors across the distribution lead to dampened aggregate response"
+                ]
+            },
+            comparison: {
+                title: "📈 Results Comparison",
+                description: "Comprehensive comparison of HANK versus RANK model responses across three shock types: monetary policy, labour supply, and firm mark-up shocks.",
+                when: "Use for understanding key empirical findings, shock-specific results, and general patterns across different types of economic disturbances.",
+                insights: [
+                    "All three shock types show dampened real effects in HANK compared to RANK",
+                    "Inflation responses are remarkably similar across both model specifications",
+                    "Household-side shocks generate much more heterogeneity than firm-side shocks",
+                    "Inequality effects are measurable but small and likely cyclically neutral"
+                ]
+            }
+        };
+        
+        function loadDiagram(type) {
+            // Update active button
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-diagram="${type}"]`).classList.add('active');
+            
+            // Update info box with smooth transition
+            const info = infoContent[type];
+            const infoBox = document.getElementById('infoBox');
+            infoBox.style.opacity = '0';
+            
+            setTimeout(() => {
+                infoBox.innerHTML = `
+                    <h3>${info.title}</h3>
+                    <p><strong>What this diagram shows:</strong> ${info.description}</p>
+                    <p><strong>When to use it:</strong> ${info.when}</p>
+                    <p><strong>Key insights:</strong></p>
+                    <ul>
+                        ${info.insights.map(insight => `<li>${insight}</li>`).join('')}
+                    </ul>
+                `;
+                infoBox.style.opacity = '1';
+            }, 150);
+            
+            // Load diagram with fade effect
+            const diagramDiv = document.getElementById('mermaidDiagram');
+            const container = diagramDiv.parentElement;
+            container.style.opacity = '0.5';
+            
+            // Generate unique ID for this diagram
+            const diagramId = 'mermaid-' + Date.now();
+            
+            // Create diagram HTML
+            diagramDiv.innerHTML = `<div class="mermaid" id="${diagramId}">${diagrams[type]}</div>`;
+            
+            // Render the diagram
+            try {
+                // For Mermaid v10+
+                if (typeof mermaid.run === 'function') {
+                    mermaid.run({
+                        nodes: document.querySelectorAll(`#${diagramId}`)
+                    }).then(() => {
+                        container.style.opacity = '1';
+                    }).catch((error) => {
+                        console.error('Mermaid error:', error);
+                        // Fallback to contentLoaded method
+                        mermaid.contentLoaded();
+                        container.style.opacity = '1';
+                    });
+                } else {
+                    // For older Mermaid versions
+                    mermaid.init(undefined, `#${diagramId}`);
+                    container.style.opacity = '1';
+                }
+            } catch (error) {
+                console.error('Error rendering diagram:', error);
+                diagramDiv.innerHTML = '<div style="padding: 20px; color: #c00;">Error loading diagram. Please try refreshing the page.</div>';
+                container.style.opacity = '1';
+            }
+        }
+        
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'default',
+            themeVariables: {
+                fontSize: '16px'
+            }
+        });
+        
+        // Load initial diagram on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDiagram('overall');
+        });
+    </script>
+</body>
+</html>

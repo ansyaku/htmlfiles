@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSJ Replication: Interactive Flow Diagrams</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 3px solid #667eea;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: 600;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .diagram-section {
+            margin-bottom: 60px;
+            scroll-margin-top: 80px;
+        }
+        
+        .diagram-section h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .diagram-section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .diagram-wrapper {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .mermaid {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .key-insights {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .key-insights h3 {
+            color: #d35400;
+            margin-bottom: 15px;
+        }
+        
+        .key-insights ul {
+            color: #555;
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+        
+        .file-list {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .file-list code {
+            background: #34495e;
+            color: #ecf0f1;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .comparison-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-box .box {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-box .box.fast {
+            background: #d5f4e6;
+            border-left: 5px solid #27ae60;
+        }
+        
+        .comparison-box .box.slow {
+            background: #fadbd8;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .comparison-box h4 {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background: #34495e;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-box {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔄 SSJ Replication Project</h1>
+            <p>Interactive Flow Diagrams & Architecture</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Auclert et al. (2021) - Sequence-Space Jacobian Method</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#jacobian">Jacobian Flow</a></li>
+                <li><a href="#fakenews">Fake News Algorithm</a></li>
+                <li><a href="#models">Model Structures</a></li>
+                <li><a href="#estimation">Estimation</a></li>
+                <li><a href="#verification">Verification</a></li>
+                <li><a href="#complexity">Complexity</a></li>
+            </ul>
+        </nav>
+        
+        <div class="content">
+            <!-- SECTION 1: Overview Pipeline -->
+            <div class="diagram-section" id="overview">
+                <h2>📊 1. Overall Pipeline Overview</h2>
+                <p>Ini adalah high-level view dari seluruh proses replikasi, dari definisi model hingga verifikasi hasil. Setiap stage menggunakan file-file spesifik yang ditunjukkan dalam diagram.</p>
+                
+                <div class="diagram-wrapper">
+                    <div class="mermaid">
+graph TB
+    A[Model Definition<br/>models/*.py] --> B[Steady State<br/>aux_fn.py, utils.py]
+    B --> C[Jacobian Computation<br/>jacobian.py, het_block.py]
+    C --> D{Application Type}
+    D -->|Linear| E[IRF Analysis<br/>Figures 1-2]
+    D -->|Nonlinear| F[Transitions<br/>Figure 7]
+    D -->|Estimation| G[MCMC<br/>Table III]
+    E --> H[Verification]
+    F --> H
+    G --> H
+    H --> I[autodiff/<br/>JAX, Reiter]
+    H --> J[dynare/<br/>External validation]
+    
+    style A fill:#e1f5ff
+    style C fill:#ffe1e1
+    style E fill:#e1ffe1
+    style F fill:#e1ffe1
+    style G fill:#e1ffe1
+                    </div>
+                </div>
+                
+                <div class="key-insights">
+                    <h3>🔑 Key Insights:</h3>
+                    <ul>
+                        <li><strong>Central Hub:</strong> jacobian.py adalah core engine yang menghubungkan semua komponen</li>
+                        <li><strong>3 Main Applications:</strong> Linear IRFs (paling cepat), Nonlinear transitions, Bayesian estimation</li>
+                        <li><strong>Triple Verification:</strong> Internal (JAX), Reiter method, External (Dynare)</li>
+                        <li><strong>Modular Design:</strong> Setiap stage independent, mudah di-test dan di-extend</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- SECTION 2: Jacobian Computation Flow -->
+            <div class="diagram-section" id="jacobian">
+                <h2>🔧 2. Jacobian Computation Flow</h2>
+                <p>Detail bagaimana Jacobians dihitung menggunakan fake news algorithm untuk heterogeneous-agent blocks dan numerical differentiation untuk aggregate blocks.</p>
+                
+                <div class="diagram-wrapper">
+                    <div class="mermaid">
+graph LR
+    subgraph Input
+        I1[Steady State]
+        I2[Block List]
+        I3[T=300]
+    end
+    
+    subgraph Processing
+        P1[jacobian.py<br/>get_G]
+        P2{Block Type?}
+        P3[het_block.py<br/>Fake News]
+        P4[simple_block.py<br/>Numerical]
+        P5[Forward<br/>Accumulation]
+    end
+    
+    subgraph Output
+        O1[G Dictionary]
+        O2[H_U Matrix]
+        O3[H_Z Matrix]
+    end
+    
+    I1 --> P1
+    I2 --> P1
+    I3 --> P1
+    P1 --> P2
+    P2 -->|Heterogeneous| P3
+    P2 -->|Aggregate| P4
+    P3 --> P5
+    P4 --> P5
+    P5 --> O1
+    O1 --> O2
+    O1 --> O3
+    
+    style P3 fill:#ffcccc
+    style P5 fill:#ffffcc
+    style O1 fill:#ccffcc
+                    </div>
+                </div>
+                
+                <div class="file-list">
+                    <h3>📁 Key Files:</h3>
+                    <ul>
+                        <li><code>jacobian.py</code> - Main orchestrator (get_G, pack_jacobians)</li>
+                        <li><code>het_block.py</code> - Fake news algorithm untuk HA blocks</li>
+                        <li><code>simple_block.py</code> - Numerical Jacobians untuk aggregate blocks</li>
+                        <li><code>utils.py</code> - Forward accumulation via DAG</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- SECTION 3: Fake News Algorithm -->
+            <div class="diagram-section" id="fakenews">
+                <h2>⚡ 3. Fake News Algorithm (Core Innovation)</h2>
+                <p>Ini adalah jantung dari SSJ method - algoritma yang membuat komputasi 200-300x lebih cepat dibanding direct method!</p>
+                
+                <div class="diagram-wrapper">
+                    <div class="mermaid">
+graph TB
+    subgraph "STEP 1: Single Backward Iteration"
+        S1A[t = T-1 → 0<br/>ONE pass only!]
+        S1B[Collect Y_s and D_s<br/>for ALL s]
+        S1A --> S1B
+    end
+    
+    subgraph "STEP 2: Expectation Vectors"
+        S2A[E₀ = y_ss]
+        S2B[E₁ = Λ' @ E₀]
+        S2C[Eₜ = Λ'^t @ y_ss]
+        S2A --> S2B --> S2C
+    end
+    
+    subgraph "STEP 3: Fake News Matrix F"
+        S3A[F₀,s = Y_s<br/>Direct effect]
+        S3B[Fₜ,s = Eₜ₋₁' @ D_s<br/>Indirect via D]
+        S3A --> S3B
+    end
+    
+    subgraph "STEP 4: Build Jacobian"
+        S4A[J₀,s = F₀,s]
+        S4B[Jₜ,s = Jₜ₋₁,s₋₁ + Fₜ,s]
+        S4C[EXACT Result!<br/>Not approximation]
+        S4A --> S4B --> S4C
+    end
+    
+    S1B ==> S2A
+    S2C ==> S3A
+    S3B ==> S4A
+    
+    style S1B fill:#ffcccc
+    style S2C fill:#ccffcc
+    style S3B fill:#ccccff
+    style S4C fill:#ffffcc
+                    </div>
+                </div>
+                
+                <div class="comparison-box">
+                    <div class="box fast">
+                        <h4>✅ Fake News Method</h4>
+                        <p><strong>Complexity:</strong> O(T)</p>
+                        <p><strong>Backward iterations:</strong> 1</p>
+                        <p><strong>Time (HD KS):</strong> 10.5 seconds</p>
+                        <p><strong>Key advantage:</strong> Single pass collects all information needed!</p>
+                    </div>
+                    <div class="box slow">
+                        <h4>❌ Direct Method</h4>
+                        <p><strong>Complexity:</strong> O(T²)</p>
+                        <p><strong>Backward iterations:</strong> T = 300</p>
+                        <p><strong>Time (HD KS):</strong> 2,100 seconds</p>
+                        <p><strong>Problem:</strong> Separate iteration for each column</p>
+                    </div>
+                </div>
+                
+                <div class="key-insights">
+                    <h3>💡 Why It Works:</h3>
+                    <ul>
+                        <li><strong>Policy Shift Invariance:</strong> Policy functions only depend on distance to shock (Lemma 1)</li>
+                        <li><strong>Single Backward Pass:</strong> Enough to capture all direct effects Y_s</li>
+                        <li><strong>Distribution Propagation:</strong> Computed cheaply via steady-state transition matrix</li>
+                        <li><strong>Recursive Construction:</strong> Build full Jacobian by accumulating fake news</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- SECTION 4: Model Structures -->
+            <div class="diagram-section" id="models">
+                <h2>🏗️ 4. Model Structures</h2>
+                
+                <h3 style="color: #667eea; margin-top: 30px;">4A. Krusell-Smith (Simplest)</h3>
+                <p>Model paling sederhana dengan 1 unknown, 3 blocks. Perfect untuk learning!</p>
+                
+                <div class="diagram-wrapper">
+                    <div class="mermaid">
+graph LR
+    Z[TFP Shock<br/>Z] --> F[Firm<br/>r, w, Y]
+    K[Capital<br/>K] --> F
+    F --> H[Household<br/>HA Block]
+    H --> M[Market<br/>Clearing]
+    M --> T[Target:<br/>asset_mkt]
+    
+    style H fill:#ffcccc
+    style K fill:#ffffcc
+                    </div>
+                </div>
+                
+                <div class="file-list">
+                    <p><strong>File:</strong> <code>krusell_smith.py</code></p>
+                    <p><strong>Unknowns:</strong> K (1 variable)</p>
+                    <p><strong>States:</strong> 3,500 (standard) atau 250,000 (high-dim)</p>
+                    <p><strong>Used in:</strong> Figure 1-2, Table I-II, Figure 4-5</p>
+                </div>
+                
+                <h3 style="color: #667eea; margin-top: 30px;">4B. Two-Asset HANK (Most Complex)</h3>
+                <p>Model paling kompleks dengan 7 unknowns, 12 blocks. Production-grade HANK model!</p>
+                
+                <div class="diagram-wrapper">
+                    <div class="mermaid">
+graph TB
+    subgraph Shocks
+        Z[TFP] 
+        E[Other Shocks]
+    end
+    
+    subgraph Household
+        H[2-Asset HH<br/>Liquid + Illiquid<br/>Adjustment Costs]
+    end
+    
+    subgraph Production
+        F[Firms<br/>Sticky Prices]
+        P[Capital/Q<br/>Solved Block]
+    end
+    
+    subgraph Policy
+        M[Monetary<br/>Taylor Rule]
+        FI[Fiscal<br/>Transfers]
+    end
+    
+    subgraph Markets
+        MC[Market Clearing<br/>Assets + Labor + Goods]
+        W[Wage Setting<br/>Sticky Wages]
+    end
+    
+    Z --> F
+    E --> F
+    F --> H
+    H --> P
+    P --> M
+    M --> FI
+    FI --> MC
+    MC --> W
+    W --> F
+    
+    style H fill:#ffcccc
+    style P fill:#ccccff
+                    </div>
+                </div>
+                
+                <div class="file-list">
+                    <p><strong>File:</strong> <code>hank_2a.py</code></p>
+                    <p><strong>Unknowns:</strong> r, w, Y, K, Q, pi, p (7 variables)</p>
+                    <p><strong>Blocks:</strong> 12 interconnected blocks</p>
+                    <p><strong>Features:</strong> Liquid assets, illiquid assets, portfolio choice, nominal rigidities</p>
+                    <p><strong>Used in:</strong> Table I, III (full estimation 19 params), Figure 7</p>
+                </div>
+            </div>
+            
+            <!-- SECTION 5: Estimation Flow -->
+            <div class="diagram-section" id="estimation">
+                <h2>📈 5. Bayesian Estimation Workflow</h2>
+                <p>Bagaimana SSJ memungkinkan estimation HANK model yang sebelumnya tidak praktis!</p>
+                
+                <div class="diagram-wrapper">
+                    <div class="mermaid">
+graph TB
+    subgraph Data
+        D1[Macro Time Series<br/>Y, C, I, π, i]
+    end
+    
+    subgraph Prior
+        P1[Economic Theory]
+        P2[Prior Distributions]
+    end
+    
+    subgraph Model
+        M1[Compute G<br/>ONCE!]
+        M2{Param Type?}
+        M3[Shock only<br/>Reuse G]
+        M4[Structural<br/>Recompute G]
+    end
+    
+    subgraph Likelihood
+        L1[dX = G @ dZ]
+        L2[Autocovariances<br/>FFT]
+        L3[Log Likelihood]
+    end
+    
+    subgraph MCMC
+        C1[Posterior Mode]
+        C2[RWMH<br/>200k draws]
+        C3[Posteriors]
+    end
+    
+    D1 --> M1
+    P2 --> M1
+    M1 --> M2
+    M2 -->|14 params| M3
+    M2 -->|5 params| M4
+    M3 --> L1
+    M4 --> L1
+    L1 --> L2
+    L2 --> L3
+    L3 --> C1
+    C1 --> C2
+    C2 --> C3
+    
+    style M3 fill:#ccffcc
+    style M4 fill:#ffcccc
+    style C3 fill:#ffffcc
+                    </div>
+                </div>
+                
+                <div class="comparison-box">
+                    <div class="box fast">
+                        <h4>🚀 Shock-Only Parameters (14)</h4>
+                        <p><strong>Time per likelihood:</strong> 14ms</p>
+                        <p><strong>Strategy:</strong> Reuse G matrix</p>
+                        <p><strong>Operation:</strong> Matrix multiplication only</p>
+                        <p><strong>Total MCMC:</strong> 48 minutes</p>
+                    </div>
+                    <div class="box slow">
+                        <h4>⏱️ Structural Parameters (5)</h4>
+                        <p><strong>Time per likelihood:</strong> 227ms</p>
+                        <p><strong>Strategy:</strong> Recompute G</p>
+                        <p><strong>Operation:</strong> Full Jacobian computation</p>
+                        <p><strong>Total MCMC:</strong> 12 hours</p>
+                    </div>
+                </div>
+                
+                <div class="key-insights">
+                    <h3>🎯 Revolutionary Impact:</h3>
+                    <ul>
+                        <li><strong>Before SSJ:</strong> 2-asset HANK estimation practically impossible (weeks/months)</li>
+                        <li><strong>After SSJ:</strong> Complete in 12 hours for 19 parameters</li>
+                        <li><strong>Key Innovation:</strong> Jacobian reusability for shock parameters</li>
+                        <li><strong>Result:</strong> HANK models become routine workhorse models</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- SECTION 6: Verification -->
+            <div class="diagram-section" id="verification">
+                <h2>✅ 6. Verification Triangle</h2>
+                <p>Triple verification strategy untuk memastikan accuracy!</p>
+                
+                <div class="diagram-wrapper">
+                    <div class="mermaid">
+graph TD
+    subgraph Main
+        M[SSJ Method<br/>toolkit/jacobian.py]
+    end
+    
+    subgraph Ver1[JAX Autodiff]
+        J1[jax_fakenews.py]
+        J2[Exact Derivatives]
+        J3[Error ~ 1e-14]
+    end
+    
+    subgraph Ver2[Reiter Method]
+        R1[reiter_*.ipynb]
+        R2[State Space]
+        R3[Match to 1e-9]
+    end
+    
+    subgraph Ver3[Dynare]
+        D1[dynare/*.mod]
+        D2[External Software]
+        D3[IRFs Match]
+    end
+    
+    M --> J1
+    M --> R1
+    M --> D1
+    J1 --> J2 --> J3
+    R1 --> R2 --> R3
+    D1 --> D2 --> D3
+    
+    J3 --> V[Validated!]
+    R3 --> V
+    D3 --> V
+    
+    style M fill:#ffffcc
+    style J3 fill:#ccffcc
+    style R3 fill:#ccffcc
+    style D3 fill:#ccffcc
+    style V fill:#ccccff
+                    </div>
+                </div>
+                
+                <div class="file-list">
+                    <h3>📁 Verification Files:</h3>
+                    <ul>
+                        <li><strong>autodiff/</strong>
+                            <ul>
+                                <li><code>jax_fakenews.py</code> - Automatic differentiation benchmark</li>
+                                <li><code>jac_accuracy_ks.ipynb</code> - KS accuracy tests → Figure D.1</li>
+                                <li><code>jac_accuracy_hank.ipynb</code> - HANK accuracy → Figure D.2</li>
+                                <li><code>reiter_ks.ipynb</code> - State-space comparison → Figure 4</li>
+                            </ul>
+                        </li>
+                        <li><strong>dynare/</strong>
+                            <ul>
+                                <li><code>herbst_schorfheide/</code> - HS2015 model</li>
+                                <li><code>smets_wouters/</code> - SW2007 model</li>
+                                <li>Output: Figures F.1-F.2, Table F.I</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- SECTION 7: Computational Complexity -->
+            <div class="diagram-section" id="complexity">
+                <h2>⚙️ 7. Computational Complexity Analysis</h2>
+                <p>Mengapa SSJ method secara fundamental lebih efisien?</p>
+                
+                <div class="diagram-wrapper">
+                    <div class="mermaid">
+graph LR
+    subgraph "State Space Size"
+        S1[KS Standard<br/>3,500 states]
+        S2[KS High-Dim<br/>250,000 states]
+    end
+    
+    subgraph "SSJ Method"
+        F1[Time: 0.09s]
+        F2[Time: 10.5s]
+        F3[Ratio: 116x]
+    end
+    
+    subgraph "Reiter Method"
+        R1[Time: 0.09s]
+        R2[Time: ~9 hours!]
+        R3[Ratio: 350,000x]
+    end
+    
+    S1 --> F1
+    S2 --> F2
+    F1 --> F3
+    F2 --> F3
+    
+    S1 --> R1
+    S2 --> R2
+    R1 --> R3
+    R2 --> R3
+    
+    style F3 fill:#ccffcc
+    style R3 fill:#ffcccc
+                    </div>
+                </div>
+                
+                <div class="key-insights">
+                    <h3>📊 Scaling Properties:</h3>
+                    <ul>
+                        <li><strong>SSJ:</strong> Cost ∝ n_states (nearly linear!)</li>
+                        <li><strong>Reiter:</strong> Cost ∝ n_states³ (cubic scaling)</li>
+                        <li><strong>Implication:</strong> Rich heterogeneity is now CHEAP, not expensive</li>
+                        <li><strong>Result:</strong> 250,000 state grid is feasible in SSJ but impossible in Reiter</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-box">
+                    <div class="box fast">
+                        <h4>✅ SSJ Advantages</h4>
+                        <ul>
+                            <li>200-300x faster than direct method</li>
+                            <li>Nearly linear scaling with states</li>
+                            <li>Jacobian reusability in estimation</li>
+                            <li>No matrix size limits</li>
+                        </ul>
+                    </div>
+                    <div class="box slow">
+                        <h4>⚠️ When NOT to Use SSJ</h4>
+                        <ul>
+                            <li>Value function depends on future distribution</li>
+                            <li>Need higher-order approximations</li>
+                            <li>Non-differentiable policies</li>
+                            <li>Very simple models (overkill)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <footer>
+            <p><strong>SSJ Replication Project</strong></p>
+            <p>Based on: Auclert, Bardóczy, Rognlie, Straub (2021)</p>
+            <p>"Using the Sequence-Space Jacobian to Solve and Estimate Heterogeneous-Agent Models"</p>
+            <p style="margin-top: 15px; font-size: 0.9em;">Created for: Monsieur Andre's Master Thesis Research</p>
+        </footer>
+    </div>
+    
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

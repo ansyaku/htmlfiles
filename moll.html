@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANK Model Replication Guide - Interactive Flow Diagrams</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2E75B6 0%, #1565C0 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .header .subtitle {
+            font-size: 0.9em;
+            margin-top: 10px;
+            opacity: 0.85;
+            font-style: italic;
+        }
+
+        .nav-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 3px solid #e0e0e0;
+        }
+
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 3px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn.active {
+            border-color: #2E75B6;
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            box-shadow: 0 5px 15px rgba(46, 117, 182, 0.3);
+        }
+
+        .nav-btn .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .nav-btn .title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .nav-btn .desc {
+            font-size: 0.85em;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .nav-btn .level {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 10px;
+            background: #FFF3E0;
+            color: #E65100;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+
+        .nav-btn.level-beginner .level {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .nav-btn.level-intermediate .level {
+            background: #FFF9C4;
+            color: #F57F17;
+        }
+
+        .nav-btn.level-advanced .level {
+            background: #FFCCBC;
+            color: #BF360C;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .diagram-info {
+            background: #f0f7ff;
+            border-left: 5px solid #2E75B6;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .diagram-info h2 {
+            color: #2E75B6;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .diagram-info p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .diagram-info .tags {
+            margin-top: 15px;
+        }
+
+        .diagram-info .tag {
+            display: inline-block;
+            background: white;
+            color: #2E75B6;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-right: 10px;
+            margin-top: 5px;
+            font-size: 0.9em;
+            border: 2px solid #2E75B6;
+        }
+
+        .diagram-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .footer {
+            background: #2E75B6;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: #BBDEFB;
+            text-decoration: none;
+        }
+
+        .tips {
+            background: #FFF9C4;
+            border-left: 5px solid #F57F17;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .tips strong {
+            color: #E65100;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+
+        /* Smooth fade transition */
+        .fade-enter {
+            opacity: 0;
+        }
+
+        .fade-enter-active {
+            opacity: 1;
+            transition: opacity 0.3s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 HANK Model Replication Guide</h1>
+            <p><strong>Kaplan, Moll, & Violante (2018)</strong></p>
+            <p class="subtitle">Interactive Flow Diagrams untuk Memahami Monetary Policy According to HANK</p>
+        </div>
+
+        <div class="nav-container">
+            <div class="nav-buttons">
+                <div class="nav-btn level-beginner active" data-diagram="1">
+                    <div class="icon">🗺️</div>
+                    <div class="title">Overall Workflow</div>
+                    <div class="desc">Gambaran besar seluruh proses replikasi dari awal sampai akhir</div>
+                    <span class="level">⭐ PEMULA</span>
+                </div>
+
+                <div class="nav-btn level-beginner" data-diagram="6">
+                    <div class="icon">💡</div>
+                    <div class="title">Transmission Mechanisms</div>
+                    <div class="desc">Intuisi ekonomi: RANK vs HANK, mengapa heterogenitas penting</div>
+                    <span class="level">⭐ PEMULA</span>
+                </div>
+
+                <div class="nav-btn level-intermediate" data-diagram="4">
+                    <div class="icon">📊</div>
+                    <div class="title">Complete Data Flow</div>
+                    <div class="desc">Pipeline lengkap: input data → processing → output figures</div>
+                    <span class="level">⭐⭐ MENENGAH</span>
+                </div>
+
+                <div class="nav-btn level-intermediate" data-diagram="2">
+                    <div class="icon">⚙️</div>
+                    <div class="title">Computational Algorithm</div>
+                    <div class="desc">Detail solving: steady state & transition dynamics</div>
+                    <span class="level">⭐⭐ MENENGAH</span>
+                </div>
+
+                <div class="nav-btn level-advanced" data-diagram="3">
+                    <div class="icon">📂</div>
+                    <div class="title">Fortran File Dependencies</div>
+                    <div class="desc">Relationship antar 50+ files dalam codebase</div>
+                    <span class="level">⭐⭐⭐ ADVANCED</span>
+                </div>
+
+                <div class="nav-btn level-advanced" data-diagram="5">
+                    <div class="icon">🔬</div>
+                    <div class="title">HJB Solution Method</div>
+                    <div class="desc">Technical deep dive: finite difference & numerical methods</div>
+                    <span class="level">⭐⭐⭐ ADVANCED</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="diagram-info" id="diagram-info">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <div class="diagram-container">
+                <div class="mermaid" id="diagram">
+                    <div class="loading">Loading diagram...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Panduan Replikasi Komprehensif</strong></p>
+            <p>Dibuat untuk mahasiswa S1 Ekonomi yang ingin mereplikasi & extend paper HANK</p>
+            <p style="margin-top: 10px;">
+                📄 <a href="https://doi.org/10.1257/aer.20160042" target="_blank">Original Paper & Replication Package</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#E3F2FD',
+                primaryTextColor: '#1565C0',
+                primaryBorderColor: '#2E75B6',
+                lineColor: '#666',
+                secondaryColor: '#FFF9C4',
+                tertiaryColor: '#C8E6C9'
+            }
+        });
+
+        // Diagram data
+        const diagrams = {
+            '1': {
+                title: '🗺️ Overall Workflow',
+                description: 'Diagram ini menunjukkan big picture dari SELURUH proses replikasi. Tiga tahap utama: (1) Persiapan Data (estimasi & diskretisasi earnings process), (2) Solve Model HANK dengan Fortran, (3) Post-processing & visualisasi dengan MATLAB.',
+                useCase: 'Gunakan diagram ini sebagai roadmap pertama kali kamu mulai replikasi. Ini membantu kamu understand "what comes after what" dan tidak tersesat di tengah jalan.',
+                tags: ['Big Picture', 'Tahapan', 'Roadmap'],
+                code: `graph TD
+    Start([Mulai Replikasi]) --> DataPrep{TAHAP 1:<br/>Persiapan Data}
+    
+    DataPrep --> SCF[SCF Data Validation<br/>OPSIONAL]
+    DataPrep --> Earnings[Earnings Process]
+    
+    SCF --> SCF1[STATA:<br/>SCFgenstats.do]
+    SCF1 --> SCF2[Table 5 & C.1]
+    
+    Earnings --> Earn1[Step 1B:<br/>Estimation]
+    Earn1 --> Earn2[Fortran:<br/>EarningsEstimation]
+    Earn2 --> Earn3[parameters.txt<br/>moments.txt]
+    
+    Earn3 --> Earn4[Step 1C:<br/>Discretization]
+    Earn4 --> Earn5[Fortran:<br/>EarningsDiscretization]
+    Earn5 --> Earn6[ygrid_combined.txt<br/>ymarkov_combined.txt<br/>ydist_combined.txt]
+    
+    Earn6 --> Copy[Copy ke<br/>Fortran/earnings_input/]
+    Copy --> ModelSolve{TAHAP 2:<br/>Solve Model HANK}
+    
+    ModelSolve --> Fortran[Fortran Main Program]
+    Fortran --> Fort1[Main.f90 +<br/>50+ subroutines]
+    Fort1 --> Fort2[SetParameters.f90<br/>Set semua parameter]
+    Fort2 --> Fort3[Grids.f90<br/>Construct grids]
+    Fort3 --> Fort4[SolveSteadyStateEqum.f90<br/>Market clearing loop]
+    Fort4 --> Fort5[HJBUpdate.f90<br/>Solve household problem]
+    Fort5 --> Fort6[StationaryDistribution.f90<br/>Compute distribution]
+    Fort6 --> Fort7[Transition.f90<br/>Compute IRFs]
+    Fort7 --> Fort8[Save Output<br/>Ratusan .txt files]
+    
+    Fort8 --> PostProc{TAHAP 3:<br/>Post-Processing}
+    
+    PostProc --> MATLAB1[MATLAB:<br/>MakeWorkspaces.m]
+    MATLAB1 --> MATLAB2[Convert .txt → .mat<br/>workspaces]
+    
+    MATLAB2 --> VizBranch{Generate Outputs}
+    
+    VizBranch --> Viz1[MakePlotsPaper.m<br/>Figures 1-4, D3]
+    VizBranch --> Viz2[Decomposition.m<br/>Tables 6-7]
+    VizBranch --> Viz3[ConDecompDist.m<br/>Figures 5-6]
+    VizBranch --> Viz4[PlotOneAssModels.m<br/>Figures 7]
+    VizBranch --> Viz5[PersistencePlots.m<br/>Figures 8]
+    VizBranch --> Viz6[PlotPhillipsCurve.m<br/>Figures 9]
+    
+    Viz1 --> End([Selesai!<br/>Semua Figures & Tables])
+    Viz2 --> End
+    Viz3 --> End
+    Viz4 --> End
+    Viz5 --> End
+    Viz6 --> End
+    
+    style Start fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style DataPrep fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    style ModelSolve fill:#FF9800,stroke:#E65100,stroke-width:2px,color:#fff
+    style PostProc fill:#F44336,stroke:#C62828,stroke-width:2px,color:#fff
+    style End fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    
+    style SCF fill:#E3F2FD
+    style Earnings fill:#E3F2FD
+    style Fortran fill:#FFF3E0
+    style MATLAB1 fill:#FFEBEE
+    style VizBranch fill:#FFEBEE`
+            },
+            '2': {
+                title: '⚙️ Computational Algorithm',
+                description: 'Detail algoritma untuk solve model. Steady state menggunakan nested iteration (HJB di dalam market clearing loop). Transition dynamics menggunakan backward-forward method.',
+                useCase: 'Gunakan diagram ini ketika kamu mau understand HOW model actually di-solve secara komputasi. Penting untuk troubleshooting convergence issues.',
+                tags: ['Algorithm', 'Solving', 'Technical'],
+                code: `graph TD
+    Start([Model HANK]) --> Branch{Pilih Solusi}
+    
+    Branch --> SS[Steady State<br/>Solution]
+    Branch --> Trans[Transition<br/>Dynamics]
+    
+    SS --> SS1[1. Guess prices<br/>r^b, r^a, w]
+    SS1 --> SS2[2. Solve HJB Equation<br/>Value function V a,b,z]
+    SS2 --> SS3[3. Get policy functions<br/>c, ℓ, d]
+    SS3 --> SS4[4. Solve Kolmogorov Forward<br/>Distribution μ a,b,z]
+    SS4 --> SS5[5. Aggregate<br/>B_h, A, N, C]
+    SS5 --> SS6{6. Markets<br/>Clear?}
+    SS6 -->|No| SS7[Update prices<br/>with dampening]
+    SS7 --> SS2
+    SS6 -->|Yes| SS8[Save Steady State<br/>to files]
+    
+    Trans --> T1[1. Guess price paths<br/>r^b_t, r^a_t, w_t<br/>for t=0...T]
+    T1 --> T2[2. Backward Iteration<br/>t=T → t=0]
+    T2 --> T3[Solve HJB at each t<br/>given V t+1]
+    T3 --> T4[Store policy functions<br/>c_t, ℓ_t, d_t]
+    T4 --> T5[3. Forward Iteration<br/>t=0 → t=T]
+    T5 --> T6[Evolve distribution<br/>μ_t using policies]
+    T6 --> T7[Aggregate at each t<br/>B_h t, A_t, N_t, C_t]
+    T7 --> T8{4. Markets clear<br/>at all t?}
+    T8 -->|No| T9[Update price paths<br/>with dampening]
+    T9 --> T2
+    T8 -->|Yes| T10[Save IRFs<br/>to files]
+    
+    SS8 --> End1([Output:<br/>Steady State])
+    T10 --> End2([Output:<br/>Transition Path])
+    
+    End1 --> Post[Post-Processing<br/>MATLAB]
+    End2 --> Post
+    
+    style Start fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style Branch fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    style SS fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
+    style Trans fill:#FCE4EC,stroke:#C2185B,stroke-width:2px
+    style SS6 fill:#FFEB3B,stroke:#F57F17,stroke-width:2px
+    style T8 fill:#FFEB3B,stroke:#F57F17,stroke-width:2px
+    style End1 fill:#81C784,stroke:#388E3C,stroke-width:2px,color:#fff
+    style End2 fill:#81C784,stroke:#388E3C,stroke-width:2px,color:#fff
+    style Post fill:#9C27B0,stroke:#6A1B9A,stroke-width:2px,color:#fff
+    
+    style SS2 fill:#BBDEFB
+    style SS4 fill:#BBDEFB
+    style T3 fill:#F8BBD0
+    style T6 fill:#F8BBD0`
+            },
+            '3': {
+                title: '📂 Fortran File Dependencies',
+                description: 'Memetakan relationship antar 50+ Fortran files. Main.f90 adalah orchestrator utama yang memanggil berbagai modules dan subroutines. UMFPACK sangat critical untuk performance (sparse linear solver).',
+                useCase: 'Gunakan diagram ini ketika kamu baca Fortran code dan perlu tahu "file X ini dipanggil dari mana" atau "fungsi Y ini ada di file apa". Essential untuk code navigation.',
+                tags: ['Code Structure', 'Files', 'Dependencies'],
+                code: `graph LR
+    Main[Main.f90<br/>Program Utama] --> SetParam[SetParameters.f90<br/>Set semua parameters]
+    Main --> AllocArr[AllocateArrays.f90<br/>Allocate memory]
+    
+    SetParam --> Globals[Globals.f90<br/>Global variables]
+    SetParam --> Params[Parameters.f90<br/>Parameter declarations]
+    
+    Main --> InitSS[InitialSteadyState.f90<br/>Initial guess]
+    InitSS --> SolveSS[SolveSteadyStateEqum.f90<br/>Market clearing]
+    
+    SolveSS --> Calib[Calibration.f90<br/>Calibrate parameters]
+    SolveSS --> Grids[Grids.f90<br/>Construct grids]
+    SolveSS --> IterBell[iterateBellman.f90<br/>Bellman iteration]
+    
+    IterBell --> HJB[HJBUpdate.f90<br/>Solve HJB]
+    HJB --> OptCons[OptimalConsumption.f90<br/>Optimal choices]
+    
+    SolveSS --> StatDist[StationaryDistribution.f90<br/>Compute distribution]
+    SolveSS --> DistStats[DistributionStatistics.f90<br/>Distribution moments]
+    
+    Main --> FinalSS[FinalSteadyState.f90<br/>Final steady state]
+    FinalSS --> SaveSS[SaveSteadyStateOutput.f90<br/>Save to files]
+    
+    Main --> TransCalc[Transition.f90<br/>Compute transition]
+    TransCalc --> IterTrans[iterateTransitionStickyRb.f90<br/>Transition iteration]
+    IterTrans --> IRF[IRFSequence.f90<br/>IRF calculations]
+    IRF --> SaveIRF[SaveIRFOutput.f90<br/>Save IRF files]
+    
+    HJB --> Procs[Procedures.f90<br/>Helper functions]
+    StatDist --> Procs
+    
+    Procs --> UMFPACK[umfpack.f90<br/>Sparse solver]
+    Procs --> NumMethods[Numerical methods:<br/>golden.f90<br/>rtbis.f90<br/>mnbrak.f90]
+    
+    Main --> Decomp[Decomposition:<br/>CumulativeConsumption.f90<br/>DiscountedMPC.f90]
+    
+    style Main fill:#FF6B6B,stroke:#C92A2A,stroke-width:3px,color:#fff
+    style SetParam fill:#4ECDC4,stroke:#0A8C84,stroke-width:2px,color:#fff
+    style SolveSS fill:#FFE66D,stroke:#F4B400,stroke-width:2px
+    style TransCalc fill:#95E1D3,stroke:#38A89D,stroke-width:2px
+    style SaveSS fill:#A8E6CF,stroke:#52A77C,stroke-width:2px
+    style SaveIRF fill:#A8E6CF,stroke:#52A77C,stroke-width:2px
+    
+    style HJB fill:#FDCB6E,stroke:#E17055
+    style StatDist fill:#FDCB6E,stroke:#E17055
+    style UMFPACK fill:#6C5CE7,stroke:#5F3DC4,color:#fff
+    style Procs fill:#74B9FF,stroke:#0984E3`
+            },
+            '4': {
+                title: '📊 Complete Data Flow',
+                description: 'Pipeline lengkap dari input data mentah sampai final output. Menunjukkan semua intermediate files, transformasi, dan connections. Super comprehensive untuk tracking "file X berasal dari mana dan digunakan untuk apa".',
+                useCase: 'Reference utama ketika kamu perlu trace data pipeline atau troubleshoot missing files. Diagram paling comprehensive untuk understanding end-to-end flow.',
+                tags: ['Data Pipeline', 'Files', 'Complete Flow'],
+                code: `graph TB
+    subgraph Input["📊 INPUT DATA"]
+        SSA[SSA Earnings Data<br/>8 target moments]
+        SCF[SCF 2004 Data<br/>Wealth distribution]
+    end
+    
+    subgraph Estimation["🔬 ESTIMATION STAGE"]
+        EstCode[Fortran Code:<br/>EarningsEstimation]
+        SSA --> EstCode
+        EstCode --> EstOut[parameters.txt:<br/>λ₁=0.080, β₁=0.761<br/>λ₂=0.007, β₂=0.009]
+    end
+    
+    subgraph Discretization["⚙️ DISCRETIZATION STAGE"]
+        DiscCode[Fortran Code:<br/>EarningsDiscretization]
+        EstOut --> DiscCode
+        DiscCode --> Grid1[ygrid_combined.txt<br/>33 productivity points]
+        DiscCode --> Grid2[ymarkov_combined.txt<br/>33×33 transition matrix]
+        DiscCode --> Grid3[ydist_combined.txt<br/>Ergodic distribution]
+    end
+    
+    subgraph ModelInput["📥 MODEL INPUTS"]
+        Grid1 --> EarnInput[earnings_input/<br/>folder]
+        Grid2 --> EarnInput
+        Grid3 --> EarnInput
+        
+        Calib[Calibrated Parameters:<br/>ρ=5.1%, κ=6.0%<br/>χ₀, χ₁, χ₂]
+        External[External Parameters:<br/>α=0.33, γ=1<br/>θ=100, φ=1.25]
+    end
+    
+    subgraph MainModel["🖥️ MAIN MODEL FORTRAN"]
+        EarnInput --> FortMain[Main.f90]
+        Calib --> FortMain
+        External --> FortMain
+        
+        FortMain --> SSCalc[Steady State<br/>Calculation]
+        FortMain --> TransCalc[Transition<br/>Calculation]
+        
+        SSCalc --> SSFiles[Steady State Files:<br/>dist.txt<br/>policy_functions.txt<br/>aggregates.txt]
+        
+        TransCalc --> IRFFiles[IRF Files:<br/>IRF_C.txt<br/>IRF_N.txt<br/>IRF_pi.txt<br/>+ many more]
+    end
+    
+    subgraph MATLABProc["📈 MATLAB PROCESSING"]
+        SSFiles --> MakeWS[MakeWorkspaces.m]
+        IRFFiles --> MakeWS
+        
+        MakeWS --> SSFun[SteadyStateFigures_fun.m]
+        MakeWS --> TransFun[TransitionFigures_fun.m]
+        
+        SSFun --> WSFiles[Workspace Files:<br/>Steadystate_workspace.mat<br/>IRF_Monetary_NOFS_workspace.mat<br/>IRF_Monetary_PE1-15_workspace.mat]
+        TransFun --> WSFiles
+    end
+    
+    subgraph Visualization["📊 VISUALIZATION"]
+        WSFiles --> Plot1[MakePlotsPaper.m]
+        WSFiles --> Plot2[Decomposition.m]
+        WSFiles --> Plot3[ConDecompDist.m]
+        WSFiles --> Plot4[PlotOneAssModels.m]
+        WSFiles --> Plot5[PersistencePlots.m]
+        WSFiles --> Plot6[PlotPhillipsCurve.m]
+    end
+    
+    subgraph FinalOutput["📄 FINAL OUTPUT"]
+        Plot1 --> Fig1[Figures 1-4, D3<br/>Main IRF plots]
+        Plot2 --> Tab67[Tables 6-7<br/>Decomposition results]
+        Plot3 --> Fig56[Figures 5-6<br/>Consumption by wealth]
+        Plot4 --> Fig7[Figures 7a-7b<br/>One-asset models]
+        Plot5 --> Fig8[Figures 8a-8b<br/>Persistence analysis]
+        Plot6 --> Fig9[Figures 9a-9c<br/>Phillips curves]
+        
+        SCF --> STATAProc[SCFgenstats.do]
+        STATAProc --> Tab5[Tables 5 & C.1<br/>Wealth statistics]
+    end
+    
+    style Input fill:#E8F5E9,stroke:#4CAF50,stroke-width:2px
+    style Estimation fill:#E3F2FD,stroke:#2196F3,stroke-width:2px
+    style Discretization fill:#E3F2FD,stroke:#2196F3,stroke-width:2px
+    style ModelInput fill:#FFF3E0,stroke:#FF9800,stroke-width:2px
+    style MainModel fill:#FFE0B2,stroke:#FF6F00,stroke-width:2px
+    style MATLABProc fill:#FCE4EC,stroke:#E91E63,stroke-width:2px
+    style Visualization fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px
+    style FinalOutput fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+    
+    style FortMain fill:#FF6B6B,color:#fff
+    style MakeWS fill:#EC407A,color:#fff
+    style Fig1 fill:#66BB6A,color:#fff
+    style Tab67 fill:#66BB6A,color:#fff`
+            },
+            '5': {
+                title: '🔬 HJB Solution Method',
+                description: 'Technical deep dive ke dalam numerical method untuk solve HJB equation. Mencakup finite difference, upwind scheme, implicit updates, UMFPACK solver, dan Kolmogorov Forward equation. Level advanced!',
+                useCase: 'Untuk yang serius mau master computational methods. Berguna ketika debug numerical issues atau want to understand "what happens inside the black box".',
+                tags: ['Numerical Methods', 'Technical', 'HJB'],
+                code: `graph TD
+    Start([HJB Equation<br/>ρV = max u + V_a·ȧ + V_b·ḃ + 𝔼ΔV]) --> Setup[Setup Discretization]
+    
+    Setup --> Grid1[Construct Grids:<br/>a: 100 points non-uniform<br/>b: 50 points non-uniform<br/>z: 33 points from discretization]
+    Grid1 --> Grid2[Total States:<br/>~10,000 after eliminating<br/>unreachable states]
+    
+    Grid2 --> Init[Initialize:<br/>V⁰ a,b,z = 0<br/>or use previous solution]
+    
+    Init --> Iter[Iteration n]
+    
+    Iter --> Step1[1. Compute Derivatives<br/>Finite Differences]
+    Step1 --> Deriv[Forward: V_f = V i+1 - V i / Δx<br/>Backward: V_b = V i - V i-1 / Δx]
+    
+    Deriv --> Step2[2. Upwind Scheme]
+    Step2 --> Upwind[If drift > 0: use V_f<br/>If drift < 0: use V_b<br/>If drift = 0: average]
+    
+    Upwind --> Step3[3. Optimal Consumption]
+    Step3 --> FOC[First Order Condition:<br/>u' c = V_b<br/>→ c = V_b ^ -1/γ]
+    
+    FOC --> Step4[4. Budget Constraints]
+    Step4 --> BC[ḃ = 1-τ wzℓ + r^b b + T - d - χ - c<br/>ȧ = r^a·a + d]
+    
+    BC --> Step5[5. Build Transition Matrix A]
+    Step5 --> Matrix[Sparse matrix 10000×10000<br/>Contains drifts and<br/>jump probabilities]
+    
+    Matrix --> Step6[6. Implicit Update]
+    Step6 --> Implicit[Solve:<br/> ρ+ζ+1/Δt V^n+1 = u + 1/Δt V^n + A·V^n+1]
+    
+    Implicit --> Linear[Use UMFPACK<br/>sparse linear solver]
+    
+    Linear --> Step7[7. Check Convergence]
+    Step7 --> Check{max V^n+1 - V^n <br/> < tolerance?}
+    
+    Check -->|No| Update[V^n = V^n+1<br/>n = n+1]
+    Update --> Iter
+    
+    Check -->|Yes| Extract[Extract Policy Functions]
+    Extract --> Policy[c a,b,z<br/>ℓ a,b,z<br/>d a,b,z]
+    
+    Policy --> KFE[Solve Kolmogorov Forward<br/>for Distribution μ]
+    
+    KFE --> KFEEq[0 = -∂ drift·μ + A^T·μ + ζ g_newborn - g]
+    KFEEq --> Eigen[Find eigenvector for<br/>eigenvalue ≈ 0]
+    Eigen --> Normalize[Normalize:<br/>∫∫∫ μ a,b,z da db dz = 1]
+    
+    Normalize --> Done([Return:<br/>V, c, ℓ, d, μ])
+    
+    style Start fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style Setup fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    style Iter fill:#FF9800,stroke:#E65100,stroke-width:2px
+    style Check fill:#FFEB3B,stroke:#F57F17,stroke-width:2px
+    style Done fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    
+    style Step1 fill:#E1F5FE
+    style Step2 fill:#E1F5FE
+    style Step3 fill:#E1F5FE
+    style Step4 fill:#E1F5FE
+    style Step5 fill:#E1F5FE
+    style Step6 fill:#FFF9C4
+    style Step7 fill:#FFF9C4
+    
+    style Linear fill:#CE93D8,color:#fff
+    style KFE fill:#F48FB1
+    style Eigen fill:#F48FB1`
+            },
+            '6': {
+                title: '💡 Transmission Mechanisms: RANK vs HANK',
+                description: 'Economic intuition: mengapa HANK berbeda dari RANK. Visualisasi bagaimana monetary shock ditransmisikan melalui heterogeneous agents. Paling penting untuk understand "why this paper matters"!',
+                useCase: 'MUST READ untuk semua orang! Gunakan diagram ini untuk understand economic story dan untuk presentasi/explain ke orang lain. Ini yang buat paper ini revolutionary.',
+                tags: ['Economic Intuition', 'RANK vs HANK', 'Policy'],
+                code: `graph TB
+    subgraph Shock["💰 MONETARY SHOCK"]
+        MS[Bank Sentral<br/>Turunkan Suku Bunga<br/>Δr^b = -0.25%]
+    end
+    
+    subgraph RANK["🏛️ MODEL RANK Traditional"]
+        MS --> R1[Suku Bunga Turun]
+        R1 --> R2[Return Investasi<br/>Lebih Menarik]
+        R2 --> R3[SEMUA ORANG<br/>Representative Agent<br/>Invest Lebih Banyak]
+        R3 --> R4[Konsumsi Naik<br/>Substitusi Intertemporal]
+        R4 --> R5[99% Transmisi<br/>Lewat DIRECT EFFECT]
+        
+        style R3 fill:#FFCDD2,stroke:#C62828
+        style R5 fill:#FF5252,stroke:#D32F2F,color:#fff
+    end
+    
+    subgraph HANK["🏘️ MODEL HANK Realistic"]
+        MS --> H1[Suku Bunga Turun]
+        
+        H1 --> Branch{Heterogeneous<br/>Responses}
+        
+        Branch --> Poor[👤 Orang Miskin<br/>Hand-to-Mouth 30%]
+        Branch --> Rich[👤 Orang Kaya<br/>Top 30%]
+        Branch --> Middle[👤 Orang Menengah<br/>40%]
+        
+        Poor --> P1[❌ Tidak Peduli r^b<br/>Tidak punya wealth]
+        P1 --> P2[Tapi...]
+        
+        Rich --> Ri1[Wealth Effect<br/>NEGATIF]
+        Ri1 --> Ri2[Return Turun<br/>→ Konsumsi Turun Sedikit]
+        Ri2 --> Ri3[Tapi MPC Rendah<br/>→ Efek Kecil]
+        
+        Middle --> M1[Mix Direct Effect<br/>+ Income Effect]
+        
+        H1 --> GE[General Equilibrium<br/>Effects]
+        GE --> GE1[Perusahaan<br/>Produksi Naik]
+        GE1 --> GE2[Demand Tenaga Kerja<br/>NAIK]
+        GE2 --> GE3[UPAH NAIK]
+        
+        GE3 --> P3[Income Naik<br/>MPC Tinggi!]
+        P3 --> P4[KONSUMSI<br/>NAIK BANYAK]
+        
+        GE --> Fiscal[Fiscal Response]
+        Fiscal --> F1[Government<br/>Adjust Budget]
+        F1 --> F2[Transfer T Naik<br/>atau Tax τ Turun]
+        F2 --> P5[Income Naik Lagi]
+        P5 --> P4
+        
+        P4 --> Total[Total Effect<br/>Aggregate Consumption]
+        Ri3 --> Total
+        M1 --> Total
+        GE3 --> Total
+        
+        Total --> Result[DECOMPOSITION:<br/>Direct 19%<br/>Indirect Wage 51%<br/>Indirect Transfer 32%<br/>Indirect r^a -2%]
+        
+        style Poor fill:#FFE0B2,stroke:#E65100
+        style Rich fill:#C5E1A5,stroke:#558B2F
+        style Middle fill:#FFF9C4,stroke:#F57F17
+        style GE fill:#B2DFDB,stroke:#00695C
+        style Fiscal fill:#D1C4E9,stroke:#4527A0
+        style Result fill:#66BB6A,stroke:#2E7D32,color:#fff
+        style P4 fill:#FF6B6B,stroke:#C62828,color:#fff
+    end
+    
+    subgraph Comparison["📊 PERBANDINGAN"]
+        R5 --> Comp[RANK: 99% Direct<br/>HANK: 19% Direct<br/><br/>RANK: 1% Indirect<br/>HANK: 81% Indirect]
+        Result --> Comp
+        
+        Comp --> Lesson[POLICY LESSON:<br/>Koordinasi Fiscal-Monetary<br/>SANGAT PENTING!]
+        
+        style Comp fill:#FFEB3B,stroke:#F57F17,stroke-width:3px
+        style Lesson fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    end
+    
+    style Shock fill:#E8F5E9,stroke:#4CAF50,stroke-width:2px
+    style RANK fill:#FFEBEE,stroke:#D32F2F,stroke-width:2px
+    style HANK fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
+    style Comparison fill:#FFF3E0,stroke:#F57C00,stroke-width:2px`
+            }
+        };
+
+        // Function to render diagram
+        async function renderDiagram(diagramId) {
+            const data = diagrams[diagramId];
+            const diagramElement = document.getElementById('diagram');
+            const infoElement = document.getElementById('diagram-info');
+
+            // Update info
+            infoElement.innerHTML = `
+                <h2>${data.title}</h2>
+                <p><strong>Deskripsi:</strong> ${data.description}</p>
+                <p><strong>Kapan Pakai:</strong> ${data.useCase}</p>
+                <div class="tags">
+                    ${data.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+            `;
+
+            // Clear and render diagram
+            diagramElement.innerHTML = '<div class="loading">Rendering diagram...</div>';
+            
+            try {
+                const { svg } = await mermaid.render('mermaid-diagram-' + diagramId, data.code);
+                diagramElement.innerHTML = svg;
+            } catch (error) {
+                diagramElement.innerHTML = '<div class="loading" style="color: red;">Error rendering diagram. Please check console.</div>';
+                console.error('Mermaid rendering error:', error);
+            }
+        }
+
+        // Navigation button click handlers
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Render diagram
+                const diagramId = this.getAttribute('data-diagram');
+                renderDiagram(diagramId);
+            });
+        });
+
+        // Initial render
+        renderDiagram('1');
+    </script>
+</body>
+</html>
