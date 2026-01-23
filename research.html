@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Research and Haikus - The Ansyaku's Atelier</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3a8a 0%, #059669 50%, #fbbf24 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 60px;
+      width: 92%;
+      max-width: 1400px;
+      min-height: 85vh;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      color: #1e3a8a;
+      font-size: 2.8em;
+      margin-bottom: 15px;
+      text-align: center;
+      background: linear-gradient(135deg, #1e3a8a 0%, #059669 50%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .intro {
+      text-align: center;
+      color: #374151;
+      margin-bottom: 50px;
+      font-size: 1.05em;
+      line-height: 1.8;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .intro em {
+      color: #059669;
+      font-style: italic;
+    }
+
+    .intro a {
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .intro a:hover {
+      color: #059669;
+      text-decoration: underline;
+    }
+
+    .back-link {
+      display: inline-block;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+    }
+
+    .back-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(107, 114, 128, 0.5);
+      background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+    }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .section {
+      padding: 30px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border-top: 5px solid #059669;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .section.published {
+      border-top-color: #1e3a8a;
+    }
+
+    .section.publishing {
+      border-top-color: #059669;
+    }
+
+    .section.ongoing {
+      border-top-color: #fbbf24;
+    }
+
+    .section.inactive {
+      border-top-color: #9ca3af;
+    }
+
+    .section h2 {
+      color: #1e3a8a;
+      font-size: 1.6em;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .section .status-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .published .status-badge {
+      background: #dbeafe;
+      color: #1e3a8a;
+    }
+
+    .publishing .status-badge {
+      background: #d1fae5;
+      color: #059669;
+    }
+
+    .ongoing .status-badge {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .inactive .status-badge {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    .paper-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .paper-item {
+      color: #374151;
+      font-size: 1.05em;
+      line-height: 1.7;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: #f9fafb;
+      border-radius: 8px;
+      border-left: 3px solid #059669;
+      position: relative;
+      padding-left: 35px;
+    }
+
+    .paper-item::before {
+      content: '•';
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      color: #059669;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .paper-item em {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.95em;
+      color: #6b7280;
+    }
+
+    .paper-item strong {
+      color: #1e3a8a;
+      font-weight: 600;
+    }
+
+    .haiku {
+      margin-top: 8px;
+      padding-left: 20px;
+      font-style: italic;
+      color: #059669;
+      line-height: 1.6;
+      font-size: 0.98em;
+      position: relative;
+    }
+
+    .haiku::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #059669;
+      font-weight: bold;
+    }
+
+    .empty-state {
+      color: #9ca3af;
+      font-style: italic;
+      text-align: center;
+      padding: 30px;
+      font-size: 1.05em;
+    }
+
+    @media (max-width: 1200px) {
+      .research-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 25px;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      .section {
+        padding: 20px;
+      }
+
+      .section h2 {
+        font-size: 1.4em;
+      }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      color: #9ca3af;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+    
+    <h1>My Research and Haikus</h1>
+    
+    <div class="intro">
+      I present some haikus <em>(A haiku abstract distills what is essential)</em> of my papers, I hope you like them. The idea comes from <a href="https://www.francescdilme.com/haikus" target="_blank">Francesc Dilme</a> and <a href="https://sites.google.com/site/heskibarisaac/home/haikus" target="_blank">Heski Bar-Isaac</a> page.
+    </div>
+
+    <div class="research-grid">
+      <div class="section published">
+        <span class="status-badge">Published</span>
+        <h2>Published Papers</h2>
+        <div class="empty-state">
+          No published papers yet
+        </div>
+      </div>
+
+      <div class="section publishing">
+        <span class="status-badge">Publishing Process</span>
+        <h2>In Publishing Process</h2>
+        <ul class="paper-list">
+          <li class="paper-item">
+            <strong>The Commodity Currency Hypothesis and International Commodity Price Pass-Through to Domestic Price: The Case of the Indonesian Rupiah</strong>
+            <div class="haiku">Rupiah is not commodity currency</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="section ongoing">
+        <span class="status-badge">Ongoing</span>
+        <h2>Ongoing Research</h2>
+        <ul class="paper-list">
+          <li class="paper-item">
+            Modelling the Macroeconomic Impacts of Natural Disasters and the Effectiveness of Recovery Policies: A Dynamic Stochastic General Equilibrium (DSGE) Approach with Empirical Evidence from Indonesia
+          </li>
+        </ul>
+      </div>
+
+      <div class="section inactive">
+        <span class="status-badge">Inactive</span>
+        <h2>Inactive Projects</h2>
+        <ul class="paper-list">
+          <li class="paper-item">
+            Evaluasi Dampak Infrastruktur Jalan Tol pada Ekspansi Area Terbangun dan Polusi Udara di Indonesia: Pendekatan Coarsened Exact Matching (CEM) dan Event Study Two Ways Fixed Effect<br>
+            <em>(Evaluating the Impact of Toll Road Infrastructure on Built-Up Area Expansion and Air Pollution in Indonesia: A Coarsened Exact Matching (CEM) and Event Study Two-Way Fixed Effects Approach)</em>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      © 2026 The Ansyaku's Atelier - Semua hak dilindungi
+    </footer>
+  </div>
+</body>
+</html>
