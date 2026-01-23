@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me - The Ansyaku's Atelier</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3a8a 0%, #059669 50%, #fbbf24 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 60px;
+      width: 92%;
+      max-width: 1400px;
+      min-height: 85vh;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      color: #1e3a8a;
+      font-size: 2.8em;
+      margin-bottom: 15px;
+      text-align: center;
+      background: linear-gradient(135deg, #1e3a8a 0%, #059669 50%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 50px;
+      font-size: 1.2em;
+    }
+
+    .back-link {
+      display: inline-block;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+    }
+
+    .back-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(107, 114, 128, 0.5);
+      background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+    }
+
+    .section {
+      margin-bottom: 50px;
+      padding: 30px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border-left: 5px solid #059669;
+    }
+
+    .section h2 {
+      color: #1e3a8a;
+      font-size: 1.8em;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #059669;
+    }
+
+    .section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .section ul li {
+      color: #374151;
+      font-size: 1.1em;
+      line-height: 1.8;
+      margin-bottom: 15px;
+      padding-left: 30px;
+      position: relative;
+    }
+
+    .section ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #059669;
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+
+    .research-interest {
+      border-left-color: #1e3a8a;
+    }
+
+    .education {
+      border-left-color: #fbbf24;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 25px;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      .section {
+        padding: 20px;
+      }
+
+      .section h2 {
+        font-size: 1.5em;
+      }
+
+      .section ul li {
+        font-size: 1em;
+      }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #9ca3af;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+    
+    <h1>About Me</h1>
+    <p class="subtitle">Academic Profile & Background</p>
+
+    <div class="section research-interest">
+      <h2>Research Interest</h2>
+      <ul>
+        <li>Energy, Environmental, Natural Resources Economics</li>
+        <li>Urban, Regional, and Transportation Economics</li>
+        <li>International Trade and International Macroeconomics</li>
+      </ul>
+    </div>
+
+    <div class="section education">
+      <h2>Education</h2>
+      <ul>
+        <li>Diplome on Accountancy - State College of Accountancy (STAN Polytechnic of State Finance)</li>
+        <li>Bachelor of Accountancy - Asian Institute of Finance Banking and Informatics</li>
+        <li>Bachelor of Economics Development - Indonesian Open University</li>
+        <li>Master of Science in Economics - Universitas Gadjah Mada</li>
+      </ul>
+    </div>
+
+    <footer>
+      © 2026 The Ansyaku's Atelier - Semua hak dilindungi
+    </footer>
+  </div>
+</body>
+</html>
