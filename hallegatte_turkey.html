@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hallegatte et al. (2022) — Macroeconomic Consequences of Natural Disasters</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- KaTeX CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });"></script>
+<style>
+:root {
+  --bg: #0c0f14;
+  --bg-card: #141821;
+  --bg-card-alt: #1a1f2b;
+  --accent: #e8a838;
+  --accent-dim: #c48a2a;
+  --accent-glow: rgba(232,168,56,0.15);
+  --text: #e0ddd5;
+  --text-dim: #8a8780;
+  --text-bright: #f5f3ee;
+  --danger: #d64545;
+  --success: #3a9e6e;
+  --info: #5b8cc9;
+  --border: rgba(232,168,56,0.12);
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* KaTeX color override for dark theme */
+.katex { color: var(--text-bright) !important; font-size: 1.08em; }
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.5rem 0; margin: 0.3rem 0; }
+.katex-display > .katex { text-align: left; padding-left: 0.5rem; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(232,168,56,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 20% 80%, rgba(91,140,201,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 80% 60%, rgba(214,69,69,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  animation: fadeUp 1s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-label {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  padding: 0.4rem 1.2rem;
+  margin-bottom: 2rem;
+  background: var(--accent-glow);
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  color: var(--text-bright);
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 span { color: var(--accent); }
+
+.hero-meta {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  margin-bottom: 2.5rem;
+}
+
+.hero-meta strong { color: var(--text); font-weight: 600; }
+
+.hero-abstract {
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+/* ===== NAV PILLS ===== */
+.nav-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+.nav-pills a {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-dim);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.nav-pills a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.section-header { margin-bottom: 3rem; }
+
+.section-number {
+  font-family: var(--serif);
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--accent);
+  opacity: 0.2;
+  line-height: 1;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-top: -1rem;
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  margin: 1.5rem 0 0;
+}
+
+/* ===== PROBLEM CARDS ===== */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.problem-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.problem-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-dim);
+}
+
+.problem-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+}
+
+.problem-card:nth-child(1)::before { background: var(--danger); }
+.problem-card:nth-child(2)::before { background: var(--accent); }
+.problem-card:nth-child(3)::before { background: var(--info); }
+.problem-card:nth-child(4)::before { background: var(--success); }
+
+.problem-card h3 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--text-bright);
+  margin-bottom: 0.8rem;
+}
+
+.problem-card p {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ===== FEATURE LIST ===== */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.feature {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+}
+
+.feature h3 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--text-bright);
+  margin-bottom: 0.6rem;
+}
+
+.feature p {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ===== FLOWCHART ===== */
+.flowchart-container {
+  margin-top: 2rem;
+  overflow-x: auto;
+  padding: 2rem 0;
+}
+
+.flowchart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: 600px;
+}
+
+.flow-node {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.2rem 2rem;
+  text-align: center;
+  min-width: 380px;
+  max-width: 560px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.flow-node:hover { border-color: var(--accent); }
+
+.flow-node.primary {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-card-alt));
+  border-color: var(--accent-dim);
+}
+
+.flow-node h4 {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
+.flow-node p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.flow-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-family: var(--mono);
+  letter-spacing: 1px;
+  padding: 0.3rem 0;
+}
+
+.flow-arrow::before { content: '│'; font-size: 1.2rem; line-height: 1; }
+.flow-arrow::after { content: '▼'; font-size: 0.7rem; line-height: 1; }
+
+.flow-branch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.flow-branch .flow-node { min-width: auto; }
+
+.flow-branch-label {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0.5rem 0;
+}
+
+/* ===== EQUATIONS ===== */
+.eq-group { margin-top: 2rem; }
+.eq-category { margin-bottom: 3rem; }
+
+.eq-category-title {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.eq-block {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent-dim);
+  padding: 1.4rem 1.8rem;
+  margin-bottom: 1.2rem;
+  overflow-x: auto;
+}
+
+.eq-block .eq-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.eq-block .eq-note {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-top: 0.6rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ===== ESTIMATION ===== */
+.estimation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.est-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2rem;
+}
+
+.est-card h3 {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--text-bright);
+  margin-bottom: 0.8rem;
+}
+
+.est-card p {
+  font-size: 0.93rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.param-table th {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid var(--accent-dim);
+  background: var(--bg-card);
+}
+
+.param-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.param-table td:first-child {
+  color: var(--text-bright);
+  font-size: 0.95rem;
+}
+
+/* ===== KEY FINDINGS ===== */
+.findings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.finding {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  position: relative;
+}
+
+.finding-num {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--accent);
+  opacity: 0.15;
+  position: absolute;
+  top: 0.8rem; right: 1.2rem;
+}
+
+.finding h3 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--text-bright);
+  margin-bottom: 0.6rem;
+}
+
+.finding p {
+  font-size: 0.93rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ===== HIGHLIGHT BOX ===== */
+.highlight-box {
+  background: linear-gradient(135deg, rgba(232,168,56,0.06), rgba(232,168,56,0.02));
+  border: 1px solid var(--accent-dim);
+  padding: 2rem 2.5rem;
+  margin: 2rem 0;
+}
+
+.highlight-box h3 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+.highlight-box p, .highlight-box li {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.highlight-box ul { list-style: none; padding-left: 0; }
+
+.highlight-box ul li::before {
+  content: '→';
+  color: var(--accent);
+  margin-right: 0.7rem;
+  font-weight: 600;
+}
+
+/* ===== PROSE ===== */
+.prose { font-size: 1rem; line-height: 1.8; color: var(--text); }
+.prose p { margin-bottom: 1.2rem; }
+.prose strong { color: var(--text-bright); font-weight: 600; }
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+.footer p { font-size: 0.85rem; color: var(--text-dim); }
+.footer a { color: var(--accent); text-decoration: none; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .section { padding: 3rem 1.2rem; }
+  .flow-branch { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 1.8rem; }
+  .nav-pills a { font-size: 0.7rem; padding: 0.4rem 0.7rem; }
+  .eq-block { padding: 1rem 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-label">World Bank Policy Research WP 9943</div>
+    <h1>Macroeconomic Consequences of <span>Natural Disasters</span></h1>
+    <p class="hero-meta">
+      <strong>Hallegatte, Jooste &amp; McIsaac (2022)</strong> &mdash; A Modeling Proposal and Application to Floods and Earthquakes in Turkey
+    </p>
+    <p class="hero-abstract">
+      Paper ini mengadaptasi World Bank Macrostructural Model (MFMod) untuk menganalisis dampak makroekonomi dari bencana alam, dengan memperkenalkan disagregasi kapital, fungsi produksi CES bersarang, dan proses rekonstruksi yang realistis.
+    </p>
+    <nav class="nav-pills">
+      <a href="#problem">Problem</a>
+      <a href="#features">Fitur Model</a>
+      <a href="#flowchart">Flowchart</a>
+      <a href="#equations">Persamaan</a>
+      <a href="#estimation">Estimasi</a>
+      <a href="#findings">Temuan Utama</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ==================== 1. PROBLEM ==================== -->
+<section class="section" id="problem">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <h2 class="section-title">Problem Utama yang Ingin Diselesaikan</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="prose" style="margin-bottom: 2rem;">
+    <p>Model makroekonomi konvensional yang digunakan oleh kementerian keuangan dan bank sentral <strong>tidak dirancang untuk menangkap dampak spesifik bencana alam</strong>. Ada beberapa gap kritis:</p>
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <h3>Agregasi Kapital yang Terlalu Sederhana</h3>
+      <p>Model standar merepresentasikan kapital sebagai satu variabel agregat $K$, padahal bencana menghancurkan jenis kapital secara berbeda — infrastruktur vs. non-infrastruktur, publik vs. privat. Asumsi <em>full substitutability</em> menghasilkan underestimation dampak.</p>
+    </div>
+    <div class="problem-card">
+      <h3>Produktivitas Kapital Tersisa Diabaikan</h3>
+      <p>Ketika infrastruktur hancur (mis. jembatan, jaringan listrik), kapital non-infrastruktur yang tersisa juga menjadi tidak produktif. Efek <strong>komplementaritas jangka pendek</strong> ini tidak ditangkap model konvensional.</p>
+    </div>
+    <div class="problem-card">
+      <h3>Rekonstruksi yang Tidak Realistis</h3>
+      <p>Model Solow/Ramsey standar mengasumsikan kapital dapat direbangun secara instan, padahal ada kendala kapasitas, kelembagaan, teknologi, dan pendanaan yang memperlambat rekonstruksi di dunia nyata.</p>
+    </div>
+    <div class="problem-card">
+      <h3>Non-linearitas Diabaikan</h3>
+      <p><em>Doubling</em> kerusakan fisik <strong>lebih dari menggandakan</strong> dampak GDP. Model linear gagal menangkap threshold di mana kapasitas absorpsi ekonomi terlampaui dan kerugian welfare melebihi kerusakan aset langsung.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top: 2rem;">
+    <h3>Konteks Aplikasi: Turki</h3>
+    <p>Turki sangat rentan terhadap gempa bumi (92.6% bangunan rusak, 1900–2018) dan banjir (frekuensi meningkat dengan perubahan iklim). Paper ini menggunakan data risiko gempa dari Global Earthquake Model dan data banjir dari UNISDR untuk aplikasi empiris.</p>
+  </div>
+</section>
+
+<!-- ==================== 2. FEATURES ==================== -->
+<section class="section" id="features">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <h2 class="section-title">Fitur Utama Model</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="prose" style="margin-bottom: 1.5rem;">
+    <p>Model ini merupakan ekstensi dari World Bank MFMod (Burns et al., 2019) dengan beberapa inovasi kunci:</p>
+  </div>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">K</div>
+      <h3>Disagregasi Kapital Bersarang</h3>
+      <p>Kapital dipecah menjadi <strong>infrastruktur</strong> ($K_S$) dan <strong>non-infrastruktur</strong> ($K_N$), masing-masing terdiri dari komponen publik ($G$) dan privat ($P$). Memungkinkan dampak diferensial bencana terhadap jenis aset berbeda.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">σ</div>
+      <h3>Nested CES Production</h3>
+      <p>Fungsi produksi menggunakan <strong>Constant Elasticity of Substitution</strong> bersarang. Elastisitas $\sigma^T = 0.58$ menunjukkan infrastruktur dan non-infrastruktur adalah <strong>komplementer</strong> — kerusakan satu menurunkan produktivitas yang lain.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">DS</div>
+      <h3>Stock Kerusakan Belum Diperbaiki</h3>
+      <p>Model melacak $DS_t$ — stok kapital rusak dan belum diperbaiki. Ini mempengaruhi output potensial melalui rasio $KL/K_S$, bukan sekadar mengurangi $K$ secara langsung.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">I<sup>R</sup></div>
+      <h3>Rekonstruksi dengan Kendala Realistis</h3>
+      <p>Investasi rekonstruksi dibatasi oleh parameter $\varphi$ (default 5% dari total investasi). Proses terpisah untuk sektor publik dan privat, dengan sumber pendanaan dan kendala waktu berbeda.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">π</div>
+      <h3>Kebijakan Moneter Endogen</h3>
+      <p>Inflasi merespons shock suplai (<em>cost-push</em> dari kenaikan MPK), dan kebijakan moneter mengikuti <strong>Taylor rule</strong>. Model mengeksplorasi skenario <em>delayed monetary response</em> sebagai <em>escape clause</em>.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">Q</div>
+      <h3>Investasi Berbasis Tobin's Q</h3>
+      <p>Keputusan investasi privat berdasarkan rasio <strong>marginal product of capital terhadap user cost of capital</strong>, dengan adjustment costs dan inersia investasi periode sebelumnya.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 3. FLOWCHART ==================== -->
+<section class="section" id="flowchart">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <h2 class="section-title">Alur Model (Flowchart)</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="prose" style="margin-bottom: 1rem;">
+    <p>Berikut alur proses dari shock bencana alam hingga dampak makroekonomi dalam model:</p>
+  </div>
+
+  <div class="flowchart-container">
+    <div class="flowchart">
+
+      <div class="flow-node primary" style="border-color: var(--danger);">
+        <h4>Shock Bencana Alam</h4>
+        <p>Gempa / Banjir → Gross Damage ($GD$) pada kapital, dibedakan per jenis aset</p>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node">
+        <h4>Pemetaan Kerusakan ke Kapital</h4>
+        <p>$GD$ dipetakan ke $K_S^P,\; K_S^G,\; K_N^P,\; K_N^G$ berdasarkan data occupancy (GEM / UNISDR)</p>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node">
+        <h4>Residual Damage → Unrepaired Stock ($DS_t$)</h4>
+        <p>$$DS_t^P = (1-\delta)\,DS_{t-1}^P + RD_t^P - I_t^{R,P}$$</p>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-branch">
+        <div class="flow-branch-label">Dua Channel Transmisi Utama</div>
+        <div class="flow-node">
+          <h4>Channel 1: Output Potensial</h4>
+          <p>$$Y_t^* = \frac{KL_{t-1}}{K_{S,t-1}} \cdot A_t N_t^\alpha K_{t-1}^{1-\alpha}$$</p>
+          <p style="margin-top:0.3rem">$KL$ = kapital efektif setelah kerusakan</p>
+        </div>
+        <div class="flow-node">
+          <h4>Channel 2: MPK & Investasi</h4>
+          <p>$\dfrac{\partial Y^*}{\partial K_S^P} \uparrow$ → Tobin's Q berubah → Keputusan investasi berubah (termasuk $I^R$)</p>
+        </div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node">
+        <h4>Output Gap & Harga</h4>
+        <p>$Y^*$ turun lebih cepat dari $Y$ aktual → output gap positif → cost-push inflation</p>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-branch">
+        <div class="flow-branch-label">Respons Kebijakan</div>
+        <div class="flow-node">
+          <h4>Kebijakan Moneter</h4>
+          <p>Taylor Rule merespons $\pi \uparrow$ → $i \uparrow$ → biaya modal $\uparrow$ → investasi tertekan</p>
+        </div>
+        <div class="flow-node">
+          <h4>Kebijakan Fiskal</h4>
+          <p>Belanja rekonstruksi publik → $\Delta(\text{debt/GDP})$ → tax base berubah akibat efek harga</p>
+        </div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node">
+        <h4>Rekonstruksi (Kendala $\varphi$)</h4>
+        <p>$$I_t^{R,P} = \min\!\Big[(1-\delta)\,DS_{t-1}^P + RD_t^P,\;\; \varphi \cdot I_{S,t}^P\Big]$$</p>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node primary">
+        <h4>Dampak Makroekonomi Akhir</h4>
+        <p>GDP $\downarrow$, Konsumsi $\downarrow$, Investasi $\downarrow$, Inflasi $\uparrow$, Current Account berubah<br>Non-linear: consumption losses bisa $>$ asset losses untuk bencana besar</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 4. EQUATIONS ==================== -->
+<section class="section" id="equations">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <h2 class="section-title">Persamaan Utama Model</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="eq-group">
+
+    <!-- A. Production -->
+    <div class="eq-category">
+      <h3 class="eq-category-title">A. Fungsi Produksi</h3>
+
+      <div class="eq-block">
+        <div class="eq-label">Cobb-Douglas Aggregate</div>
+        $$Y_t = A_t \, K_{t-1}^{\,\alpha} \, N_t^{\,1-\alpha}$$
+        <div class="eq-note">$A_t$ = TFP, $K_{t-1}$ = kapital agregat (end-of-period), $N_t$ = structural employment, $\alpha$ = output elasticity of capital.</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Cost Minimization → MPK = Rental Rate</div>
+        $$MPK_t = \frac{\partial Y_t^*}{\partial K_{t-1}} := R_t = \alpha \,\frac{Y_t^*}{K_{t-1}} \qquad \Longrightarrow \qquad K_{t-1} = \alpha \,\frac{Y_t^*}{R_t}$$
+        <div class="eq-note">Di equilibrium, $Y_t^* = Y_t$ (potential GDP = actual GDP).</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Potential Output dengan Disaster Damage</div>
+        $$Y_t^* = \frac{KL_{t-1}}{K_{S,t-1}} \;\cdot\; \underbrace{A_t \, N_t^{\,\alpha} \, K_{t-1}^{\,1-\alpha}}_{\displaystyle :=\; Y_t}$$
+        <div class="eq-note">Jika semua kapital hancur → $Y^* = 0$. Jika setengah hancur proporsional → $Y^*$ menjadi setengah.</div>
+      </div>
+    </div>
+
+    <!-- B. CES Capital -->
+    <div class="eq-category">
+      <h3 class="eq-category-title">B. Nested CES Capital Aggregation</h3>
+
+      <div class="eq-block">
+        <div class="eq-label">Top Nest: Aggregate Capital</div>
+        $$K_t = \Big[\,\omega_1 \, K_{S,t}^{\;\rho_1} \;+\; \omega_2 \, K_{N,t}^{\;\rho_1}\,\Big]^{1/\rho_1}$$
+        <div class="eq-note">$\sigma^T = \dfrac{1}{1-\rho_1} = 0.58$ → infrastruktur dan non-infrastruktur adalah <strong>komplementer</strong>. Jika $\rho_1 \to -\infty$, fungsi mendekati Leontief.</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Infrastructure Nest</div>
+        $$K_{S,t} = \Big[\,\omega_3 \!\left(K_{S,t}^P\right)^{\!\rho_2} +\; \omega_4 \!\left(K_{S,t}^G\right)^{\!\rho_2}\,\Big]^{1/\rho_2}$$
+        <div class="eq-note">$\sigma^S = \dfrac{1}{1-\rho_2} = 2$ → privat dan publik dalam infrastruktur adalah <strong>substitut</strong> (dikalibrasi).</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Non-Infrastructure Nest</div>
+        $$K_{N,t} = \Big[\,\omega_5 \!\left(K_{N,t}^P\right)^{\!\rho_3} +\; \omega_6 \!\left(K_{N,t}^G\right)^{\!\rho_3}\,\Big]^{1/\rho_3}$$
+        <div class="eq-note">$\sigma^N = \dfrac{1}{1-\rho_3} = 2$ → privat dan publik dalam non-infrastruktur juga <strong>substitut</strong> (dikalibrasi).</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Effective Capital setelah Damage</div>
+        $$KL_{t} = \Big[\,\omega_3 \!\left(K_{S,t}^P - DS_t^P\right)^{\!\rho_2} +\; \omega_4 \!\left(K_{S,t}^G - DS_t^G\right)^{\!\rho_2}\,\Big]^{1/\rho_2}$$
+        <div class="eq-note">$DS^P, DS^G$ = stok kerusakan belum diperbaiki untuk sektor privat dan publik.</div>
+      </div>
+    </div>
+
+    <!-- C. Optimal Capital Demands -->
+    <div class="eq-category">
+      <h3 class="eq-category-title">C. Optimal Capital Demands (dari FOC)</h3>
+
+      <div class="eq-block">
+        <div class="eq-label">Infrastructure Capital</div>
+        $$K_{S,t-1} = \omega_1^{\,\sigma_1} \!\left(\frac{R_t}{R_{S,t}}\right)^{\!\!\sigma_1} K_{t-1}$$
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Non-Infrastructure Capital</div>
+        $$K_{N,t-1} = \omega_2^{\,\sigma_1} \!\left(\frac{R_t}{R_{N,t}}\right)^{\!\!\sigma_1} K_{t-1}$$
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Private Infrastructure Capital</div>
+        $$K_{S,t-1}^P = \omega_3^{\,\sigma_2} \!\left(\frac{R_{S,t}}{R_{S,t}^P}\right)^{\!\!\sigma_2} K_{S,t-1}$$
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Public Infrastructure Capital</div>
+        $$K_{S,t-1}^G = \omega_4^{\,\sigma_2} \!\left(\frac{R_{S,t}}{R_{S,t}^G}\right)^{\!\!\sigma_2} K_{S,t-1}$$
+      </div>
+    </div>
+
+    <!-- D. Rental Rates -->
+    <div class="eq-category">
+      <h3 class="eq-category-title">D. Rental Rate Aggregators & User Cost</h3>
+
+      <div class="eq-block">
+        <div class="eq-label">Aggregate Rental Rate</div>
+        $$R_t = \Big[\,\omega_1^{\,\sigma_1}\, R_{N,t}^{\;1-\sigma_1} \;+\; \omega_2^{\,\sigma_1}\, R_{S,t}^{\;1-\sigma_1}\,\Big]^{\!\frac{1}{1-\sigma_1}}$$
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Infrastructure Rental Rate</div>
+        $$R_{S,t} = \Big[\,\omega_3^{\,\sigma_2}\!\left(R_{S,t}^P\right)^{1-\sigma_2} +\; \omega_4^{\,\sigma_2}\!\left(R_{S,t}^G\right)^{1-\sigma_2}\,\Big]^{\!\frac{1}{1-\sigma_2}}$$
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">User Cost of Capital</div>
+        $$U_{j,t}^{\;i} = \frac{P_t^I\!\left(r_t^B + \delta_t - \pi_t + \mathrm{prem}_t\right)}{P_t\!\left(1 - \tau_t^{\scriptscriptstyle CIT}\right)} \;\times\; \frac{\partial K_{t-1}}{\partial K_{j,t-1}} \;\times\; \frac{\partial K_{j,t-1}}{\partial K_{j,t-1}^{\,i}}$$
+        <div class="eq-note">$i \in \{P, G\}$, $\;j \in \{N, S\}$. &ensp;$r^B$ = risk-free rate, $\;\delta$ = depreciation, $\;\mathrm{prem}$ = risk premium, $\;\tau^{CIT}$ = corporate tax rate.</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">No-Arbitrage Condition (Long-Run)</div>
+        $$R_{j,t}^{\;i} \;\xrightarrow{\;t\to\infty\;}\; U_{j,t}^{\;i} + \varepsilon$$
+      </div>
+    </div>
+
+    <!-- E. Investment -->
+    <div class="eq-category">
+      <h3 class="eq-category-title">E. Investasi & Rekonstruksi</h3>
+
+      <div class="eq-block">
+        <div class="eq-label">Private Investment Equation (Tobin's Q)</div>
+        $$\frac{I_{S,t}^P}{K_{S,t-1}^P} = \beta_2 \!\left(\frac{\partial Y_t^*}{\partial K_{S,t-1}^P} - U_{S,t}^P - \varepsilon\right) + (1-\beta_3)\!\left(\Delta y_t^* + \delta\right) + \beta_3 \,\frac{I_{S,t-1}^P}{K_{S,t-2}^P} + \varepsilon_t^{I^P}$$
+        <div class="eq-note">Investasi dipengaruhi oleh: (1) gap antara MPK dan user cost, (2) pertumbuhan potensial + depresiasi, (3) inersia investasi periode sebelumnya.</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Capital Accumulation (Perpetual Inventory Method)</div>
+        $$K_{S,t}^P = (1-\delta)\,K_{S,t-1}^P + I_{S,t}^P - I_t^{R,P}$$
+        <div class="eq-note">Investasi rekonstruksi $I^{R,P}$ mengurangi gross investment yang tersedia untuk kapital baru.</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Unrepaired Damage Stock</div>
+        $$DS_t^P = (1-\delta)\,DS_{t-1}^P + RD_t^P - I_t^{R,P}$$
+        <div class="eq-note">$RD_t^P$ = residual damage (gross damage net of protection). Persamaan serupa berlaku untuk sektor publik.</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Reconstruction Investment Constraint</div>
+        $$I_t^{R,P} = \min\!\bigg[\,(1-\delta)\,DS_{t-1}^P + RD_t^P\,,\quad \varphi \cdot I_{S,t}^P\,\bigg]$$
+        <div class="eq-note">$\varphi = 5\%$ (baseline). Kapital tidak bisa seluruhnya hancur: $DS_t \leq 0.9\,\tilde{K}_t$.</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Investment Price Dynamics</div>
+        $$\Delta p_t^{\,i,j} = \alpha + \theta\!\left[\,p_{t-1}^{\,i,j} - p_{t-1}^{\,C,XN}\right] + \beta\,\Delta p_{t-1}^{\,i,j} + (1-\beta)\,\Delta p_t^{\,C,XN} + \varepsilon_t^{PI}$$
+        <div class="eq-note">Deflator investasi adalah weighted average dari konsumsi nominal dan lag-nya sendiri. Keempat deflator diasumsikan identik.</div>
+      </div>
+    </div>
+
+    <!-- F. MPK Disaster -->
+    <div class="eq-category">
+      <h3 class="eq-category-title">F. Marginal Productivity setelah Bencana</h3>
+
+      <div class="eq-block">
+        <div class="eq-label">MPK Private Infrastructure (with Disaster Damage)</div>
+        $$\frac{\partial Y_t^*}{\partial K_{S,t-1}^P} = \alpha\,\frac{Y_t^*}{K_{t-1}}\,\frac{\partial K_{t-1}}{\partial K_{S,t-1}}\,\frac{\partial K_{S,t-1}}{\partial K_{S,t-1}^P} \;+\; \omega_3\,\frac{Y_t}{K_{S,t-1}}\!\left[\left(\frac{KL_{t-1}}{K_{S,t}^P - DS_t^P}\right)^{\!1-\rho_2} \!-\; \frac{Y_t^*}{Y_t}\!\left(\frac{K_{S,t-1}}{K_{S,t-1}^P}\right)^{\!1-\rho_2}\right]$$
+        <div class="eq-note">Term kedua menangkap kenaikan MPK akibat kerusakan — mendorong rekonstruksi.</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">MPK Non-Infrastructure (tidak langsung terdampak)</div>
+        $$\frac{\partial Y_t^*}{\partial K_{N,t-1}^P} = \alpha\,\frac{Y_t^*}{K_{t-1}}\,\frac{\partial K_{t-1}}{\partial K_{N,t-1}}\,\frac{\partial K_{N,t-1}}{\partial K_{N,t-1}^P}$$
+        <div class="eq-note">Hanya melalui channel agregat — tetapi karena komplementaritas ($\sigma^T < 1$), kerusakan infrastruktur tetap menurunkan produktivitas non-infrastruktur.</div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Lemma: Reparasi Selalu Lebih Menguntungkan</div>
+        $$\frac{\partial Y_t^*}{\partial K_{S,t-1}^P} \;<\; -\frac{\partial Y_t^*}{\partial DS_{t-1}^P}$$
+        <div class="eq-note"><strong>Terbukti secara formal:</strong> Marginal productivity of repairing selalu lebih tinggi dari marginal productivity of building new capital, karena decreasing returns pada Cobb-Douglas menjamin $\frac{\partial Y}{\partial K_S} < 1$.</div>
+      </div>
+    </div>
+
+    <!-- G. Climate Change -->
+    <div class="eq-category">
+      <h3 class="eq-category-title">G. Frekuensi Banjir & Climate Change</h3>
+
+      <div class="eq-block">
+        <div class="eq-label">Flood Frequency Scaling</div>
+        $$F(T) = 2^{\,T - T_0} \times F_0$$
+        <div class="eq-note">Frekuensi banjir $F$ berlipat ganda setiap derajat kenaikan temperatur $T$ (konsisten dengan basic physics). Skenario: RCP 2.6 dan RCP 8.5.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== 5. ESTIMATION ==================== -->
+<section class="section" id="estimation">
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <h2 class="section-title">Metode Estimasi &amp; Kalibrasi</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="estimation-grid">
+    <div class="est-card">
+      <h3>Panel Estimation ($\sigma^T$)</h3>
+      <p>Elastisitas substitusi antara infrastruktur dan non-infrastruktur diestimasi menggunakan <strong>panel data fixed effects</strong>:</p>
+      <p style="margin-top: 0.8rem;">
+        $$\ln\!\left(\frac{K_S}{K_N}\right) \approx \alpha_i + \sigma^T \,\ln\!\left(\frac{U_N}{U_S}\right)$$
+      </p>
+      <p style="margin-top: 0.6rem;">Hasil: $\hat{\sigma}^T = 0.58\;\;(\text{SE}: 0.03)$ — signifikan secara statistik, mengkonfirmasi komplementaritas.</p>
+    </div>
+    <div class="est-card">
+      <h3>MFMod Estimation Framework</h3>
+      <p>Model makroekonomi secara keseluruhan diestimasi menggunakan metodologi Burns &amp; Jooste (2019) — kombinasi estimasi ekonometrik dan kalibrasi untuk parameter yang data-nya terbatas. Menggunakan data Penn World Tables dan World Bank Macro Poverty Outlook.</p>
+    </div>
+    <div class="est-card">
+      <h3>Monte Carlo Simulation</h3>
+      <p>Untuk gempa: drawing dari empirical CDF menggunakan <strong>inverse probability integral transform</strong>:</p>
+      <p style="margin-top:0.5rem">$$F_X^{-1}(u) = x$$</p>
+      <p>Dengan interpolasi <em>cubic spline</em> antar titik probabilitas diskret dari data GEM. Simulasi 2021–2091.</p>
+    </div>
+    <div class="est-card">
+      <h3>Data Sources</h3>
+      <p><strong>Kapital:</strong> World Bank MPO + Penn World Tables (Feenstra et al., 2015). <strong>Gempa:</strong> Global Earthquake Model (2013 Euro-Med seismic risk). <strong>Banjir:</strong> UNISDR (2015) + Myhre et al. (2019).</p>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); color: var(--text-bright); margin-top: 3rem; margin-bottom: 1rem;">Parameter Kunci</h3>
+
+  <table class="param-table">
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Nilai</th>
+        <th>Keterangan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>$\sigma^T$</td>
+        <td>0.58</td>
+        <td>Elastisitas substitusi infrastruktur vs. non-infrastruktur (<em>estimated</em>)</td>
+      </tr>
+      <tr>
+        <td>$\sigma^S = \sigma^N$</td>
+        <td>2.0</td>
+        <td>Elastisitas substitusi privat vs. publik (<em>calibrated</em>)</td>
+      </tr>
+      <tr>
+        <td>$\varphi$</td>
+        <td>5%</td>
+        <td>Batas maks share investasi untuk rekonstruksi (baseline)</td>
+      </tr>
+      <tr>
+        <td>$\alpha$</td>
+        <td>~0.33</td>
+        <td>Output elasticity of capital (Cobb-Douglas)</td>
+      </tr>
+      <tr>
+        <td>$\delta$</td>
+        <td>varies</td>
+        <td>Depreciation rate (applied uniformly)</td>
+      </tr>
+      <tr>
+        <td>Discount rate</td>
+        <td>6%</td>
+        <td>Untuk NPV consumption loss calculations</td>
+      </tr>
+      <tr>
+        <td>Indestructible $K$</td>
+        <td>10%</td>
+        <td>$DS \leq 0.9\,\tilde{K}$ — minimal 10% kapital tidak bisa dihancurkan</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== 6. KEY FINDINGS ==================== -->
+<section class="section" id="findings">
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <h2 class="section-title">Temuan Utama &amp; Hal Penting Lainnya</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-num">1</div>
+      <h3>Non-linearitas Dampak</h3>
+      <p>NPV consumption losses meningkat secara <strong>non-linear</strong> terhadap kerusakan langsung. Ketika asset losses $>\!\sim\!6\%$ GDP, total consumption losses melebihi kerusakan fisik langsung.</p>
+    </div>
+    <div class="finding">
+      <div class="finding-num">2</div>
+      <h3>Komplementaritas Kapital</h3>
+      <p>$\sigma^T = 0.58$ berarti infrastruktur yang hancur membuat non-infrastruktur <strong>juga tidak produktif</strong>. Setara dengan loss of TFP di model sederhana.</p>
+    </div>
+    <div class="finding">
+      <div class="finding-num">3</div>
+      <h3>Reparasi &gt; New Investment</h3>
+      <p>$\frac{\partial Y^*}{\partial K_S^P} < -\frac{\partial Y^*}{\partial DS^P}$ — marginal productivity of repair selalu lebih tinggi (dibuktikan secara formal).</p>
+    </div>
+    <div class="finding">
+      <div class="finding-num">4</div>
+      <h3>Kebijakan Moneter Penting</h3>
+      <p>Delayed monetary policy response meningkatkan threshold dari $\sim\!6\%$ ke $\sim\!11\%$ GDP. Escape clause di Taylor rule sangat bermanfaat.</p>
+    </div>
+    <div class="finding">
+      <div class="finding-num">5</div>
+      <h3>Resesi Lebih Resilient</h3>
+      <p>Bencana saat resesi berdampak GDP <strong>lebih kecil</strong> dan recovery lebih cepat — rekonstruksi memobilisasi idle resources tanpa crowding out.</p>
+    </div>
+    <div class="finding">
+      <div class="finding-num">6</div>
+      <h3>Simulasi Marmara 1999</h3>
+      <p>Loss $\sim\!1.5\%$ GDP tahun kejadian, meningkat ke $2\%$ dua tahun kemudian, potential GDP turun $4\%$. Rebuilding $\sim\!6$ tahun.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top: 3rem;">
+    <h3>Limitasi Model</h3>
+    <ul>
+      <li>Tidak memodelkan respons produktivitas tenaga kerja dan human capital terhadap bencana</li>
+      <li>Data kerusakan GEM hanya untuk bangunan (<em>buildings</em>), bukan infrastruktur fisik</li>
+      <li>Elastisitas $\sigma^S$ dan $\sigma^N$ di-kalibrasi ($=2$), bukan diestimasi</li>
+      <li>Kebijakan fiskal diasumsikan budget-neutral</li>
+      <li>Shock yang semakin sering (climate change) bisa <em>unanchor</em> inflation expectations</li>
+    </ul>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Relevansi untuk Penelitian Anda</h3>
+    <p>Sebagai peneliti International Economics dengan fokus pada commodity currency dan pass-through harga internasional ke harga lokal Indonesia, paper ini memberikan insight tentang bagaimana supply-side shocks ditransmisikan melalui struktur kapital dan mempengaruhi inflasi domestik, output gap, dan respons kebijakan moneter — mekanisme yang sangat relevan untuk memahami exchange rate pass-through di negara commodity-dependent seperti Indonesia.</p>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <p>
+    Dibuat sebagai ringkasan visual dari:<br>
+    Hallegatte, S., Jooste, C., &amp; McIsaac, F. (2022). <em>Macroeconomic Consequences of Natural Disasters.</em> World Bank Policy Research WP 9943.<br><br>
+    <a href="http://www.worldbank.org/prwp" target="_blank">worldbank.org/prwp</a>
+  </p>
+</footer>
+
+</body>
+</html>
