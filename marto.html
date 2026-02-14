@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marto et al. (2018) — DSGE Model Breakdown</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --bg-card: #FFFFFF;
+    --bg-accent: #F3F1EC;
+    --text: #2C2C2C;
+    --text-muted: #6B6B6B;
+    --text-light: #9A9A9A;
+    --accent: #B45309;
+    --accent-light: #F59E0B;
+    --accent-bg: #FEF3C7;
+    --border: #E5E2DB;
+    --border-strong: #D4D0C8;
+    --blue: #1E40AF;
+    --blue-light: #DBEAFE;
+    --green: #166534;
+    --green-light: #DCFCE7;
+    --red: #991B1B;
+    --red-light: #FEE2E2;
+    --purple: #5B21B6;
+    --purple-light: #EDE9FE;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- HEADER --- */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+    color: #fff;
+    padding: 80px 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 20px;
+    display: inline-block;
+    border: 1px solid rgba(245,158,11,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+  .hero h1 {
+    font-family: 'Crimson Pro', serif;
+    font-weight: 700;
+    font-size: 2.6em;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+  .hero .subtitle {
+    font-size: 1.1em;
+    color: rgba(255,255,255,0.7);
+    max-width: 700px;
+    line-height: 1.6;
+  }
+  .hero .authors {
+    margin-top: 20px;
+    font-size: 0.95em;
+    color: rgba(255,255,255,0.55);
+  }
+  .hero .journal-tag {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+
+  /* --- THESIS CONTEXT BAR --- */
+  .thesis-bar {
+    background: var(--accent-bg);
+    border-bottom: 1px solid #F5D98E;
+    padding: 18px 0;
+  }
+  .thesis-bar-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .thesis-bar .icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .thesis-bar p {
+    font-size: 0.9em;
+    color: #92400E;
+    line-height: 1.5;
+  }
+  .thesis-bar strong {
+    color: #78350F;
+  }
+
+  /* --- NAV --- */
+  .toc-bar {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+  .toc-bar-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar-inner::-webkit-scrollbar { display: none; }
+  .toc-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .toc-link:hover {
+    background: var(--bg-accent);
+    color: var(--text);
+  }
+
+  /* --- MAIN --- */
+  .main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  /* --- SECTION --- */
+  .section {
+    margin-bottom: 56px;
+    scroll-margin-top: 80px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-bg);
+    padding: 4px 10px;
+    border-radius: 5px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.7em;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+
+  /* --- CARDS --- */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: var(--shadow-md); }
+  .card h3 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .card p, .card li {
+    color: var(--text-muted);
+    font-size: 0.95em;
+    line-height: 1.7;
+  }
+  .card ul {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+  .card li { margin-bottom: 6px; }
+
+  /* Tag cards */
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 5px;
+    border: 1px solid;
+  }
+  .tag-blue { color: var(--blue); background: var(--blue-light); border-color: #BFDBFE; }
+  .tag-green { color: var(--green); background: var(--green-light); border-color: #BBF7D0; }
+  .tag-red { color: var(--red); background: var(--red-light); border-color: #FECACA; }
+  .tag-purple { color: var(--purple); background: var(--purple-light); border-color: #DDD6FE; }
+  .tag-amber { color: #92400E; background: var(--accent-bg); border-color: #FDE68A; }
+
+  /* --- EQUATION BLOCKS --- */
+  .eq-block {
+    background: #FDFCFA;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 20px 24px;
+    margin: 16px 0;
+    overflow-x: auto;
+  }
+  .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .eq-desc {
+    font-size: 0.88em;
+    color: var(--text-muted);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* --- FLOWCHART --- */
+  .flow-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 24px;
+    box-shadow: var(--shadow-sm);
+    overflow-x: auto;
+  }
+  .flow-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: nowrap;
+    min-width: 850px;
+  }
+  .flow-node {
+    background: var(--bg-card);
+    border: 2px solid var(--border-strong);
+    border-radius: 10px;
+    padding: 16px 18px;
+    min-width: 140px;
+    max-width: 180px;
+    text-align: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .flow-node.primary { border-color: var(--accent); background: #FFFBEB; }
+  .flow-node.blue { border-color: var(--blue); background: var(--blue-light); }
+  .flow-node.green { border-color: var(--green); background: var(--green-light); }
+  .flow-node.red { border-color: var(--red); background: var(--red-light); }
+  .flow-node.purple { border-color: var(--purple); background: var(--purple-light); }
+  .flow-node .node-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .flow-node .node-text {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    color: var(--text-light);
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .flow-section {
+    margin-bottom: 24px;
+  }
+  .flow-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+    padding-left: 4px;
+  }
+
+  /* vertical flow */
+  .flow-v-arrow {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    color: var(--text-light);
+    font-size: 20px;
+  }
+
+  /* --- GRID --- */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* --- TABLE --- */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+  }
+  thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border-strong);
+    padding: 10px 14px;
+    text-align: left;
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  tbody tr:hover { background: var(--bg-accent); }
+
+  /* --- CALLOUT --- */
+  .callout {
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 20px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .callout.info { background: var(--blue-light); border: 1px solid #BFDBFE; }
+  .callout.warn { background: var(--accent-bg); border: 1px solid #FDE68A; }
+  .callout.success { background: var(--green-light); border: 1px solid #BBF7D0; }
+  .callout .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+  .callout p { font-size: 0.9em; line-height: 1.6; }
+
+  /* --- PROSE --- */
+  .prose p {
+    margin-bottom: 14px;
+    line-height: 1.75;
+  }
+  .prose strong { color: var(--text); }
+
+  /* --- CHANNEL LIST --- */
+  .channel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .channel-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .channel-item .ch-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-bg);
+    border-radius: 6px;
+  }
+  .channel-item .ch-title {
+    font-weight: 600;
+    font-size: 0.9em;
+    margin-bottom: 3px;
+    color: var(--text);
+  }
+  .channel-item .ch-desc {
+    font-size: 0.82em;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* --- FOOTER --- */
+  .footer {
+    text-align: center;
+    padding: 40px 32px;
+    color: var(--text-light);
+    font-size: 0.85em;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 1.8em; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .hero { padding: 50px 0 40px; }
+    .section-title { font-size: 1.3em; }
+    .flow-row { min-width: 600px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<header class="hero">
+  <div class="hero-inner">
+    <span class="hero-label">Paper Breakdown</span>
+    <h1>Building Resilience to Natural Disasters:<br>An Application to Small Developing States</h1>
+    <p class="subtitle">A dynamic small open economy DSGE model exploring natural disaster impacts, debt sustainability, and ex-ante resilience policies — with lessons for regional disaster modeling.</p>
+    <p class="authors">Ricardo Marto &middot; Chris Papageorgiou &middot; Vladimir Klyuev</p>
+    <span class="journal-tag">Journal of Development Economics 135 (2018) 574–586</span>
+  </div>
+</header>
+
+<!-- ==================== THESIS CONTEXT ==================== -->
+<div class="thesis-bar">
+  <div class="thesis-bar-inner">
+    <span class="icon">📎</span>
+    <p><strong>Thesis Context:</strong> This breakdown supports the thesis <em>"Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context"</em>. Marto et al. (2018) serves as a key reference for modeling disaster transmission channels, reconstruction policies, and fiscal sustainability in a DSGE framework — which your thesis extends to a multi-region Indonesian setting.</p>
+  </div>
+</div>
+
+<!-- ==================== TOC ==================== -->
+<nav class="toc-bar">
+  <div class="toc-bar-inner">
+    <a href="#problem" class="toc-link">1 Problem</a>
+    <a href="#features" class="toc-link">2 Model Features</a>
+    <a href="#flowchart" class="toc-link">3 Flowchart</a>
+    <a href="#equations" class="toc-link">4 Equations</a>
+    <a href="#estimation" class="toc-link">5 Estimation</a>
+    <a href="#results" class="toc-link">6 Key Results</a>
+    <a href="#relevance" class="toc-link">7 Thesis Relevance</a>
+  </div>
+</nav>
+
+<!-- ==================== MAIN ==================== -->
+<main class="main">
+
+<!-- ===== 1. PROBLEM ===== -->
+<section id="problem" class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Problem Statement</h2>
+  </div>
+  <div class="prose">
+    <p>Small developing states sit at the intersection of extreme <strong>natural disaster vulnerability</strong> and <strong>severe fiscal constraints</strong>. Cyclone Pam (2015) inflicted damages equivalent to 60.8% of Vanuatu's GDP — destroying public infrastructure, private capital, and crippling productivity. The core problem is a three-way tension:</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🔴 The Reconstruction Dilemma</h3>
+      <p>Rebuilding public infrastructure swiftly (within ~6 years) is necessary to restore growth, but financing it through <strong>taxes</strong> crushes household consumption (VAT would spike from 12.5% → 23%), while financing through <strong>borrowing</strong> pushes public debt above 90% of GDP, threatening debt sustainability.</p>
+    </div>
+    <div class="card">
+      <h3>🟡 The Resilience Question</h3>
+      <p>Could <strong>ex-ante investments</strong> in adaptation infrastructure (e.g., seawalls, climate-proofed roads) and fiscal buffers (contingency funds) have reduced damage severity and post-disaster fiscal stress? What is the optimal balance between prevention and reconstruction?</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Research Questions Addressed</h3>
+    <ul>
+      <li><strong>RQ1:</strong> How much grant financing must donors provide to ensure debt sustainability during accelerated reconstruction?</li>
+      <li><strong>RQ2:</strong> If donors had supported pre-disaster resilience investments, how would Vanuatu's debt profile differ?</li>
+      <li><strong>RQ3:</strong> What is the relative effectiveness of adaptation infrastructure vs. fiscal buffers vs. post-disaster grants?</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 2. MODEL FEATURES ===== -->
+<section id="features" class="section">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Model Features</h2>
+  </div>
+
+  <div class="card">
+    <h3>Model Type</h3>
+    <p>A <strong>two-sector dynamic small open economy</strong> model with traded (tourism/agriculture) and nontraded goods sectors, featuring government fiscal policy, multiple financing instruments, and a rich natural disaster transmission mechanism.</p>
+    <div class="tag-row">
+      <span class="tag tag-blue">Small Open Economy</span>
+      <span class="tag tag-green">Two Sectors (T/NT)</span>
+      <span class="tag tag-amber">Deterministic Simulation</span>
+      <span class="tag tag-purple">Perfect Foresight</span>
+      <span class="tag tag-red">Known Disaster Shock</span>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top: 20px;">
+    <p>The model features five distinct channels through which a natural disaster transmits to the macroeconomy:</p>
+  </div>
+
+  <div class="channel-grid">
+    <div class="channel-item">
+      <div class="ch-num">1</div>
+      <div>
+        <div class="ch-title">Public Capital Destruction</div>
+        <div class="ch-desc">Permanent damage to roads, ports, airports — the backbone of economic activity.</div>
+      </div>
+    </div>
+    <div class="channel-item">
+      <div class="ch-num">2</div>
+      <div>
+        <div class="ch-title">Private Capital Destruction</div>
+        <div class="ch-desc">Permanent damage to factories, housing, private productive assets.</div>
+      </div>
+    </div>
+    <div class="channel-item">
+      <div class="ch-num">3</div>
+      <div>
+        <div class="ch-title">Productivity Losses</div>
+        <div class="ch-desc">Temporary TFP decline from disruption — debris clearing, workforce displacement, crop destruction.</div>
+      </div>
+    </div>
+    <div class="channel-item">
+      <div class="ch-num">4</div>
+      <div>
+        <div class="ch-title">Investment Inefficiency</div>
+        <div class="ch-desc">Post-disaster reconstruction suffers from moral hazard, poorly managed projects, and aid misallocation.</div>
+      </div>
+    </div>
+    <div class="channel-item">
+      <div class="ch-num">5</div>
+      <div>
+        <div class="ch-title">Creditworthiness Damage</div>
+        <div class="ch-desc">Sovereign credit rating deterioration raises borrowing costs on external commercial debt.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 24px;" class="grid-2">
+    <div class="card">
+      <h3>Household Structure</h3>
+      <ul>
+        <li><strong>Ricardian households</strong> — optimize intertemporally, invest in private capital, hold bonds</li>
+        <li><strong>Liquidity-constrained households</strong> (12.7%) — hand-to-mouth, consume entire disposable income</li>
+        <li>CES consumption basket over traded, imported, and nontraded goods</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Government Instruments</h3>
+      <ul>
+        <li>Standard infrastructure investment \(i_{zi}\)</li>
+        <li>Adaptation infrastructure investment \(i_{za}\)</li>
+        <li>External contingency fund \(\mathfrak{s}\)</li>
+        <li>Financing: VAT, domestic debt, concessional debt, commercial external debt, grants</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Production Structure</h3>
+      <ul>
+        <li>Cobb-Douglas production in each sector combining public capital, private capital, and labor</li>
+        <li>Public capital is a <strong>CES aggregate</strong> of standard infrastructure \(z^i\) and adaptation capital \(z^a\)</li>
+        <li>Adaptation capital simultaneously enters production AND reduces disaster damages</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Financial Architecture</h3>
+      <ul>
+        <li>Concessional debt (zero real interest)</li>
+        <li>External commercial debt with endogenous risk premium</li>
+        <li>Domestic bonds</li>
+        <li>External private debt with premium over sovereign rate</li>
+        <li>Portfolio adjustment costs à la Schmitt-Grohé & Uribe (2003)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3. FLOWCHART ===== -->
+<section id="flowchart" class="section">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Model Flowchart</h2>
+  </div>
+  <div class="prose">
+    <p>Below is the logical architecture of the DSGE model — from disaster shock propagation through agent decisions to macroeconomic outcomes.</p>
+  </div>
+
+  <div class="flow-container">
+    <!-- Row 1: Shock -->
+    <div class="flow-section">
+      <div class="flow-section-label">Stage 1 — Disaster Shock</div>
+      <div class="flow-row">
+        <div class="flow-node red" style="min-width: 200px; max-width: 240px;">
+          <div class="node-title" style="color: var(--red);">Natural Disaster</div>
+          <div class="node-text">Cyclone Pam hits with known aggregate damage \(D_j\) calibrated to 60.8% of GDP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-v-arrow">▼</div>
+
+    <!-- Row 2: Transmission -->
+    <div class="flow-section">
+      <div class="flow-section-label">Stage 2 — Five Transmission Channels</div>
+      <div class="flow-row">
+        <div class="flow-node primary">
+          <div class="node-title" style="color:var(--accent);">Ch 1</div>
+          <div class="node-text">Public capital \(z^i\) permanently destroyed (\(\varpi_z\))</div>
+        </div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node primary">
+          <div class="node-title" style="color:var(--accent);">Ch 2</div>
+          <div class="node-text">Private capital \(k_j\) permanently destroyed (\(\varpi_k\))</div>
+        </div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node primary">
+          <div class="node-title" style="color:var(--accent);">Ch 3</div>
+          <div class="node-text">TFP \(A_j\) temporarily falls — sigmoid recovery</div>
+        </div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node primary">
+          <div class="node-title" style="color:var(--accent);">Ch 4</div>
+          <div class="node-text">Investment efficiency \(s_t\) drops by \(D_s = 20\%\)</div>
+        </div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node primary">
+          <div class="node-title" style="color:var(--accent);">Ch 5</div>
+          <div class="node-text">Credit premium \(D_r = 15\%\) raises borrowing cost</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-v-arrow">▼</div>
+
+    <!-- Row 3: Mitigation -->
+    <div class="flow-section">
+      <div class="flow-section-label">Stage 2b — Damage Mitigation (if adaptation exists)</div>
+      <div class="flow-row" style="justify-content: center;">
+        <div class="flow-node green" style="min-width: 320px; max-width: 400px;">
+          <div class="node-title" style="color:var(--green);">Adaptation Capital \(z^a\)</div>
+          <div class="node-text">Reduces effective damages via factor \(\frac{D_j}{(1+\pi_j z^a)^{\nu_D}}\). Higher \(z^a\) → lower destruction of \(z^i, k_j, A_j\)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-v-arrow">▼</div>
+
+    <!-- Row 4: Agents -->
+    <div class="flow-section">
+      <div class="flow-section-label">Stage 3 — Agent Decisions</div>
+      <div class="flow-row">
+        <div class="flow-node blue" style="min-width: 200px; max-width: 240px;">
+          <div class="node-title" style="color:var(--blue);">Firms</div>
+          <div class="node-text">Produce \(y_j\) with damaged capital. Demand labor & capital at marginal products.</div>
+        </div>
+        <div class="flow-arrow">⇄</div>
+        <div class="flow-node blue" style="min-width: 200px; max-width: 240px;">
+          <div class="node-title" style="color:var(--blue);">Households</div>
+          <div class="node-text">Ricardian: Euler + investment. LC: hand-to-mouth consumption. Both pay VAT.</div>
+        </div>
+        <div class="flow-arrow">⇄</div>
+        <div class="flow-node blue" style="min-width: 200px; max-width: 240px;">
+          <div class="node-title" style="color:var(--blue);">Government</div>
+          <div class="node-text">Chooses: reconstruct \(i_{zi}\), adaptation \(i_{za}\), use fund \(\mathfrak{s}\), adjust \(\tau^c\), borrow.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-v-arrow">▼</div>
+
+    <!-- Row 5: Policy Scenarios -->
+    <div class="flow-section">
+      <div class="flow-section-label">Stage 4 — Policy Scenarios Compared</div>
+      <div class="flow-row">
+        <div class="flow-node red">
+          <div class="node-title" style="color:var(--red);">Tax-financed</div>
+          <div class="node-text">VAT rises to ~23%. Consumption drops 20%.</div>
+        </div>
+        <div class="flow-arrow">vs</div>
+        <div class="flow-node red">
+          <div class="node-title" style="color:var(--red);">Debt-financed</div>
+          <div class="node-text">Debt soars to 90%+ of GDP. Debt distress risk.</div>
+        </div>
+        <div class="flow-arrow">vs</div>
+        <div class="flow-node green">
+          <div class="node-title" style="color:var(--green);">Grant-financed</div>
+          <div class="node-text">+50% GDP in grants over 15 yrs. Debt stable.</div>
+        </div>
+        <div class="flow-arrow">vs</div>
+        <div class="flow-node purple">
+          <div class="node-title" style="color:var(--purple);">Ex-Ante Resilience</div>
+          <div class="node-text">Adaptation + fund. Debt &lt; 60% GDP.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-v-arrow">▼</div>
+
+    <!-- Row 6: Outcomes -->
+    <div class="flow-section">
+      <div class="flow-section-label">Stage 5 — Macroeconomic Outcomes</div>
+      <div class="flow-row" style="justify-content: center; gap: 16px;">
+        <div class="flow-node" style="border-color: var(--text-light);">
+          <div class="node-title">Real GDP</div>
+        </div>
+        <div class="flow-node" style="border-color: var(--text-light);">
+          <div class="node-title">Private C</div>
+        </div>
+        <div class="flow-node" style="border-color: var(--text-light);">
+          <div class="node-title">Investment</div>
+        </div>
+        <div class="flow-node" style="border-color: var(--text-light);">
+          <div class="node-title">Public Debt</div>
+        </div>
+        <div class="flow-node" style="border-color: var(--text-light);">
+          <div class="node-title">Curr. Acct.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. EQUATIONS ===== -->
+<section id="equations" class="section">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">List of Key Equations</h2>
+  </div>
+
+  <!-- FIRMS -->
+  <div class="card">
+    <h3>4.1 — Firms</h3>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (1) — Firm Profit</span>
+      $$\Phi_{j,t} = P_{j,t}\left(1 - \frac{D_{j,t}}{(1+\pi_j z^a_{t-1})^{\nu_D}}\right) y_{j,t} - w_t l_{j,t} - r_{j,t} k_{j,t-1}$$
+      <div class="eq-desc">Profits in sector \(j \in \{n, x\}\). Disasters reduce effective output; adaptation capital \(z^a\) mitigates via the denominator.</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (2) — Production Function</span>
+      $$y_{j,t} = A_{j,t}\, z_{t-1}^{\psi_j}\, k_{j,t-1}^{\alpha_j}\, l_{j,t}^{1-\alpha_j} \quad \text{for } j = n, x$$
+      <div class="eq-desc">Cobb-Douglas with public capital \(z\), private capital \(k\), and labor \(l\). Sector-specific TFP \(A_j\).</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (3) — CES Public Capital Aggregate</span>
+      $$z_t = \left[\rho_z^{1/\xi}\left(z^i_t\right)^{\frac{\xi-1}{\xi}} + (1-\rho_z)^{1/\xi}\left(\nu_a z^a_t\right)^{\frac{\xi-1}{\xi}}\right]^{\frac{\xi}{\xi-1}}$$
+      <div class="eq-desc">CES combination of standard (\(z^i\)) and adaptation (\(z^a\)) infrastructure. \(\xi\) controls substitutability: \(\xi \to \infty\) (perfect substitutes), \(\xi \to 1\) (Cobb-Douglas), \(\xi \to 0\) (Leontief).</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Eqs. (4)–(5) — Factor Demands</span>
+      $$P_{j,t}\,\alpha_j \frac{y_{j,t}}{k_{j,t-1}} = r_{j,t} \qquad\qquad P_{j,t}(1-\alpha_j)\frac{y_{j,t}}{l_{j,t}} = w_t$$
+      <div class="eq-desc">Standard first-order conditions: marginal product of capital = rental rate; marginal product of labor = wage.</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Damage Decomposition</span>
+      $$\left(1 - D_{z_j}\right) = \left(\frac{1 - D_j}{(1+\pi_j z^a)^{\nu_D}}\right)^{\varpi_z}, \quad \left(1 - D_{k_j}\right) = \left(\frac{1 - D_j}{(1+\pi_j z^a)^{\nu_D}}\right)^{\varpi_k}$$
+      <div class="eq-desc">\(\varpi_z = 0.4\) and \(\varpi_k = 0.3\) control relative severity of damage to public vs. private capital. Residual goes to TFP losses.</div>
+    </div>
+  </div>
+
+  <!-- GOVERNMENT -->
+  <div class="card">
+    <h3>4.2 — Government</h3>
+
+    <div class="eq-block">
+      <span class="eq-label">Eqs. (7)–(8) — Public Capital Accumulation</span>
+      $$z^i_t = (1-\delta_{zi})\,z^i_{t-1} + (1-D_s)\,s_t\,i_{zi,t}$$
+      $$z^a_t = (1-\delta_{za})\,z^a_{t-1} + (1-D_s)\,s_t\,i_{za,t}$$
+      <div class="eq-desc">New capital = surviving old capital + efficient new investment. Efficiency \(s_t \in [0,1]\) is hit by \(D_s\) post-disaster. Adaptation depreciates slower: \(\delta_{za} = 3\% < \delta_{zi} = 7.5\%\).</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (9) — Endogenous Sovereign Borrowing Rate</span>
+      $$r_{dc,t} = (1 + D_{r,t})\left(r^f + \upsilon_g\, e^{\eta_g\left(\frac{d_t + dc_t}{y_t} - \frac{\bar{d}+\bar{dc}}{\bar{y}}\right)}\right)$$
+      <div class="eq-desc">Commercial debt rate rises with (i) disaster credit shock \(D_r\) and (ii) debt-to-GDP deviations from steady state. Follows Schmitt-Grohé & Uribe (2003).</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (10) — Government Budget / Fiscal Gap</span>
+      $$\mathfrak{Gap}_t = P_t \Delta b_t + \Delta dc_t + (\tau^c_t - \tau^c_o)\,P_t c_t - \Delta\mathfrak{s}_t$$
+      <div class="eq-desc">The fiscal gap (expenditures − revenues at baseline tax) is closed by domestic borrowing, external commercial borrowing, tax adjustments, and/or drawing on the contingency fund.</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (11) — Fiscal Rule for VAT</span>
+      $$\tau^c_t = \tau^c_{t-1} + \lambda_1\left((\tau^c_t)^{\text{target}} - \tau^c_{t-1}\right) + \lambda_2 \frac{(P_{t-1}b_{t-1}+dc_{t-1}) - (Pb+dc)^{\text{target}}}{y_t}$$
+      <div class="eq-desc">Tax rate responds to both the target tax (if gap were fully tax-financed) and debt deviations. \(\lambda_1, \lambda_2 \geq 0\) control adjustment speed.</div>
+    </div>
+  </div>
+
+  <!-- HOUSEHOLDS -->
+  <div class="card">
+    <h3>4.3 — Households</h3>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (12) — CES Consumption Basket</span>
+      $$c^i_t = \left[\rho_x^{1/\epsilon}(c^i_{x,t})^{\frac{\epsilon-1}{\epsilon}} + \rho_m^{1/\epsilon}(c^i_{m,t})^{\frac{\epsilon-1}{\epsilon}} + (1-\rho_x-\rho_m)^{1/\epsilon}(c^i_{n,t})^{\frac{\epsilon-1}{\epsilon}}\right]^{\frac{\epsilon}{\epsilon-1}}$$
+      <div class="eq-desc">For \(i \in \{\mathfrak{r}, \mathfrak{c}\}\). Three goods: domestic tradable, imported, nontradable. \(\epsilon = 0.5\) (low substitutability).</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (16) — Euler Equation (Ricardian)</span>
+      $$c^{\mathfrak{r}}_t = c^{\mathfrak{r}}_{t+1}\left[\beta(1+r_t)\frac{1+\tau^c_t}{1+\tau^c_{t+1}}\right]^{-\varsigma_c}$$
+      <div class="eq-desc">Standard consumption Euler with intertemporal elasticity \(\varsigma_c = 0.34\) and VAT wedge.</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (19) — Liquidity-Constrained Budget</span>
+      $$(1+\tau^c_t)\,P_t c^{\mathfrak{c}}_t = w_t l^{\mathfrak{c}}_t + \frac{a}{1+a}(\mathcal{R}_t + \mathcal{T}_t)$$
+      <div class="eq-desc">Hand-to-mouth: consumption = after-tax wage income + share of remittances \(\mathcal{R}\) and transfers \(\mathcal{T}\).</div>
+    </div>
+  </div>
+
+  <!-- RECOVERY -->
+  <div class="card">
+    <h3>4.4 — Recovery Dynamics</h3>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (22) — Sigmoid Recovery Path</span>
+      $$x_t = e^{-\gamma_x t}\, x^{\text{Pam}} + (1 - e^{-\gamma_x t})\, x^{\text{pre-Pam}}$$
+      <div class="eq-desc">For \(x \in \{z^i, s, A_j, D_r\}\). Governs gradual transition from disaster state to steady state. \(\gamma_x\) controls speed — critical parameter for your thesis on recovery dynamics.</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Reconstruction Investment (derived)</span>
+      $$i^{\text{reconstruction}}_{zi,t} = \frac{z^i_t - (1-\delta_{zi})z^i_{t-1}}{s_t}$$
+      <div class="eq-desc">Given the target path for public capital \(z^i_t\), the required investment flow is backed out. Peaks at 5.5% of GDP.</div>
+    </div>
+  </div>
+
+  <!-- EQUILIBRIUM -->
+  <div class="card">
+    <h3>4.5 — Market Clearing & Balance of Payments</h3>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (20) — Nontradable Market Clearing</span>
+      $$y_{n,t} = \rho_n\left(\frac{P_{n,t}}{P_t}\right)^{-\epsilon} c_t + a_k(i_{n,t}+i_{x,t}+AC_{n,t}+AC_{x,t}) + a_{zi}i_{zi,t} + a_{za}i_{za,t}$$
+      <div class="eq-desc">Nontradable output = consumption demand + nontradable content of private and public investment.</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">Eq. (21) — Balance of Payments</span>
+      $$\underbrace{\Delta b^*_t + \Delta dc_t + \Delta d_t + \mathcal{G}_t + \mathcal{R}_t - \Delta\mathfrak{s}_t}_{\text{Capital Account}} = -\underbrace{\text{CA}_t}_{\text{Current Account}}$$
+      <div class="eq-desc">Capital inflows (borrowing + grants + remittances − savings) finance the current account deficit.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. ESTIMATION ===== -->
+<section id="estimation" class="section">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Estimation & Solution Method</h2>
+  </div>
+
+  <div class="callout warn">
+    <span class="callout-icon">⚠️</span>
+    <p><strong>No econometric estimation.</strong> This model is <em>calibrated</em> and solved via <strong>deterministic perfect-foresight simulation</strong>, not Bayesian estimation or GMM. The disaster is a known, one-time event — not a stochastic process. This is a key methodological distinction from HANK papers you're replicating.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Solution Method</h3>
+      <p>The model is solved as a <strong>perfect foresight transition path</strong> from the disaster-impacted state back toward the pre-disaster steady state, comparing alternative policy scenarios. The framework builds on <strong>Buffie et al. (2012)</strong> — the IMF's Debt, Investment, Growth, and Natural Disasters (DIGNAD) model.</p>
+      <div class="tag-row" style="margin-top: 12px;">
+        <span class="tag tag-blue">Perfect Foresight</span>
+        <span class="tag tag-green">Scenario Analysis</span>
+        <span class="tag tag-purple">Transition Dynamics</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Calibration Strategy</h3>
+      <ul>
+        <li><strong>Disaster parameters:</strong> Matched to Vanuatu's Post-Disaster Needs Assessment (60.8% GDP damage)</li>
+        <li><strong>National accounts:</strong> IMF WEO, IFPRI GTAP database for factor shares</li>
+        <li><strong>Debt data:</strong> IMF 2016 Debt Sustainability Analysis</li>
+        <li><strong>Field assessment:</strong> Authors visited Vanuatu in late 2016 during Article IV consultations</li>
+        <li><strong>Investment efficiency:</strong> \(s_o = 60\%\) from IMF PIMA/PIE-X benchmarks</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 20px;">
+    <h3>Key Calibrated Parameters</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Parameter</th><th>Symbol</th><th>Value</th><th>Source / Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Capital share (nontradable)</td><td>\(\alpha_n\)</td><td>40%</td><td>GTAP SAM tables</td></tr>
+          <tr><td>Capital share (tradable)</td><td>\(\alpha_x\)</td><td>30%</td><td>GTAP; labor-intensive tourism</td></tr>
+          <tr><td>Output elasticity to public capital</td><td>\(\psi_j\)</td><td>0.0312</td><td>Implied by \(R^z_o = 30\%\)</td></tr>
+          <tr><td>Public inv. efficiency (initial)</td><td>\(s_o\)</td><td>60%</td><td>IMF PIMA/PIE-X</td></tr>
+          <tr><td>Efficiency loss post-disaster</td><td>\(D_s\)</td><td>20%</td><td>Field assessment</td></tr>
+          <tr><td>Public capital damage severity</td><td>\(\varpi_z\)</td><td>0.4</td><td>Calibrated to match sectoral damages</td></tr>
+          <tr><td>Private capital damage severity</td><td>\(\varpi_k\)</td><td>0.3</td><td>Calibrated</td></tr>
+          <tr><td>Credit shock</td><td>\(D_r\)</td><td>15%</td><td>S&P (2015) — 1.5 notch downgrade</td></tr>
+          <tr><td>Intertemporal elasticity</td><td>\(\varsigma_c\)</td><td>0.34</td><td>Literature</td></tr>
+          <tr><td>CES substitution (public capital)</td><td>\(\xi\)</td><td>\(+\infty\)</td><td>Baseline: perfect substitutes</td></tr>
+          <tr><td>Depreciation, standard infra.</td><td>\(\delta_{zi}\)</td><td>7.5%</td><td>Higher vulnerability to disasters</td></tr>
+          <tr><td>Depreciation, adaptation infra.</td><td>\(\delta_{za}\)</td><td>3.0%</td><td>More resilient, +75 yr lifespan</td></tr>
+          <tr><td>LC household share</td><td>\(a/(1+a)\)</td><td>12.7%</td><td>WB poverty headcount ratio</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6. KEY RESULTS ===== -->
+<section id="results" class="section">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Key Results & Policy Findings</h2>
+  </div>
+
+  <div class="card">
+    <h3>Scenario Comparison Summary</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Scenario</th><th>Peak Public Debt</th><th>VAT Rate</th><th>Consumption Drop</th><th>Donor Cost</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Tax-financed reconstruction</td><td>~25% GDP (stable)</td><td>→ 23%</td><td>−20%</td><td>None extra</td></tr>
+          <tr><td>Debt-financed reconstruction</td><td>&gt;90% → 105% GDP</td><td>12.5% (fixed)</td><td>−10–12%</td><td>None extra</td></tr>
+          <tr><td><strong>Grant-financed</strong></td><td>~25% GDP (stable)</td><td>12.5%</td><td>−10%</td><td>+50% pre-Pam GDP over 15 yrs</td></tr>
+          <tr><td><strong>Adaptation (3% GDP × 5 yrs)</strong></td><td>&lt;60% GDP</td><td>12.5%</td><td>−10–12%</td><td>15% GDP ex-ante</td></tr>
+          <tr><td><strong>Adaptation + Contingency Fund</strong></td><td>~53% GDP</td><td>12.5%</td><td>−12%</td><td>15% GDP split between infra & fund</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🔑 Core Finding</h3>
+      <p>Donors must provide an additional <strong>50% of pre-cyclone GDP</strong> in grants over 15 years to keep debt sustainable under accelerated reconstruction. This far exceeds typical post-disaster commitments and indeed actual disbursements fell short.</p>
+    </div>
+    <div class="card">
+      <h3>💡 Resilience Payoff</h3>
+      <p>Pre-disaster adaptation investment (3% GDP/yr for 5 years) <strong>reduces damage to standard infrastructure by 5.2%</strong>, private capital by 9.7%, and TFP losses by ~3.9%. This cuts peak debt from &gt;90% to &lt;60% of GDP — at lower total cost for donors.</p>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <span class="callout-icon">✅</span>
+    <p><strong>Key insight for your thesis:</strong> The speed of recovery (governed by \(\gamma_x\) in Eq. 22) is a critical determinant of macroeconomic losses. Faster reconstruction reduces the persistence of output gaps but requires larger financing — exactly the tension your RQ4 addresses. Marto et al. show that even with resilience investments, donor support remains essential for catastrophic events.</p>
+  </div>
+</section>
+
+<!-- ===== 7. THESIS RELEVANCE ===== -->
+<section id="relevance" class="section">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Relevance to Your Thesis</h2>
+  </div>
+
+  <div class="prose">
+    <p>Marto et al. (2018) provides a foundational architecture that your thesis can extend in several dimensions. Below is a mapping from their framework to your research design.</p>
+  </div>
+
+  <div class="card">
+    <h3>What Marto et al. Does → What Your Thesis Extends</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Dimension</th><th>Marto et al. (2018)</th><th>Your Thesis Extension</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Geography</strong></td>
+            <td>Single small open economy (Vanuatu)</td>
+            <td>Multi-region (disaster-affected vs. non-affected Indonesian regions with interregional linkages)</td>
+          </tr>
+          <tr>
+            <td><strong>Disaster type</strong></td>
+            <td>Known historical disaster (Cyclone Pam), calibrated damages</td>
+            <td>"Rare" natural disasters — potentially stochastic rare-event (Poisson/fat-tail) specification</td>
+          </tr>
+          <tr>
+            <td><strong>Household heterogeneity</strong></td>
+            <td>Ricardian + LC (2 types)</td>
+            <td>Could incorporate HANK-style continuum or richer distribution relevant for Indonesian inequality</td>
+          </tr>
+          <tr>
+            <td><strong>Recovery dynamics</strong></td>
+            <td>Exogenous sigmoid recovery path (Eq. 22)</td>
+            <td>Your RQ4: endogenize or parameterize recovery speed; study how speed affects magnitude & persistence of losses</td>
+          </tr>
+          <tr>
+            <td><strong>Regional linkages</strong></td>
+            <td>None — single economy</td>
+            <td>Your RQ3: interregional trade, labor mobility, fiscal transfers between affected and non-affected regions</td>
+          </tr>
+          <tr>
+            <td><strong>Policy focus</strong></td>
+            <td>Adaptation infra, fiscal buffers, grants</td>
+            <td>Your RQ1: broader set of interventions including interregional fiscal transfers, central government redistribution</td>
+          </tr>
+          <tr>
+            <td><strong>Solution</strong></td>
+            <td>Deterministic perfect foresight</td>
+            <td>Potentially stochastic (rare disaster probability) or maintain deterministic with scenario analysis</td>
+          </tr>
+          <tr>
+            <td><strong>Application</strong></td>
+            <td>Vanuatu (small island)</td>
+            <td>Indonesia (large archipelago, diverse regional economies, frequent disaster exposure)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Elements to Borrow</h3>
+      <ul>
+        <li>Five-channel disaster transmission framework</li>
+        <li>CES public capital aggregate (standard + adaptation)</li>
+        <li>Sigmoid recovery dynamics with speed parameter</li>
+        <li>Fiscal gap / budget constraint apparatus</li>
+        <li>Investment efficiency shock post-disaster</li>
+        <li>Scenario comparison methodology</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Gaps Your Thesis Fills</h3>
+      <ul>
+        <li>No regional dimension or spatial spillovers</li>
+        <li>No interregional trade or factor mobility</li>
+        <li>No stochastic disaster probability (only known events)</li>
+        <li>No welfare analysis across heterogeneous regions</li>
+        <li>No application to large emerging economies like Indonesia</li>
+        <li>Recovery speed treated as exogenous, not studied parametrically</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-icon">📘</span>
+    <p><strong>Mapping to your Research Questions:</strong> <strong>RQ1</strong> (policy effectiveness) — directly builds on Sections 4–5 of Marto et al. <strong>RQ2</strong> (model design) — extends their single-economy DSGE to a multi-region framework. <strong>RQ3</strong> (regional spillovers) — the novel contribution your thesis adds beyond this paper. <strong>RQ4</strong> (recovery speed) — parameterizes and studies the \(\gamma_x\) dimension that Marto et al. hold fixed.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <p>Paper breakdown prepared for thesis reference &middot; Marto, Papageorgiou & Klyuev (2018) &middot; <em>J. Dev. Econ.</em> 135, 574–586</p>
+  <p style="margin-top: 6px; font-size: 0.8em;">Equations rendered with KaTeX &middot; Generated February 2026</p>
+</footer>
+
+<!-- ==================== KaTeX AUTO-RENDER ==================== -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+
+</body>
+</html>

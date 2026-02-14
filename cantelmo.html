@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cantelmo et al. (2023) — DSGE Model Explainer</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });"></script>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fb;
+    --bg-card: #ffffff;
+    --bg-card-alt: #f0f2f7;
+    --bg-accent: #edf1f8;
+    --border: #dde1ea;
+    --border-accent: #c4cad8;
+    --text: #3d4555;
+    --text-muted: #7c849a;
+    --text-bright: #1e2333;
+    --heading: #111827;
+    --accent: #2563eb;
+    --accent-dim: #1d4ed8;
+    --accent-glow: rgba(37, 99, 235, 0.07);
+    --warn: #d97706;
+    --success: #059669;
+    --red: #dc2626;
+    --purple: #7c3aed;
+    --teal: #0d9488;
+    --eq-bg: #f0f4fa;
+    --eq-border: #dce3f0;
+    --flow-node: #ffffff;
+    --flow-arrow: #2563eb;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.72;
+    font-size: 15.5px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── NAV ─── */
+  .topnav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(247, 248, 251, 0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .topnav-inner {
+    max-width: 1100px; margin: auto;
+    display: flex; align-items: center; gap: 1.5rem;
+    height: 52px; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .topnav-inner::-webkit-scrollbar { display: none; }
+  .topnav a {
+    color: var(--text-muted); text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    white-space: nowrap; transition: color .2s;
+    letter-spacing: .01em;
+  }
+  .topnav a:hover { color: var(--accent); }
+  .topnav .brand { color: var(--accent); font-weight: 700; font-size: 14px; margin-right: .5rem; }
+
+  /* ─── HERO ─── */
+  .hero {
+    max-width: 1100px; margin: 0 auto;
+    padding: 4rem 2rem 3rem;
+  }
+  .hero-label {
+    display: inline-block;
+    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-glow);
+    border: 1px solid rgba(74,158,255,0.2);
+    border-radius: 4px; padding: 3px 10px; margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(1.9rem, 4vw, 2.7rem);
+    font-weight: 700; color: var(--heading);
+    line-height: 1.25; margin-bottom: .6rem;
+  }
+  .hero .subtitle {
+    font-size: 15px; color: var(--text-muted); margin-bottom: 1.5rem; max-width: 680px;
+  }
+  .hero .meta {
+    font-size: 13px; color: var(--text-muted);
+    display: flex; flex-wrap: wrap; gap: .4rem 1.5rem;
+  }
+  .hero .meta span { display: flex; align-items: center; gap: .35rem; }
+
+  /* ─── LAYOUT ─── */
+  .container {
+    max-width: 1100px; margin: 0 auto; padding: 0 2rem 4rem;
+  }
+
+  section { margin-bottom: 3.5rem; }
+
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .6rem;
+  }
+
+  h2 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.55rem; font-weight: 700; color: var(--heading);
+    margin-bottom: 1rem; line-height: 1.3;
+  }
+
+  h3 {
+    font-size: .95rem; font-weight: 600; color: var(--text-bright);
+    margin: 1.5rem 0 .6rem;
+  }
+
+  p { margin-bottom: .9rem; }
+
+  a { color: var(--accent); }
+
+  strong { color: var(--text-bright); font-weight: 600; }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .card.accent-border { border-left: 3px solid var(--accent); }
+  .card.warn-border  { border-left: 3px solid var(--warn); }
+  .card.teal-border  { border-left: 3px solid var(--teal); }
+
+  .card-title {
+    font-size: .85rem; font-weight: 700; color: var(--text-bright);
+    text-transform: uppercase; letter-spacing: .05em;
+    margin-bottom: .5rem;
+  }
+
+  /* ─── GRID ─── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* ─── EQUATION BLOCKS ─── */
+  .eq-block {
+    background: var(--eq-bg);
+    border: 1px solid var(--eq-border);
+    border-radius: 8px;
+    padding: 1.1rem 1.4rem;
+    margin: .8rem 0 1rem;
+    overflow-x: auto;
+  }
+  .eq-block .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--accent); margin-bottom: .4rem;
+    letter-spacing: .03em;
+  }
+  .eq-block .eq-desc {
+    font-size: 13px; color: var(--text-muted);
+    margin-top: .4rem;
+  }
+
+  /* ─── FLOWCHART ─── */
+  .flow-container {
+    overflow-x: auto; padding: 1.5rem 0;
+  }
+  .flow {
+    display: flex; align-items: stretch; gap: 0;
+    min-width: 900px;
+  }
+  .flow-node {
+    background: var(--flow-node);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    min-width: 145px; max-width: 170px;
+    flex-shrink: 0;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .flow-node .fn-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    color: var(--accent); margin-bottom: .3rem;
+    letter-spacing: .05em;
+  }
+  .flow-node .fn-title {
+    font-size: 12.5px; font-weight: 600; color: var(--text-bright);
+    margin-bottom: .25rem; line-height: 1.35;
+  }
+  .flow-node .fn-desc {
+    font-size: 11px; color: var(--text-muted); line-height: 1.4;
+  }
+  .flow-arrow {
+    display: flex; align-items: center; justify-content: center;
+    min-width: 36px; flex-shrink: 0;
+    color: var(--accent); font-size: 18px; font-weight: 700;
+  }
+
+  /* ─── TABLE ─── */
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  th {
+    text-align: left; padding: .6rem .8rem;
+    font-weight: 600; font-size: 12px;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card-alt);
+  }
+  td {
+    padding: .55rem .8rem;
+    border-bottom: 1px solid var(--eq-border);
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(74,158,255,0.03); }
+
+  /* ─── TAGS ─── */
+  .tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 600;
+    padding: 2px 8px; border-radius: 3px;
+    letter-spacing: .03em;
+  }
+  .tag-blue  { background: rgba(74,158,255,.12); color: var(--accent); }
+  .tag-green { background: rgba(52,211,153,.12); color: var(--success); }
+  .tag-warn  { background: rgba(245,158,66,.12); color: var(--warn); }
+  .tag-purple{ background: rgba(167,139,250,.12); color: var(--purple); }
+  .tag-red   { background: rgba(248,113,113,.12); color: var(--red); }
+
+  /* ─── CALLOUT ─── */
+  .callout {
+    background: var(--accent-glow);
+    border: 1px solid rgba(74,158,255,0.18);
+    border-radius: 8px;
+    padding: 1.1rem 1.4rem;
+    margin: 1rem 0;
+    font-size: 14px;
+  }
+  .callout-title {
+    font-weight: 700; color: var(--accent);
+    font-size: 13px; margin-bottom: .3rem;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+
+  .callout.warn {
+    background: rgba(245,158,66,0.06);
+    border-color: rgba(245,158,66,0.18);
+  }
+  .callout.warn .callout-title { color: var(--warn); }
+
+  /* ─── LIST ─── */
+  ul.clean { list-style: none; padding: 0; }
+  ul.clean li {
+    padding: .3rem 0 .3rem 1.2rem;
+    position: relative;
+  }
+  ul.clean li::before {
+    content: '›';
+    position: absolute; left: 0;
+    color: var(--accent); font-weight: 700;
+  }
+
+  /* ─── THESIS BOX ─── */
+  .thesis-box {
+    background: linear-gradient(135deg, rgba(74,158,255,0.06), rgba(167,139,250,0.06));
+    border: 1px solid rgba(74,158,255,0.15);
+    border-radius: 10px;
+    padding: 1.8rem 2rem;
+    margin: 2rem 0;
+  }
+  .thesis-box h3 {
+    color: var(--accent); margin-top: 0;
+    font-size: 1rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 12.5px; color: var(--text-muted);
+  }
+
+  /* katex overrides */
+  .katex { font-size: 1.05em; }
+  .eq-block .katex { font-size: 1.08em; }
+
+  /* vertical flow for narrow */
+  .vflow { display: flex; flex-direction: column; gap: .6rem; margin: 1rem 0; }
+  .vflow-step {
+    display: flex; align-items: flex-start; gap: .8rem;
+  }
+  .vflow-num {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    border: 1px solid rgba(74,158,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 600; color: var(--accent);
+  }
+  .vflow-text { font-size: 14px; padding-top: 3px; }
+  .vflow-text strong { display: block; font-size: 13.5px; color: var(--text-bright); margin-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="#" class="brand">CMP 2023</a>
+    <a href="#problem">Problem</a>
+    <a href="#features">Model Features</a>
+    <a href="#flowchart">Flowchart</a>
+    <a href="#equations">Equations</a>
+    <a href="#solution">Solution Method</a>
+    <a href="#calibration">Calibration</a>
+    <a href="#results">Results</a>
+    <a href="#policy">Policy</a>
+    <a href="#thesis">Thesis Link</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-label">Paper Explainer</div>
+  <h1>Macroeconomic Outcomes in Disaster-Prone Countries</h1>
+  <p class="subtitle">Cantelmo, Melina &amp; Papageorgiou (2023) — <em>Journal of Development Economics</em>, Vol. 161</p>
+  <div class="meta">
+    <span>🏛 Banca d'Italia &amp; IMF</span>
+    <span>📐 Nonlinear DSGE — Taylor Projection</span>
+    <span>🌪 Natural Disasters &amp; Climate Change</span>
+    <span>📊 Welfare &amp; Policy Analysis</span>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 1. PROBLEM -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="problem">
+  <div class="section-label">Section 1</div>
+  <h2>The Core Problem</h2>
+
+  <p>Weather-related natural disasters (cyclones, floods, storms) are becoming more frequent and more devastating, especially for <strong>small states and low-income countries</strong>. The paper asks: <em>do differences in disaster exposure alone explain significant divergence in growth, fiscal positions, and welfare between disaster-prone and non-disaster-prone developing countries?</em></p>
+
+  <div class="grid-2">
+    <div class="card accent-border">
+      <div class="card-title">Why Existing Models Fail</div>
+      <ul class="clean">
+        <li><strong>Linearization is inadequate</strong> — disasters can destroy up to 260% of GDP (Hurricane Maria in Dominica, 2017); linear approximations break down.</li>
+        <li><strong>Deterministic steady states are unrealistic</strong> — agents facing recurring disasters should have a <em>stochastic</em> steady state where disaster risk itself shifts long-run equilibrium levels.</li>
+        <li><strong>Perfect foresight misses risk channels</strong> — precautionary savings, uncertainty premia, and forward-looking behavior under disaster risk are absent in deterministic simulations.</li>
+      </ul>
+    </div>
+    <div class="card warn-border">
+      <div class="card-title">Key Empirical Facts (EM-DAT 1998–2017)</div>
+      <ul class="clean">
+        <li>Disaster-prone countries: annual probability <strong>16.2%</strong> per 1000 km², avg. damage <strong>6.65% of GDP</strong></li>
+        <li>Non-disaster-prone: annual probability <strong>0.28%</strong>, avg. damage <strong>0.52% of GDP</strong></li>
+        <li>74% of disaster-prone countries are <strong>small economies</strong> (small states or LICs)</li>
+        <li>Probability rose from 13.8% → 18.7% between the two decades; damages from 4.7% → 8.6% of GDP</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Central Research Questions</div>
+    (1) How much do natural disaster shocks — frequency & magnitude — weigh on growth, fiscal outcomes, and welfare of disaster-prone developing countries?<br>
+    (2) Does climate change (shifting the distribution) amplify divergence?<br>
+    (3) Are ex-post grants or ex-ante resilient infrastructure more cost-effective?
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 2. MODEL FEATURES -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="features">
+  <div class="section-label">Section 2</div>
+  <h2>Model Features — DSGE Architecture</h2>
+
+  <p>The model is a <strong>small-open-economy real business cycle (RBC) model</strong> with stochastic trend growth, disaster shocks à la Gourio (2012), and extensions for public investment, external debt, resilient infrastructure, and international aid.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">Households</div>
+      <p style="font-size:13.5px"><strong>Epstein–Zin recursive preferences</strong> separating risk aversion ($\gamma$) from IES ($1/\hat\psi$). Precautionary savings channel from disaster risk. Consume, supply labor, invest in private capital, hold domestic bonds.</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--success)">Firms</div>
+      <p style="font-size:13.5px"><strong>Cobb–Douglas production</strong> with private &amp; public capital. Stochastic trend TFP with drift. Disasters destroy capital <em>and</em> reduce TFP — capturing permanent level effects (no overshooting), consistent with Hsiang &amp; Jina (2014).</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--warn)">Government</div>
+      <p style="font-size:13.5px">Consumption tax, external debt, public investment (standard + <strong>resilient</strong> infrastructure). Tax rule responds to debt. Public investment reacts to disasters (reconstruction). Sovereign risk premium on external debt.</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--purple)">Disaster Shocks</div>
+      <p style="font-size:13.5px">Binary i.i.d. shock $d_t \in \{0,1\}$ with probability $p_d$. Size $\theta_t$ follows a persistent AR(1) with stochastic volatility. Destroys fraction of private capital, public capital, and TFP <em>permanently</em> (level shift).</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--teal)">Resilient Capital</div>
+      <p style="font-size:13.5px">Fraction of public capital stock immune to disasters. More expensive by factor $(1+\iota)$. Donors can finance share $\vartheta$ of extra cost. Trade-off: protection vs. fiscal burden.</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--red)">International Aid</div>
+      <p style="font-size:13.5px"><strong>Ex-post grants</strong> disbursed after disasters (rule-based on disaster magnitude). <strong>Ex-ante grants</strong> financing resilient capital. The paper compares their cost-effectiveness.</p>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">No Nominal Rigidities</div>
+    Unlike Fernández-Villaverde &amp; Levintal (2018), this model <strong>abstracts from monetary policy</strong> — the focus is long-run real effects of disasters. No price stickiness, no Taylor rule.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 3. FLOWCHART -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="flowchart">
+  <div class="section-label">Section 3</div>
+  <h2>Model Flowchart — How the DSGE Works</h2>
+
+  <h3>A. Shock Propagation Flow</h3>
+  <div class="flow-container">
+    <div class="flow">
+      <div class="flow-node">
+        <div class="fn-num">01</div>
+        <div class="fn-title">Disaster Shock</div>
+        <div class="fn-desc">$d_t=1$ with prob $p_d$; magnitude $\theta_t$</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:var(--red)">
+        <div class="fn-num">02</div>
+        <div class="fn-title">Capital Destruction</div>
+        <div class="fn-desc">$\log k_t = \log k^*_{t-1} - d_t\theta_t$ (private &amp; public)</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:var(--warn)">
+        <div class="fn-num">03</div>
+        <div class="fn-title">TFP Level Drop</div>
+        <div class="fn-desc">$\log A_t = \log A_{t-1} + \Lambda_A + z_{A,t} - (1-\alpha)d_t\theta_t$</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:var(--purple)">
+        <div class="fn-num">04</div>
+        <div class="fn-title">Output Falls</div>
+        <div class="fn-desc">Production declines; same growth rate but lower level</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-num">05</div>
+        <div class="fn-title">Fiscal Stress</div>
+        <div class="fn-desc">Lower tax base → debt ↑ → tax rate ↑ → sovereign premium ↑</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:var(--success)">
+        <div class="fn-num">06</div>
+        <div class="fn-title">Welfare Loss</div>
+        <div class="fn-desc">Consumption ↓, precautionary savings ↑, investment reallocation</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>B. Model Solution &amp; Simulation Pipeline</h3>
+  <div class="vflow">
+    <div class="vflow-step">
+      <div class="vflow-num">1</div>
+      <div class="vflow-text"><strong>Write the Stationary Model</strong> Detrend by $z_t = A_t^{1/(1-\alpha)}$ to remove stochastic trend. Variables become $\tilde{x}_t = x_t / z_t$.</div>
+    </div>
+    <div class="vflow-step">
+      <div class="vflow-num">2</div>
+      <div class="vflow-text"><strong>Calibrate Two Economies</strong> Identical parameters except disaster distribution $(p_d, \bar\theta, \sigma_\theta)$. Match EM-DAT data for disaster-prone vs. non-disaster-prone EMDEs.</div>
+    </div>
+    <div class="vflow-step">
+      <div class="vflow-num">3</div>
+      <div class="vflow-text"><strong>Solve with 3rd-Order Taylor Projection</strong> Combines projection-method grid with Taylor expansions — more accurate than 5th-order perturbation for rare disaster models (Fernández-Villaverde &amp; Levintal 2018).</div>
+    </div>
+    <div class="vflow-step">
+      <div class="vflow-num">4</div>
+      <div class="vflow-text"><strong>Compute Stochastic Steady State</strong> Simulate 100 quarters without shocks starting from deterministic SS. The SSS differs from the DSS because disaster risk shifts equilibrium.</div>
+    </div>
+    <div class="vflow-step">
+      <div class="vflow-num">5</div>
+      <div class="vflow-text"><strong>Simulate 1000 Periods (250 years)</strong> Draw disaster shocks, TFP shocks, disaster-size shocks. Discard first 100 quarters (burn-in). Compute averages.</div>
+    </div>
+    <div class="vflow-step">
+      <div class="vflow-num">6</div>
+      <div class="vflow-text"><strong>Compare &amp; Compute Welfare</strong> Percent differences in simulation averages (DP vs. NDP). Consumption-equivalent welfare loss $\omega$ via Eq. (27).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 4. EQUATIONS -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="equations">
+  <div class="section-label">Section 4</div>
+  <h2>Key Equations</h2>
+
+  <!-- Preferences -->
+  <h3>4.1 Household — Recursive Preferences</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (1) — Epstein–Zin Value Function</div>
+    $$V_t^{1-\psi} = U_t^{1-\psi} + \beta E_t\left(V_{t+1}^{1-\gamma}\right)^{\frac{1-\psi}{1-\gamma}}$$
+    <div class="eq-desc">$U_t = c_t(1-l_t)^\nu$ is period utility. $\gamma$ = risk aversion, $\hat\psi = 1-(1+\nu)(1-\psi)$ governs IES = $1/\hat\psi$. Preference for early resolution of uncertainty when $\gamma > \hat\psi$.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (2) — Household Budget Constraint</div>
+    $$(1+\tau_t)c_t + x_t + b_{t+1} = w_t l_t + r_t k_t + R_{t-1}b_t + T_t + \Theta$$
+    <div class="eq-desc">$\tau_t$ = consumption tax, $x_t$ = private investment, $b_t$ = domestic bonds, $T_t$ = transfers, $\Theta$ = remittances.</div>
+  </div>
+
+  <!-- Capital & Disasters -->
+  <h3>4.2 Private Capital &amp; Disaster Shocks</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (3)–(4) — Capital Accumulation with Disaster Destruction</div>
+    $$k_t^* = (1-\delta)k_t + \left(1 - S\!\left[\frac{x_t}{x_{t-1}}\right]\right)x_t$$
+    $$\log k_t = \log k_{t-1}^* - d_t\theta_t$$
+    <div class="eq-desc">$k_t^*$ = optimal capital after investment; $k_t$ = actual capital after disaster. $d_t \sim \text{Bernoulli}(p_d)$. If $d_t=1$, capital suffers permanent one-off depreciation $\theta_t$.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (5) — Disaster Size Process (Stochastic Volatility)</div>
+    $$\log\theta_t = (1-\rho_\theta)\log\bar\theta + \rho_\theta\log\theta_{t-1} + \sigma_\theta\epsilon_{\theta,t}$$
+    <div class="eq-desc">$\bar\theta$ = mean disaster size (calibrated to 6.65% GDP loss for DP countries). $\rho_\theta = 0.9$ persistence. $\sigma_\theta$ matches dispersion of damages.</div>
+  </div>
+
+  <!-- FOCs -->
+  <h3>4.3 Household First-Order Conditions</h3>
+
+  <div class="grid-2">
+    <div class="eq-block">
+      <div class="eq-label">Eq. (6) — Euler Equation</div>
+      $$1 = E_t M_{t+1} R_t$$
+      <div class="eq-desc">$M_{t+1} = \beta\frac{\lambda_{t+1}}{\lambda_t} \frac{V_{t+1}^{\psi-\gamma}}{E_t(V_{t+1}^{1-\gamma})^{(\psi-\gamma)/(1-\gamma)}}$ is the EZ stochastic discount factor.</div>
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (8) — Asset Price (Tobin's q)</div>
+      $$q_t = E_t\!\left(M_{t+1}e^{-d_{t+1}\theta_{t+1}}\left[r_{t+1}+q_{t+1}(1-\delta)\right]\right)$$
+      <div class="eq-desc">Disaster shock enters the capital pricing equation directly via $e^{-d_{t+1}\theta_{t+1}}$.</div>
+    </div>
+  </div>
+
+  <!-- Production -->
+  <h3>4.4 Production &amp; TFP</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (11) — Cobb–Douglas Production Function</div>
+    $$y_{i,t} = A_t\left(k_{i,t}^{1-\alpha_g}\bar{k}_{g,t}^{\alpha_g}\right)^\alpha l_{i,t}^{1-\alpha}$$
+    <div class="eq-desc">$\alpha$ = total capital share (0.32), $\alpha_g$ = public capital share (0.22). Public capital $\bar{k}_{g,t}$ enters as externality.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (12) — TFP Process with Disaster Hit</div>
+    $$\log A_t = \log A_{t-1} + \Lambda_A + z_{A,t} - (1-\alpha)\,d_t\theta_t$$
+    <div class="eq-desc">Disasters reduce TFP by $(1-\alpha)\theta_t$ to ensure output falls by $\theta_t$ (same as capital — see Appendix D). $\Lambda_A = 0.0035$ quarterly trend growth. No overshooting: growth rate reverts but level is permanently lower.</div>
+  </div>
+
+  <!-- Government -->
+  <h3>4.5 Government Sector</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (16)–(19) — Public Capital: Standard + Resilient</div>
+    $$\bar{k}_{g,t} = k_{g,t} + k_{ga,t-1}$$
+    $$k_{g,t}^* = (1-\delta_g)k_{g,t} + x_{g,t}, \qquad \log k_{g,t} = \log k_{g,t-1}^* - d_t\theta_t$$
+    $$k_{ga,t} = (1-\delta_g)k_{ga,t-1} + x_{ga,t}$$
+    <div class="eq-desc">Standard public capital $k_{g,t}$ is destroyed like private capital. Resilient capital $k_{ga,t}$ is immune. They are perfect substitutes in production.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (20) — Public Investment Reconstruction Rule</div>
+    $$\log\!\left(\frac{\tilde{x}_{g,t}}{\tilde{x}_g}\right) = \rho_{xg}\log\!\left(\frac{\tilde{x}_{g,t-1}}{\tilde{x}_g}\right) + \rho_{xd}\left(\frac{d_t\theta_t}{\bar{d}\bar\theta}\right)$$
+    <div class="eq-desc">$\rho_{xg}=0.95$ (inertia), $\rho_{xd}=1.5$ (responsiveness to disasters). Captures post-disaster reconstruction spending.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (21) — Government Budget Constraint</div>
+    $$b_{g,t} = R_{t-1}^* b_{g,t-1} + g + x_{g,t} + [1+(1-\vartheta)\iota]\,x_{ga,t} - \tau_t^c c_t + T_t - \phi_t$$
+    <div class="eq-desc">$\vartheta\in[0,1]$ = donor share of resilient capital extra cost $\iota$. $\phi_t$ = grants from donors.</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="eq-block">
+      <div class="eq-label">Eq. (22) — Tax Rule</div>
+      $$\log\!\left(\frac{\tau_t^c}{\tau^c}\right) = \rho_\tau\log\!\left(\frac{\tau_{t-1}^c}{\tau^c}\right) + \rho_{\tau b}\log\!\left(\frac{\tilde{b}_{g,t}}{\tilde{b}_g}\right)$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (24) — Sovereign Risk Premium</div>
+      $$R_t^* = R\,e^{\eta\left(\frac{b_{g,t}}{b_g}-1\right)}$$
+      <div class="eq-desc">$\eta=0$ in baseline; $\eta=0.01$ in risk-premium exercises (calibrated to Jamaica T-bill response).</div>
+    </div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (23) — Post-Disaster Grant Rule</div>
+    $$\log\!\left(\frac{\tilde\phi_t}{\tilde\phi}\right) = \rho_\phi\log\!\left(\frac{\tilde\phi_{t-1}}{\tilde\phi}\right) + (1-\rho_\phi)\,\rho_{\phi d}\left(\frac{d_t\theta_t}{\bar{d}\bar\theta}\right)$$
+    <div class="eq-desc">$\rho_\phi$ = persistence of disbursement; $\rho_{\phi d}$ = sensitivity to disaster magnitude.</div>
+  </div>
+
+  <!-- Welfare -->
+  <h3>4.6 Welfare Metric</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (27) — Consumption-Equivalent Welfare Loss</div>
+    $$\bar{V}^{\text{NDP}}\!\left\{(1-\omega)\,c_t^{\text{NDP}},\, l_t^{\text{NDP}}\right\} = \bar{V}^{\text{DP}}\!\left\{c_t^{\text{DP}},\, l_t^{\text{DP}}\right\}$$
+    <div class="eq-desc">$\omega\times 100$ = permanent % consumption loss NDP households must suffer to be as well off as DP households. Baseline: $\omega=5.3\%$.</div>
+  </div>
+
+  <!-- Market clearing -->
+  <h3>4.7 Market Clearing &amp; Balance of Payments</h3>
+
+  <div class="grid-2">
+    <div class="eq-block">
+      <div class="eq-label">Eq. (25) — Resource Constraint</div>
+      $$y_t = c_t + x_t + g + x_{g,t} + [1+(1-\vartheta)\iota]\,x_{ga,t} + nx_t$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (26) — Balance of Payments</div>
+      $$-(b_{g,t}-b_{g,t-1}) = nx_t + \phi_t - (R_{t-1}^*-1)b_{g,t-1} + \Theta$$
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 5. SOLUTION METHOD -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="solution">
+  <div class="section-label">Section 5</div>
+  <h2>Solution Method — Taylor Projection</h2>
+
+  <p>The model is solved using <strong>third-order Taylor projection</strong> (Levintal 2018; Fernández-Villaverde &amp; Levintal 2018), which combines:</p>
+
+  <div class="grid-2">
+    <div class="card accent-border">
+      <div class="card-title">How Taylor Projection Works</div>
+      <ul class="clean">
+        <li><strong>Grid from projection methods</strong> — approximate the policy function at multiple points of the state space (like Smolyak collocation)</li>
+        <li><strong>Taylor expansions</strong> — at each grid point, use Taylor series (up to 3rd order) to solve the local system of expectations equations</li>
+        <li>Result: a <em>semi-global</em> solution accurate for large nonlinearities — much better than perturbation around a single point</li>
+      </ul>
+    </div>
+    <div class="card teal-border">
+      <div class="card-title">Why Not Perturbation?</div>
+      <ul class="clean">
+        <li>1st-order perturbation: max Euler errors as bad as $-0.1$ (severely inaccurate)</li>
+        <li>3rd-order perturbation: mean Euler errors $-1.8$ to $-2.5$ (still poor)</li>
+        <li>2nd–3rd order Taylor projection: mean Euler errors $-3.6$ to $-6.9$ (solidly accurate)</li>
+        <li>Also faster than 5th-order perturbation and 3rd-order Smolyak collocation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Why This Matters for Disaster Models</div>
+    Natural disaster shocks are <strong>large and rare</strong> — exactly the case where linearization fails catastrophically. The model needs to capture how a 25% GDP shock (Hurricane Matthew) propagates differently from a 6.65% average shock. Taylor projection handles this nonlinearity accurately.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 6. CALIBRATION -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="calibration">
+  <div class="section-label">Section 6</div>
+  <h2>Calibration — Key Parameters</h2>
+
+  <p>Quarterly frequency. Calibrated to average EMDE. Disaster-prone and non-disaster-prone differ <em>only</em> in disaster distribution.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Symbol</th><th>Value</th><th>Source / Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Discount factor</td><td>$\beta$</td><td>0.983</td><td>Garcia-Cicco et al. (2010); annual rate 8.52%</td></tr>
+        <tr><td>Capital share</td><td>$\alpha$</td><td>0.32</td><td>Garcia-Cicco et al. (2010)</td></tr>
+        <tr><td>Public capital share</td><td>$\alpha_g$</td><td>0.22</td><td>Matches 16% private I/Y ratio</td></tr>
+        <tr><td>Risk aversion (EZ)</td><td>$\gamma$</td><td>3.8</td><td>Gourio (2012) — lower bound for DP countries</td></tr>
+        <tr><td>Inverse IES</td><td>$\hat\psi$</td><td>0.5</td><td>Standard in literature</td></tr>
+        <tr><td>TFP trend growth</td><td>$\Lambda_A$</td><td>0.0035</td><td>Araujo et al. (2016)</td></tr>
+        <tr><td>Investment adj. cost</td><td>$\kappa$</td><td>12</td><td>Schubert &amp; Turnovsky (2011)</td></tr>
+        <tr><td>Private depreciation</td><td>$\delta$</td><td>0.025</td><td>Shen et al. (2018)</td></tr>
+        <tr><td>Public depreciation</td><td>$\delta_g$</td><td>0.0125</td><td>Half of private</td></tr>
+        <tr><td>Public debt / annual GDP</td><td>$b_g/(4y)$</td><td>0.58</td><td>WDI + IMF WEO average</td></tr>
+        <tr><td>Consumption tax</td><td>$\tau^c$</td><td>0.21</td><td>Matches 15% tax revenue/GDP</td></tr>
+        <tr><td colspan="4" style="color:var(--accent); font-weight:600; padding-top:1rem">Disaster Shocks — Disaster-Prone</td></tr>
+        <tr><td>Annual probability</td><td>$p_d$</td><td>16.2%</td><td>EM-DAT top 25%</td></tr>
+        <tr><td>Mean disaster size</td><td>$\bar\theta$</td><td>0.0688</td><td>$\bar\theta = -\log(1-0.0665)$</td></tr>
+        <tr><td>Std dev disaster risk</td><td>$\sigma_\theta$</td><td>0.127</td><td>Matches 28% quarterly dispersion</td></tr>
+        <tr><td colspan="4" style="color:var(--success); font-weight:600; padding-top:1rem">Disaster Shocks — Non-Disaster-Prone</td></tr>
+        <tr><td>Annual probability</td><td>$p_d$</td><td>0.28%</td><td>EM-DAT bottom 75%</td></tr>
+        <tr><td>Mean disaster size</td><td>$\bar\theta$</td><td>0.0052</td><td>$-\log(1-0.0052)$</td></tr>
+        <tr><td>Std dev disaster risk</td><td>$\sigma_\theta$</td><td>0.017</td><td>Matches 3.5% quarterly dispersion</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 7. RESULTS -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="results">
+  <div class="section-label">Section 7</div>
+  <h2>Key Results</h2>
+
+  <div class="grid-2">
+    <div class="card accent-border">
+      <div class="card-title">Baseline (DP vs NDP)</div>
+      <div class="table-wrap">
+        <table>
+          <tr><td>Annual GDP growth gap</td><td style="color:var(--red); font-weight:600">−0.96 pp</td></tr>
+          <tr><td>Public debt gap (% ann. GDP)</td><td style="color:var(--red); font-weight:600">+1.56 pp</td></tr>
+          <tr><td>GDP after 30 years</td><td style="color:var(--red); font-weight:600">−37.1%</td></tr>
+          <tr><td>Consumption after 30 years</td><td style="color:var(--red); font-weight:600">−39.0%</td></tr>
+          <tr><td>Welfare loss (CE)</td><td style="color:var(--warn); font-weight:700">5.30%</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card warn-border">
+      <div class="card-title">Climate Change (higher prob + damages)</div>
+      <div class="table-wrap">
+        <table>
+          <tr><td>Annual GDP growth gap</td><td style="color:var(--red); font-weight:600">−2.70 pp</td></tr>
+          <tr><td>Public debt gap</td><td style="color:var(--red); font-weight:600">+11.6 pp</td></tr>
+          <tr><td>GDP after 30 years</td><td style="color:var(--red); font-weight:600">−114%</td></tr>
+          <tr><td>Welfare loss (CE)</td><td style="color:var(--warn); font-weight:700">24.0%</td></tr>
+          <tr><td>With sov. risk premium</td><td style="color:var(--warn); font-weight:700">30.8%</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <h3>IRF Insights</h3>
+  <p>An average disaster (6.65% of GDP) causes output to fall sharply, with recovery taking about <strong>3 years</strong> — but the level of GDP is permanently lower (no overshooting in TFP growth). A Hurricane Matthew–scale shock (25% of GDP) shows GDP still far from pre-disaster level after 5 years, with much more persistent effects — illustrating the <strong>nonlinear amplification</strong> the model captures.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 8. POLICY -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="policy">
+  <div class="section-label">Section 8</div>
+  <h2>Policy Analysis</h2>
+
+  <div class="grid-2">
+    <div class="card" style="border-top: 3px solid var(--warn)">
+      <div class="card-title" style="color:var(--warn)">Ex-Post: Post-Disaster Grants</div>
+      <ul class="clean">
+        <li>Welfare gains are monotonically increasing in grant size</li>
+        <li>To <strong>eliminate</strong> the 5.3% welfare loss: need avg. yearly grant of <strong>7.4% of GDP</strong> (~$602M for avg. DP country) — far exceeds actual aid</li>
+        <li>Grant timing matters less than size (discounting favors immediate disbursement but effect is second-order)</li>
+        <li>Actual post-Hurricane Matthew aid (IMF RCF $41.6M + US $105M) = tiny fraction of what's needed</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--success)">
+      <div class="card-title" style="color:var(--success)">Ex-Ante: Resilient Infrastructure</div>
+      <ul class="clean">
+        <li>Self-financing resilience yields <strong>small welfare gains</strong> (extra cost $\iota=50\%$ generates fiscal burden)</li>
+        <li>If donors finance 100% of extra cost ($\vartheta=1$): welfare loss eliminated at <strong>85% resilient share</strong>, costing yearly grant of <strong>1.8% of GDP</strong> (~$143M)</li>
+        <li>This is <strong>less than a quarter</strong> of the ex-post grant needed — ex-ante is ~4× more cost-effective</li>
+        <li>Even partial donor support ($\vartheta=0.5$) yields substantially better outcomes than ex-post grants alone</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Main Policy Finding</div>
+    International aid financing <strong>ex-ante resilient infrastructure</strong> is roughly <strong>4 times more cost-effective</strong> than ex-post disaster relief grants. Donors need to disburse ~$143M/year for resilience vs. ~$602M/year for post-disaster elimination of welfare losses.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 9. THESIS LINK -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="thesis">
+  <div class="section-label">Section 9</div>
+  <h2>Relevance to Your Thesis</h2>
+
+  <div class="thesis-box">
+    <h3>🇮🇩 Your Thesis: Regional Economic Linkages, Recovery Dynamics &amp; Rare Natural Disasters — DSGE for Indonesia</h3>
+
+    <p>This paper is a key building block for your work. Here's a mapping of Cantelmo et al. (2023) to your research questions:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th style="width:40%">Your Research Question</th><th>What CMP (2023) Provides</th><th>What You Need to Extend</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>RQ1:</strong> Which policy interventions are most effective post-disaster?</td>
+            <td>Comparison framework: ex-post grants vs. ex-ante resilient capital. Welfare metric (CE loss). Grant rule (Eq. 23).</td>
+            <td>Add <em>regional transfer mechanisms</em>, central-vs-local fiscal rules, Indonesia-specific policies (Dana Desa, BNPB allocations)</td>
+          </tr>
+          <tr>
+            <td><strong>RQ2:</strong> How to capture regional structure, rare disasters, and recovery?</td>
+            <td>Full DSGE template: EZ preferences, disaster shocks, capital destruction + TFP hit, reconstruction rule, Taylor projection.</td>
+            <td>Extend to <strong>two-region</strong> (affected vs. non-affected) with interregional trade/linkages, possibly à la Nakamura &amp; Steinsson (2014) or regional DSGE literature</td>
+          </tr>
+          <tr>
+            <td><strong>RQ3:</strong> How do disasters affect output/consumption/welfare across regions?</td>
+            <td>Single-country welfare computation (Eq. 27), divergence analysis (Table 4–5).</td>
+            <td>Compute <em>regional</em> welfare losses, study <strong>spillovers</strong> from disaster-affected to non-affected region via trade/supply chains</td>
+          </tr>
+          <tr>
+            <td><strong>RQ4:</strong> How does recovery speed affect persistence of losses?</td>
+            <td>Reconstruction rule parameters ($\rho_{xg}, \rho_{xd}$), persistence of disaster risk ($\rho_\theta$), robustness checks on these.</td>
+            <td>Make recovery speed <strong>endogenous</strong> or dependent on regional capacity. Calibrate to Indonesian disaster data (BNPB, EM-DAT for Indonesia)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:1.5rem">Key Modeling Choices to Borrow</h3>
+    <ul class="clean">
+      <li><strong>Disaster shock structure</strong>: binary $d_t$ × magnitude $\theta_t$ with AR(1) process — clean and flexible</li>
+      <li><strong>Permanent level effect</strong>: capital destruction + TFP hit → no overshooting. Well-supported empirically.</li>
+      <li><strong>Epstein–Zin preferences</strong>: essential for precautionary savings channel under disaster risk</li>
+      <li><strong>Resilient capital concept</strong>: directly applicable to Indonesian infrastructure resilience programs</li>
+      <li><strong>Taylor projection</strong>: if you keep rare/large shocks, you need a nonlinear solution method</li>
+    </ul>
+
+    <h3 style="margin-top:1.5rem">Key Extensions for Your Work</h3>
+    <ul class="clean">
+      <li><strong>Two-region structure</strong>: Disaster hits Region A; Region B linked via trade (intermediate goods, labor mobility). This is absent in CMP 2023.</li>
+      <li><strong>Regional fiscal policy</strong>: Central government transfers vs. local fiscal adjustment — Indonesia-specific institutional structure</li>
+      <li><strong>Indonesia calibration</strong>: disaster probabilities for specific provinces/islands, GDP shares, trade shares between regions</li>
+      <li><strong>Recovery dynamics</strong>: endogenize reconstruction speed (capacity constraints, logistics, governance quality)</li>
+      <li><strong>Pass-through to prices</strong>: if linking to your commodity currency work, could add an exchange rate channel</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- OTHER IMPORTANT -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="other">
+  <div class="section-label">Section 10</div>
+  <h2>Other Important Details</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Stochastic vs. Deterministic Steady State</div>
+      <p style="font-size:13.5px">At the <em>stochastic</em> steady state (SSS), GDP of DP countries is already <strong>2.3% lower</strong> than NDP — purely from disaster risk, with no actual shocks hitting. This is the <em>ex-ante</em> channel: agents' forward-looking behavior shifts equilibrium. The SSS is obtained by simulating 100 quarters without shocks from the deterministic SS.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Two Channels of Disaster Effects</div>
+      <p style="font-size:13.5px"><strong>Disaster risk</strong> (ex-ante): shifts stochastic steady state, induces precautionary savings, affects asset prices even without shocks. <strong>Disaster strikes</strong> (ex-post): actual realizations destroy capital/TFP, trigger reconstruction, raise debt and taxes. Both contribute to the 5.3% welfare loss.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Detrending</div>
+      <p style="font-size:13.5px">Variables detrended by $z_t = A_t^{1/(1-\alpha)}$ to achieve stationarity. Growth rates: $\hat{z}_t = z_t/z_{t-1}$. The full stationary system (35 equations) is in Appendix C.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Robustness</div>
+      <p style="font-size:13.5px">Results survive: alternative disaster distributions (Barro-style 1% GDP threshold), different fiscal rule parameters ($\rho_{\tau b}$, $\rho_\tau$), different public investment responsiveness ($\rho_{xd}$), doubled public depreciation rate, lower disaster risk persistence ($\rho_\theta=0.5$). GDP growth gap robust to second decimal digit.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border: 1px solid var(--border-accent)">
+    <div class="card-title">Complete List of Shocks</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Shock</th><th>Type</th><th>Process</th><th>Key Parameters</th></tr></thead>
+        <tbody>
+          <tr><td>Disaster occurrence $d_t$</td><td>Binary i.i.d.</td><td>Bernoulli($p_d$)</td><td>$p_d = 0.162$ (DP), $0.0028$ (NDP)</td></tr>
+          <tr><td>Disaster size $\theta_t$</td><td>Continuous AR(1)</td><td>Log-normal with stochastic volatility</td><td>$\bar\theta$, $\rho_\theta=0.9$, $\sigma_\theta$</td></tr>
+          <tr><td>TFP shock $z_{A,t}$</td><td>Continuous AR(1)</td><td>Normal</td><td>$\rho_{zA}=0.5$, $\sigma_{zA}=0.025$</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>Explainer of Cantelmo, Melina &amp; Papageorgiou (2023), <em>J. Dev. Econ.</em> 161. Prepared as a reference for thesis research on natural disasters and DSGE modeling.</p>
+</footer>
+
+</body>
+</html>

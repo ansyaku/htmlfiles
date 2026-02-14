@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Razafindrabe (2016) — Multi-Country DSGE with Incomplete ERPT</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #faf8f4;
+    --accent: #c0392b;
+    --accent2: #2c3e50;
+    --muted: #7f8c8d;
+    --border: #d5cec0;
+    --highlight: #fef3e0;
+    --card-bg: #ffffff;
+    --flow-bg: #f0ece4;
+    --eq-bg: #fdfcfa;
+    --shadow: rgba(26,26,46,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.75;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  .hero {
+    position: relative;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+    color: #fff;
+    padding: 4rem 2rem 3.5rem;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30h60M30 0v60' stroke='%23ffffff' stroke-opacity='0.04' stroke-width='1'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .hero h1 em {
+    color: #e74c3c;
+    font-style: normal;
+  }
+  .hero .meta {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 1.5rem;
+  }
+  .hero .meta strong { color: rgba(255,255,255,0.9); }
+  .hero .purpose-box {
+    background: rgba(255,255,255,0.07);
+    border-left: 3px solid #e74c3c;
+    padding: 1rem 1.25rem;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.8);
+    max-width: 720px;
+  }
+  .hero .purpose-box strong { color: #fff; }
+
+  /* ── THESIS CONTEXT BANNER ── */
+  .thesis-banner {
+    background: linear-gradient(90deg, #fef3e0 0%, #fdf0d5 100%);
+    border-bottom: 1px solid #e8d5a3;
+    padding: 1.5rem 2rem;
+  }
+  .thesis-banner-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .thesis-banner .icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .thesis-banner .content { font-size: 0.88rem; color: #5d4e37; }
+  .thesis-banner .content strong { color: var(--accent); }
+  .thesis-banner .rq {
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid #c0392b55;
+    font-style: italic;
+    font-size: 0.84rem;
+    color: #7a6b55;
+  }
+
+  /* ── NAV ── */
+  .toc {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .toc-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-inner::-webkit-scrollbar { display: none; }
+  .toc a {
+    display: block;
+    padding: 0.75rem 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .toc a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  section {
+    padding-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.65rem;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+    position: relative;
+    padding-left: 1.1rem;
+  }
+  h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    width: 4px;
+    height: 1.1em;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  .section-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-top: 2rem;
+    margin-bottom: 0.6rem;
+    color: var(--accent2);
+  }
+
+  p { margin-bottom: 1rem; }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 640px) {
+    .card-grid { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow);
+  }
+  .card .card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .card .card-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    color: var(--accent2);
+  }
+  .card .card-body {
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* ── FEATURE LIST ── */
+  .feature-list {
+    list-style: none;
+    margin: 1.25rem 0;
+    padding: 0;
+  }
+  .feature-list li {
+    position: relative;
+    padding: 0.75rem 0 0.75rem 2rem;
+    border-bottom: 1px solid #eee;
+    font-size: 0.92rem;
+  }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list li::before {
+    content: attr(data-num);
+    position: absolute;
+    left: 0;
+    top: 0.75rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+
+  /* ── EQUATION BLOCKS ── */
+  .eq-block {
+    background: var(--eq-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+    overflow-x: auto;
+  }
+  .eq-block .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .eq-block .eq-note {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 0.6rem;
+    font-style: italic;
+  }
+
+  /* ── FLOWCHART ── */
+  .flow-container {
+    background: var(--flow-bg);
+    border-radius: 8px;
+    padding: 2rem 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+  }
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .flow-step {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 2px 8px var(--shadow);
+    position: relative;
+  }
+  .flow-step.highlight {
+    border-color: var(--accent);
+    background: #fef9f7;
+  }
+  .flow-step .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+  .flow-step .step-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+  }
+  .flow-step .step-desc {
+    font-size: 0.84rem;
+    color: #555;
+    line-height: 1.55;
+  }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    color: var(--accent);
+    font-size: 1.2rem;
+  }
+
+  /* ── AGENTS TABLE ── */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+  }
+  @media (max-width: 700px) {
+    .agents-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .agent-card {
+    text-align: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 0.75rem;
+    box-shadow: 0 1px 4px var(--shadow);
+  }
+  .agent-card .agent-icon { font-size: 1.6rem; margin-bottom: 0.4rem; }
+  .agent-card .agent-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    margin-bottom: 0.2rem;
+    color: var(--accent2);
+  }
+  .agent-card .agent-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── INFO BOX ── */
+  .info-box {
+    background: #eef4fb;
+    border: 1px solid #bdd4ec;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    font-size: 0.88rem;
+    color: #2c3e6d;
+  }
+  .info-box.warn {
+    background: #fef3e0;
+    border-color: #e8d5a3;
+    color: #5d4e37;
+  }
+  .info-box strong { color: var(--accent2); }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1.25rem 0;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+  }
+  thead {
+    background: var(--accent2);
+    color: #fff;
+  }
+  th {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid #eee;
+  }
+  tbody tr:nth-child(even) { background: #fafaf8; }
+  tbody tr:hover { background: #f5f0e8; }
+
+  /* ── VARIANCE TABLE ── */
+  .var-table td:first-child { font-weight: 600; color: var(--accent2); }
+
+  /* ── RELEVANCE SECTION ── */
+  .relevance-box {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+    color: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  .relevance-box h3 {
+    color: #e74c3c;
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  .relevance-box p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.7;
+  }
+  .relevance-box strong { color: #fff; }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1rem 0;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── KaTeX overrides ── */
+  .katex { font-size: 1.05em; }
+  .eq-block .katex-display { margin: 0.3em 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Paper Decomposition &amp; Reference Guide</div>
+    <h1>A Multi-Country DSGE Model with <em>Incomplete Exchange Rate Pass-Through</em></h1>
+    <div class="meta">
+      <strong>Tovonony M. Razafindrabe</strong> · <em>Economic Modelling</em> 52 (2016), 78–100<br>
+      EconomiX, Université Paris Ouest Nanterre la Défense
+    </div>
+    <div class="purpose-box">
+      <strong>Core objective:</strong> Develop and estimate a multi-country open-economy DSGE model with incomplete exchange rate pass-through (ERPT) for the Euro-area, using GVAR-estimated steady states and Bayesian methods, to study how exchange rate shocks transmit into import prices under nominal rigidity.
+    </div>
+  </div>
+</header>
+
+<!-- ═══ THESIS CONTEXT ═══ -->
+<div class="thesis-banner">
+  <div class="thesis-banner-inner">
+    <div class="icon">🎓</div>
+    <div class="content">
+      <strong>Your thesis context:</strong> This paper is a key reference for building a multi-region DSGE with incomplete pass-through. The multi-country structure, GVAR steady-state estimation, and import-price nominal rigidity framework can be adapted for your <strong>Indonesian regional disaster DSGE</strong> — replacing countries with provinces/regions and exchange-rate shocks with disaster shocks.
+      <div class="rq">RQ: How do rare natural disasters affect output, consumption, and welfare across disaster-affected and non-affected regions with interregional linkages?</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOC ═══ -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#problem">Problem</a>
+    <a href="#features">Model Features</a>
+    <a href="#flow">Flowchart</a>
+    <a href="#equations">Equations</a>
+    <a href="#estimation">Estimation</a>
+    <a href="#results">Key Results</a>
+    <a href="#relevance">Relevance</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══ 1. PROBLEM ═══ -->
+<section id="problem">
+  <h2>The Core Problem</h2>
+  <div class="section-sub">Section 1 — What this paper solves</div>
+
+  <p>Exchange rate movements do not fully pass through into import prices — this is the <strong>incomplete ERPT</strong> phenomenon. This matters for monetary policy, inflation dynamics, and international shock transmission. The paper addresses three intertwined gaps in the literature:</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🔗</div>
+      <div class="card-title">Gap 1: Endogenous Linkages</div>
+      <div class="card-body">Most open-economy DSGE models assume a <em>small open economy</em> where foreign variables are exogenous. This ignores feedback — domestic shocks affecting trade partners and vice versa. Razafindrabe relaxes this by modeling N countries of different sizes that are endogenously linked through trade.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📉</div>
+      <div class="card-title">Gap 2: Incomplete ERPT Mechanism</div>
+      <div class="card-body">The paper embeds incomplete ERPT via <em>nominal import price rigidity</em> (Calvo pricing by importing firms), following Monacelli (2005). This creates a law-of-one-price gap that generates a new monetary policy trade-off between output stabilization and l.o.p gap stabilization.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <div class="card-title">Gap 3: Steady-State Estimation</div>
+      <div class="card-body">Instead of using ad-hoc statistical filters (HP filter) which are a "black box", the paper uses a <em>Global VAR</em> to estimate steady states via long-horizon forecasts, capturing cointegration between domestic and foreign variables plus common global factors like oil prices.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💱</div>
+      <div class="card-title">Gap 4: Bilateral vs. Multilateral ERPT</div>
+      <div class="card-body">The multi-country specification allows distinguishing between pass-through from bilateral exchange rate changes versus effective (multilateral) exchange rate changes, highlighting the role of <em>currency invoicing</em> and <em>trade partner market share</em>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 2. MODEL FEATURES ═══ -->
+<section id="features">
+  <h2>Model Features</h2>
+  <div class="section-sub">Section 2 — Architecture of the DSGE</div>
+
+  <h3>Economies &amp; Agents</h3>
+  <p>The world consists of $N$ open economies indexed by $i \in \{1, \dots, N\}$, differing in population size, degree of openness, and international portfolio diversification. The Euro-area is the numeraire country. In the empirical application: Euro-area, UK, China, US, Japan, Switzerland.</p>
+
+  <div class="agents-grid">
+    <div class="agent-card">
+      <div class="agent-icon">🏭</div>
+      <div class="agent-name">Domestic Firms</div>
+      <div class="agent-desc">Monopolistic, Calvo pricing, single good, labor-only production</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">🚢</div>
+      <div class="agent-name">Importing Firms</div>
+      <div class="agent-desc">Buy homogeneous goods abroad, sell to domestic consumers with Calvo price setting → source of incomplete ERPT</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">👤</div>
+      <div class="agent-name">Households</div>
+      <div class="agent-desc">Monopolistic labor supply, Calvo wages, external habit, Cobb-Douglas consumption over home &amp; foreign goods</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">🏦</div>
+      <div class="agent-name">Central Bank</div>
+      <div class="agent-desc">Taylor-type rule responding to inflation, output gap, l.o.p gap, and their changes</div>
+    </div>
+  </div>
+
+  <h3>Key Model Features</h3>
+  <ul class="feature-list">
+    <li data-num="01">Multi-country (not small open economy): $N$ countries with asymmetric trade flows captured by import share matrix $M$ with elements $\alpha_{ij}$</li>
+    <li data-num="02">Incomplete ERPT via Calvo import pricing: importing firms set prices in staggered fashion → law-of-one-price gap $\Psi_{it}$</li>
+    <li data-num="03">Home consumption bias: $\max_{i \neq j} \alpha_{ij} < \alpha_{ii} < 1$</li>
+    <li data-num="04">External habit formation: $H_{it} = h C_{it-1}$, generating real exchange rate volatility and persistence</li>
+    <li data-num="05">Monopolistic wage setting à la Calvo with indexation to past CPI inflation</li>
+    <li data-num="06">Complete international asset markets → risk sharing and UIP conditions</li>
+    <li data-num="07">Seven structural shocks per country: exchange rate, technology, monetary policy, inflation targeting, wage markup, price markup, preference</li>
+    <li data-num="08">GVAR-based steady-state estimation capturing global interdependencies, cointegration, and oil prices as a common global factor</li>
+  </ul>
+</section>
+
+<!-- ═══ 3. FLOWCHART ═══ -->
+<section id="flow">
+  <h2>Model &amp; Estimation Workflow</h2>
+  <div class="section-sub">Section 3 — From theory to empirical results</div>
+
+  <div class="flow-container">
+    <div class="flow">
+
+      <div class="flow-step">
+        <div class="step-num">Step 1 — Theoretical Model</div>
+        <div class="step-title">Derive Multi-Country DSGE Equilibrium</div>
+        <div class="step-desc">
+          For each country $i$: solve household optimization (Euler, wage setting), domestic firm pricing (Calvo), importing firm pricing (Calvo → l.o.p gap), market clearing. Combine risk sharing + UIP + trade structure.
+        </div>
+      </div>
+
+      <div class="flow-arrow">▼</div>
+
+      <div class="flow-step">
+        <div class="step-num">Step 2 — Canonical Representation</div>
+        <div class="step-title">Reduce to 4 Core Equations + Monetary Rule</div>
+        <div class="step-desc">
+          (i) New Keynesian Phillips Curve (domestic inflation), (ii) Import price inflation law of motion, (iii) Dynamic IS equation (matrix form linking outputs via $M$), (iv) Monetary policy rule with l.o.p gap. This preserves tractability despite the multi-country complexity.
+        </div>
+      </div>
+
+      <div class="flow-arrow">▼</div>
+
+      <div class="flow-step highlight">
+        <div class="step-num">Step 3 — GVAR Steady-State Estimation</div>
+        <div class="step-title">Estimate Steady States via Global VAR Long-Horizon Forecasts</div>
+        <div class="step-desc">
+          Estimate a cointegrating GVAR with trade-weighted foreign variables. Decompose each variable into permanent (deterministic trend + Beveridge-Nelson stochastic trend) and transitory components. Steady state = permanent component. Variables: output, interest rate, PPI inflation, IPI inflation, exchange rate, real wage, oil price.
+        </div>
+      </div>
+
+      <div class="flow-arrow">▼</div>
+
+      <div class="flow-step">
+        <div class="step-num">Step 4 — Compute Deviations</div>
+        <div class="step-title">Observable Variables as Deviations from GVAR Steady States</div>
+        <div class="step-desc">
+          $\hat{x}_t = x_t - \bar{x}_t$ where $\bar{x}_t$ is the GVAR-estimated steady state (long-horizon forecast). This replaces HP-filtering or linear detrending with an economically interpretable alternative.
+        </div>
+      </div>
+
+      <div class="flow-arrow">▼</div>
+
+      <div class="flow-step">
+        <div class="step-num">Step 5 — Bayesian Estimation</div>
+        <div class="step-title">Estimate Structural Parameters via Metropolis-Hastings</div>
+        <div class="step-desc">
+          Parameters estimated in 3 blocks (behavioral, nominal frictions, monetary policy) to manage dimensionality. 100,000 draws per block. Priors based on Smets &amp; Wouters (2003), Adolfson et al. (2007). Calibrated: $\beta = 0.99$, import shares $\alpha_{ij}$ from trade data (1999–2011 averages).
+        </div>
+      </div>
+
+      <div class="flow-arrow">▼</div>
+
+      <div class="flow-step">
+        <div class="step-num">Step 6 — Analysis</div>
+        <div class="step-title">IRFs, Variance Decomposition, ERPT Analysis</div>
+        <div class="step-desc">
+          Impulse responses to exchange rate shocks (bilateral vs. multilateral), monetary policy, markup, preference, inflation targeting shocks. Conditional variance decomposition of Euro-area import price inflation over 8 quarters. Robustness: pre-crisis subsample, linear detrending benchmark.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 4. EQUATIONS ═══ -->
+<section id="equations">
+  <h2>Equation Inventory</h2>
+  <div class="section-sub">Section 4 — Complete list of model equations</div>
+
+  <!-- Exchange rates -->
+  <h3>A. Exchange Rates &amp; Terms of Trade</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Bilateral Nominal Exchange Rate (log-linear)</div>
+    $$\hat{e}_{ijt} = \hat{e}_{it} - \hat{e}_{jt}$$
+    <div class="eq-note">Country 1 (Euro-area) is the numeraire, so $\hat{e}_{1t} = 0$.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Effective Real Exchange Rate</div>
+    $$q_{it} = \left(\hat{e}_{it} - \hat{p}_{it}\right) - \sum_{j=1}^{N} \alpha_{ij}\left(\hat{e}_{jt} - \hat{p}_{jt}\right)$$
+    <div class="eq-note">$\hat{p}_{it}$ = CPI of country $i$; $\alpha_{ij}$ = import share of goods from $j$ in $i$'s consumption basket.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Bilateral Terms of Trade</div>
+    $$\hat{s}_{ijt} = \hat{p}_{ijt} - \hat{p}^d_{it}$$
+    <div class="eq-note">Price of imports from $j$ relative to domestic PPI.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Effective Terms of Trade</div>
+    $$\hat{s}_{it} = \hat{p}^f_{it} - (1 - \alpha_{ii})\hat{p}^d_{it} = \hat{p}_{it} - \hat{p}^d_{it}$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">CPI–PPI–IPI Inflation Link</div>
+    $$\hat{\pi}_{it} = \hat{\pi}^f_{it} + \alpha_{ii}\hat{\pi}^d_{it}$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Aggregate Import Inflation</div>
+    $$\hat{\pi}^f_{it} = \sum_{\substack{j=1 \\ j \neq i}}^{N} \alpha_{ij}\hat{\pi}^{jf}_{it}$$
+  </div>
+
+  <!-- Incomplete PT -->
+  <h3>B. Incomplete Pass-Through &amp; Law-of-One-Price Gap</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Bilateral L.O.P. Gap</div>
+    $$\psi_{ij,t} = \hat{e}_{ijt} + \hat{p}^d_{jt} - \hat{p}_{ijt}$$
+    <div class="eq-note">Measures deviation between foreign prices (at the dock) and domestic-currency import prices.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Effective L.O.P. Gap</div>
+    $$\Psi_{it} = \sum_{j=1}^{N} \alpha_{ij}\psi_{ij,t} = q_{it} - \sum_{j=1}^{N}\alpha_{ij}\hat{s}_{jt}$$
+    <div class="eq-note">Two sources of PPP deviation: relative price variations (terms of trade) and l.o.p deviations.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">CPI–PPI Relationship (matrix form)</div>
+    $$\hat{e}_t - \hat{p}_t = M\left(\hat{e}_t - \hat{p}^d_t\right) + \Psi_t$$
+    <div class="eq-note">$M$ is the $N \times N$ import share matrix.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Real Exchange Rate in Terms of L.O.P. Gap</div>
+    $$q_t = (I_N - M)\,M\left(\hat{e}_t - \hat{p}^d_t\right) + (I_N - M)\,\Psi_t$$
+  </div>
+
+  <!-- Risk sharing & UIP -->
+  <h3>C. International Risk Sharing &amp; UIP</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">International Risk Sharing Condition</div>
+    $$\hat{c}_{it} - h\hat{c}_{it-1} = \hat{c}_{jt} - h\hat{c}_{jt-1} + (1-h)\hat{q}_{ijt}$$
+    <div class="eq-note">Under complete markets. Incomplete ERPT distorts this via its impact on the real exchange rate.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Uncovered Interest Parity</div>
+    $$E_t\left\{\Delta\hat{e}_{ijt+1}\right\} = \hat{r}^n_{it} - \hat{r}^n_{jt}$$
+  </div>
+
+  <!-- Households -->
+  <h3>D. Households</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Consumption Index (Cobb-Douglas)</div>
+    $$C_{it} = \frac{\prod_{j=1}^{N} C_{ijt}^{\alpha_{ij}}}{\prod_{j=1}^{N} \alpha_{ij}^{\alpha_{ij}}}$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Euler Equation (log-linearized)</div>
+    $$\hat{c}_{it} = \frac{h}{1+h}\hat{c}_{it-1} + \frac{1}{1+h}E_t\{\hat{c}_{it+1}\} - \frac{1-h}{1+h}\left(\hat{r}^n_{it} - E_t\{\hat{\pi}_{it+1}\}\right)$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Wage Markup / Labor Market Friction</div>
+    $$\hat{\mu}^w_{it} = \hat{w}_{it} - \hat{p}_{it} - \psi\hat{l}_{it} - \frac{1}{1-h}\left(\hat{c}_{it} - h\hat{c}_{it-1}\right)$$
+    <div class="eq-note">Difference between real wage and marginal rate of substitution.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Real Wage Law of Motion</div>
+    $$\widehat{wr}_{it} = \frac{1}{1+\beta}\widehat{wr}_{it-1} + \frac{\beta}{1+\beta}E_t\{\widehat{wr}_{it+1}\} + \frac{\gamma^w_i}{1+\beta}\hat{\pi}_{it-1} - \frac{1+\beta\gamma^w_i}{1+\beta}\hat{\pi}_{it} + \frac{\beta}{1+\beta}E_t\{\hat{\pi}_{it+1}\} - \delta^w_i\hat{\mu}^w_{it} + \delta^w_i\varepsilon^w_{it}$$
+    <div class="eq-note">where $\delta^w_i = \frac{(1-\theta_{iW})(1-\beta\theta_{iW})}{(1+\beta)\theta_{iW}k_w}$</div>
+  </div>
+
+  <!-- Firms -->
+  <h3>E. Domestic Firms</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Production Function</div>
+    $$Y_{it}(f_i) = A_{it}L_{it}(f_i)$$
+    <div class="eq-note">Labor-only with aggregate technology $A_{it}$; $\hat{a}_{it} = \rho_{a_i}\hat{a}_{it-1} + \varepsilon^a_{it}$</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Real Marginal Cost (deflated by PPI)</div>
+    $$\widehat{mc}_{it} = \hat{w}_{it} - \hat{p}^d_{it} - \hat{a}_{it}$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Marginal Cost (substituted)</div>
+    $$\widehat{mc}_{it} = \frac{1}{1-h}\left[(1+\psi)(1-h)\hat{y}_{it} - h\hat{y}_{it-1} - h\Phi_{it}\right] + \hat{\mu}^w_{it} - (1+\psi)\hat{a}_{it}$$
+    <div class="eq-note">$\Phi_{it}$ = effective real interest rate differential, defined below.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Domestic Inflation Dynamics (Phillips Curve input)</div>
+    $$\hat{\pi}^d_{it} = \frac{\gamma^d_i}{1+\gamma^d_i\beta}\hat{\pi}^d_{it-1} + \frac{\beta}{1+\gamma^d_i\beta}E_t\{\hat{\pi}^d_{it+1}\} + \lambda^d_i\left(\widehat{mc}_{it} + \varepsilon^p_{it}\right)$$
+    <div class="eq-note">where $\lambda^d_i = \frac{(1-\beta\theta_{iH})(1-\theta_{iH})}{(1+\gamma^d_i\beta)\theta_{iH}}$</div>
+  </div>
+
+  <!-- Importing firms -->
+  <h3>F. Importing Firms</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Bilateral Import Inflation (Calvo)</div>
+    $$\hat{\pi}^{jf}_{it} = \frac{\gamma^f_i}{1+\gamma^f_i\beta}\hat{\pi}^{jf}_{it-1} + \frac{\beta}{1+\gamma^f_i\beta}E_t\{\hat{\pi}^{jf}_{it+1}\} + \lambda^f_i\left(\psi_{ij,t} + \varepsilon^p_{jt}\right)$$
+    <div class="eq-note">where $\lambda^f_i = \frac{(1-\beta\theta_{iF})(1-\theta_{iF})}{(1+\gamma^f_i\beta)\theta_{iF}}$. The l.o.p gap acts as the importing firm's marginal cost.</div>
+  </div>
+
+  <!-- Canonical -->
+  <h3>G. Canonical Representation (4 + 1 Core Equations)</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (14) — New Keynesian Phillips Curve</div>
+    $$\hat{\pi}^d_{it} = \frac{\gamma^d_i}{1+\gamma^d_i\beta}\hat{\pi}^d_{it-1} + \frac{\beta}{1+\gamma^d_i\beta}E_t\{\hat{\pi}^d_{it+1}\} + \omega_i\hat{y}_{it} - \frac{\lambda^d_i h}{1-h}\hat{y}_{it-1} - \frac{\lambda^d_i h}{1-h}\Phi_{it} + \lambda^d_i\hat{\mu}^w_{it} - \lambda^d_i(1+\psi)\hat{a}_{it} + \lambda^d_i\varepsilon^p_{it}$$
+    <div class="eq-note">where $\omega_i = \lambda^d_i(1+\psi(1-h))/(1-h)$</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (15) — Import Price Inflation Law of Motion</div>
+    $$\hat{\pi}^f_{it} = \frac{\gamma^f_i}{1+\gamma^f_i\beta}\hat{\pi}^f_{it-1} + \frac{\beta}{1+\gamma^f_i\beta}E_t\{\hat{\pi}^f_{it+1}\} + \lambda^f_i\left(\Psi_{it} + \varepsilon^{fp}_{it}\right)$$
+    <div class="eq-note">where $\varepsilon^{fp}_{it} = \sum_{j \neq i}\alpha_{ij}\varepsilon^p_{jt}$ = weighted foreign cost-push shocks (endogenous in multi-country setting).</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (16) — Dynamic IS Equation (matrix form)</div>
+    $$M\hat{y}_t = \frac{1}{1+h}ME_t\{\hat{y}_{t+1}\} + \frac{h}{1+h}M\hat{y}_{t-1} + \frac{1-h}{1+h}E_t\{\Delta\Psi_{t+1}\} - \frac{h}{1+h}ME_t\{\Delta\Phi_{t+1}\} - \frac{1-h}{1+h}\left(\hat{r}^n_t - E_t\{\hat{\pi}_{t+1}\}\right)$$
+    <div class="eq-note">Outputs linked through the import share matrix $M$. L.o.p gap enters → trade-off with output gap.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (17) — Monetary Policy Rule</div>
+    $$\hat{r}^n_{it} = \rho_{ir}\hat{r}^n_{it-1} + (1-\rho_{ir})\left[\bar{\pi}_{it} + r_{\pi_i}(\hat{\pi}_{it-1} - \bar{\pi}_{it}) + r_{y_i}\tilde{y}_{it} + r_{\psi_i}\Psi_{it}\right] + r_{\Delta\pi_i}\Delta\hat{\pi}_{it} + r_{\Delta y_i}\Delta\tilde{y}_{it} + \varepsilon^r_{it}$$
+    <div class="eq-note">$\bar{\pi}_{it} = \rho_{\pi_i}\bar{\pi}_{it-1} + \eta^{\pi_i}_t$ is the time-varying inflation target; $r_{\psi_i}$ captures the l.o.p gap trade-off.</div>
+  </div>
+
+  <!-- Supporting -->
+  <h3>H. Supporting Equations</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Goods Market Clearing &amp; Output-Consumption Link</div>
+    $$\hat{y}_{it} - h\hat{y}_{it-1} = (\hat{c}_{it} - h\hat{c}_{it-1}) + (1-h)\hat{s}_{it} + h\Phi_{it}$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Effective Real Interest Rate Differential</div>
+    $$\Phi_{it} = \sum_{j=1}^{N}\varkappa_{ij}\left[(\hat{r}^n_{it-1} - \hat{\pi}^d_{it}) - (\hat{r}^n_{jt-1} - \hat{\pi}_{jt})\right]$$
+    <div class="eq-note">$\varkappa_{ij}$ = share of country $i$'s output exported to $j$. Habit formation increases output volatility via this channel.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Natural Output (flexible-price equilibrium)</div>
+    $$\hat{y}^n_{it} = \hat{a}_{it} + \frac{h}{1+\psi(1-h)}\left(\hat{y}^n_{it-1} - \hat{a}_{it}\right)$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Consumption–Output Link (matrix form)</div>
+    $$\hat{c}_t - h\hat{c}_{t-1} = M(\hat{y}_t - h\hat{y}_{t-1}) + (1-h)\Psi_t - hM\Phi_t$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Aggregate Output–Relative Prices (matrix form)</div>
+    $$(I_N - M)(\hat{y}_t - h\hat{y}_{t-1}) = (1-h)(I_N - M)(\hat{e}_t - \hat{p}^d_t) + h(I_N - M)\Phi_t$$
+  </div>
+</section>
+
+<!-- ═══ 5. ESTIMATION ═══ -->
+<section id="estimation">
+  <h2>Estimation Methodology</h2>
+  <div class="section-sub">Section 5 — Bayesian estimation &amp; GVAR</div>
+
+  <h3>Step A: GVAR Steady-State Estimation</h3>
+
+  <p>The Global VAR error correction representation:</p>
+
+  <div class="eq-block">
+    <div class="eq-label">GVAR Error Correction Form</div>
+    $$G\Delta x_t = [a - \alpha\beta']\,x_{t-1} - \gamma(t-1) + \sum_{i=1}^{p-1}\Gamma_i\Delta x_{t-i} + u_t$$
+    <div class="eq-note">$G$ = link matrix encoding trade weights $\omega_{ij}$; $x_t$ = global vector of all country-specific variables.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Beveridge-Nelson Stochastic Trend (Permanent Component)</div>
+    $$x^P_{s,t} = C(1)\sum_{j=1}^{t}\epsilon_j$$
+    <div class="eq-note">$C(1) = \sum_{i=0}^{\infty}C_i$ from the VAR(p) companion form. The transitory component $\hat{x}^T_t$ is obtained as OLS residuals from regressing $z_t = x_t - x^P_{s,t}$ on a constant and linear trend.</div>
+  </div>
+
+  <div class="info-box">
+    <strong>Country-specific GVAR variables:</strong> For UK, China, Japan, Switzerland: domestic = $(y_{it}, r^n_{it}, \pi^d_{it}, \pi^f_{it}, e_{it}, wr_{it})$; foreign weakly exogenous = $(y^*_{it}, r^{n,*}_{it}, wr^*_{it}, p^{oil}_t)$. For the US, oil price is endogenous. For the Euro-area, the exchange rate enters the foreign block.
+  </div>
+
+  <h3>Step B: Bayesian Estimation of Structural Parameters</h3>
+
+  <p>Parameters are estimated in three blocks to manage dimensionality — behavioral parameters, nominal frictions, and monetary policy — each using Metropolis-Hastings with 100,000 draws.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Category</th><th>Parameters</th><th>Prior Type</th><th>Prior Mean</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Habit formation $h$</td><td>Per country</td><td>Beta</td><td>0.60</td></tr>
+        <tr><td>Frisch elasticity $\psi$</td><td>Per country</td><td>Normal</td><td>2.00</td></tr>
+        <tr><td>Calvo domestic $\theta_H$</td><td>Per country</td><td>Beta</td><td>0.75</td></tr>
+        <tr><td>Calvo import $\theta_F$</td><td>Per country</td><td>Beta</td><td>0.60</td></tr>
+        <tr><td>Calvo wages $\theta_W$</td><td>Per country</td><td>Beta</td><td>0.75</td></tr>
+        <tr><td>Inflation indexation $\gamma^d$, $\gamma^f$, $\gamma^w$</td><td>Per country</td><td>Beta</td><td>0.50</td></tr>
+        <tr><td>Taylor rule: $r_\pi$</td><td>Per country</td><td>Normal</td><td>1.70</td></tr>
+        <tr><td>Taylor rule: $r_\psi$ (l.o.p gap)</td><td>Per country</td><td>Normal</td><td>0.05</td></tr>
+        <tr><td>AR coefficients $\rho_a, \rho_g, \rho_e, \rho_r, \rho_\pi$</td><td>Per country</td><td>Beta</td><td>0.80–0.85</td></tr>
+        <tr><td>Shock std. deviations</td><td>7 shocks × 6 countries</td><td>Inv. Gamma</td><td>Various</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-box">
+    <strong>Calibrated parameters:</strong> Discount factor $\beta = 0.99$ (quarterly ss real rate ≈ 1%). Import share matrix $\alpha_{ij}$ and export shares $\varkappa_{ij}$ constructed from trade data averages (1999–2011).
+  </div>
+
+  <h3>Three Model Specifications</h3>
+  <ul class="feature-list">
+    <li data-num="M1"><strong>Model1:</strong> GVAR steady states, full sample 1998Q2–2011Q2 — preferred specification</li>
+    <li data-num="M1′"><strong>M1(99–07):</strong> GVAR steady states, pre-crisis sample 1999Q1–2007Q4 — robustness check</li>
+    <li data-num="M2"><strong>Model2:</strong> Linear detrend + demean (standard approach) — benchmark</li>
+  </ul>
+</section>
+
+<!-- ═══ 6. KEY RESULTS ═══ -->
+<section id="results">
+  <h2>Key Results</h2>
+  <div class="section-sub">Section 6 — ERPT analysis findings</div>
+
+  <h3>Posterior Estimates (Selected)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Euro-area</th><th>UK</th><th>China</th><th>US</th><th>Japan</th><th>Switzerland</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>$h$ (habit)</td><td>0.51</td><td>0.41</td><td>0.45</td><td>0.46</td><td>0.38</td><td>0.50</td></tr>
+        <tr><td>$\theta_H$ (Calvo dom.)</td><td>0.99</td><td>0.89</td><td>0.62</td><td>0.77</td><td>0.77</td><td>0.95</td></tr>
+        <tr><td>$\theta_F$ (Calvo imp.)</td><td>0.85</td><td>0.73</td><td>0.68</td><td>0.68</td><td>0.61</td><td>0.80</td></tr>
+        <tr><td>$r_\psi$ (l.o.p gap)</td><td>0.04</td><td>0.05</td><td>0.05</td><td>0.05</td><td>0.05</td><td>0.05</td></tr>
+        <tr><td>$\rho_r$ (int. rate smooth)</td><td>0.99</td><td>0.93</td><td>0.98</td><td>0.97</td><td>0.99</td><td>0.95</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Variance Decomposition of Euro-Area Import Price Inflation</h3>
+  <div class="table-wrap">
+    <table class="var-table">
+      <thead>
+        <tr><th>Shock Source</th><th>Q1 (Impact)</th><th>Q4</th><th>Q8 (2yr)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Exchange rate — UK (£)</td><td>35.0%</td><td>22.8%</td><td>18.3%</td></tr>
+        <tr><td>Exchange rate — China (¥)</td><td>21.5%</td><td>17.0%</td><td>13.9%</td></tr>
+        <tr><td>Exchange rate — US ($)</td><td>2.3%</td><td>1.6%</td><td>1.3%</td></tr>
+        <tr><td>Exchange rate — Japan (¥)</td><td>0.7%</td><td>0.4%</td><td>0.3%</td></tr>
+        <tr><td>Exchange rate — Switzerland (CHF)</td><td>0.2%</td><td>0.1%</td><td>0.1%</td></tr>
+        <tr><td style="font-weight:900;color:var(--accent);">Total exchange rate</td><td style="font-weight:900;">≈60%</td><td style="font-weight:900;">≈42%</td><td style="font-weight:900;">≈34%</td></tr>
+        <tr><td>Foreign markup (all partners)</td><td>&lt;1%</td><td>&lt;1%</td><td>&lt;1%</td></tr>
+        <tr><td>Inflation objective (China)</td><td>3.5%</td><td>5.5%</td><td>7.2%</td></tr>
+        <tr><td>Preference (UK + China)</td><td>5.4%</td><td>8.8%</td><td>11.8%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Impulse Response Findings</h3>
+  <ul class="feature-list">
+    <li data-num="①">Import price inflation response to exchange rate depreciation is <strong>hump-shaped</strong>, peaking after ~2 years — nominal rigidity creates persistent but delayed pass-through</li>
+    <li data-num="②">Upon impact, import price inflation rises by 0.06%; cumulative after 2 years ≈ 0.20%</li>
+    <li data-num="③">Bilateral ERPT differs by currency: pound generates the largest response, Swiss franc the smallest</li>
+    <li data-num="④">As $\theta_F \to 1$ (high rigidity), ERPT → 0 (mimics LCP-PTM); as $\theta_F \to 0$, ERPT → complete (mimics PCP)</li>
+    <li data-num="⑤">Monetary policy response to l.o.p gap ($r_\psi$) is low — reflecting the output gap vs. l.o.p gap trade-off</li>
+  </ul>
+</section>
+
+<!-- ═══ 7. RELEVANCE ═══ -->
+<section id="relevance">
+  <h2>Relevance to Your Thesis</h2>
+  <div class="section-sub">Section 7 — Bridging to Indonesian regional disaster DSGE</div>
+
+  <div class="relevance-box">
+    <h3>Key Transferable Elements</h3>
+    <p>
+      <strong>1. Multi-region structure → replace countries with Indonesian regions.</strong> The import share matrix $M$ with elements $\alpha_{ij}$ becomes an interregional trade linkage matrix. Your disaster-affected and non-affected regions are endogenously linked just as the Euro-area and its trade partners are here.
+    </p>
+    <p>
+      <strong>2. Calvo nominal rigidity → adaptation for disaster-induced supply disruption.</strong> The Calvo parameter $\theta_F$ controls the speed of price adjustment. In your context, you can introduce a disaster shock that temporarily increases the fraction of firms unable to adjust production/prices, or destroys capital stock.
+    </p>
+    <p>
+      <strong>3. L.o.p gap concept → regional price divergence after disaster.</strong> Post-disaster supply disruptions create regional price divergences analogous to the law-of-one-price gap. The trade-off between output stabilization and l.o.p gap stabilization maps onto the policy trade-off between reconstruction spending and inflation control.
+    </p>
+    <p>
+      <strong>4. GVAR steady-state estimation → applicable for Indonesian regional data.</strong> If you have provincial GDP, prices, and trade flows, you can estimate a regional VAR to get economically interpretable steady states rather than HP-filtering.
+    </p>
+    <p>
+      <strong>5. Bayesian estimation by blocks</strong> is directly transferable for managing the dimensionality of a multi-region model.
+    </p>
+    <p>
+      <strong>6. Variance decomposition</strong> lets you answer: "What fraction of regional output/consumption volatility is driven by the disaster shock vs. policy shocks vs. interregional spillovers?"
+    </p>
+
+    <div class="tag-list">
+      <span class="tag">Multi-region DSGE</span>
+      <span class="tag">Interregional linkages</span>
+      <span class="tag">Calvo pricing</span>
+      <span class="tag">Import share matrix</span>
+      <span class="tag">Bayesian estimation</span>
+      <span class="tag">GVAR steady states</span>
+      <span class="tag">Variance decomposition</span>
+      <span class="tag">Policy trade-offs</span>
+      <span class="tag">Disaster shocks</span>
+      <span class="tag">Recovery dynamics</span>
+    </div>
+  </div>
+
+  <div class="info-box warn">
+    <strong>Adaptation note:</strong> Razafindrabe's model does <em>not</em> include capital accumulation — this is acknowledged as a limitation. For your disaster thesis, capital destruction and reconstruction dynamics are central, so you will need to extend the model with investment, capital stock, and a disaster destruction mechanism (e.g., Gourio 2012 or Barro 2006 rare disaster framework).
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Paper decomposition prepared for Andre's thesis research · Razafindrabe, T.M. (2016), <em>Economic Modelling</em>, 52, 78–100<br>
+  Generated February 2026
+</footer>
+
+</body>
+</html>
