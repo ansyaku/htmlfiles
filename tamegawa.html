@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamegawa (2012) — Two-Region DSGE Model Review</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0f14;
+  --surface: #141820;
+  --surface-2: #1a1f2b;
+  --surface-3: #222838;
+  --border: #2a3144;
+  --border-accent: #3d4a6a;
+  --text: #d4d8e4;
+  --text-dim: #8890a4;
+  --text-bright: #eef0f6;
+  --accent: #5b8af0;
+  --accent-glow: #5b8af033;
+  --accent-2: #f0a05b;
+  --accent-3: #5bf0a0;
+  --accent-4: #f05b8a;
+  --danger: #e05555;
+  --katex-color: #c8d0e8;
+  --flow-line: #3d5a9a;
+  --tag-bg: #5b8af018;
+  --tag-border: #5b8af044;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+/* ─── Background texture ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 10%, #5b8af00a, transparent),
+    radial-gradient(ellipse 600px 800px at 80% 90%, #f0a05b06, transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Navigation ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: #0c0f14dd;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+nav .nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 56px;
+  overflow-x: auto;
+}
+nav a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+nav a:hover, nav a.active { color: var(--accent); }
+nav .nav-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  color: var(--text-bright);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+/* ─── Main container ─── */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 2rem 6rem;
+}
+
+/* ─── Hero ─── */
+.hero {
+  padding: 4rem 0 3rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+}
+.hero-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--tag-border);
+  background: var(--tag-bg);
+  padding: 0.3em 0.9em;
+  border-radius: 3px;
+  margin-bottom: 1.2rem;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--text-bright);
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+}
+.hero .subtitle {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+.hero .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+.hero .meta span { display: flex; align-items: center; gap: 0.4rem; }
+.hero .meta .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+
+/* ─── Thesis context banner ─── */
+.thesis-banner {
+  background: linear-gradient(135deg, #5b8af010, #f0a05b08);
+  border: 1px solid var(--border-accent);
+  border-left: 3px solid var(--accent-2);
+  border-radius: 6px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 3rem;
+}
+.thesis-banner h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--accent-2);
+  margin-bottom: 0.5rem;
+}
+.thesis-banner p { font-size: 0.92rem; color: var(--text); }
+
+/* ─── Sections ─── */
+section {
+  margin-bottom: 4rem;
+  animation: fadeUp 0.6s ease both;
+}
+section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+section h2 .sec-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 500;
+  min-width: 2rem;
+}
+section .sec-desc {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+  padding-left: 2.7rem;
+}
+section p { margin-bottom: 1rem; }
+
+/* ─── Cards ─── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.8rem 2rem;
+  margin-bottom: 1.2rem;
+  transition: border-color 0.3s;
+}
+.card:hover { border-color: var(--border-accent); }
+.card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 0.6rem;
+}
+.card h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+  margin-top: 1rem;
+}
+
+/* ─── Agent grid ─── */
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.agent-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.4rem 1.6rem;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.agent-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.agent-card .agent-icon {
+  width: 36px; height: 36px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+.agent-card h3 { font-size: 0.95rem; color: var(--text-bright); margin-bottom: 0.4rem; }
+.agent-card p { font-size: 0.85rem; color: var(--text-dim); margin: 0; }
+
+.icon-firm { background: #5bf0a018; color: var(--accent-3); }
+.icon-ricardian { background: #5b8af018; color: var(--accent); }
+.icon-nonricardian { background: #f0a05b18; color: var(--accent-2); }
+.icon-banker { background: #f05b8a18; color: var(--accent-4); }
+.icon-localgovt { background: #5bf0a018; color: var(--accent-3); }
+.icon-centralgovt { background: #5b8af018; color: var(--accent); }
+
+/* ─── Equations ─── */
+.eq-block {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 1.2rem 1.6rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+.eq-block .eq-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+.eq-block .eq-note {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+.katex { color: var(--katex-color) !important; font-size: 1.05em; }
+
+/* ─── Equation group ─── */
+.eq-group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.8rem 2rem;
+  margin-bottom: 1.5rem;
+}
+.eq-group h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 0.3rem;
+}
+.eq-group .eq-group-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+}
+
+/* ─── Flowchart ─── */
+.flow-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 2rem 0;
+}
+.flow-node {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.8rem;
+  text-align: center;
+  max-width: 520px;
+  width: 100%;
+  position: relative;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.flow-node:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+.flow-node h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 0.3rem;
+}
+.flow-node p {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin: 0;
+}
+.flow-node.highlight {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, #5b8af00a, transparent);
+}
+.flow-node.highlight-2 {
+  border-color: var(--accent-2);
+  background: linear-gradient(135deg, #f0a05b0a, transparent);
+}
+.flow-node.highlight-3 {
+  border-color: var(--accent-3);
+  background: linear-gradient(135deg, #5bf0a00a, transparent);
+}
+.flow-arrow {
+  width: 2px;
+  height: 32px;
+  background: var(--flow-line);
+  position: relative;
+}
+.flow-arrow::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--flow-line);
+}
+
+/* ─── Parallel flow (regions) ─── */
+.flow-parallel {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.flow-parallel .flow-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.flow-parallel .flow-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2rem;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.flow-parallel .flow-connector .conn-line {
+  width: 60px;
+  height: 1px;
+  background: var(--flow-line);
+  margin: 0.4rem 0;
+}
+
+/* ─── Tags ─── */
+.tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2em 0.6em;
+  border-radius: 3px;
+  margin-right: 0.4rem;
+}
+.tag-blue { background: #5b8af018; color: var(--accent); border: 1px solid #5b8af033; }
+.tag-orange { background: #f0a05b18; color: var(--accent-2); border: 1px solid #f0a05b33; }
+.tag-green { background: #5bf0a018; color: var(--accent-3); border: 1px solid #5bf0a033; }
+.tag-red { background: #f05b8a18; color: var(--accent-4); border: 1px solid #f05b8a33; }
+
+/* ─── Table ─── */
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin: 1rem 0;
+}
+.param-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-bright);
+  padding: 0.7rem 1rem;
+  border-bottom: 2px solid var(--border-accent);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.param-table td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.param-table tr:hover td { background: var(--surface-2); }
+.param-table .val { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.85rem; }
+
+/* ─── Multiplier grid ─── */
+.mult-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.mult-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  text-align: center;
+}
+.mult-card .mult-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.2rem;
+}
+.mult-card .mult-label {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+.mult-card.top { border-color: var(--accent-3); }
+.mult-card.top .mult-value { color: var(--accent-3); }
+
+/* ─── Relevance box ─── */
+.relevance-box {
+  background: linear-gradient(135deg, #5b8af008, #f0a05b05);
+  border: 1px solid var(--border-accent);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+}
+.relevance-box h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-2);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.relevance-box p { font-size: 0.9rem; margin-bottom: 0.5rem; }
+.relevance-box p:last-child { margin-bottom: 0; }
+
+/* ─── Animations ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 700px) {
+  main { padding: 70px 1rem 4rem; }
+  .hero { padding: 2rem 0 2rem; }
+  .card, .eq-group { padding: 1.2rem; }
+  .flow-parallel { grid-template-columns: 1fr; gap: 0; }
+  .flow-parallel .flow-connector { flex-direction: row; padding: 0; margin: 0.5rem 0; }
+  .flow-parallel .flow-connector .conn-line { width: 1px; height: 30px; }
+  nav .nav-inner { gap: 1.2rem; }
+}
+
+/* ─── Scroll indicator for sections ─── */
+section[id] { scroll-margin-top: 70px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-label">Tamegawa (2012)</a>
+    <a href="#problem">Problem</a>
+    <a href="#features">Model</a>
+    <a href="#flow">Flowchart</a>
+    <a href="#equations">Equations</a>
+    <a href="#estimation">Estimation</a>
+    <a href="#results">Results</a>
+    <a href="#relevance">Thesis Link</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <div class="hero-tag">Literature Review — Regional DSGE</div>
+  <h1>Two-Region DSGE Analysis of Regionally Targeted Fiscal Policy</h1>
+  <p class="subtitle">Kenichi Tamegawa — <em>The Review of Regional Studies</em>, 2012, Vol. 42, pp. 249–263</p>
+  <div class="meta">
+    <span><span class="dot"></span> Regional DSGE</span>
+    <span><span class="dot"></span> Fiscal Multipliers</span>
+    <span><span class="dot"></span> Two-Region Economy</span>
+    <span><span class="dot"></span> Dynare Simulation</span>
+  </div>
+</div>
+
+<!-- ═══════════ THESIS CONTEXT ═══════════ -->
+<div class="thesis-banner">
+  <h3>📎 Connection to Your Thesis</h3>
+  <p>Your thesis — <em>"Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context"</em> — needs a multi-region DSGE framework. Tamegawa (2012) is a key reference for <strong>how to model regional heterogeneity</strong> within a single country, splitting national output across regions with distinct economic structures, separate local governments, and a shared central government. This page dissects how the regionalization works.</p>
+</div>
+
+<!-- ═══════════ §1 PROBLEM ═══════════ -->
+<section id="problem">
+  <h2><span class="sec-num">01</span> Core Problem</h2>
+  <p class="sec-desc">What gap does this paper address?</p>
+
+  <div class="card">
+    <h3>The Problem</h3>
+    <p>Standard DSGE models treat a country as a <strong>single homogeneous region</strong>. But in reality, fiscal policy effects are not uniform — they depend on <em>where</em> the policy is implemented and <em>which level of government</em> (local vs. central) implements it. Existing currency-union models (Benigno 2004, Galí &amp; Monacelli 2008) model multi-region economies but lack a <strong>central government</strong> that operates across all regions.</p>
+
+    <h4>Key Questions the Paper Answers</h4>
+    <p>
+      ① How do we construct an \(N\)-region DSGE model within a single country?<br>
+      ② Does the fiscal multiplier differ when local vs. central government implements policy?<br>
+      ③ Does the multiplier differ depending on <em>which</em> region receives the spending?<br>
+      ④ How does a fiscal crisis (sovereign default risk) in one region spill over to other regions?
+    </p>
+  </div>
+
+  <div class="relevance-box">
+    <h4>🔗 Relevance for Your Thesis</h4>
+    <p>Your RQ2 asks: <em>"How can a dynamic macroeconomic model capture regional economic structure?"</em> — Tamegawa's framework is a direct answer. Replace "fiscal shock" with "natural disaster shock," and the two-region structure maps onto your disaster-affected vs. non-affected region setup. His treatment of <strong>interregional linkages via bankers and a common goods market</strong> is directly applicable to your interregional spillover analysis (RQ3).</p>
+  </div>
+</section>
+
+<!-- ═══════════ §2 MODEL FEATURES ═══════════ -->
+<section id="features">
+  <h2><span class="sec-num">02</span> Model Features</h2>
+  <p class="sec-desc">Anatomy of the two-region DSGE economy</p>
+
+  <p>The model is a <strong>real business cycle</strong> framework (no nominal rigidities) with <strong>annual frequency</strong>. The country is split into \(N\) regions (simulated with \(N=2\)). Each region has unit population, so national population = \(N\).</p>
+
+  <h3 style="margin: 1.5rem 0 1rem; color: var(--text-bright); font-family: 'Playfair Display', serif;">Six Agent Types</h3>
+
+  <div class="agent-grid">
+    <div class="agent-card">
+      <div class="agent-icon icon-firm">🏭</div>
+      <h3>Firms</h3>
+      <p>Region-specific production using capital, labor, and <strong>social (public) capital</strong>. Single output good, but labor markets are <em>segmented</em> by region. Cobb-Douglas technology with region-specific and macro TFP shocks.</p>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon icon-ricardian">📊</div>
+      <h3>Ricardian Households</h3>
+      <p>Optimizing agents who maximize intertemporal utility with <strong>external habit formation</strong>. Hold deposits, pay local and central taxes. Euler equation pins down consumption-savings decisions. Share \((1 - \omega_i - \omega_{B,i})\) of regional population.</p>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon icon-nonricardian">🛒</div>
+      <h3>Non-Ricardian Households</h3>
+      <p>Rule-of-thumb consumers who spend all disposable income each period: \(c_t^{r,i} = w_t^i h_t^i - t_t^i - t_t^C\). <strong>Key for positive consumption multiplier.</strong> Share \(\omega_i\) of regional population (differs by region).</p>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon icon-banker">🏦</div>
+      <h3>Bankers</h3>
+      <p>Financial intermediaries who collect deposits nationally, lend to firms (capital) and to both local &amp; central governments (bonds). Face <strong>default risk</strong> from government bonds. Determine investment, bond pricing, and interest rate spreads.</p>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon icon-localgovt">🏛️</div>
+      <h3>Local Governments</h3>
+      <p>Region-specific. Issue bonds \(B_t^i\), collect local lump-sum tax \(t_t^i\), spend on regional goods \(G_t^i\). Face a <strong>risk premium</strong> tied to their own debt level. Can default.</p>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon icon-centralgovt">🇯🇵</div>
+      <h3>Central Government</h3>
+      <p>Operates across all regions. Issues bonds \(B_t^c\), collects uniform central tax \(t_t^C\) from all regions, spends in targeted regions \(G_t^{C,i}\). More credible (lower default rate). Spending builds <strong>social capital</strong> in targeted region.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Key Regional Heterogeneity Dimensions</h3>
+    <p>The two regions differ along four critical dimensions that drive the fiscal multiplier results:</p>
+    <table class="param-table">
+      <thead>
+        <tr><th>Dimension</th><th>Region 1</th><th>Region 2</th><th>Implication</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Capital share \(\alpha_i\)</td><td class="val">0.25</td><td class="val">0.42</td><td>Region 1 is labor-intensive, Region 2 capital-intensive</td></tr>
+        <tr><td>Social capital productivity \(\eta_i\)</td><td class="val">0.20</td><td class="val">0.00</td><td>Public capital only productive in Region 1</td></tr>
+        <tr><td>Non-Ricardian share \(\omega_i\)</td><td class="val">0.40</td><td class="val">0.30</td><td>More hand-to-mouth consumers in Region 1</td></tr>
+        <tr><td>Risk premium elasticity \(v_i\)</td><td class="val">0.03</td><td class="val">0.10</td><td>Region 1 more creditworthy, Region 2 faces higher risk</td></tr>
+        <tr><td>Default rate (steady state)</td><td class="val">0.01</td><td class="val">0.03</td><td>Region 1 less likely to default</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="relevance-box">
+    <h4>🔗 Regionalization Insight for Your Thesis</h4>
+    <p>Tamegawa models regions as differing in <strong>production technology</strong> (α, η), <strong>household composition</strong> (ω), and <strong>fiscal credibility</strong> (v, p). For your disaster application, you can adapt this by differentiating regions along: <strong>disaster exposure</strong> (probability of destruction shock), <strong>capital vulnerability</strong> (fraction of capital destroyed), and <strong>recovery infrastructure</strong> (speed of reconstruction). The single-goods-market assumption provides interregional linkage — when one region's output falls (disaster), the other region is affected through the financial system and goods market clearing.</p>
+  </div>
+</section>
+
+<!-- ═══════════ §3 FLOWCHART ═══════════ -->
+<section id="flow">
+  <h2><span class="sec-num">03</span> Model Structure &amp; Flow</h2>
+  <p class="sec-desc">How agents and regions interact within the DSGE system</p>
+
+  <div class="flow-container">
+
+    <div class="flow-node highlight">
+      <h4>🌐 Exogenous Shocks</h4>
+      <p>Region-specific TFP shock \(z_t^i\) &nbsp;|&nbsp; Macro TFP shock \(z_t^m\) &nbsp;|&nbsp; Government spending shocks \(\varepsilon_t^i, \varepsilon_t^{c}\) &nbsp;|&nbsp; Solvency information shock \(\varepsilon_t^{p,i}\)</p>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-parallel">
+      <!-- Region 1 -->
+      <div class="flow-branch">
+        <div class="flow-node" style="border-color: var(--accent-3);">
+          <h4 style="color: var(--accent-3);">Region 1 — Labor-Intensive</h4>
+          <p>\(\alpha_1=0.25\), \(\eta_1=0.20\), \(\omega_1=0.40\)</p>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <h4>Firms</h4>
+          <p>\(Y_t^1 = e^{z_t^1} e^{z_t^m} (K_t^1)^{\alpha_1} [(1-\omega_{B,1})h_t^1]^{1-\alpha_1} (K_t^{g,1})^{\eta_1}\)</p>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <h4>Households (Region 1)</h4>
+          <p>Ricardian (60%): Euler eq, habit<br>Non-Ricardian (40%): \(c^r = w \cdot h - t^1 - t^C\)</p>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <h4>Local Govt 1</h4>
+          <p>\(B_{t+1}^1 = R_{t-1}^1 B_t^1 + G_t^1 - T_t^1\)<br>Default prob: \(p_t^1\), risk premium: \(v_1=0.03\)</p>
+        </div>
+      </div>
+
+      <!-- Connector -->
+      <div class="flow-connector">
+        <div class="conn-line"></div>
+        <span>Trade in<br>single good</span>
+        <div class="conn-line"></div>
+        <span style="margin-top:1.5rem;">Financial<br>linkage</span>
+        <div class="conn-line"></div>
+      </div>
+
+      <!-- Region 2 -->
+      <div class="flow-branch">
+        <div class="flow-node" style="border-color: var(--accent-2);">
+          <h4 style="color: var(--accent-2);">Region 2 — Capital-Intensive</h4>
+          <p>\(\alpha_2=0.42\), \(\eta_2=0.00\), \(\omega_2=0.30\)</p>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <h4>Firms</h4>
+          <p>\(Y_t^2 = e^{z_t^2} e^{z_t^m} (K_t^2)^{\alpha_2} [(1-\omega_{B,2})h_t^2]^{1-\alpha_2}\)</p>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <h4>Households (Region 2)</h4>
+          <p>Ricardian (70%): Euler eq, habit<br>Non-Ricardian (30%): \(c^r = w \cdot h - t^2 - t^C\)</p>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <h4>Local Govt 2</h4>
+          <p>\(B_{t+1}^2 = R_{t-1}^2 B_t^2 + G_t^2 - T_t^2\)<br>Default prob: \(p_t^2\), risk premium: \(v_2=0.10\)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow"></div>
+
+    <div class="flow-node highlight-2" style="max-width: 520px;">
+      <h4 style="color: var(--accent-2);">🏦 Bankers (National)</h4>
+      <p>Collect deposits \(D_t\) from all Ricardian households nationally. Lend to firms (capital investment) and to local + central governments (bonds). Price risk via default probabilities. Stochastic discount factor: \(\Lambda_{t+1,t} = \beta_B \frac{C_t^B}{C_{t+1}^B}\)</p>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-node highlight">
+      <h4>🏛️ Central Government</h4>
+      <p>\(B_{t+1}^c = R_{t-1}^c B_t^c + G_t^c - T_t^C\) where \(G_t^c = \sum_i G_t^{C,i}\) and \(T_t^C = N \cdot t_t^C\)<br>
+      Can target spending to specific regions → builds social capital \(K_{t+1}^{g,i} = (1-\delta_g) K_t^{g,i} + G_t^i + G_t^{C,i}\)</p>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-node highlight-3" style="max-width: 520px;">
+      <h4 style="color: var(--accent-3);">⚖️ Market Clearing</h4>
+      <p>\(\sum_{i} Y_t^i = \sum_{i} (C_t^i + I_t^i + G_t^i + G_t^{C,i}) + C_t^B\)<br>
+      Single goods market → <strong>interregional spillovers</strong></p>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-node">
+      <h4>📈 Log-Linearize → Solve in Dynare</h4>
+      <p>Compute impulse response functions for 4 fiscal shock scenarios</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ §4 EQUATIONS ═══════════ -->
+<section id="equations">
+  <h2><span class="sec-num">04</span> Complete Equation List</h2>
+  <p class="sec-desc">All 34 equations in the model, organized by agent block</p>
+
+  <!-- FIRMS -->
+  <div class="eq-group">
+    <h3>A. Firms <span class="tag tag-green">Production</span></h3>
+    <p class="eq-group-desc">Each region \(i\) produces with Cobb-Douglas technology. Social capital \(K_t^{g,i}\) enters as an externality. Labor markets are region-specific.</p>
+
+    <div class="eq-block">
+      <div class="eq-label">Eq. (1) — Production Function</div>
+      $$Y_t^i = e^{z_t^i} e^{z_t^m} \left(K_t^i\right)^{\alpha_i} \left[(1-\omega_{B,i}) h_t^i\right]^{1-\alpha_i} \left(K_t^{g,i}\right)^{\eta_i}$$
+      <div class="eq-note">Region-specific TFP \(z_t^i\), macro TFP \(z_t^m\). Social capital productivity \(\eta_i\) varies: \(\eta_1=0.2\), \(\eta_2=0\).</div>
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (2) — Labor Demand (FOC for labor)</div>
+      $$(1-\omega_{B,i}) w_t^i = (1-\alpha_i) \frac{Y_t^i}{h_t^i}$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (3) — Capital Demand (FOC for capital)</div>
+      $$r_t^i = \alpha_i \frac{Y_t^i}{K_t^i}$$
+    </div>
+  </div>
+
+  <!-- RICARDIAN HH -->
+  <div class="eq-group">
+    <h3>B. Ricardian Households <span class="tag tag-blue">Optimization</span></h3>
+    <p class="eq-group-desc">Maximize \(E_0 \sum \beta^t \{ \log(c_t^{o,i} - b \bar{c}_{t-1}^{o,i}) + \theta_i \log(1-h_t^i) \}\) subject to budget constraint. External habit: \(\bar{c}_t^{o,i} = c_t^{o,i}\).</p>
+
+    <div class="eq-block">
+      <div class="eq-label">Eq. (4) — Budget Constraint</div>
+      $$d_{t+1}^i = R_{t-1}^D d_t^i + w_t^i h_t^i - c_t^{o,i} - t_t^i - t_t^C$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (5) — Marginal Utility of Consumption</div>
+      $$\frac{1}{c_t^{o,i} - b c_{t-1}^{o,i}} - \lambda_t^i = 0$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (6) — Euler Equation</div>
+      $$\lambda_t^i - E_t\left(\beta R_t^D \lambda_{t+1}^i\right) = 0$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (7) — Labor Supply</div>
+      $$\frac{\theta_i}{1 - h_t^i} - \lambda_t^i w_t^i = 0$$
+    </div>
+  </div>
+
+  <!-- NON-RICARDIAN HH -->
+  <div class="eq-group">
+    <h3>C. Non-Ricardian Households <span class="tag tag-orange">Rule-of-Thumb</span></h3>
+    <p class="eq-group-desc">Consume all disposable income each period. Work and earn wages identically to Ricardian households.</p>
+
+    <div class="eq-block">
+      <div class="eq-label">Eq. (8) — Consumption Rule</div>
+      $$c_t^{r,i} = w_t^i h_t^i - t_t^i - t_t^C$$
+      <div class="eq-note">This is the critical equation generating positive consumption response to fiscal expansion. More non-Ricardian households → larger fiscal multiplier.</div>
+    </div>
+  </div>
+
+  <!-- BANKERS -->
+  <div class="eq-group">
+    <h3>D. Bankers <span class="tag tag-red">Financial Intermediation</span></h3>
+    <p class="eq-group-desc">Bankers are the financial core — they link regions through national deposit collection and lending. Discount factor: \(\Lambda_{t+1,t} = \beta_B C_t^B / C_{t+1}^B\). Indicator functions \(\mathbf{1}_t^i\) and \(\mathbf{1}_t^c\) capture default events.</p>
+
+    <div class="eq-block">
+      <div class="eq-label">Eq. (9) — Banker Budget Constraint</div>
+      $$C_t^B + \sum_i B_{t+1}^i + B_{t+1}^c + R_{t-1}^d D_t + \sum_i Q_t^i K_{t+1}^i + \sum_i t_t^i + n \cdot t_t^C$$
+      $$= \sum_i r_t^{i,k} K_t^i + \sum_i Q_t^i \left\{(1-\delta)K_t^i + I_t^i[1-\Phi(I_t^i/I_{t-1}^i)]\right\} + D_{t+1} + \sum_i R_{t-1}^i B_t^i + R_{t-1}^c B_t^c$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (16) — Local Bond Pricing (No-Arbitrage)</div>
+      $$1 = E_t\left[\Lambda_{t+1,t} \cdot R_t^i \cdot (1 - p_{t+1}^i)\right]$$
+      <div class="eq-note">Default probability \(p_{t+1}^i\) creates a risk premium: higher default risk → higher required return \(R_t^i\).</div>
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (17) — Central Bond Pricing</div>
+      $$1 = E_t\left[\Lambda_{t+1,t} \cdot R_t^c \cdot (1 - p_{t+1}^c)\right]$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (18) — Deposit Rate</div>
+      $$1 = E_t\left[\Lambda_{t+1,t} \cdot R_t^d\right]$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (19) — Capital Valuation (Tobin's Q)</div>
+      $$Q_t^i = E_t\left(\Lambda_{t+1,t}\left[Q_{t+1}^i(1-\delta) + r_{t+1}^i\right]\right)$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (20) — Investment FOC (with adjustment costs)</div>
+      $$Q_t^i \left\{1 - \Phi'\left(\frac{I_t^i}{I_{t-1}^i}\right)\frac{I_t^i}{I_{t-1}^i} - \Phi\left(\frac{I_t^i}{I_{t-1}^i}\right)\right\} + E_t\left(\Lambda_{t+1,t} Q_{t+1}^i \Phi'\left(\frac{I_{t+1}^i}{I_t^i}\right)\left(\frac{I_{t+1}^i}{I_t^i}\right)^2\right) = 1$$
+      <div class="eq-note">Adjustment cost function \(\Phi(\cdot)\) following Christiano et al. (2005). Slows capital adjustment, increasing IRF realism.</div>
+    </div>
+  </div>
+
+  <!-- AGGREGATION -->
+  <div class="eq-group">
+    <h3>E. Aggregation <span class="tag tag-blue">Accounting</span></h3>
+
+    <div class="eq-block">
+      <div class="eq-label">Eq. (21) — Regional Consumption</div>
+      $$C_t^i = \omega_i c_t^{r,i} + (1 - \omega_i - \omega_{B,i}) c_t^{o,i}$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (22)–(24) — Tax and Spending Aggregation</div>
+      $$T_t^i = t_t^i, \qquad T_t^C = N \cdot t_t^C, \qquad G_t^C = \sum_{i \in \mathbf{N}} G_t^{C,i}$$
+    </div>
+  </div>
+
+  <!-- GOVERNMENT -->
+  <div class="eq-group">
+    <h3>F. Government Sector <span class="tag tag-green">Fiscal Rules</span></h3>
+
+    <div class="eq-block">
+      <div class="eq-label">Eq. (25) — Local Government Budget Constraint</div>
+      $$B_{t+1}^i = R_{t-1}^i B_t^i + G_t^i - T_t^i$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (26) — Central Government Budget Constraint</div>
+      $$B_{t+1}^c = R_{t-1}^c B_t^c + G_t^c - T_t^C$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (27)–(28) — Tax Rules (responds to debt)</div>
+      $$\log t_t^i = \text{const.} + \xi_b \log B_t^i \qquad \log t_t^C = \text{const.} + \xi_b \log B_t^c$$
+      <div class="eq-note">Tax elasticity \(\xi_b = 0.9\) ensures fiscal solvency.</div>
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (29)–(30) — Government Spending (AR(1))</div>
+      $$\log G_t^i = \text{const.} + \rho_i \log G_{t-1}^i + \varepsilon_t^i \qquad \log G_t^c = \text{const.} + \rho_c \log G_{t-1}^c + \varepsilon_t^c$$
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (31)–(32) — Default Probability (endogenous risk)</div>
+      $$\log(1 - p_t^i) = \text{const.} - v_i \log B_t^i \qquad \log(1 - p_t^c) = \text{const.} - v_c \log B_t^c$$
+      <div class="eq-note">Higher debt → higher default probability → higher risk premium → higher interest rate → crowding out. This is the <strong>fiscal crisis transmission channel</strong>.</div>
+    </div>
+  </div>
+
+  <!-- SOCIAL CAPITAL & CLEARING -->
+  <div class="eq-group">
+    <h3>G. Social Capital &amp; Market Clearing <span class="tag tag-green">Closure</span></h3>
+
+    <div class="eq-block">
+      <div class="eq-label">Eq. (33) — Social Capital Accumulation</div>
+      $$K_{t+1}^{g,i} = (1-\delta_g) K_t^{g,i} + G_t^i + G_t^{C,i}$$
+      <div class="eq-note">Both local and central government spending build social capital. But only Region 1 benefits (\(\eta_1 = 0.2\)).</div>
+    </div>
+    <div class="eq-block">
+      <div class="eq-label">Eq. (34) — Goods Market Clearing</div>
+      $$\sum_{i \in \mathbf{N}} Y_t^i = \sum_{i \in \mathbf{N}} \left(C_t^i + I_t^i + G_t^i + G_t^{C,i}\right) + C_t^B$$
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ §5 ESTIMATION ═══════════ -->
+<section id="estimation">
+  <h2><span class="sec-num">05</span> Solution Method &amp; Calibration</h2>
+  <p class="sec-desc">How the model is parameterized and solved</p>
+
+  <div class="card">
+    <h3>Method: Calibration + Log-Linearization + Dynare</h3>
+    <p>This paper does <strong>not</strong> estimate parameters econometrically. Instead, it uses <strong>calibration</strong>: parameters are set to match stylized facts and steady-state ratios, then the log-linearized model is solved using <strong>Dynare</strong> for impulse response analysis.</p>
+
+    <h4>Solution Steps</h4>
+    <p>
+      ① Set parameter values (Table 1) to match steady-state ratios (C/Y = 0.6, G/Y = 0.08 for local, G/Y = 0.05 for central, B/Y = 1.0).<br>
+      ② Log-linearize all equations around the deterministic steady state.<br>
+      ③ Solve the linearized rational expectations system in Dynare (Blanchard-Kahn conditions).<br>
+      ④ Compute IRFs to 1% of national output fiscal spending shocks in 4 scenarios.<br>
+      ⑤ Compare fiscal multipliers across scenarios.
+    </p>
+
+    <h4>No Estimation — Why?</h4>
+    <p>The paper's goal is <strong>methodological demonstration</strong>: showing regional scientists how to build a tractable multi-region DSGE. The calibration is illustrative, not fitted to any specific country's data. This is a common approach in the regional DSGE literature.</p>
+  </div>
+
+  <div class="card">
+    <h3>Full Parameter Table</h3>
+    <table class="param-table">
+      <thead><tr><th>Parameter</th><th>Region 1</th><th>Region 2</th><th>Central</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>\(\alpha_i\)</td><td class="val">0.25</td><td class="val">0.42</td><td>—</td><td>Capital share in production</td></tr>
+        <tr><td>\(\eta_i\)</td><td class="val">0.20</td><td class="val">0.00</td><td>—</td><td>Social capital productivity</td></tr>
+        <tr><td>\(\beta = \beta_B\)</td><td class="val" colspan="3">0.98</td><td>Discount rate</td></tr>
+        <tr><td>\(b\)</td><td class="val" colspan="3">0.80</td><td>Habit persistence</td></tr>
+        <tr><td>\(\delta\)</td><td class="val" colspan="3">0.08</td><td>Physical capital depreciation</td></tr>
+        <tr><td>\(\delta_g\)</td><td class="val" colspan="3">0.08</td><td>Social capital depreciation</td></tr>
+        <tr><td>\(\omega_i\)</td><td class="val">0.40</td><td class="val">0.30</td><td>—</td><td>Non-Ricardian household share</td></tr>
+        <tr><td>\(\omega_{B,i}\)</td><td class="val" colspan="2">0.005</td><td>—</td><td>Banker share</td></tr>
+        <tr><td>\(\xi_b\)</td><td class="val" colspan="3">0.90</td><td>Tax elasticity to debt</td></tr>
+        <tr><td>\(\rho_i = \rho_c\)</td><td class="val" colspan="3">0.66</td><td>Spending persistence</td></tr>
+        <tr><td>\(v_i\)</td><td class="val">0.03</td><td class="val">0.10</td><td class="val">0.00</td><td>Risk premium elasticity</td></tr>
+        <tr><td>\(G^i/Y^i\)</td><td class="val" colspan="2">0.08</td><td>—</td><td>Local spending share</td></tr>
+        <tr><td>\(G^{C,i}/Y^i\)</td><td>—</td><td>—</td><td class="val">0.05</td><td>Central spending share per region</td></tr>
+        <tr><td>\(B^i/Y^i\)</td><td class="val" colspan="2">1.00</td><td class="val">1.00</td><td>Debt-to-output ratio</td></tr>
+        <tr><td>Default rate (SS)</td><td class="val">0.01</td><td class="val">0.03</td><td class="val">0.001</td><td>Steady-state default probability</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ §6 RESULTS ═══════════ -->
+<section id="results">
+  <h2><span class="sec-num">06</span> Key Results</h2>
+  <p class="sec-desc">Fiscal multipliers and crisis simulation</p>
+
+  <div class="card">
+    <h3>Four Fiscal Expansion Scenarios</h3>
+    <p>Each shock = 1% of national output. Multipliers measured in first year:</p>
+  </div>
+
+  <div class="mult-grid">
+    <div class="mult-card">
+      <div class="mult-value">1.0424</div>
+      <div class="mult-label">Case (i)<br>Local Govt 1 → Region 1</div>
+    </div>
+    <div class="mult-card">
+      <div class="mult-value">1.0250</div>
+      <div class="mult-label">Case (ii)<br>Local Govt 2 → Region 2</div>
+    </div>
+    <div class="mult-card top">
+      <div class="mult-value">1.0445</div>
+      <div class="mult-label">Case (iii) — Largest<br>Central Govt → Region 1</div>
+    </div>
+    <div class="mult-card">
+      <div class="mult-value">1.0331</div>
+      <div class="mult-label">Case (iv)<br>Central Govt → Region 2</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Why Case (iii) Has the Largest Multiplier</h3>
+    <p>Three reinforcing factors make central-government spending in Region 1 most effective:</p>
+    <p><strong>① Lower crowding out:</strong> The central government has \(v_c = 0\), meaning no risk premium on its bonds — it faces no default penalty. Local Govt 1 faces \(v_1 = 0.03\), which raises interest rates and crowds out investment.</p>
+    <p><strong>② Productive social capital:</strong> Region 1 has \(\eta_1 = 0.2\), so government spending directly increases output through \(K^{g,1}\). In Region 2, \(\eta_2 = 0\), so spending has no supply-side effect beyond the initial demand impulse.</p>
+    <p><strong>③ More non-Ricardian households:</strong> Region 1 has \(\omega_1 = 0.4\) vs. \(\omega_2 = 0.3\). More rule-of-thumb consumers means higher marginal propensity to consume, amplifying the demand multiplier.</p>
+  </div>
+
+  <div class="card">
+    <h3>Fiscal Crisis Simulation (Section 5)</h3>
+    <p>An information shock \(\varepsilon_t^{p,2}\) raises expected default probability of Local Govt 2. This triggers:</p>
+    <p>→ Risk premiums soar on Region 2 bonds → interest rates rise → by arbitrage, central and Region 1 interest rates also rise → tax increases in Region 2 → non-Ricardian consumption falls → deposit rates fall (less bond supply) → Ricardian consumption rises but hours worked and output decline nationally.</p>
+    <p>The fiscal crisis <strong>spills across regions</strong> through the financial intermediation (banker) channel — even though Region 1's fundamentals are unchanged.</p>
+  </div>
+
+  <div class="relevance-box">
+    <h4>🔗 Key Takeaway for Your Thesis</h4>
+    <p><strong>Interregional spillover mechanism:</strong> Tamegawa shows that fiscal shocks in one region transmit to other regions through: (a) the national goods market clearing condition (Eq. 34), (b) the banking system which pools deposits nationally and prices risk across all government bonds, and (c) the central government's uniform taxation. For your disaster model, the same channels apply — a natural disaster destroying capital in one region will transmit to the non-affected region through these financial and goods-market linkages. You can introduce a <strong>capital destruction shock</strong> (reducing \(K_t^i\) in the affected region) and a <strong>reconstruction spending channel</strong> (analogous to government spending building social capital via Eq. 33).</p>
+  </div>
+</section>
+
+<!-- ═══════════ §7 RELEVANCE ═══════════ -->
+<section id="relevance">
+  <h2><span class="sec-num">07</span> Adaptations for Your Thesis</h2>
+  <p class="sec-desc">How to extend Tamegawa's framework for disaster analysis in Indonesia</p>
+
+  <div class="card">
+    <h3>Mapping Tamegawa → Your Disaster Model</h3>
+    <table class="param-table">
+      <thead><tr><th>Tamegawa (2012)</th><th>Your Thesis Adaptation</th></tr></thead>
+      <tbody>
+        <tr><td>Fiscal spending shock \(\varepsilon_t^i\)</td><td>Natural disaster shock (capital destruction + reconstruction spending)</td></tr>
+        <tr><td>Region 1 (labor-intensive, productive social capital)</td><td>Disaster-affected region (e.g., Sulawesi, NTB)</td></tr>
+        <tr><td>Region 2 (capital-intensive, no social capital effect)</td><td>Non-affected region (e.g., Java)</td></tr>
+        <tr><td>Social capital \(K^{g,i}\)</td><td>Reconstruction/resilience capital — infrastructure rebuilt post-disaster</td></tr>
+        <tr><td>Default risk / fiscal crisis \(\varepsilon_t^{p,i}\)</td><td>Fiscal stress from reconstruction spending (debt sustainability)</td></tr>
+        <tr><td>Non-Ricardian households \(\omega_i\)</td><td>Particularly relevant for Indonesia — large informal/subsistence sector</td></tr>
+        <tr><td>Bankers (national financial intermediary)</td><td>National banking system linking regional capital markets</td></tr>
+        <tr><td>Single goods market</td><td>Extend to two goods (traded + non-traded) for richer regional dynamics</td></tr>
+        <tr><td>No labor mobility</td><td>Could add post-disaster migration as extension</td></tr>
+        <tr><td>Annual frequency (no sticky prices)</td><td>Consider quarterly frequency with nominal rigidities for richer dynamics</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>What Your Model Needs Beyond Tamegawa</h3>
+    <p><strong>① Rare disaster shock:</strong> Tamegawa has fiscal shocks but no capital destruction. You need a Poisson-distributed disaster that destroys a fraction of physical capital \(K_t^i\) in the affected region — following Barro (2006, 2009) rare disaster literature.</p>
+    <p><strong>② Recovery dynamics:</strong> Tamegawa's social capital accumulation (Eq. 33) provides a starting point, but you need explicit <strong>reconstruction speed parameters</strong> and possibly a recovery function that depends on government policy choice (RQ1, RQ4).</p>
+    <p><strong>③ Policy comparison:</strong> Tamegawa compares local vs. central spending. You should compare: (a) direct transfers to affected households, (b) reconstruction investment, (c) central vs. local government funding, (d) speed of disbursement.</p>
+    <p><strong>④ Trade structure:</strong> Tamegawa's single-good assumption is limiting. For Indonesia, regional specialization (commodities vs. manufacturing) matters. Consider a two-good extension with terms-of-trade effects.</p>
+    <p><strong>⑤ Welfare analysis:</strong> Tamegawa reports multipliers but not welfare. Your thesis should compute consumption-equivalent welfare losses across regions to answer RQ3.</p>
+  </div>
+
+  <div class="card">
+    <h3>Limitations of Tamegawa (2012)</h3>
+    <p><strong>No labor mobility</strong> — households cannot relocate, which is unrealistic for disaster analysis where displacement is central. <strong>Single good</strong> — no terms of trade between regions. <strong>Calibration only</strong> — not estimated on actual data, so multiplier magnitudes are illustrative. <strong>No nominal rigidities</strong> — the real business cycle framework misses monetary policy interactions. <strong>No heterogeneous agents within regions</strong> — only the Ricardian/non-Ricardian split, not a full wealth distribution (unlike HANK models you're studying).</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+  // Render KaTeX
+  document.addEventListener('DOMContentLoaded', function() {
+    renderMathJax();
+  });
+
+  function renderMathJax() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ],
+      throwOnError: false
+    });
+  }
+
+  // Simple scroll-based nav highlighting
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+  
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+
+</body>
+</html>

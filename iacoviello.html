@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iacoviello & Neri (2010) — DSGE Model Breakdown</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0f14;
+    --bg-card: #141821;
+    --bg-card-hover: #1a1f2b;
+    --border: #2a3040;
+    --border-accent: #3d6b8e;
+    --text: #d4dae6;
+    --text-muted: #8892a4;
+    --text-heading: #eef1f7;
+    --accent: #5ba4d9;
+    --accent-warm: #d9875b;
+    --accent-green: #5bd9a4;
+    --accent-purple: #9b7ed9;
+    --accent-red: #d95b72;
+    --katex-color: #c8d8ec;
+    --flow-line: #3d6b8e;
+    --tag-bg: rgba(91,164,217,0.12);
+    --tag-text: #5ba4d9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Header */
+  .hero {
+    position: relative;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(91,164,217,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse at 80% 100%, rgba(155,126,217,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--tag-bg);
+    padding: 0.3em 1em;
+    border-radius: 3px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--text-heading);
+    font-weight: 700;
+    line-height: 1.25;
+    max-width: 800px;
+    margin: 0 auto 1rem;
+  }
+  .hero .authors {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+  }
+  .hero .journal {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  .hero .thesis-note {
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    background: rgba(217,135,91,0.08);
+    border-left: 3px solid var(--accent-warm);
+    border-radius: 0 6px 6px 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  .hero .thesis-note strong { color: var(--accent-warm); font-weight: 600; }
+
+  /* Navigation */
+  .nav-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(12,15,20,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .nav-bar-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; gap: 0;
+  }
+  .nav-bar a {
+    display: inline-block;
+    padding: 0.8rem 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-bar a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* Main content */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* Sections */
+  .section {
+    padding-top: 3.5rem;
+  }
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--text-heading);
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    line-height: 1.3;
+  }
+  .section h3 {
+    font-size: 1.15rem;
+    color: var(--text-heading);
+    font-weight: 600;
+    margin: 2rem 0 0.8rem;
+  }
+  .section p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.2rem 0;
+    transition: border-color 0.3s;
+  }
+  .card:hover { border-color: var(--border-accent); }
+  .card-title {
+    font-weight: 600;
+    color: var(--text-heading);
+    margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .card-title .icon {
+    width: 20px; height: 20px;
+    border-radius: 4px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  /* Tag pills */
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.15em 0.6em;
+    border-radius: 3px;
+    margin: 0.15rem 0.2rem 0.15rem 0;
+  }
+  .tag-blue { background: rgba(91,164,217,0.12); color: #5ba4d9; }
+  .tag-green { background: rgba(91,217,164,0.12); color: #5bd9a4; }
+  .tag-purple { background: rgba(155,126,217,0.12); color: #9b7ed9; }
+  .tag-warm { background: rgba(217,135,91,0.12); color: #d9875b; }
+  .tag-red { background: rgba(217,91,114,0.12); color: #d95b72; }
+
+  /* KaTeX blocks */
+  .eq-block {
+    background: rgba(20,24,33,0.8);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+  }
+  .eq-block .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.08em;
+  }
+  .eq-block .eq-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+  .katex { color: var(--katex-color); font-size: 1.05em; }
+  .katex-display { margin: 0.5em 0; }
+  .katex-display > .katex { text-align: left; }
+
+  /* Equation list */
+  .eq-list { list-style: none; counter-reset: eq-counter; }
+  .eq-list > li {
+    counter-increment: eq-counter;
+    padding: 1rem 1.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 0.8rem;
+    position: relative;
+    padding-left: 3.5rem;
+  }
+  .eq-list > li::before {
+    content: counter(eq-counter);
+    position: absolute; left: 1rem; top: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: var(--tag-bg);
+    width: 1.6em; height: 1.6em;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .eq-list .eq-name {
+    font-weight: 600; color: var(--text-heading);
+    margin-bottom: 0.4rem; font-size: 0.95rem;
+  }
+
+  /* Flowchart */
+  .flow-container {
+    padding: 2rem 0;
+  }
+  .flow-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .flow-node {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+  }
+  .flow-node.highlight {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(91,164,217,0.1);
+  }
+  .flow-node.highlight-warm {
+    border-color: var(--accent-warm);
+    box-shadow: 0 0 20px rgba(217,135,91,0.08);
+  }
+  .flow-node.highlight-green {
+    border-color: var(--accent-green);
+    box-shadow: 0 0 20px rgba(91,217,164,0.08);
+  }
+  .flow-node.highlight-purple {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 20px rgba(155,126,217,0.08);
+  }
+  .flow-node-title {
+    font-weight: 600; color: var(--text-heading);
+    font-size: 0.95rem; margin-bottom: 0.3rem;
+  }
+  .flow-node-desc {
+    font-size: 0.82rem; color: var(--text-muted);
+  }
+  .flow-arrow {
+    width: 2px; height: 32px;
+    background: var(--flow-line);
+    position: relative;
+  }
+  .flow-arrow::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--flow-line);
+  }
+
+  /* Two column grid */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 700px) {
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+
+  /* Callout */
+  .callout {
+    padding: 1.2rem 1.5rem;
+    border-radius: 6px;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+  }
+  .callout-blue {
+    background: rgba(91,164,217,0.08);
+    border-left: 3px solid var(--accent);
+  }
+  .callout-warm {
+    background: rgba(217,135,91,0.08);
+    border-left: 3px solid var(--accent-warm);
+  }
+  .callout-green {
+    background: rgba(91,217,164,0.08);
+    border-left: 3px solid var(--accent-green);
+  }
+  .callout-purple {
+    background: rgba(155,126,217,0.08);
+    border-left: 3px solid var(--accent-purple);
+  }
+  .callout strong { color: var(--text-heading); }
+
+  /* Table */
+  .param-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+  }
+  .param-table th {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border);
+  }
+  .param-table td {
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid rgba(42,48,64,0.5);
+    color: var(--text);
+  }
+  .param-table tr:hover td { background: rgba(91,164,217,0.03); }
+
+  /* Heterogeneity deep-dive section */
+  .het-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 700px) {
+    .het-grid { grid-template-columns: 1fr; }
+  }
+  .het-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3rem;
+  }
+  .het-card h4 {
+    font-size: 1rem;
+    color: var(--text-heading);
+    margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .het-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .het-card .dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  /* Comparison table for thesis */
+  .comparison-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .comparison-col {
+    padding: 1.2rem;
+  }
+  .comparison-col:first-child {
+    border-right: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+  .comparison-col:last-child {
+    background: rgba(217,135,91,0.04);
+  }
+  .comparison-col h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+  }
+  .comparison-col ul {
+    list-style: none;
+    font-size: 0.88rem;
+  }
+  .comparison-col li {
+    padding: 0.3rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .comparison-col li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent);
+  }
+  .comparison-col:last-child li::before { color: var(--accent-warm); }
+  @media (max-width: 700px) {
+    .comparison-row { grid-template-columns: 1fr; }
+    .comparison-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  /* Separator */
+  .sep {
+    height: 1px;
+    background: var(--border);
+    margin: 3rem 0 0;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-label">Paper Breakdown · DSGE</div>
+  <h1>Housing Market Spillovers: Evidence from an Estimated DSGE Model</h1>
+  <p class="authors">Matteo Iacoviello &amp; Stefano Neri (2010)</p>
+  <p class="journal">American Economic Journal: Macroeconomics, 2(2), 125–164</p>
+  <div class="thesis-note">
+    <strong>Relevansi Tesis:</strong> Dokumen ini memetakan model Iacoviello &amp; Neri sebagai referensi utama untuk memodelkan <em>agent heterogeneity</em> dalam DSGE. Fokus utama: bagaimana dua tipe household (patient/impatient) dengan collateral constraint menghasilkan spillover — prinsip yang bisa diadaptasi untuk memodelkan regional heterogeneity &amp; disaster recovery dalam konteks Indonesia.
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav class="nav-bar">
+  <div class="nav-bar-inner">
+    <a href="#problem">Problem</a>
+    <a href="#features">Fitur Model</a>
+    <a href="#heterogeneity">Heterogenitas Agen</a>
+    <a href="#flowchart">Flowchart</a>
+    <a href="#equations">Equations</a>
+    <a href="#estimation">Estimasi</a>
+    <a href="#results">Hasil</a>
+    <a href="#thesis">Mapping ke Tesis</a>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="container">
+
+<!-- =========================================== -->
+<!-- SECTION 1: PROBLEM -->
+<!-- =========================================== -->
+<section class="section" id="problem">
+  <div class="section-number">01 — Problem Statement</div>
+  <h2>Apa yang Ingin Dipecahkan?</h2>
+
+  <p>Paper ini mengajukan dua pertanyaan fundamental tentang pasar perumahan AS:</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span class="tag tag-blue">Q1</span> Nature of Shocks
+      </div>
+      <p style="font-size:0.9rem; color:var(--text-muted);">Apa saja shock yang menggerakkan pasar perumahan? Apakah housing market hanya <em>pasif</em> merefleksikan aktivitas makro, atau justru menjadi <em>driving force</em> siklus bisnis?</p>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <span class="tag tag-blue">Q2</span> Spillover Size
+      </div>
+      <p style="font-size:0.9rem; color:var(--text-muted);">Seberapa besar spillover dari housing market ke ekonomi yang lebih luas? Khususnya, bagaimana fluktuasi housing wealth mempengaruhi konsumsi non-housing?</p>
+    </div>
+  </div>
+
+  <div class="callout callout-warm">
+    <strong>Mengapa penting?</strong> Pengalaman boom-bust perumahan AS awal 2000-an menunjukkan bahwa housing bukan sekadar aset pasif. Model yang hanya melihat satu sektor gagal menangkap interaksi harga rumah → borrowing capacity → konsumsi. Iacoviello &amp; Neri membangun DSGE dua-sektor dengan heterogeneous agents untuk menangkap mekanisme ini.
+  </div>
+</section>
+
+<!-- =========================================== -->
+<!-- SECTION 2: MODEL FEATURES -->
+<!-- =========================================== -->
+<section class="section" id="features">
+  <div class="section-number">02 — Model Features</div>
+  <h2>Anatomi Model DSGE</h2>
+
+  <p>Model ini merupakan perluasan dari New Keynesian DSGE standar (Smets-Wouters type) dengan empat elemen kunci yang ditambahkan:</p>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-blue">i</span> Multi-Sector Structure</div>
+    <p style="font-size:0.9rem; color:var(--text-muted);">Dua sektor produksi: <strong>nonhousing</strong> (konsumsi + business investment menggunakan capital &amp; labor) dan <strong>housing</strong> (new homes menggunakan capital, labor, land, &amp; intermediate input). Ini memunculkan endogenous relative price dynamics.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-purple">ii</span> Nominal Rigidities</div>
+    <p style="font-size:0.9rem; color:var(--text-muted);">Calvo-style sticky prices di sektor konsumsi + sticky wages di kedua sektor (dengan partial indexation). Harga housing bersifat <em>fleksibel</em> — karena housing mahal per unit dan dinegosiasikan individual.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-warm">iii</span> Household Heterogeneity &amp; Collateral Constraints</div>
+    <p style="font-size:0.9rem; color:var(--text-muted);">Dua tipe household: <strong>patient</strong> (lenders, \(\beta = 0.9925\)) dan <strong>impatient</strong> (borrowers, \(\beta' = 0.97\)). Impatient households menghadapi borrowing constraint yang terikat pada nilai rumah. Inilah <em>mekanisme utama spillover</em>.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-green">iv</span> Rich Shock Structure</div>
+    <p style="font-size:0.9rem; color:var(--text-muted);">9 shock eksogen: 3 technology (nonhousing, housing, investment-specific), 3 preference (intertemporal, housing demand, labor supply), dan 3 monetary/nominal (i.i.d. monetary, inflation objective, cost-push).</p>
+  </div>
+
+  <h3>Calibrated Parameters</h3>
+  <table class="param-table">
+    <thead><tr><th>Parameter</th><th>Value</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td>\(\beta\)</td><td>0.9925</td><td>Discount factor patient → annual real rate 3%</td></tr>
+      <tr><td>\(\beta'\)</td><td>0.97</td><td>Discount factor impatient → always near borrowing limit</td></tr>
+      <tr><td>\(m\)</td><td>0.85</td><td>Loan-to-value ratio</td></tr>
+      <tr><td>\(\mu_c\)</td><td>0.35</td><td>Capital share, nonhousing</td></tr>
+      <tr><td>\(\mu_h, \mu_l, \mu_b\)</td><td>0.10 each</td><td>Capital, land, intermediate share in housing</td></tr>
+      <tr><td>\(\delta_h\)</td><td>0.01</td><td>Housing depreciation</td></tr>
+      <tr><td>\(\delta_{kc}, \delta_{kh}\)</td><td>0.025, 0.03</td><td>Capital depreciation rates</td></tr>
+      <tr><td>\(X, X_{wc}, X_{wh}\)</td><td>1.15</td><td>Steady-state markups (15%)</td></tr>
+      <tr><td>\(j\)</td><td>0.12</td><td>Housing weight in utility</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- =========================================== -->
+<!-- SECTION 3: HETEROGENEITY DEEP-DIVE -->
+<!-- =========================================== -->
+<section class="section" id="heterogeneity">
+  <div class="section-number">03 — Deep Dive: Heterogenitas Agen</div>
+  <h2>Bagaimana Agent Heterogeneity Dimodelkan?</h2>
+
+  <p>Ini adalah fitur inti yang paling relevan untuk tesis Anda. Iacoviello &amp; Neri membangun heterogenitas melalui <strong>perbedaan discount factor</strong> yang menghasilkan pembagian endogen antara <em>lenders</em> dan <em>borrowers</em>.</p>
+
+  <div class="het-grid">
+    <div class="het-card">
+      <h4><span class="dot" style="background:var(--accent);"></span> Patient Households (Lenders)</h4>
+      <p>Discount factor \(\beta = 0.9925\) (lebih sabar). Mereka mengakumulasi capital, housing, dan land; meminjamkan dana ke impatient households dan firms.</p>
+      <p><strong>Keputusan:</strong> \(c_t, h_t, k_{c,t}, k_{h,t}, k_{b,t}, l_t, n_{c,t}, n_{h,t}, z_{c,t}, z_{h,t}, b_t\)</p>
+      <p><strong>Income share (\(\alpha\)):</strong> ~79% of labor income (estimated)</p>
+    </div>
+    <div class="het-card">
+      <h4><span class="dot" style="background:var(--accent-warm);"></span> Impatient Households (Borrowers)</h4>
+      <p>Discount factor \(\beta' = 0.97\) (lebih tidak sabar). Tidak memiliki capital atau land. Hanya mengakumulasi housing dan meminjam <em>maksimum</em> terhadap nilai rumahnya.</p>
+      <p><strong>Keputusan:</strong> \(c'_t, h'_t, n'_{c,t}, n'_{h,t}, b'_t\)</p>
+      <p><strong>Income share:</strong> ~21% of labor income → 17% of consumption</p>
+    </div>
+  </div>
+
+  <h3>Mekanisme Kunci: Collateral Constraint</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">BORROWING CONSTRAINT</div>
+    $$b'_t \leq m \, E_t \left[ \frac{q_{t+1} \, h'_t \, \pi_{t+1}}{R_t} \right]$$
+    <div class="eq-desc">Hutang maksimum impatient household = LTV ratio × expected present value rumah. Karena \(\beta' < \beta\), constraint ini <strong>selalu binding</strong> di sekitar steady state.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <strong>Mengapa \(\beta' < \beta\) menjamin binding constraint?</strong> Dengan impatience yang cukup besar, impatient agents akan terus mendekumulasi kekayaan hingga lower bound — yaitu batas yang ditentukan collateral constraint. Untuk "small shocks", mereka selalu berada tepat di batas ini. Model dilinearisasi di sekitar steady state dengan constraint yang binding.
+  </div>
+
+  <h3>Bagaimana Heterogenitas Menghasilkan Spillover?</h3>
+
+  <p>Mekanisme transmisi bekerja melalui rantai berikut:</p>
+
+  <div class="flow-container">
+    <div class="flow-col">
+      <div class="flow-node highlight">
+        <div class="flow-node-title">Shock Positif (misal: housing demand ↑)</div>
+        <div class="flow-node-desc">\(j_t\) naik → housing lebih diinginkan</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node">
+        <div class="flow-node-title">Harga Rumah Naik: \(q_t \uparrow\)</div>
+        <div class="flow-node-desc">Housing price merespons sebagai forward-looking variable</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node highlight-warm">
+        <div class="flow-node-title">Collateral Value Naik</div>
+        <div class="flow-node-desc">\(b'_t \leq m \cdot E_t[q_{t+1} h'_t \pi_{t+1}/R_t]\) → borrowing capacity ↑</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node highlight-warm">
+        <div class="flow-node-title">Borrowers Meningkatkan Konsumsi</div>
+        <div class="flow-node-desc">\(c'_t \uparrow\) karena MPC borrowers tinggi (discount factor rendah)</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node highlight-green">
+        <div class="flow-node-title">Aggregate Consumption \(C_t \uparrow\)</div>
+        <div class="flow-node-desc">Meski lender \(c_t\) turun sedikit, efek net positif karena MPC borrowers > MPC lenders</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <strong>Kunci kuantitatif:</strong> Tanpa collateral effect (\(\alpha = 1\)), housing demand shock <em>menurunkan</em> konsumsi (crowding out). Dengan collateral (\(\alpha = 0.79\)), respons konsumsi <em>positif</em>. Elastisitas konsumsi terhadap housing wealth naik 2.5 pp (dari 0.108 ke 0.133) berkat mekanisme ini.
+  </div>
+
+  <h3>Labor Market Heterogeneity</h3>
+  <p>Kedua tipe household menyuplai labor ke kedua sektor. Dalam production function, jam kerja keduanya masuk secara Cobb-Douglas:</p>
+
+  <div class="eq-block">
+    <div class="eq-label">COMPOSITE LABOR</div>
+    $$\text{Labor input} = (n_{i,t})^\alpha \, (n'_{i,t})^{1-\alpha}, \quad i \in \{c, h\}$$
+    <div class="eq-desc">Parameter \(\alpha\) mengontrol labor income share sekaligus economic size masing-masing grup. Ini memberikan <em>complementarity</em> antar skill.</div>
+  </div>
+
+  <h3>Preferensi: Perbedaan Antar Agen</h3>
+  <p>Utility function keduanya memiliki struktur sama, tapi parameter bisa berbeda:</p>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <div class="card-title">Patient</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);">Habits: \(\varepsilon = 0.32\) (rendah)<br>Disutility labor: \(\eta = 0.52\), \(\xi = 0.66\)</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent-warm);">
+      <div class="card-title">Impatient</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);">Habits: \(\varepsilon' = 0.58\) (tinggi — kompensasi ketiadaan capital smoothing)<br>Disutility labor: \(\eta' = 0.51\), \(\xi' = 0.97\)</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<!-- SECTION 4: FLOWCHART -->
+<!-- =========================================== -->
+<section class="section" id="flowchart">
+  <div class="section-number">04 — Model Flowchart</div>
+  <h2>Alur Keseluruhan Model DSGE</h2>
+
+  <div class="flow-container">
+    <div class="flow-col">
+
+      <div class="flow-node highlight">
+        <div class="flow-node-title">Exogenous Shocks (9 total)</div>
+        <div class="flow-node-desc">
+          <span class="tag tag-blue">\(u_{C,t}\)</span>
+          <span class="tag tag-blue">\(u_{H,t}\)</span>
+          <span class="tag tag-blue">\(u_{K,t}\)</span>
+          <span class="tag tag-green">\(u_{j,t}\)</span>
+          <span class="tag tag-green">\(u_{z,t}\)</span>
+          <span class="tag tag-green">\(u_{\tau,t}\)</span>
+          <span class="tag tag-purple">\(u_{R,t}\)</span>
+          <span class="tag tag-purple">\(u_{p,t}\)</span>
+          <span class="tag tag-purple">\(u_{s,t}\)</span>
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node">
+        <div class="flow-node-title">Household Optimization</div>
+        <div class="flow-node-desc">Patient: max utility s.t. budget constraint (B1) → FOCs (B2)–(B11)<br>
+        Impatient: max utility s.t. budget + borrowing constraint (B12)–(B13) → FOCs (B14)–(B17)</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node highlight-warm">
+        <div class="flow-node-title">Collateral Channel</div>
+        <div class="flow-node-desc">\(b'_t = m \, E_t[q_{t+1} h'_t \pi_{t+1} / R_t]\) links housing values → borrowing → spending</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node">
+        <div class="flow-node-title">Production</div>
+        <div class="flow-node-desc">
+          Nonhousing: \(Y_t = A_{c,t} (n_c^\alpha {n'_c}^{1-\alpha})^{1-\mu_c} (z_c k_c)^{\mu_c}\)<br>
+          Housing: \(IH_t = A_{h,t}(\ldots)^{1-\mu_h-\mu_l-\mu_b} k_b^{\mu_b} (z_h k_h)^{\mu_h} l^{\mu_l}\)
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node highlight-purple">
+        <div class="flow-node-title">Nominal Rigidities</div>
+        <div class="flow-node-desc">Calvo prices (consumption sector) + Calvo wages (both sectors, 4 wage Phillips curves) with partial indexation</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node">
+        <div class="flow-node-title">Taylor Rule</div>
+        <div class="flow-node-desc">\(R_t = R_{t-1}^{r_R} \pi_t^{(1-r_R)r_\pi} \left(\frac{GDP_t}{G_C \cdot GDP_{t-1}}\right)^{(1-r_R)r_Y} \bar{r}^{1-r_R} \frac{u_{R,t}}{s_t}\)</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node highlight-green">
+        <div class="flow-node-title">Market Clearing</div>
+        <div class="flow-node-desc">
+          Goods: \(C_t + IK_{c,t}/A_{k,t} + IK_{h,t} + k_{b,t} = Y_t - \phi_t\)<br>
+          Housing: \(H_t - (1-\delta_h)H_{t-1} = IH_t\)<br>
+          Loans: \(b_t + b'_t = 0\) &nbsp;&nbsp; Land: \(l_t = 1\)
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node">
+        <div class="flow-node-title">Linearization &amp; Solution</div>
+        <div class="flow-node-desc">Detrend by balanced growth path → linearize around steady state with binding borrowing constraint → state-space form → compute decision rules</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-node highlight">
+        <div class="flow-node-title">Bayesian Estimation</div>
+        <div class="flow-node-desc">10 observables (1965:Q1–2006:Q4) → Metropolis-Hastings → posterior distributions → IRFs, variance decomposition, historical decomposition</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<!-- SECTION 5: EQUATIONS -->
+<!-- =========================================== -->
+<section class="section" id="equations">
+  <div class="section-number">05 — Key Equations</div>
+  <h2>Daftar Persamaan Utama</h2>
+
+  <h3>A. Utility Functions</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">PATIENT HOUSEHOLD UTILITY</div>
+    $$E_0 \sum_{t=0}^{\infty} (\beta G_C)^t \, z_t \left[ \Gamma_c \ln(c_t - \varepsilon c_{t-1}) + j_t \ln h_t - \frac{\tau_t}{1+\eta} \frac{\left(n_{c,t}^{1+\xi} + n_{h,t}^{1+\xi}\right)^{\frac{1+\eta}{1+\xi}}}{1} \right]$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">IMPATIENT HOUSEHOLD UTILITY</div>
+    $$E_0 \sum_{t=0}^{\infty} (\beta' G_C)^t \, z_t \left[ \Gamma'_c \ln(c'_t - \varepsilon' c'_{t-1}) + j_t \ln h'_t - \frac{\tau_t}{1+\eta'} \frac{\left({n'}_{c,t}^{1+\xi'} + {n'}_{h,t}^{1+\xi'}\right)^{\frac{1+\eta'}{1+\xi'}}}{1} \right]$$
+    <div class="eq-desc">Log-log preferences reconcile trending relative prices with stable expenditure shares. \(\xi, \xi' > 0\) implies imperfect labor mobility across sectors (Horvath 2000).</div>
+  </div>
+
+  <h3>B. Budget Constraints</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">PATIENT BUDGET CONSTRAINT (B1)</div>
+    $$c_t + \frac{k_{c,t}}{A_{k,t}} + k_{h,t} + k_{b,t} + q_t h_t + p_{l,t} l_t - b_t = \frac{w_{c,t} n_{c,t}}{X_{wc,t}} + \frac{w_{h,t} n_{h,t}}{X_{wh,t}} + \left(R_{c,t} z_{c,t} + \frac{1-\delta_{kc}}{A_{k,t}}\right) k_{c,t-1}$$
+    $$+ (R_{h,t} z_{h,t} + 1 - \delta_{kh}) k_{h,t-1} + p_{b,t} k_{b,t} - \frac{R_{t-1} b_{t-1}}{\pi_t} + (p_{l,t} + R_{l,t}) l_{t-1} + q_t(1-\delta_h) h_{t-1} + Div_t - \phi_t - \frac{a(z_{c,t})}{A_{k,t}} k_{c,t-1} - a(z_{h,t}) k_{h,t-1}$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">IMPATIENT BUDGET CONSTRAINT (B12)</div>
+    $$c'_t + q_t h'_t = \frac{w'_{c,t} n'_{c,t}}{X_{wc',t}} + \frac{w'_{h,t} n'_{h,t}}{X_{wh',t}} + b'_t - \frac{R_{t-1} b'_{t-1}}{\pi_t} + q_t(1-\delta_h) h'_{t-1} + Div'_t$$
+    <div class="eq-desc">Impatient households memiliki budget constraint yang jauh lebih sederhana — tanpa capital accumulation dan land.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">COLLATERAL CONSTRAINT (B13)</div>
+    $$b'_t = m \, E_t \left[\frac{q_{t+1} \, h'_t \, \pi_{t+1}}{R_t}\right]$$
+    <div class="eq-desc">Holds with equality karena \(\beta' < \beta\). Parameter \(m = 0.85\) mengukur likuiditas housing wealth.</div>
+  </div>
+
+  <h3>C. Key First-Order Conditions</h3>
+
+  <ol class="eq-list">
+    <li>
+      <div class="eq-name">Housing Demand — Patient (B2)</div>
+      $$u_{c,t} \, q_t = u_{h,t} + \beta G_C \, E_t\left[u_{c,t+1} \, q_{t+1}(1-\delta_h)\right]$$
+    </li>
+    <li>
+      <div class="eq-name">Euler Equation — Patient (B3)</div>
+      $$u_{c,t} = \beta G_C \, E_t\left[\frac{u_{c,t+1} \, R_t}{\pi_{t+1}}\right]$$
+    </li>
+    <li>
+      <div class="eq-name">Housing Demand — Impatient (B14)</div>
+      $$u_{c',t} \, q_t = u_{h',t} + \beta' G_C \, E_t\left[u_{c',t+1} \, q_{t+1}(1-\delta_h)\right] + \lambda_t \frac{m \, q_{t+1} \pi_{t+1}}{R_t}$$
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-top:0.3rem;">\(\lambda_t > 0\) adalah Lagrange multiplier dari borrowing constraint — the "price of tightness"</div>
+    </li>
+    <li>
+      <div class="eq-name">Euler Equation — Impatient (B15)</div>
+      $$u_{c',t} = \beta' G_C \, E_t\left[\frac{u_{c',t+1} \, R_t}{\pi_{t+1}}\right] + \lambda_t$$
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-top:0.3rem;">\(\lambda_t\) muncul sebagai "wedge" — impatient agents tidak bisa smooth consumption karena constraint binding</div>
+    </li>
+    <li>
+      <div class="eq-name">Capital in Nonhousing (B4)</div>
+      $$u_{c,t}\left(\frac{1}{A_{k,t}} + \frac{\partial \phi_{c,t}}{\partial k_{c,t}}\right) = \beta G_C \, E_t\left[u_{c,t+1}\left(R_{c,t+1} z_{c,t+1} - a(z_{c,t+1}) + \frac{1-\delta_{kc}}{A_{k,t+1}} - \frac{\partial \phi_{c,t+1}}{\partial k_{c,t}}\right)\right]$$
+    </li>
+    <li>
+      <div class="eq-name">Land Pricing (B11)</div>
+      $$u_{c,t} \, p_{l,t} = \beta G_C \, E_t\left[u_{c,t+1}(p_{l,t+1} + R_{l,t+1})\right]$$
+    </li>
+  </ol>
+
+  <h3>D. Production Technologies</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">NONHOUSING SECTOR (Eq. 6)</div>
+    $$Y_t = A_{c,t} \left(n_{c,t}^\alpha \, {n'}_{c,t}^{1-\alpha}\right)^{1-\mu_c} \left(z_{c,t} \, k_{c,t-1}\right)^{\mu_c}$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">HOUSING SECTOR (Eq. 7)</div>
+    $$IH_t = A_{h,t} \left(n_{h,t}^\alpha \, {n'}_{h,t}^{1-\alpha}\right)^{1-\mu_h-\mu_b-\mu_l} (z_{h,t} \, k_{h,t-1})^{\mu_h} \, k_{b,t}^{\mu_b} \, l_{t-1}^{\mu_l}$$
+    <div class="eq-desc">Land (\(l\)) sebagai fixed factor → membatasi housing supply → house prices bisa naik secara sekuler.</div>
+  </div>
+
+  <h3>E. Phillips Curves</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">PRICE PHILLIPS CURVE (Eq. 8 / B28)</div>
+    $$\ln\pi_t - \iota_\pi \ln\pi_{t-1} = \beta G_C \left(E_t \ln\pi_{t+1} - \iota_\pi \ln\pi_t\right) - \varepsilon_\pi \ln\left(\frac{X_t}{X}\right) + u_{p,t}$$
+    <div class="eq-desc">\(\varepsilon_\pi = \frac{(1-\theta_\pi)(1-\beta G_C \theta_\pi)}{\theta_\pi}\). Estimated: \(\theta_\pi = 0.83\) (reoptimize every ~6 quarters), \(\iota_\pi = 0.69\).</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">WAGE PHILLIPS CURVES (B29–B32)</div>
+    $$\ln\omega_{i,t} - \iota_{wi} \ln\pi_{t-1} = \beta_{type} G_C \left(E_t \ln\omega_{i,t+1} - \iota_{wi} \ln\pi_t\right) - \varepsilon_{wi} \ln\left(\frac{X_{wi,t}}{X_{wi}}\right)$$
+    <div class="eq-desc">4 wage equations: for each sector \(i \in \{c, h\}\) × each household type. Wage stickiness in housing (\(\theta_{wh} = 0.91\)) lebih tinggi dari consumption (\(\theta_{wc} = 0.79\)). <strong>Sticky wages krusial</strong> — tanpa ini, residential investment tidak sensitif terhadap monetary shocks.</div>
+  </div>
+
+  <h3>F. Taylor Rule &amp; Shock Processes</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">TAYLOR RULE (Eq. 9 / B33)</div>
+    $$R_t = R_{t-1}^{r_R} \, \pi_t^{(1-r_R)r_\pi} \left(\frac{GDP_t}{G_C \cdot GDP_{t-1}}\right)^{(1-r_R)r_Y} \bar{r}^{\,1-r_R} \frac{u_{R,t}}{s_t}$$
+    <div class="eq-desc">\(r_R = 0.59\) (interest rate smoothing), \(r_\pi = 1.44\) (inflation response), \(r_Y = 0.52\) (output growth response). \(s_t\) captures persistent shifts in inflation target.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">TECHNOLOGY PROCESSES (Eq. 12–15, balanced growth)</div>
+    $$G_C = 1 + \gamma_{AC} + \frac{\mu_c}{1-\mu_c}\gamma_{AK}$$
+    $$G_q = 1 + (1-\mu_h-\mu_b)\gamma_{AC} + \frac{\mu_c(1-\mu_h-\mu_b)}{1-\mu_c}\gamma_{AK} - (1-\mu_h-\mu_l-\mu_b)\gamma_{AH}$$
+    <div class="eq-desc">Real house prices naik jika \(\gamma_{AH} < \gamma_{AC}\) — yaitu jika teknologi housing tertinggal. Estimated: \(\gamma_{AC} = 0.32\)%, \(\gamma_{AH} = 0.08\)% per quarter → menjelaskan kenaikan sekuler harga rumah riil.</div>
+  </div>
+
+  <h3>G. Market Clearing</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">GOODS MARKET (B34)</div>
+    $$C_t + \frac{IK_{c,t}}{A_{k,t}} + IK_{h,t} + k_{b,t} = Y_t - \phi_t$$
+  </div>
+  <div class="eq-block">
+    <div class="eq-label">HOUSING MARKET (B35)</div>
+    $$h_t + h'_t - (1-\delta_h)(h_{t-1} + h'_{t-1}) = IH_t$$
+  </div>
+  <div class="eq-block">
+    <div class="eq-label">LOAN &amp; LAND MARKETS (B36)</div>
+    $$b_t + b'_t = 0, \qquad l_t = 1$$
+  </div>
+
+  <p style="margin-top:1.5rem;">Total system: <strong>36 equations</strong> in 36 variables: \(c, h, k_c, k_h, k_b, n_c, n_h, b, l, z_c, z_h, c', h', n'_c, n'_h, b', IH, Y, q, R, \pi, \lambda, X, w_c, w_h, w'_c, w'_h, X_{wc}, X_{wh}, X_{wc'}, X_{wh'}, R_c, R_h, R_l, p_b, p_l\).</p>
+</section>
+
+<!-- =========================================== -->
+<!-- SECTION 6: ESTIMATION -->
+<!-- =========================================== -->
+<section class="section" id="estimation">
+  <div class="section-number">06 — Metode Estimasi</div>
+  <h2>Bayesian Estimation</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="tag tag-blue">Data</span></div>
+      <p style="font-size:0.85rem;color:var(--text-muted);">
+        10 observables, 1965:Q1–2006:Q4:<br>
+        Real consumption, residential inv., business inv., real house prices, nominal interest rate, inflation, hours (×2 sectors), wage inflation (×2 sectors).
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-purple">Method</span></div>
+      <p style="font-size:0.85rem;color:var(--text-muted);">
+        Linearize around balanced growth path → state-space model → likelihood via Kalman filter → combine with priors → Metropolis-Hastings algorithm (500,000 draws, ~25% acceptance rate).
+      </p>
+    </div>
+  </div>
+
+  <h3>Alur Estimasi</h3>
+  <div class="flow-container">
+    <div class="flow-col">
+      <div class="flow-node">
+        <div class="flow-node-title">1. Data Transformation</div>
+        <div class="flow-node-desc">Keep trends, remove levels. Demean inflation, interest rate, hours, wage inflation. Allow measurement error for housing sector hours &amp; wages.</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node">
+        <div class="flow-node-title">2. Calibrate Subset</div>
+        <div class="flow-node-desc">Fix \(\beta, \beta', j, \mu_c, \mu_h, \mu_l, \mu_b, \delta_h, \delta_{kc}, \delta_{kh}, X, X_w, m, \rho_s\) to match steady-state ratios</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node">
+        <div class="flow-node-title">3. Set Priors</div>
+        <div class="flow-node-desc">Beta for bounded [0,1] params, Gamma for positive params, Normal for unbounded, Inv-Gamma for shock SDs</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node highlight">
+        <div class="flow-node-title">4. Metropolis-Hastings</div>
+        <div class="flow-node-desc">Random walk MH with covariance = Hessian at posterior mode. 500K draws. Convergence checked by splitting sample in half.</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node">
+        <div class="flow-node-title">5. Analysis</div>
+        <div class="flow-node-desc">Impulse responses, variance decomposition (HP-filtered), historical decomposition, subsample estimation (pre/post 1980s)</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Key Estimated Parameters</h3>
+  <table class="param-table">
+    <thead><tr><th>Parameter</th><th>Prior Mean</th><th>Posterior Median</th><th>Interpretation</th></tr></thead>
+    <tbody>
+      <tr><td>\(\alpha\)</td><td>0.65</td><td>0.79</td><td>Patient labor share → 21% constrained</td></tr>
+      <tr><td>\(\varepsilon\)</td><td>0.50</td><td>0.33</td><td>Habits (patient) — lower than expected</td></tr>
+      <tr><td>\(\varepsilon'\)</td><td>0.50</td><td>0.58</td><td>Habits (impatient) — higher, compensates no capital</td></tr>
+      <tr><td>\(\theta_\pi\)</td><td>0.667</td><td>0.83</td><td>Price Calvo → reoptimize ~every 6Q</td></tr>
+      <tr><td>\(\theta_{wh}\)</td><td>0.667</td><td>0.91</td><td>Wage Calvo housing → very sticky</td></tr>
+      <tr><td>\(r_R\)</td><td>0.75</td><td>0.59</td><td>Interest rate smoothing</td></tr>
+      <tr><td>\(\rho_j\)</td><td>0.80</td><td>0.96</td><td>Housing pref. shock persistence</td></tr>
+      <tr><td>\(\sigma_j\)</td><td>—</td><td>0.042</td><td>Housing pref. shock SD (largest)</td></tr>
+      <tr><td>\(100\gamma_{AC}\)</td><td>0.50</td><td>0.32</td><td>Quarterly TFP growth, nonhousing</td></tr>
+      <tr><td>\(100\gamma_{AH}\)</td><td>0.50</td><td>0.08</td><td>Quarterly TFP growth, housing (slowest)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- =========================================== -->
+<!-- SECTION 7: RESULTS -->
+<!-- =========================================== -->
+<section class="section" id="results">
+  <div class="section-number">07 — Hasil Utama</div>
+  <h2>Key Findings</h2>
+
+  <h3>Variance Decomposition</h3>
+
+  <table class="param-table">
+    <thead><tr><th>Variable</th><th>Housing Pref.</th><th>Housing Tech.</th><th>Monetary</th><th>Other</th></tr></thead>
+    <tbody>
+      <tr><td>Housing Investment (\(IH\))</td><td>28.4%</td><td>30.5%</td><td>19.1%</td><td>22.0%</td></tr>
+      <tr><td>House Prices (\(q\))</td><td>27.3%</td><td>20.2%</td><td>15.1%</td><td>37.4%</td></tr>
+      <tr><td>Consumption (\(C\))</td><td>0.3%</td><td>1.0%</td><td>26.8%</td><td>71.9%</td></tr>
+      <tr><td>GDP</td><td>2.0%</td><td>1.0%</td><td>31.9%</td><td>65.1%</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-blue">
+    <strong>Takeaway:</strong> Housing-specific shocks menjelaskan ~50% volatilitas housing market, tapi dampak langsungnya ke konsumsi/GDP kecil. Spillover utama terjadi melalui <em>amplification</em> shock lain via collateral channel — bukan dari housing shocks sendiri.
+  </div>
+
+  <h3>Subsample: Financial Liberalization</h3>
+
+  <div class="grid-2">
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <div class="card-title">1965–1982 (Low LTV)</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);">
+        \(m = 0.775\), \(\alpha = 0.68\)<br>
+        Collateral effects → 6% variance of consumption growth<br>
+        Lebih banyak constrained agents, tapi LTV rendah → spillover moderat
+      </p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent-warm);">
+      <div class="card-title">1989–2006 (High LTV)</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);">
+        \(m = 0.925\), \(\alpha = 0.81\)<br>
+        Collateral effects → 12% variance of consumption growth<br>
+        Fewer constrained agents, tapi LTV tinggi → greater amplification per agent
+      </p>
+    </div>
+  </div>
+
+  <h3>Housing Wealth Effect</h3>
+  <p>Regresi \(\Delta \ln C_t\) terhadap \(\Delta \ln HW_{t-1}\) dari simulated model:</p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Dengan Collateral</div>
+      <p style="font-size:1.1rem;text-align:center;color:var(--accent);font-family:'JetBrains Mono',monospace;">0.133</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Tanpa Collateral (\(\alpha=1\))</div>
+      <p style="font-size:1.1rem;text-align:center;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">0.108</p>
+    </div>
+  </div>
+  <p>Collateral effects menambahkan <strong>2.5 percentage points</strong> pada elastisitas konsumsi terhadap housing wealth.</p>
+</section>
+
+<!-- =========================================== -->
+<!-- SECTION 8: THESIS MAPPING -->
+<!-- =========================================== -->
+<section class="section" id="thesis">
+  <div class="section-number">08 — Mapping ke Tesis</div>
+  <h2>Relevansi untuk Tesis Anda</h2>
+
+  <div class="callout callout-warm">
+    <strong>Tesis:</strong> Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context
+  </div>
+
+  <h3>Analogi Struktural</h3>
+
+  <div class="comparison-row">
+    <div class="comparison-col">
+      <h4>Iacoviello &amp; Neri (2010)</h4>
+      <ul>
+        <li>2 agent types: patient vs impatient</li>
+        <li>Heterogeneity via \(\beta \neq \beta'\)</li>
+        <li>Collateral constraint ties housing → borrowing</li>
+        <li>2 sectors: housing vs nonhousing</li>
+        <li>Spillover: housing wealth → consumption</li>
+        <li>Housing preference shock as demand driver</li>
+        <li>Land as fixed factor limiting supply</li>
+        <li>Subsample: financial liberalization (changing \(m\))</li>
+      </ul>
+    </div>
+    <div class="comparison-col">
+      <h4>Tesis Anda (Potensi Adaptasi)</h4>
+      <ul>
+        <li>2 region types: disaster-affected vs non-affected</li>
+        <li>Heterogeneity via productivity/capital destruction</li>
+        <li>Constraint: damaged infrastructure → reduced production capacity</li>
+        <li>2+ sectors: tradable vs nontradable (atau multi-region)</li>
+        <li>Spillover: regional disaster → national consumption/output</li>
+        <li>Disaster shock as rare, large negative shock</li>
+        <li>Regional fixed factors (geography, infrastructure)</li>
+        <li>Policy counterfactuals: subsidy vs transfer (changing policy params)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Pelajaran Kunci dari Model Ini</h3>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-warm">1</span> Discount Factor Heterogeneity → Natural Borrower/Lender Split</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);">Anda bisa mengadaptasi ini: disaster-affected region bisa memiliki discount factor efektif yang lebih rendah (karena urgent reconstruction needs), membuat mereka <em>net borrowers</em> dari region lain. Ini secara natural menghasilkan interregional capital flows.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-warm">2</span> Binding Constraint = Amplification Mechanism</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);">Collateral constraint yang always-binding adalah kunci amplifikasi. Untuk bencana: constraint bisa berupa <em>reconstruction capacity</em> (limited labor/materials) atau <em>fiscal constraint</em> (limited government budget). Saat bencana merusak collateral (infrastructure), borrowing turun → output turun lebih jauh.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-warm">3</span> Sectoral Heterogeneity + Fixed Factor = Endogenous Relative Prices</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);">Land dalam model ini bisa dianalogikan dengan <em>regional infrastructure</em> atau <em>geographic endowment</em>. Fixed factor menghasilkan endogenous scarcity → price dynamics yang realistis. Setelah bencana, scarcity construction materials/labor → harga rekonstruksi naik.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-warm">4</span> Shock Persistence Matters Enormously</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);">Housing pref. shock dengan \(\rho_j = 0.96\) menghasilkan efek sangat persisten pada harga. Untuk bencana: capital destruction bersifat <em>one-time</em> tapi recovery bisa sangat lambat tergantung reconstruction speed — ini menjawab RQ4 Anda tentang speed of recovery.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-warm">5</span> Bayesian Estimation Framework</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);">Metropolis-Hastings dengan 500K draws, clear prior specification, dan convergence diagnostics. Framework ini bisa diadopsi langsung, meski untuk rare disaster Anda mungkin perlu calibration-heavy approach karena disaster events jarang muncul di data.</p>
+  </div>
+
+  <h3>Adaptasi Heterogenitas Agen untuk Multi-Region</h3>
+
+  <div class="callout callout-green">
+    <strong>Ide inti:</strong> Ganti <em>patient/impatient households</em> dengan <em>disaster-affected/non-affected regions</em>. Masing-masing region memiliki production function sendiri, tapi terhubung via trade (intermediate goods) dan financial markets (interregional lending). Disaster shock menghancurkan capital di satu region → relative price changes → spillover ke region lain via trade linkages dan financial constraint tightening.
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">POSSIBLE ADAPTATION: REGIONAL PRODUCTION</div>
+    $$Y_{i,t} = A_{i,t} \, K_{i,t-1}^{\mu_i} \, N_{i,t}^{1-\mu_i}, \quad i \in \{\text{affected}, \text{non-affected}\}$$
+    <div class="eq-desc">Disaster shock: \(K_{\text{aff},t} = (1 - \Delta_t) K_{\text{aff},t-1}\) di mana \(\Delta_t\) adalah fraction of capital destroyed.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">POSSIBLE ADAPTATION: INTERREGIONAL TRADE LINKAGE</div>
+    $$C_{i,t} = \left[\omega_i^{1/\sigma} (C_{i,t}^{local})^{(\sigma-1)/\sigma} + (1-\omega_i)^{1/\sigma} (C_{i,t}^{import})^{(\sigma-1)/\sigma}\right]^{\sigma/(\sigma-1)}$$
+    <div class="eq-desc">CES aggregation of local dan imported goods → trade elasticity \(\sigma\) controls spillover magnitude.</div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+</main>
+
+<footer class="footer">
+  <p>Compiled for thesis research · Andre · Master's Program in Economics, UGM · February 2026</p>
+  <p style="margin-top:0.3rem;">Based on Iacoviello &amp; Neri (2010), <em>American Economic Journal: Macroeconomics</em></p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ],
+    throwOnError: false,
+    strict: false
+  });
+});
+</script>
+
+</body>
+</html>
