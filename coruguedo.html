@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fernandez-Corugedo, Gonzalez-Gomez & Guerson (2023) — Ringkasan Model DSGE</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --ink-light: #3d3d5c;
+    --ink-muted: #6b6b8a;
+    --bg: #faf9f6;
+    --bg-warm: #f5f3ee;
+    --bg-card: #ffffff;
+    --accent: #c0392b;
+    --accent-dark: #96281b;
+    --accent-light: #e8d5d2;
+    --teal: #16766b;
+    --teal-light: #d4edea;
+    --blue: #2c5f8a;
+    --blue-light: #dce8f1;
+    --gold: #b8860b;
+    --gold-light: #f5ecd5;
+    --border: #e0ddd6;
+    --shadow: 0 2px 12px rgba(26,26,46,0.06);
+    --shadow-md: 0 4px 24px rgba(26,26,46,0.08);
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.72;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2c3e6b 50%, #16766b 100%);
+    color: #fff;
+    padding: 4rem 2rem 3.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  }
+  .hero-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: 'Source Serif 4', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+  .hero .authors {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    margin-bottom: 0.4rem;
+  }
+  .hero .pub-info {
+    font-size: 0.85rem;
+    opacity: 0.6;
+  }
+  .hero .thesis-link {
+    margin-top: 1.5rem;
+    padding: 1rem 1.4rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: var(--radius);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .hero .thesis-link strong {
+    color: #7dd3c0;
+  }
+
+  /* ── NAV ── */
+  .toc-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,249,246,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1rem;
+  }
+  .toc-bar nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar nav::-webkit-scrollbar { display: none; }
+  .toc-bar a {
+    display: block;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .toc-bar a:hover, .toc-bar a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  section {
+    padding: 3rem 0 2rem;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .section-label .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 0.7rem;
+  }
+
+  h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 1.8rem 0 0.8rem;
+  }
+
+  p { margin-bottom: 1rem; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    box-shadow: var(--shadow);
+  }
+  .card.accent-left { border-left: 4px solid var(--accent); }
+  .card.teal-left { border-left: 4px solid var(--teal); }
+  .card.blue-left { border-left: 4px solid var(--blue); }
+  .card.gold-left { border-left: 4px solid var(--gold); }
+
+  .card-title {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .card-title .icon {
+    font-size: 1.1rem;
+  }
+
+  /* ── FEATURE GRID ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.3rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .feature-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .feature-card .fc-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+  .feature-card .fc-icon.red { background: var(--accent-light); }
+  .feature-card .fc-icon.teal { background: var(--teal-light); }
+  .feature-card .fc-icon.blue { background: var(--blue-light); }
+  .feature-card .fc-icon.gold { background: var(--gold-light); }
+  .feature-card h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.98rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .feature-card p {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── EQUATIONS ── */
+  .eq-block {
+    background: var(--bg-warm);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0 1.2rem;
+    overflow-x: auto;
+  }
+  .eq-block .eq-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    margin-bottom: 0.6rem;
+  }
+  .eq-block .eq-content {
+    font-size: 1.05rem;
+    text-align: center;
+    padding: 0.4rem 0;
+  }
+  .eq-block .eq-note {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    margin-top: 0.6rem;
+    font-style: italic;
+  }
+
+  .eq-group {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin: 1.2rem 0;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .eq-group-header {
+    padding: 1rem 1.4rem;
+    background: var(--bg-warm);
+    border-bottom: 1px solid var(--border);
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .eq-group-header:hover { background: #edeae3; }
+  .eq-group-header .toggle { 
+    margin-left: auto; 
+    font-size: 0.8rem; 
+    color: var(--ink-muted);
+    transition: transform 0.3s;
+  }
+  .eq-group-body {
+    padding: 1.2rem 1.4rem;
+    display: none;
+  }
+  .eq-group.open .eq-group-body { display: block; }
+  .eq-group.open .toggle { transform: rotate(180deg); }
+
+  .eq-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #f0ede6;
+  }
+  .eq-row:last-child { border-bottom: none; }
+  .eq-row .eq-name {
+    flex: 0 0 180px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink-light);
+    padding-top: 0.2rem;
+  }
+  .eq-row .eq-math {
+    flex: 1;
+    overflow-x: auto;
+    font-size: 0.98rem;
+  }
+
+  /* ── FLOWCHART ── */
+  .flow-container {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    min-width: 600px;
+    padding: 1rem;
+  }
+  .flow-node {
+    padding: 1rem 1.8rem;
+    border-radius: var(--radius);
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    max-width: 520px;
+    width: 100%;
+    position: relative;
+  }
+  .flow-node.start {
+    background: linear-gradient(135deg, #1a1a2e, #2c3e6b);
+    color: #fff;
+    border-radius: 30px;
+  }
+  .flow-node.process {
+    background: var(--bg-card);
+    border: 2px solid var(--blue);
+    color: var(--ink);
+  }
+  .flow-node.decision {
+    background: var(--gold-light);
+    border: 2px solid var(--gold);
+    color: var(--ink);
+    border-radius: 4px;
+    transform: rotate(0deg);
+  }
+  .flow-node.result {
+    background: var(--teal-light);
+    border: 2px solid var(--teal);
+    color: var(--ink);
+  }
+  .flow-node.end {
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: #fff;
+    border-radius: 30px;
+  }
+  .flow-node .fn-title {
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.3rem;
+  }
+  .flow-node .fn-desc {
+    font-weight: 400;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+  .flow-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 36px;
+    justify-content: center;
+    color: var(--ink-muted);
+    font-size: 1.2rem;
+  }
+
+  .flow-branch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    max-width: 560px;
+    margin: 0.2rem 0;
+  }
+  .flow-branch .flow-node {
+    font-size: 0.84rem;
+    padding: 0.9rem 1.2rem;
+  }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1.2rem 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    background: var(--bg-card);
+  }
+  thead th {
+    background: var(--bg-warm);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-light);
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+  }
+  td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid #f0ede6;
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #faf8f3; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    border-radius: var(--radius);
+    padding: 1.3rem 1.5rem;
+    margin: 1.2rem 0;
+  }
+  .highlight-box.red {
+    background: #fdf0ee;
+    border: 1px solid #e8c5bf;
+  }
+  .highlight-box.teal {
+    background: #eef8f6;
+    border: 1px solid #b8ddd8;
+  }
+  .highlight-box.blue {
+    background: #eef3f8;
+    border: 1px solid #b8cfe0;
+  }
+  .highlight-box.gold {
+    background: #fdf8ec;
+    border: 1px solid #e0d3a8;
+  }
+  .highlight-box strong {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.92rem;
+  }
+  .highlight-box p {
+    font-size: 0.88rem;
+    margin: 0;
+    color: var(--ink-light);
+    line-height: 1.65;
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .comparison-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  .comparison-badge.yes { background: #d4edda; color: #155724; }
+  .comparison-badge.no { background: #f8d7da; color: #721c24; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg-warm);
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    margin-top: 2rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── DEEP DIVE SECTIONS ── */
+  .deep-dive {
+    margin: 2rem 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .dd-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1.1rem 1.5rem;
+    background: var(--bg-warm);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    flex-wrap: wrap;
+  }
+  .dd-header:hover { background: #edeae3; }
+  .dd-badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .dd-badge.red { background: var(--accent); }
+  .dd-badge.teal-bg { background: var(--teal); }
+  .dd-badge.blue-bg { background: var(--blue); }
+  .dd-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    flex: 1;
+  }
+  .dd-toggle {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .dd-body {
+    padding: 1.5rem;
+    display: none;
+  }
+  .deep-dive.open .dd-body { display: block; }
+  .deep-dive.open .dd-toggle { transform: rotate(180deg); }
+
+  .logic-block {
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.4rem;
+    border-bottom: 1px dashed #e0ddd6;
+  }
+  .logic-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  
+  .logic-q {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.7rem;
+  }
+
+  .logic-list {
+    margin: 0.6rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .logic-item {
+    padding: 0.55rem 0.9rem 0.55rem 2.2rem;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    position: relative;
+  }
+  .logic-item::before {
+    position: absolute;
+    left: 0.7rem;
+    top: 0.55rem;
+    font-size: 0.85rem;
+  }
+  .logic-item.bad {
+    background: #fdf0ee;
+    border: 1px solid #e8c5bf;
+  }
+  .logic-item.bad::before { content: '✗'; color: var(--accent); font-weight: 700; }
+  .logic-item.good {
+    background: #eef8f6;
+    border: 1px solid #b8ddd8;
+  }
+  .logic-item.good::before { content: '✓'; color: var(--teal); font-weight: 700; }
+
+  .state-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .state-box {
+    border-radius: var(--radius);
+    padding: 1.1rem;
+  }
+  .state-box.normal {
+    background: #eef8f6;
+    border: 2px solid var(--teal);
+  }
+  .state-box.disaster {
+    background: #fdf0ee;
+    border: 2px solid var(--accent);
+  }
+  .state-label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  .state-desc {
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .mechanism-flow {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .mf-step {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-left: 3px solid var(--border);
+    padding-left: 1.2rem;
+    margin-left: 0.8rem;
+    position: relative;
+  }
+  .mf-step::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 1.2rem;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2px solid var(--bg-card);
+  }
+  .mf-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .mf-content {
+    flex: 1;
+  }
+  .mf-content strong {
+    display: block;
+    font-size: 0.92rem;
+    margin-bottom: 0.3rem;
+  }
+  .mf-content p {
+    font-size: 0.87rem;
+    color: var(--ink-light);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .two-col-logic {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin: 1rem 0;
+  }
+  .col-logic {
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .col-logic-title {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .fiscal-anatomy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin: 0.8rem 0;
+  }
+  .fiscal-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem;
+    background: var(--bg-warm);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .fiscal-badge {
+    flex-shrink: 0;
+    width: 50px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .fiscal-detail {
+    flex: 1;
+  }
+  .fiscal-detail strong {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+  .fiscal-detail p {
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .hero { padding: 2.5rem 1.2rem 2rem; }
+    .container { padding: 0 1rem; }
+    .eq-row { flex-direction: column; gap: 0.3rem; }
+    .eq-row .eq-name { flex: none; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .flow-branch { grid-template-columns: 1fr; }
+    .state-compare { grid-template-columns: 1fr; }
+    .two-col-logic { grid-template-columns: 1fr; }
+    .fiscal-item { flex-direction: column; gap: 0.5rem; }
+    .dd-title { font-size: 0.95rem; }
+    .toc-bar a { padding: 0.75rem 0.8rem; font-size: 0.78rem; }
+  }
+
+  /* ── UTILS ── */
+  .text-sm { font-size: 0.88rem; }
+  .text-muted { color: var(--ink-muted); }
+  .mt-1 { margin-top: 0.5rem; }
+  .mt-2 { margin-top: 1rem; }
+  .mb-1 { margin-bottom: 0.5rem; }
+  .mb-2 { margin-bottom: 1rem; }
+
+  /* KaTeX overrides */
+  .katex { font-size: 1em !important; }
+  .eq-content .katex { font-size: 1.08em !important; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HERO ════════════════ -->
+<header class="hero">
+  <div class="hero-inner">
+    <span class="badge">📄 IMF Working Paper WP/23/138</span>
+    <h1>The Macroeconomic Returns of Investment in Resilience to Natural Disasters under Climate Change: A DSGE Approach</h1>
+    <p class="authors">Emilio Fernandez-Corugedo, Andres Gonzalez-Gomez, dan Alejandro Guerson</p>
+    <p class="pub-info">International Monetary Fund — Juni 2023</p>
+    <div class="thesis-link">
+      <strong>🎓 Konteks Tesis:</strong>
+      Halaman ini dibuat sebagai bahan referensi untuk tesis <em>"Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context"</em> — Universitas Gadjah Mada.
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════ STICKY NAV ════════════════ -->
+<div class="toc-bar">
+  <nav>
+    <a href="#problem">Masalah Utama</a>
+    <a href="#features">Fitur Model</a>
+    <a href="#flowchart">Alur Model</a>
+    <a href="#equations">Persamaan</a>
+    <a href="#estimation">Metode Estimasi</a>
+    <a href="#results">Hasil Utama</a>
+    <a href="#relevance">Relevansi Tesis</a>
+  </nav>
+</div>
+
+<div class="container">
+
+<!-- ════════════════ 1. MASALAH UTAMA ════════════════ -->
+<section id="problem">
+  <div class="section-label"><span class="num">1</span> Problem Statement</div>
+  <h2>Masalah Utama yang Ingin Dipecahkan</h2>
+  
+  <p>Paper ini berangkat dari kenyataan bahwa <strong>bencana alam terkait iklim</strong> (siklon, banjir, tornado) menyebabkan kerugian ekonomi besar di Small Developing States (SDS), dan kerugian ini akan semakin meningkat seiring perubahan iklim. Pertanyaan sentral yang dijawab:</p>
+
+  <div class="card accent-left">
+    <div class="card-title"><span class="icon">❓</span> Pertanyaan Riset Utama</div>
+    <p class="text-sm" style="margin:0;">Seberapa besar <em>return</em> dari investasi pada infrastruktur yang tahan bencana (resilient), dan apakah return tersebut melebihi biaya tambahannya — baik dalam jangka pendek (pasca-bencana) maupun jangka panjang (steady state)?</p>
+  </div>
+
+  <p>Secara spesifik, paper ini menjawab tiga sub-masalah:</p>
+  
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="fc-icon red">📉</div>
+      <h4>Dampak Makro Bencana Alam</h4>
+      <p>Bagaimana bencana alam yang menghancurkan stok kapital publik dan privat mempengaruhi output, konsumsi, investasi, dan fiskal dalam jangka pendek dan panjang?</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon teal">🏗️</div>
+      <h4>Return Investasi Resiliensi</h4>
+      <p>Apakah investasi infrastruktur tahan bencana (25% lebih mahal) menghasilkan net return positif melalui pengurangan kerusakan, percepatan pemulihan, dan peningkatan output steady state?</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon blue">🌡️</div>
+      <h4>Dampak Perubahan Iklim</h4>
+      <p>Bagaimana peningkatan intensitas bencana akibat pemanasan global (skenario RCP 8.5) mempengaruhi perhitungan cost-benefit investasi resiliensi?</p>
+    </div>
+  </div>
+
+  <div class="highlight-box gold">
+    <strong>🇩🇲 Studi Kasus: Dominika</strong>
+    <p>Model dikalibrasi untuk Dominika — negara paling rentan terhadap bencana alam di dunia (1997–2017, kerugian GDP tertinggi akibat bencana iklim). Badai Maria 2017 menyebabkan kerusakan ≈226% GDP. Sejak 1963, tercatat 13 siklon, rata-rata satu bencana tiap 5 tahun dengan kerusakan rata-rata ≈10.5% GDP per kejadian.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ════════════════ 2. FITUR MODEL ════════════════ -->
+<section id="features">
+  <div class="section-label"><span class="num">2</span> Fitur Model</div>
+  <h2>Fitur Utama Model DSGE</h2>
+  
+  <p>Model ini adalah <strong>Markov-Switching DSGE</strong> open economy kecil dengan sejumlah fitur kunci yang membedakannya dari literatur sebelumnya:</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="fc-icon red">🔄</div>
+      <h4>Markov-Switching Regime</h4>
+      <p>Bencana alam dimodelkan sebagai peralihan antar-regime (normal vs. bencana) dengan transition matrix, bukan sebagai kejutan one-off. Agen menginternalisasi risiko bencana secara ex-ante.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon teal">🏠</div>
+      <h4>Dua Tipe Rumah Tangga</h4>
+      <p><strong>Ricardian</strong> (investor/saver, 20%): memiliki kapital, akses pasar finansial. <strong>Non-Ricardian</strong> (worker, hand-to-mouth, 80%): konsumsi = pendapatan, bergantung transfer pemerintah.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon blue">💳</div>
+      <h4>Financial Frictions</h4>
+      <p>Collateral constraint: perusahaan hanya bisa meminjam sebanding fraksi σ dari nilai kapital. Bencana menghancurkan kolateral → memperlambat pemulihan.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon gold">🏛️</div>
+      <h4>Menu Fiskal Lengkap</h4>
+      <p>Pajak konsumsi, pendapatan tenaga kerja, profit korporat, transfer, investasi publik resilient & non-resilient, grants, dan lump-sum taxes — semua dimodelkan eksplisit.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon red">🏗️</div>
+      <h4>Kapital Resilient vs. Non-Resilient</h4>
+      <p>Investasi publik bisa <em>resilient</em> (tahan bencana, 25% lebih mahal) atau <em>non-resilient</em>. Keduanya substitusi sempurna dalam produksi, tapi hanya non-resilient yang hancur saat bencana.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon teal">💸</div>
+      <h4>Remitansi Asing</h4>
+      <p>Remitansi bervariasi menurut state ekonomi: meningkat 20% pasca-bencana. Kritis untuk SDS di Karibia, Amerika Tengah, dan Pasifik.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon blue">📈</div>
+      <h4>Endogenous Risk Premium</h4>
+      <p>Premi risiko pada suku bunga eksternal bervariasi dengan rasio utang terhadap GDP dan kondisi bencana, mempengaruhi keputusan investasi.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon gold">⚡</div>
+      <h4>Dampak TFP</h4>
+      <p>Bencana tidak hanya menghancurkan stok kapital tetapi juga menurunkan TFP secara temporer, menciptakan efek <em>scarring</em> jangka panjang.</p>
+    </div>
+  </div>
+
+  <!-- ═══ DEEP DIVE: MARKOV SWITCHING ═══ -->
+  <div class="deep-dive" id="dd-markov">
+    <div class="dd-header" onclick="toggleDD('dd-markov')">
+      <div class="dd-badge red">Deep Dive</div>
+      <h3 class="dd-title">🔄 Markov-Switching Regime: Logika Pemodelan</h3>
+      <span class="dd-toggle">▼</span>
+    </div>
+    <div class="dd-body">
+
+      <div class="logic-block">
+        <div class="logic-q">❓ Masalah apa yang ingin dipecahkan?</div>
+        <p>Dalam model DSGE standar, bencana alam dimasukkan sebagai <em>shock eksogen satu kali</em> — seperti penurunan TFP atau penghancuran kapital yang datang secara tiba-tiba. Masalahnya: dalam kenyataan, orang-orang di Dominika (atau Indonesia) <strong>tahu</strong> bahwa bencana bisa datang kapan saja. Mereka tidak terkejut ketika bencana terjadi — mereka sudah mengantisipasinya. Seorang pengusaha di Yogyakarta tidak membangun pabrik seolah-olah gempa tidak mungkin terjadi lagi.</p>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">🧠 Kenapa shock biasa tidak cukup?</div>
+        <p>Jika bencana dimodelkan sebagai kejutan AR(1) biasa, maka:</p>
+        <div class="logic-list">
+          <div class="logic-item bad">Agen tidak mengantisipasi bencana sebelum terjadi → tidak ada efek pada <strong>steady state</strong></div>
+          <div class="logic-item bad">Expected return investasi tidak mempertimbangkan risiko kehancuran kapital → <strong>overestimate</strong> investasi</div>
+          <div class="logic-item bad">Kreditur tidak memperhitungkan risiko kolateral hancur → <strong>underestimate</strong> credit spread</div>
+          <div class="logic-item bad">Hanya bisa analisis transisi pasca-bencana, <strong>tidak bisa analisis perubahan iklim</strong> (yang mengubah probabilitas/intensitas)</div>
+        </div>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">💡 Solusi: Markov-Switching</div>
+        <p>Ekonomi hidup dalam salah satu dari <strong>dua state</strong> yang bergantian secara stokastik:</p>
+        
+        <div class="state-compare">
+          <div class="state-box normal">
+            <div class="state-label">State 1: Normal</div>
+            <div class="state-desc">
+              Depresiasi kapital privat: <strong>6%/tahun</strong><br>
+              Depresiasi kapital publik non-resilient: <strong>6%/tahun</strong><br>
+              Pertumbuhan TFP: <strong>+2.6%</strong><br>
+              Remitansi & grants: di bawah rata-rata
+            </div>
+          </div>
+          <div class="state-box disaster">
+            <div class="state-label">State 2: Bencana</div>
+            <div class="state-desc">
+              Depresiasi kapital privat: <strong>57.9%/tahun</strong><br>
+              Depresiasi kapital publik non-resilient: <strong>74.8%/tahun</strong><br>
+              Pertumbuhan TFP: <strong>−1%</strong><br>
+              Remitansi & grants: naik 20%
+            </div>
+          </div>
+        </div>
+
+        <p>Perpindahan antar-state diatur oleh <strong>transition matrix</strong>:</p>
+        <div class="eq-block">
+          <div class="eq-content">$$P = \begin{bmatrix} p_{1,1} & p_{1,2} \\ p_{2,1} & p_{2,2} \end{bmatrix}$$</div>
+          <div class="eq-note">$p_{1,2} \approx 0.05$/kuartal (≈ 21%/tahun), artinya sekali per ~5 tahun terjadi bencana.<br>
+          $p_{2,1}$: probabilitas keluar dari state bencana ke normal (bencana bersifat temporer).<br>
+          Catatan: $p_{1,1} = 1 - p_{1,2}$ dan $p_{2,2} = 1 - p_{2,1}$.</div>
+        </div>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">⚙️ Bagaimana ini mengubah perilaku agen?</div>
+        <p>Karena agen tahu probabilitas bencana, <strong>semua keputusan berubah bahkan saat tidak ada bencana</strong>:</p>
+        
+        <div class="mechanism-flow">
+          <div class="mf-step">
+            <div class="mf-num">1</div>
+            <div class="mf-content">
+              <strong>Investor menginternalisasi risiko</strong>
+              <p>Expected return kapital privat sekarang mempertimbangkan kemungkinan bahwa kapital akan hancur di masa depan. Ini <strong>menurunkan</strong> expected return → <strong>menurunkan</strong> investasi di steady state.</p>
+            </div>
+          </div>
+          <div class="mf-step">
+            <div class="mf-num">2</div>
+            <div class="mf-content">
+              <strong>Kreditur menginternalisasi risiko kolateral</strong>
+              <p>Collateral constraint $W_t N_t^d + p_t^I I_t^Y \leq \sigma(Q_t K_{t-1}^Y)$ — kreditur tahu $K$ bisa turun drastis → <strong>credit spread naik</strong> bahkan di waktu normal.</p>
+            </div>
+          </div>
+          <div class="mf-step">
+            <div class="mf-num">3</div>
+            <div class="mf-content">
+              <strong>Konsumen mengantisipasi penurunan pendapatan</strong>
+              <p>Ricardian households melakukan precautionary saving. Worker households (hand-to-mouth) tidak bisa, sehingga lebih rentan.</p>
+            </div>
+          </div>
+          <div class="mf-step">
+            <div class="mf-num">4</div>
+            <div class="mf-content">
+              <strong>Efek agregat pada steady state</strong>
+              <p>Semua efek di atas membuat <strong>GDP steady state lebih rendah</strong> dibanding ekonomi tanpa bencana — bahkan di periode tanpa bencana aktual. Ini yang disebut efek "permanent drag" dari risiko bencana.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">🌡️ Kenapa ini kritis untuk analisis perubahan iklim?</div>
+        <p>Perubahan iklim = <strong>mengubah parameter switching</strong>. Jika intensitas bencana naik 14% (skenario RCP 8.5), cukup naikkan $\delta_Y(s=2)$ dan $\delta_{gn}(s=2)$ → steady state berubah otomatis karena agen menginternalisasi risiko yang lebih besar. Dalam model shock biasa, ini <strong>tidak bisa dilakukan</strong> karena steady state tidak bergantung pada properti shock.</p>
+        
+        <div class="highlight-box red" style="margin-top:0.8rem;">
+          <strong>Implikasi kuantitatif</strong>
+          <p>Efek nonlinear: peningkatan intensitas bencana 14% → penurunan output <strong>lebih dari dua kali lipat</strong> proporsinya. Ini karena (i) komplementaritas kapital publik-privat dalam produksi, dan (ii) collateral constraint yang mengetat lebih jauh.</p>
+        </div>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">📐 Bagaimana cara solve model ini?</div>
+        <p>Model MS-DSGE tidak bisa di-solve dengan metode perturbation standar (Schmitt-Grohé & Uribe) karena ada regime yang berganti. Digunakan metode <strong>Maih (2015)</strong>:</p>
+        <div class="eq-block">
+          <div class="eq-label">Framework Umum MS-DSGE</div>
+          <div class="eq-content">$$E_t \sum_{s_{t+1}=1}^{h} P_{s_t, s_{t+1}} \, f_{s_t}\!\left(x_{t+1}(s_{t+1}),\; x_t(s_t),\; x_t(s_t),\; x_{t-1},\; \epsilon_t\right) = 0$$</div>
+          <div class="eq-note">Expectation diambil atas <strong>semua kemungkinan regime di masa depan</strong>, tertimbang probabilitas transisi $P_{s_t, s_{t+1}}$.</div>
+        </div>
+        <p>Solusi diaproksimasi orde pertama di sekitar <strong>ergodic steady state</strong> — yaitu steady state yang dihitung menggunakan rata-rata ergodik semua parameter switching. Ini memungkinkan kalibrasi mencocokkan rasio jangka panjang yang teramati (yang memang sudah mencakup periode bencana dan non-bencana).</p>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">🇮🇩 Relevansi untuk tesis Indonesia multi-region</div>
+        <p>Untuk model dua-region Indonesia, bisa digunakan <strong>MS-DSGE multi-region</strong> di mana:</p>
+        <div class="logic-list">
+          <div class="logic-item good">Region terdampak memiliki $p_{1,2}$ positif (ada probabilitas bencana)</div>
+          <div class="logic-item good">Region tidak terdampak memiliki $p_{1,2} = 0$ (tidak ada bencana langsung)</div>
+          <div class="logic-item good">Tapi region tidak terdampak tetap terpengaruh melalui <strong>trade linkages</strong>, <strong>migrasi</strong>, dan <strong>transfer fiskal</strong></div>
+          <div class="logic-item good">Bencana langka (gempa/tsunami) → $p_{1,2}$ kecil tapi $\delta(s=2)$ sangat besar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DEEP DIVE: RESILIENT CAPITAL ═══ -->
+  <div class="deep-dive" id="dd-capital">
+    <div class="dd-header" onclick="toggleDD('dd-capital')">
+      <div class="dd-badge teal-bg">Deep Dive</div>
+      <h3 class="dd-title">🏗️ Kapital Resilient vs. Non-Resilient: Logika Pemodelan</h3>
+      <span class="dd-toggle">▼</span>
+    </div>
+    <div class="dd-body">
+
+      <div class="logic-block">
+        <div class="logic-q">❓ Apa yang ingin di-capture?</div>
+        <p>Di dunia nyata, pemerintah bisa memilih membangun infrastruktur <strong>standar</strong> (murah tapi mudah rusak) atau <strong>tahan bencana</strong> (lebih mahal tapi bertahan). Contoh: jembatan biasa vs. jembatan anti-gempa, rumah sakit standar vs. rumah sakit dengan struktur reinforced. Pertanyaannya: <strong>apakah biaya tambahan tersebut worth it</strong> secara makroekonomi?</p>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">💡 Desain kunci: substitusi sempurna dalam produksi, tapi beda ketahanan</div>
+        <p>Ini adalah pilihan desain yang sangat penting dan elegan:</p>
+        
+        <div class="two-col-logic">
+          <div class="col-logic">
+            <div class="col-logic-title" style="color:var(--teal);">Sisi Produksi</div>
+            <p>Kapital publik total yang masuk fungsi produksi:</p>
+            <div class="eq-block" style="margin:0.5rem 0;">
+              <div class="eq-content">$$K_t^G = K_t^{Gr} + K_t^{Gnr}$$</div>
+            </div>
+            <p>Keduanya <strong>substitusi sempurna</strong> — 1 unit kapital resilient = 1 unit kapital non-resilient dalam menghasilkan output. Jembatan tahan gempa dan jembatan biasa sama-sama menghubungkan dua kota.</p>
+          </div>
+          <div class="col-logic">
+            <div class="col-logic-title" style="color:var(--accent);">Sisi Ketahanan</div>
+            <p>Perbedaan muncul saat bencana melanda:</p>
+            <div class="eq-block" style="margin:0.5rem 0;">
+              <div class="eq-content">$$\delta_{gr}(s=2) = \delta_{gr}(s=1)$$</div>
+              <div class="eq-note">Resilient: depresiasi SAMA di kedua state</div>
+            </div>
+            <div class="eq-block" style="margin:0.5rem 0;">
+              <div class="eq-content">$$\delta_{gnr}(s=2) \gg \delta_{gnr}(s=1)$$</div>
+              <div class="eq-note">Non-resilient: depresiasi MELONJAK saat bencana (6% → 74.8%)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">💰 Tapi kapital resilient lebih mahal — bagaimana ini dimodelkan?</div>
+        <p>Produsen investasi resilient menggunakan teknologi konversi sederhana:</p>
+        <div class="eq-block">
+          <div class="eq-content">$$I_t^{Gr} = a^{Gr} \cdot I_t^{g} \quad \text{dengan} \quad a^{Gr} = \frac{1}{1.25} = 0.8$$</div>
+          <div class="eq-note">Untuk menghasilkan 1 unit investasi resilient, dibutuhkan 1.25 unit investasi generik.<br>
+          Maka harga per unit investasi resilient: $p_t^{Gr} = \frac{p_t^I}{a^{Gr}} = 1.25 \cdot p_t^I$</div>
+        </div>
+        <p>Angka 25% markup ini berasal dari estimasi <strong>World Bank Post Disaster Needs Assessment 2017</strong> untuk Dominika pasca-Badai Maria — membandingkan biaya replacement standar vs. biaya "build back better".</p>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">⚙️ Kenapa desain ini powerful untuk cost-benefit analysis?</div>
+        <p>Karena substitusi sempurna dalam produksi, kita bisa mengisolasi <strong>murni</strong> trade-off biaya vs. ketahanan:</p>
+        
+        <div class="mechanism-flow">
+          <div class="mf-step">
+            <div class="mf-num">💲</div>
+            <div class="mf-content">
+              <strong>Biaya (Cost)</strong>
+              <p>Dengan 80% kapital publik resilient, biaya investasi publik total naik karena premium 25%. Dengan fiscal rule yang mempertahankan target utang, ini berarti perlu pendapatan tambahan (lump-sum tax baseline).</p>
+            </div>
+          </div>
+          <div class="mf-step">
+            <div class="mf-num">📈</div>
+            <div class="mf-content">
+              <strong>Return Jangka Pendek (Setelah Bencana)</strong>
+              <p>Saat bencana melanda, kapital publik yang tersisa <strong>jauh lebih banyak</strong> → output drop lebih kecil → recovery lebih cepat → fiskal pressure lebih ringan. Tiga komponen return bertumpuk:</p>
+              <div class="logic-list" style="margin-top:0.4rem;">
+                <div class="logic-item good"><strong>Stock return:</strong> lebih sedikit kapital yang perlu di-rebuild</div>
+                <div class="logic-item good"><strong>Flow return (dekat):</strong> penurunan output & revenue lebih kecil</div>
+                <div class="logic-item good"><strong>Multiplier effect:</strong> kapital publik yang intact meningkatkan produktivitas marginal kapital privat (komplementaritas dalam Cobb-Douglas) → investasi privat juga lebih tinggi</div>
+              </div>
+            </div>
+          </div>
+          <div class="mf-step">
+            <div class="mf-num">🏛️</div>
+            <div class="mf-content">
+              <strong>Return Jangka Panjang (Steady State)</strong>
+              <p>Ini yang paling kritis dan hanya bisa ditangkap oleh MS framework. Karena agen <strong>tahu</strong> bahwa kapital publik sekarang resilient:</p>
+              <div class="logic-list" style="margin-top:0.4rem;">
+                <div class="logic-item good">Expected loss dari bencana lebih kecil → <strong>expected return investasi privat naik</strong></div>
+                <div class="logic-item good">Investasi privat naik → kapital privat steady state naik → labor productivity naik → upah naik</div>
+                <div class="logic-item good">Output steady state naik → tax base naik → <strong>revenue naik melebihi biaya tambahan resiliensi</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">📊 Bukti kuantitatif: return > cost</div>
+        <div class="two-col-logic">
+          <div class="col-logic" style="background:#eef8f6; padding:1rem; border-radius:8px;">
+            <div class="col-logic-title" style="color:var(--teal);">Baseline (tanpa perubahan iklim)</div>
+            <p style="margin:0;">GDP: <strong>+6.3%</strong><br>
+            Investasi privat: <strong>+17.9%</strong><br>
+            Pajak korporat: <strong>+6.7%</strong><br>
+            Pajak pendapatan kerja: <strong>+6.3%</strong></p>
+          </div>
+          <div class="col-logic" style="background:#fdf0ee; padding:1rem; border-radius:8px;">
+            <div class="col-logic-title" style="color:var(--accent);">Dengan perubahan iklim (+14% intensitas)</div>
+            <p style="margin:0;">GDP: <strong>+10.3%</strong><br>
+            Investasi privat: <strong>+21.3%</strong><br>
+            Pajak korporat: <strong>+10.3%</strong><br>
+            Pajak pendapatan kerja: <strong>+10.3%</strong></p>
+          </div>
+        </div>
+        <p class="text-sm text-muted mt-1">Return meningkat secara nonlinear dengan intensitas bencana — semakin parah bencana yang diantisipasi, semakin besar manfaat resiliensi.</p>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">🇮🇩 Adaptasi untuk Indonesia</div>
+        <p>Untuk tesis multi-region, konsep kapital resilient bisa diperluas:</p>
+        <div class="logic-list">
+          <div class="logic-item good">Kapital resilient berbeda antar-region: daerah rawan gempa butuh standar bangunan berbeda dari daerah rawan banjir</div>
+          <div class="logic-item good">Premium biaya resiliensi bisa bervariasi antar-region dan sektor (pertanian vs. manufaktur vs. infrastruktur)</div>
+          <div class="logic-item good">Kapital privat juga bisa dibuat resilient (paper ini hanya kapital publik) — relevan untuk sektor swasta Indonesia</div>
+          <div class="logic-item good">Trade linkage: jika infrastruktur transport antar-region resilient, <strong>spillover negatif ke region non-terdampak berkurang</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DEEP DIVE: FISCAL MENU ═══ -->
+  <div class="deep-dive" id="dd-fiscal">
+    <div class="dd-header" onclick="toggleDD('dd-fiscal')">
+      <div class="dd-badge blue-bg">Deep Dive</div>
+      <h3 class="dd-title">🏛️ Menu Fiskal Lengkap: Logika Pemodelan</h3>
+      <span class="dd-toggle">▼</span>
+    </div>
+    <div class="dd-body">
+
+      <div class="logic-block">
+        <div class="logic-q">❓ Kenapa perlu menu fiskal yang lengkap?</div>
+        <p>Respons fiskal terhadap bencana memiliki <strong>trade-off yang kompleks</strong>. Misalnya, pemerintah perlu membiayai rekonstruksi, tapi setiap instrumen fiskal punya efek distortif berbeda. Model dengan menu fiskal terbatas tidak bisa menangkap trade-off ini. Paper ini memasukkan <strong>seluruh sisi revenue dan expenditure</strong> pemerintah:</p>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">💰 Sisi Revenue: Tiga pajak + sumber non-pajak</div>
+        
+        <div class="fiscal-anatomy">
+          <div class="fiscal-item">
+            <div class="fiscal-badge" style="background:#fdf0ee;color:var(--accent);">τ<sup>C</sup></div>
+            <div class="fiscal-detail">
+              <strong>Pajak Konsumsi (τ<sup>C</sup> = 20.4%)</strong>
+              <p>Masuk budget constraint <strong>semua</strong> rumah tangga: $(1+\tau^C)C_t$. Ini distortif karena membuat konsumsi lebih mahal, tapi relatif efisien karena basis pajaknya luas. Saat digunakan sebagai instrumen stabilisasi utang pasca-bencana, ia menekan konsumsi <strong>kedua</strong> tipe household — termasuk worker yang hand-to-mouth dan punya MPC tinggi → dampak kontraktif signifikan.</p>
+            </div>
+          </div>
+          <div class="fiscal-item">
+            <div class="fiscal-badge" style="background:#eef3f8;color:var(--blue);">τ<sup>l</sup></div>
+            <div class="fiscal-detail">
+              <strong>Pajak Pendapatan Kerja (τ<sup>l</sup> = 6%)</strong>
+              <p>Masuk melalui $(1-\tau^l)W_t N_t$. <strong>Paling distortif</strong> karena langsung mengurangi insentif kerja: menurunkan after-tax wage → menurunkan labor supply melalui union FOC → menurunkan output. Saat digunakan pasca-bencana, ini memperlambat recovery paling parah.</p>
+            </div>
+          </div>
+          <div class="fiscal-item">
+            <div class="fiscal-badge" style="background:#eef8f6;color:var(--teal);">τ<sup>π</sup></div>
+            <div class="fiscal-detail">
+              <strong>Pajak Profit Korporat (τ<sup>π</sup> = 15.5%)</strong>
+              <p>Mempengaruhi keputusan investasi: $(1-\tau^\pi)\Pi_t$ untuk household dan $(1-\tau^\pi)$ dalam FOC kapital perusahaan. Mengurangi after-tax return on capital → menurunkan investasi steady state.</p>
+            </div>
+          </div>
+          <div class="fiscal-item">
+            <div class="fiscal-badge" style="background:#fdf8ec;color:var(--gold);">T<sup>G</sup></div>
+            <div class="fiscal-detail">
+              <strong>Lump-sum Tax (baseline fiscal instrument)</strong>
+              <p>Hanya dikenakan pada Ricardian households. <strong>Non-distortif</strong> karena tidak mengubah harga relatif manapun — tidak mempengaruhi keputusan konsumsi, kerja, atau investasi di margin. Digunakan sebagai baseline agar efek bencana bisa diisolasi dari distorsi pajak.</p>
+            </div>
+          </div>
+          <div class="fiscal-item">
+            <div class="fiscal-badge" style="background:#f0ede6;color:var(--ink-light);">T<sup>G*</sup>, Gr</div>
+            <div class="fiscal-detail">
+              <strong>Grants Asing & Non-tax Revenue</strong>
+              <p>Grants naik 20% pasca-bencana (seperti bantuan internasional nyata). Non-tax revenue dikalibrasi ke nol di steady state — bisa mencakup Citizenship-by-Investment revenue yang signifikan di beberapa SDS.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">📤 Sisi Expenditure: Empat komponen belanja</div>
+        
+        <div class="fiscal-anatomy">
+          <div class="fiscal-item">
+            <div class="fiscal-badge" style="background:#eef3f8;color:var(--blue);">C<sup>g</sup></div>
+            <div class="fiscal-detail">
+              <strong>Konsumsi Pemerintah</strong>
+              <p>Belanja barang dan jasa + gaji pegawai (23% GDP). Diasumsikan <strong>konstan</strong> sebagai share nominal GDP. Saat GDP turun akibat bencana, pengeluaran naik sebagai % GDP → memperburuk defisit.</p>
+            </div>
+          </div>
+          <div class="fiscal-item">
+            <div class="fiscal-badge" style="background:#eef8f6;color:var(--teal);">I<sup>Gnr</sup></div>
+            <div class="fiscal-detail">
+              <strong>Investasi Publik Non-Resilient</strong>
+              <p>Investasi infrastruktur standar yang rentan hancur saat bencana. Bisa ditingkatkan pasca-bencana untuk rekonstruksi (parameter $\phi_{kg}$).</p>
+            </div>
+          </div>
+          <div class="fiscal-item">
+            <div class="fiscal-badge" style="background:#fdf0ee;color:var(--accent);">I<sup>Gr</sup></div>
+            <div class="fiscal-detail">
+              <strong>Investasi Publik Resilient</strong>
+              <p>Infrastruktur tahan bencana, 25% lebih mahal. <strong>Tidak hancur</strong> saat bencana. Trade-off sentral paper: investasi ini mahal di muka tapi menghasilkan return lewat reduced losses dan higher steady-state output.</p>
+            </div>
+          </div>
+          <div class="fiscal-item">
+            <div class="fiscal-badge" style="background:#fdf8ec;color:var(--gold);">T<sup>GW</sup></div>
+            <div class="fiscal-detail">
+              <strong>Transfer ke Worker Households</strong>
+              <p>Ini kritis karena 80% populasi adalah hand-to-mouth. Pasca-bencana, mereka kehilangan pendapatan kerja tapi tidak bisa smooth consumption. Transfer pemerintah menjadi <strong>satu-satunya safety net</strong> mereka.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">⚖️ Fiscal Rule: Bagaimana semua ini terhubung?</div>
+        <p>Constraint utama pemerintah (budget constraint):</p>
+        <div class="eq-block">
+          <div class="eq-content" style="font-size:0.92rem;">$$\underbrace{\tau^C C_t + \tau^l W_t N_t^d + \tau^\pi \Pi_t + T_t^G}_{\text{Revenue}} + \underbrace{z_t B_t^{G*} + z_t T_t^{G*}}_{\text{Pembiayaan}} = \underbrace{p_t^H C_t^g + T_t^{GW} + p_t^I I_t^{Gn} + p_t^{Gr} I_t^{Gr}}_{\text{Expenditure}} + \underbrace{z_t R_{t-1}^* B_{t-1}^{G*}}_{\text{Debt service}}$$</div>
+        </div>
+        <p>Stabilisasi utang dijamin oleh <strong>fiscal rule</strong>:</p>
+        <div class="eq-block">
+          <div class="eq-content">$$T_t^G = \bar{T}^G - \phi_b \left(\frac{z_t B_t^{G*}}{Y_t} - \frac{\bar{B}}{\bar{Y}}\right)$$</div>
+          <div class="eq-note">Ketika rasio utang/GDP naik (misal pasca-bencana), lump-sum tax naik untuk menstabilkan.<br>$\phi_b = 0.1$ → penyesuaian gradual, bukan mendadak.</div>
+        </div>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">🔬 Kenapa sensitivity analysis terhadap instrumen fiskal penting?</div>
+        <p>Paper ini menunjukkan bahwa <strong>pilihan instrumen fiskal sangat mempengaruhi kecepatan recovery</strong>:</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Instrumen</th><th>Mekanisme Distorsi</th><th>Dampak pada Recovery</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Lump-sum tax</strong> (baseline)</td>
+                <td>Non-distortif; hanya kena Ricardian yang bisa smooth consumption</td>
+                <td style="color:var(--teal);font-weight:600;">Recovery tercepat</td>
+              </tr>
+              <tr>
+                <td><strong>Pajak konsumsi</strong></td>
+                <td>Kena semua household, terutama worker (MPC tinggi) → tekan demand</td>
+                <td style="color:var(--gold);font-weight:600;">Recovery lebih lambat</td>
+              </tr>
+              <tr>
+                <td><strong>Pajak pendapatan kerja</strong></td>
+                <td>Distorsi labor supply → kurangi employment → kurangi output langsung</td>
+                <td style="color:var(--accent);font-weight:600;">Recovery paling lambat</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-sm text-muted">Hasil ini mengimplikasikan bahwa pasca-bencana, pemerintah sebaiknya menghindari menaikkan pajak distortif dan lebih mengandalkan pembiayaan (utang/grants) untuk rekonstruksi.</p>
+      </div>
+
+      <div class="logic-block">
+        <div class="logic-q">🇮🇩 Adaptasi untuk Indonesia</div>
+        <div class="logic-list">
+          <div class="logic-item good"><strong>Dana APBN Bencana & DAK:</strong> bisa dimodelkan sebagai transfer pemerintah pusat ke daerah terdampak (analog $T^{GW}$ tapi antar-region)</div>
+          <div class="logic-item good"><strong>Fiskal desentralisasi:</strong> Indonesia punya dua level fiscal rule (pusat & daerah) — bisa dimodelkan dengan dua government budget constraint</div>
+          <div class="logic-item good"><strong>Bantuan internasional:</strong> masih relevan (analog grants) tapi skala relatif lebih kecil untuk Indonesia dibanding Dominika</div>
+          <div class="logic-item good"><strong>Pajak distortif:</strong> temuan bahwa pajak labor paling distortif sangat relevan — Indonesia harus hati-hati menaikkan pajak saat recovery pasca-bencana</div>
+          <div class="logic-item good"><strong>Fiskal transfer antar-region:</strong> channel baru — bencana di region A → pemerintah pusat alihkan resources dari region B → region B terdampak fiskal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Perbandingan dengan Literatur</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Fitur</th>
+          <th>Bevan & Adam (2016)</th>
+          <th>Marto et al. (2018)</th>
+          <th>Cantelmo et al. (2019)</th>
+          <th style="background:#e8d5d2;">Paper Ini (2023)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Bencana hancurkan kapital publik</td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+        </tr>
+        <tr>
+          <td>Bencana hancurkan kapital privat</td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+        </tr>
+        <tr>
+          <td>Bencana pengaruhi pertumbuhan/TFP</td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+        </tr>
+        <tr>
+          <td>Remitansi & migrasi</td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+        </tr>
+        <tr>
+          <td>Analisis perubahan iklim (stokastik)</td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+        </tr>
+        <tr>
+          <td>Incomplete Markets</td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+        </tr>
+        <tr>
+          <td>Financial frictions (collateral)</td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+        </tr>
+        <tr>
+          <td>Menu fiskal lengkap</td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+          <td><span class="comparison-badge no">Tidak</span></td>
+          <td><span class="comparison-badge yes">Ya</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ════════════════ 3. FLOWCHART ════════════════ -->
+<section id="flowchart">
+  <div class="section-label"><span class="num">3</span> Alur Model</div>
+  <h2>Alur Proses Model DSGE</h2>
+
+  <h3>A. Struktur Agen & Interaksi</h3>
+  <div class="flow-container">
+    <div class="flow">
+      <div class="flow-node start">
+        <div class="fn-title">Empat Sektor Utama</div>
+        <div class="fn-desc">Rumah Tangga · Perusahaan · Pemerintah · Sektor Eksternal</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-branch">
+        <div class="flow-node process">
+          <div class="fn-title">Rumah Tangga</div>
+          <div class="fn-desc"><strong>Ricardian (20%):</strong> investasi, tabungan, konsumsi<br><strong>Worker (80%):</strong> hand-to-mouth, terima remitansi & transfer</div>
+        </div>
+        <div class="flow-node process">
+          <div class="fn-title">Perusahaan</div>
+          <div class="fn-desc"><strong>Produsen final output:</strong> Cobb-Douglas (K privat, K publik, L)<br><strong>Produsen investasi & konsumsi:</strong> gabung domestik + impor</div>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-branch">
+        <div class="flow-node process">
+          <div class="fn-title">Pemerintah</div>
+          <div class="fn-desc">Pajak (C, L, π) · Grants · Investasi publik (resilient & non-resilient) · Transfer · Utang</div>
+        </div>
+        <div class="flow-node process">
+          <div class="fn-title">Sektor Eksternal</div>
+          <div class="fn-desc">Ekspor · Impor (konsumsi & investasi) · Utang luar negeri · Remitansi · Grants asing</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>B. Mekanisme Markov-Switching Bencana Alam</h3>
+  <div class="flow-container">
+    <div class="flow">
+      <div class="flow-node start">
+        <div class="fn-desc">Ekonomi beroperasi dalam dua State (Regime)</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-branch">
+        <div class="flow-node result">
+          <div class="fn-title">State 1: Normal</div>
+          <div class="fn-desc">Depresiasi kapital rendah · TFP normal · Remitansi & grants di bawah rata-rata ergodik</div>
+        </div>
+        <div class="flow-node decision">
+          <div class="fn-title">State 2: Bencana Alam</div>
+          <div class="fn-desc">Depresiasi kapital tinggi (≈58% privat, ≈75% publik non-resilient) · TFP turun · Remitansi & grants naik</div>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node process">
+        <div class="fn-title">Transition Matrix</div>
+        <div class="fn-desc">$$P = \begin{bmatrix} p_{1,1} & p_{1,2} \\ p_{2,1} & p_{2,2} \end{bmatrix}$$ dengan $p_{1,2}$ ≈ 0.21/tahun (sekali per 5 tahun)</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node result">
+        <div class="fn-title">Implikasi Kunci</div>
+        <div class="fn-desc">Agen menginternalisasi probabilitas bencana → mempengaruhi keputusan investasi, konsumsi, dan lending bahkan saat tidak ada bencana → efek pada steady state</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>C. Alur Solusi & Simulasi</h3>
+  <div class="flow-container">
+    <div class="flow">
+      <div class="flow-node start">
+        <div class="fn-desc">Spesifikasi Model MS-DSGE</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node process">
+        <div class="fn-title">Langkah 1: Kalibrasi</div>
+        <div class="fn-desc">Match rasio makroekonomi Dominika (WEO 2021) + probabilitas & intensitas bencana (CCRIF & EM-DAT)</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node process">
+        <div class="fn-title">Langkah 2: Steady State Ergodik</div>
+        <div class="fn-desc">Hitung steady state menggunakan ergodic mean parameter switching → cocokkan rasio jangka panjang</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node process">
+        <div class="fn-title">Langkah 3: Perturbation (Orde 1)</div>
+        <div class="fn-desc">Metode Maih (2015) — perturbation untuk model regime-switching rational expectations</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node process">
+        <div class="fn-title">Langkah 4: Simulasi Monte Carlo</div>
+        <div class="fn-desc">Simulasi model MS berkali-kali (banyak sample) untuk beragam realisasi state</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node process">
+        <div class="fn-title">Langkah 5: Local Linear Projection (Jordà, 2005)</div>
+        <div class="fn-desc">$$y_{t+h} = \alpha^{(h)} + \beta^{(h)} x_t + u_{t+h}$$ — regresi predictive h-step-ahead, $x_t$ = dummy bencana</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node end">
+        <div class="fn-desc">Impulse Responses rata-rata & Analisis Steady State</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ════════════════ 4. PERSAMAAN ════════════════ -->
+<section id="equations">
+  <div class="section-label"><span class="num">4</span> Persamaan</div>
+  <h2>Persamaan Utama Model</h2>
+  <p>Berikut persamaan-persamaan kunci yang membangun model. Klik setiap grup untuk membuka/menutup detail.</p>
+
+  <!-- Households -->
+  <div class="eq-group open" id="eq-hh">
+    <div class="eq-group-header" onclick="toggleEq('eq-hh')">
+      🏠 Rumah Tangga (Households)
+      <span class="toggle">▼</span>
+    </div>
+    <div class="eq-group-body">
+      
+      <div class="eq-row">
+        <div class="eq-name">Fungsi utilitas</div>
+        <div class="eq-math">$$U = E_t \sum_{t=0}^{\infty} \beta^t \left( \ln C_t - \eta \frac{N_t^{1+\xi}}{1+\xi} \right)$$</div>
+      </div>
+
+      <div class="eq-row">
+        <div class="eq-name">Budget constraint (Ricardian)</div>
+        <div class="eq-math">$$(1+\tau_t^C) C_{s,t}^K + T_{s,t}^G + B_{s,t} + z_t B_{s,t}^* = (1-\tau_t^\pi)\Pi_{s,t} + (1-\tau_t^l)W_t N_{s,t}^K + R_t B_{s,t-1} + z_t R_{t-1}^* B_{s,t-1}^*$$</div>
+      </div>
+
+      <div class="eq-row">
+        <div class="eq-name">Euler equation (Ricardian)</div>
+        <div class="eq-math">$$\Lambda_t^K = \beta \Lambda_{t+1}^K \frac{z_{t+1}}{z_t} R_t^*$$</div>
+      </div>
+
+      <div class="eq-row">
+        <div class="eq-name">Budget constraint (Worker)</div>
+        <div class="eq-math">$$(1+\tau_t^C) C_{s,t}^W = (1-\tau_t^l) W_t N_{s,t}^W + T_{s,t}^{GW}$$</div>
+      </div>
+
+      <div class="eq-row">
+        <div class="eq-name">Konsumsi agregat</div>
+        <div class="eq-math">$$C_t = (1-\omega) C_t^K + \omega C_t^W$$</div>
+      </div>
+
+      <p class="text-sm text-muted mt-1">di mana $\omega = 0.8$ (share worker), $\beta = 0.99$ (discount factor), $\xi = 0.5$ (inverse Frisch elasticity), $\eta$ dikalibrasi agar $N = 1/3$.</p>
+    </div>
+  </div>
+
+  <!-- Union -->
+  <div class="eq-group" id="eq-union">
+    <div class="eq-group-header" onclick="toggleEq('eq-union')">
+      👷 Serikat Pekerja (Union) & Pasar Tenaga Kerja
+      <span class="toggle">▼</span>
+    </div>
+    <div class="eq-group-body">
+      <div class="eq-row">
+        <div class="eq-name">Demand for labor type $j$</div>
+        <div class="eq-math">$$N_{j,t} = \left(\frac{W_t^j}{W_t}\right)^{-\epsilon_W} N_t^D$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">FOC Serikat Pekerja</div>
+        <div class="eq-math">$$\frac{1}{\eta}\left((1-\omega)\frac{\Lambda_t^K}{(N_t^d)^\xi} + \omega \frac{\Lambda_t^W}{(N_t^d)^\xi}\right) W_t (1-\tau_t^l) = \frac{\epsilon_w}{1-\epsilon_w}$$</div>
+      </div>
+      <p class="text-sm text-muted mt-1">dengan $\epsilon_w = 6$ (elastisitas substitusi varietas tenaga kerja). Upah ditetapkan secara terpusat oleh serikat; terdapat wedge antara MRS dan upah riil.</p>
+    </div>
+  </div>
+
+  <!-- Production -->
+  <div class="eq-group" id="eq-prod">
+    <div class="eq-group-header" onclick="toggleEq('eq-prod')">
+      🏭 Produksi & Perusahaan
+      <span class="toggle">▼</span>
+    </div>
+    <div class="eq-group-body">
+      <div class="eq-row">
+        <div class="eq-name">Fungsi produksi (Cobb-Douglas)</div>
+        <div class="eq-math">$$Y_t^H = z_t^Y \theta(s) A_t \left(K_{t-1}^G\right)^{\alpha_g} \left(K_{t-1}^Y\right)^{\alpha_K} \left(N_t^d\right)^{1-\alpha_K}$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Collateral constraint</div>
+        <div class="eq-math">$$W_t N_t^d + p_t^I I_t^Y \leq \sigma \left(Q_t K_{t-1}^Y\right)$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Akumulasi kapital privat</div>
+        <div class="eq-math">$$K_t^Y = (1-\delta) K_{t-1}^Y + I_t^Y - \frac{\psi_Y}{2}\left(\frac{I_t^Y}{K_{t-1}^Y} - \delta_Y\right)^2 K_{t-1}^Y$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">FOC investasi (Tobin's Q)</div>
+        <div class="eq-math">$$Q_t \left(1 - \psi_Y \left(\frac{I_t^Y}{K_{t-1}^Y} - \delta_Y\right)\right) = p_t^I \left((1-\tau^\pi) + \varsigma_t\right)$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">FOC tenaga kerja</div>
+        <div class="eq-math">$$(1-\tau_t^\pi)(1-\alpha_K) p_t^H \frac{Y_t^H}{N_t^d} = (1+\varsigma_t) W_t$$</div>
+      </div>
+      <p class="text-sm text-muted mt-1">$\theta(s) = 1$ saat normal, $\theta(s) < 1$ saat bencana. $\alpha_K = 0.2$, $\alpha_g = 0.1$, $\sigma = 2.15$, $\psi_Y = 6$.</p>
+    </div>
+  </div>
+
+  <!-- Investment Producers -->
+  <div class="eq-group" id="eq-inv">
+    <div class="eq-group-header" onclick="toggleEq('eq-inv')">
+      🔧 Produsen Investasi & Konsumsi
+      <span class="toggle">▼</span>
+    </div>
+    <div class="eq-group-body">
+      <div class="eq-row">
+        <div class="eq-name">Barang investasi (CES)</div>
+        <div class="eq-math">$$I_t = \left[(1-a_I)^{\frac{1}{\eta_I}} (I_{H,t})^{\frac{\eta_I-1}{\eta_I}} + a_I^{\frac{1}{\eta_I}} (I_{F,t})^{\frac{\eta_I-1}{\eta_I}}\right]^{\frac{\eta_I}{\eta_I-1}}$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Barang konsumsi (CES)</div>
+        <div class="eq-math">$$C_t = \left[(1-a_C)^{\frac{1}{\eta_C}} (C_{H,t})^{\frac{\eta_C-1}{\eta_C}} + a_C^{\frac{1}{\eta_C}} (C_{F,t})^{\frac{\eta_C-1}{\eta_C}}\right]^{\frac{\eta_C}{\eta_C-1}}$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Harga investasi resilient</div>
+        <div class="eq-math">$$p_t^{Gr} = \frac{p_t^I}{a^{Gr}}$$</div>
+      </div>
+      <p class="text-sm text-muted mt-1">$a_I = 0.68$, $a_C = 0.67$ (share impor), $\eta_I = \eta_C = 0.75$, $a^{Gr} = 1/1.25 = 0.8$ (biaya resilient 25% lebih mahal).</p>
+    </div>
+  </div>
+
+  <!-- Government -->
+  <div class="eq-group" id="eq-gov">
+    <div class="eq-group-header" onclick="toggleEq('eq-gov')">
+      🏛️ Pemerintah & Kebijakan Fiskal
+      <span class="toggle">▼</span>
+    </div>
+    <div class="eq-group-body">
+      <div class="eq-row">
+        <div class="eq-name">Budget constraint pemerintah</div>
+        <div class="eq-math">$$\tau_t^C C_t + \tau_t^l W_t N_t^d + \tau_t^\pi \Pi_t + T_t^G + z_t B_t^{G*} + z_t T_t^{G*} = p_t^H C_t^g + T_t^{GW} + p_t^I I_t^{Gn} + p_t^{Gr} I_t^{Gr} + z_t R_{t-1}^* B_{t-1}^{G*}$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Akumulasi kapital publik resilient</div>
+        <div class="eq-math">$$K_t^{Gr} = (1-\delta_{gr}) K_{t-1}^{Gr} + I_t^{Gr}$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Akumulasi kapital publik non-resilient</div>
+        <div class="eq-math">$$K_t^{Gnr} = (1-\delta_{gn}(s)) K_{t-1}^{Gnr} + I_t^{Gnr}$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Total kapital publik</div>
+        <div class="eq-math">$$K_t^G = K_t^{Gr} + K_t^{Gnr}$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Fiscal rule (lump-sum tax)</div>
+        <div class="eq-math">$$T_t^G = \bar{T}^G - \phi_b \left(\frac{z_t B_t^{G*}}{Y_t} - \frac{\bar{B}}{\bar{Y}}\right)$$</div>
+      </div>
+      <p class="text-sm text-muted mt-1">$\delta_{gr} = 9.6\%$/tahun (tidak terpengaruh bencana), $\delta_{gn}(s=2) = 74.8\%$ saat bencana. $\phi_b = 0.1$ (respons fiskal).</p>
+    </div>
+  </div>
+
+  <!-- External Sector -->
+  <div class="eq-group" id="eq-ext">
+    <div class="eq-group-header" onclick="toggleEq('eq-ext')">
+      🌍 Sektor Eksternal & Balance of Payments
+      <span class="toggle">▼</span>
+    </div>
+    <div class="eq-group-body">
+      <div class="eq-row">
+        <div class="eq-name">Fungsi ekspor</div>
+        <div class="eq-math">$$X_t = \left(\frac{p_t^H}{z_t}\right)^{-\eta_X} Y_t^*$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Suku bunga eksternal + risk premium</div>
+        <div class="eq-math">$$R_t^* = \bar{R}_t^*(s) + \Omega_u \left(\exp\left(\frac{z_t(B_t^* - B_t^{G*})}{GDP_t} - \frac{z(\bar{B}^* - \bar{B}^{G*})}{GDP}\right) - 1\right)$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Balance of payments</div>
+        <div class="eq-math">$$z_t(B_t^* - B_t^{G*}) = \left[p_t^H Y_t^H - C_t - p_t^H C_t^g - p_t^I I_t\right] + z_t R_{t-1}^*(B_{t-1}^* - B_{t-1}^{G*}) + T_t^{W*}(s) + z_t T_t^{G*}$$</div>
+      </div>
+      <p class="text-sm text-muted mt-1">$\eta_X = 0.75$, $\bar{R}^* = 5\%$/tahun (risk-free 1% + risk premium 4%).</p>
+    </div>
+  </div>
+
+  <!-- Markov Switching -->
+  <div class="eq-group" id="eq-ms">
+    <div class="eq-group-header" onclick="toggleEq('eq-ms')">
+      🔄 Spesifikasi Markov-Switching
+      <span class="toggle">▼</span>
+    </div>
+    <div class="eq-group-body">
+      <div class="eq-row">
+        <div class="eq-name">Matriks transisi</div>
+        <div class="eq-math">$$P_{s_t, s_{t+1}} = \begin{bmatrix} p_{1,1} & p_{1,2} \\ p_{2,1} & p_{2,2} \end{bmatrix}$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Parameter yang switching</div>
+        <div class="eq-math">
+          <div style="text-align:left;font-size:0.88rem;">
+            $\delta_Y(s)$: depresiasi kapital privat (6% normal, 57.9% bencana)<br>
+            $\delta_{gn}(s)$: depresiasi kapital publik non-resilient (6% normal, 74.8% bencana)<br>
+            $g_A(s)$: pertumbuhan TFP (2.6% normal, −1% bencana)<br>
+            $\theta(s)$: dampak TFP (1 normal, <1 bencana)<br>
+            $T^{W*}(s)$: remitansi (naik 20% saat bencana)<br>
+            $T^{G*}(s)$: grants (naik 20% saat bencana)
+          </div>
+        </div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Framework umum MS-DSGE</div>
+        <div class="eq-math">$$E_t \sum_{s_{t+1}=1}^{h} P_{s_t, s_{t+1}} f_{s_t}\left(x_{t+1}(s_{t+1}), x_t(s_t), x_t(s_t), x_{t-1}, \epsilon_t\right) = 0$$</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sensitivity: Alternative Fiscal Rules -->
+  <div class="eq-group" id="eq-fiscal-alt">
+    <div class="eq-group-header" onclick="toggleEq('eq-fiscal-alt')">
+      🔬 Analisis Sensitivitas: Aturan Fiskal Alternatif
+      <span class="toggle">▼</span>
+    </div>
+    <div class="eq-group-body">
+      <div class="eq-row">
+        <div class="eq-name">Pajak konsumsi (rule)</div>
+        <div class="eq-math">$$\tau_t^C = \rho_c \tau_{t-1}^C + \frac{\bar{\tau}^C}{1-\rho_c} - \frac{\phi_b}{1-\rho_c}\left(\frac{z_t B_t^*}{Y_t} - \frac{\bar{B}}{\bar{Y}}\right)$$</div>
+      </div>
+      <div class="eq-row">
+        <div class="eq-name">Pajak pendapatan kerja (rule)</div>
+        <div class="eq-math">$$\tau_t^l = \rho_l \tau_{t-1}^l + \frac{\bar{\tau}^l}{1-\rho_l} - \frac{\phi_b}{1-\rho_c}\left(\frac{z_t B_t^*}{Y_t} - \frac{\bar{B}}{\bar{Y}}\right)$$</div>
+      </div>
+      <p class="text-sm text-muted mt-1">$\rho_c = \rho_l = 0.95$ (persistensi pajak). Pajak distortif ini memperlambat pemulihan dibanding lump-sum tax baseline.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ════════════════ 5. METODE ESTIMASI ════════════════ -->
+<section id="estimation">
+  <div class="section-label"><span class="num">5</span> Metode Estimasi</div>
+  <h2>Metode Kalibrasi & Solusi</h2>
+
+  <p>Model ini <strong>tidak diestimasi secara Bayesian</strong>, melainkan <strong>dikalibrasi</strong> untuk mencocokkan momen-momen kunci ekonomi Dominika, kemudian diselesaikan dengan metode perturbation untuk regime-switching.</p>
+
+  <div class="card teal-left">
+    <div class="card-title"><span class="icon">🔧</span> Langkah 1: Kalibrasi Parameter</div>
+    <p class="text-sm">Parameter dikalibrasi untuk mencocokkan rasio makroekonomi dari WEO Oktober 2021 (data historis 2013–2019 + proyeksi hingga 2026) dan data bencana dari CCRIF (Caribbean Catastrophe Risk Insurance Facility) serta EM-DAT.</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Momen</th><th>Model</th><th>Data</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Remitansi / GDP</td><td>6%</td><td>6%</td></tr>
+        <tr><td>Net Ekspor / GDP</td><td>−21%</td><td>−21%</td></tr>
+        <tr><td>Konsumsi / GDP</td><td>71%</td><td>71.1%</td></tr>
+        <tr><td>Investasi / GDP</td><td>27%</td><td>28%</td></tr>
+        <tr><td>Risk spread (bp)</td><td>6.2</td><td>6.1</td></tr>
+        <tr><td>Utang Publik / GDP</td><td>81%</td><td>81%</td></tr>
+        <tr><td>Investasi Publik / GDP</td><td>15%</td><td>15%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card blue-left mt-2">
+    <div class="card-title"><span class="icon">⚙️</span> Langkah 2: Solusi Perturbation Orde Pertama</div>
+    <p class="text-sm">Menggunakan metode <strong>Maih (2015)</strong> — perturbation untuk model rational expectations dengan regime-switching. Solusi dicari di sekitar ergodic steady state:</p>
+    <div class="eq-block">
+      <div class="eq-content">$$T^{s_t}(z_t) \approx T^{s_t}(\bar{z}) + T_z^{s_t}(z_t - \bar{z})$$</div>
+      <div class="eq-note">di mana $z_t \equiv (x_{t-1}', \zeta, \epsilon_t)'$, $\bar{z}$ = ergodic mean dari state vector, $\zeta$ = perturbation parameter.</div>
+    </div>
+    <p class="text-sm">Ergodic steady state $\bar{z}$ dihitung dari $f_{s_t}(x_t, x_t, x_t, x_t, 0; \bar{\theta}) = 0$ di mana $\bar{\theta}$ adalah ergodic mean parameter switching.</p>
+  </div>
+
+  <div class="card gold-left mt-2">
+    <div class="card-title"><span class="icon">📊</span> Langkah 3: Simulasi & Local Linear Projection</div>
+    <p class="text-sm">Karena IRF tradisional tidak bisa dihitung untuk MS model, digunakan metode <strong>Local Linear Projection (Jordà, 2005)</strong>:</p>
+    <div class="eq-block">
+      <div class="eq-content">$$y_{t+h} = \alpha^{(h)} + \beta^{(h)} x_t + u_{t+h}$$</div>
+      <div class="eq-note">$x_t$ = dummy bencana (1 jika terjadi). Simulasi MS model berkali-kali, lalu estimasi $\beta^{(h)}$ via OLS untuk setiap horizon $h$. Rata-rata $\beta^{(h)}$ di seluruh simulasi dilaporkan sebagai dynamic impact.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ════════════════ 6. HASIL UTAMA ════════════════ -->
+<section id="results">
+  <div class="section-label"><span class="num">6</span> Hasil Utama</div>
+  <h2>Temuan Kunci</h2>
+
+  <h3>A. Dampak Bencana Alam</h3>
+  <div class="highlight-box red">
+    <strong>Jangka Pendek (Transitional Dynamics)</strong>
+    <p>Kehancuran ≈10% stok kapital → output turun tajam, pemulihan memakan ≈5 tahun. Utang publik naik ≈10 pp GDP. Collateral constraint memperlambat recovery karena kapital yang hancur mengurangi kemampuan pinjam.</p>
+  </div>
+  <div class="highlight-box blue">
+    <strong>Jangka Panjang (Steady State)</strong>
+    <p>Dibanding ekonomi tanpa bencana: GDP 3.4% lebih rendah, konsumsi 7.1% lebih rendah, upah riil 6.8% lebih rendah. Investasi justru lebih tinggi karena kebutuhan rebuild, tapi rasio kapital/GDP 7% lebih rendah.</p>
+  </div>
+
+  <h3>B. Return Investasi Resiliensi (80% Kapital Publik Resilient)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Variabel</th><th>Baseline (tanpa perubahan iklim)</th><th>Dengan Perubahan Iklim (+14% intensitas)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>GDP</strong></td><td>+6.3%</td><td>+10.3%</td></tr>
+        <tr><td>Konsumsi Privat</td><td>+1.9%</td><td>+5.4%</td></tr>
+        <tr><td>Investasi Privat</td><td>+17.9%</td><td>+21.3%</td></tr>
+        <tr><td>Upah Riil</td><td>+3.2%</td><td>+6.3%</td></tr>
+        <tr><td>Pajak Konsumsi</td><td>+1.9%</td><td>+5.4%</td></tr>
+        <tr><td>Pajak Korporat</td><td>+6.7%</td><td>+10.3%</td></tr>
+        <tr><td>Pajak Pendapatan Kerja</td><td>+6.3%</td><td>+10.3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box teal">
+    <strong>🔑 Temuan Utama: Return Positif Neto</strong>
+    <p>Investasi resilient menghasilkan return yang melebihi biaya tambahan 25%. Peningkatan pendapatan pajak dari output dan aktivitas ekonomi yang lebih tinggi lebih dari mengkompensasi biaya ekstra. Efek ini <strong>diperkuat secara nonlinear</strong> di bawah perubahan iklim.</p>
+  </div>
+
+  <h3>C. Mekanisme Kunci</h3>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="fc-icon red">1️⃣</div>
+      <h4>Stock Return</h4>
+      <p>Pengurangan kebutuhan rebuild kapital yang hancur.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon teal">2️⃣</div>
+      <h4>Near-term Flow Return</h4>
+      <p>Penurunan output, employment, dan revenue yang lebih kecil pasca-bencana.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon blue">3️⃣</div>
+      <h4>Long-term Flow Return</h4>
+      <p>Level steady-state output, employment, dan tax revenue yang lebih tinggi karena expected returns investasi naik.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ════════════════ 7. RELEVANSI TESIS ════════════════ -->
+<section id="relevance">
+  <div class="section-label"><span class="num">7</span> Relevansi</div>
+  <h2>Relevansi untuk Tesis Indonesia</h2>
+
+  <p>Berikut pemetaan bagaimana elemen-elemen paper ini relevan dengan keempat <em>research questions</em> tesis tentang <strong>Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters</strong> dalam konteks Indonesia:</p>
+
+  <div class="card accent-left">
+    <div class="card-title">RQ1: Kebijakan apa yang paling efektif mitigasi penurunan output & konsumsi?</div>
+    <p class="text-sm">Paper ini menyediakan kerangka analisis fiskal komprehensif: investasi resilient vs. rekonstruksi ex-post, pajak lump-sum vs. distortif (konsumsi, pendapatan kerja). Temuan bahwa <strong>pajak distortif memperlambat pemulihan</strong> sangat relevan untuk desain respons fiskal Indonesia. Mekanisme <strong>grants</strong> dan <strong>remitansi</strong> juga dapat diadaptasi.</p>
+  </div>
+
+  <div class="card teal-left">
+    <div class="card-title">RQ2: Bagaimana model dinamis menangkap struktur ekonomi regional, bencana langka, & kebijakan pemulihan?</div>
+    <p class="text-sm">Framework <strong>Markov-Switching DSGE</strong> di paper ini adalah contoh paling maju untuk memodelkan bencana sebagai event stokastik yang diinternalisasi agen. Untuk tesis multi-region Indonesia, arsitektur ini bisa diperluas menjadi <strong>multi-region MS-DSGE</strong> di mana setiap region memiliki probability bencana berbeda dan linkages antar-region melalui perdagangan dan migrasi.</p>
+  </div>
+
+  <div class="card blue-left">
+    <div class="card-title">RQ3: Bagaimana bencana mempengaruhi output, konsumsi, & welfare di region terdampak dan tidak terdampak?</div>
+    <p class="text-sm">Paper ini fokus pada satu ekonomi kecil. Untuk menjawab RQ3, perlu diperluas ke <strong>kerangka dua region</strong> (à la Tamegawa 2012) di mana bencana melanda satu region dan efek spillover ke region lain melalui: (i) perdagangan antar-region, (ii) migrasi tenaga kerja, (iii) transfer fiskal pemerintah pusat. Collateral constraint dan financial frictions paper ini sangat relevan karena bisa berbeda antar-region.</p>
+  </div>
+
+  <div class="card gold-left">
+    <div class="card-title">RQ4: Bagaimana kecepatan pemulihan mempengaruhi magnitude & persistensi kerugian?</div>
+    <p class="text-sm">Analisis sensitivitas paper ini (rekonstruksi publik, adjustment costs, instrumen fiskal alternatif) langsung menjawab ini. Parameter $\phi_{kg}$ (rekonstruksi) dan $\psi_Y$ (adjustment cost) mengontrol kecepatan pemulihan. <strong>Collateral constraint</strong> adalah channel kunci yang memperlambat pemulihan — semakin banyak kapital hancur, semakin ketat constraint, semakin lambat recovery. Ini bisa dikalibrasi berbeda antar-region Indonesia.</p>
+  </div>
+
+  <h3>Elemen yang Perlu Diadaptasi untuk Konteks Indonesia</h3>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="fc-icon red">🗺️</div>
+      <h4>Multi-Region</h4>
+      <p>Dari satu ekonomi kecil terbuka → dua+ region dengan perdagangan antar-region, transfer fiskal pusat-daerah, dan heterogenitas exposure bencana.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon teal">🌋</div>
+      <h4>Rare Disasters</h4>
+      <p>Dari siklon berulang (1 per 5 tahun) → gempa/tsunami langka tapi destruktif (Aceh 2004, Palu 2018). Frekuensi rendah, intensitas tinggi.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon blue">💰</div>
+      <h4>Instrumen Fiskal</h4>
+      <p>Dana Bencana APBN, Dana Alokasi Khusus, BNPB, BPBD — perlu disesuaikan dengan arsitektur fiskal Indonesia.</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon gold">🏭</div>
+      <h4>Struktur Produksi</h4>
+      <p>Diversifikasi sektor (manufaktur, pertanian, jasa) berbeda antar-region. Supply chain disruption sebagai channel propagasi tambahan.</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.container -->
+
+<footer>
+  <p>Halaman referensi untuk tesis Monsieur Andre — UGM 2025</p>
+  <p>Sumber: Fernandez-Corugedo, Gonzalez-Gomez & Guerson (2023), <a href="https://www.imf.org/en/Publications/WP/Issues/2023/06/29/The-Macroeconomic-Returns-of-Investment-in-Resilience-to-Natural-Disasters-under-Climate-535123" target="_blank">IMF WP/23/138</a></p>
+</footer>
+
+<script>
+// Toggle equation groups
+function toggleEq(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+// Toggle deep-dive sections
+function toggleDD(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// Render KaTeX
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });
+
+  // Sticky nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.toc-bar a');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const activeLink = document.querySelector(`.toc-bar a[href="#${entry.target.id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-100px 0px -60% 0px' });
+  
+  sections.forEach(section => observer.observe(section));
+});
+</script>
+
+</body>
+</html>
