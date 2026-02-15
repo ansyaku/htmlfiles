@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cantelmo et al. (2024) — Monetary Policy Under Natural Disaster Shocks</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});">
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAF7;
+  --surface: #FFFFFF;
+  --surface-alt: #F3F1EC;
+  --accent: #B8432F;
+  --accent-light: #E8D5CF;
+  --accent-dark: #8A2E1F;
+  --text: #2C2A26;
+  --text-muted: #6B6860;
+  --border: #DDD9D0;
+  --highlight: #FFF8E1;
+  --teal: #2A7B6F;
+  --teal-light: #D4EDE8;
+  --navy: #1E3A5F;
+  --navy-light: #D8E4F0;
+  --gold: #C49A2A;
+  --gold-light: #FDF5DC;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* --- HEADER --- */
+.hero {
+  background: linear-gradient(135deg, #F9F4EE 0%, #EDE6DB 50%, #E8DFD2 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 2rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(184,67,47,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero .paper-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+.hero .authors {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+.hero .journal {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.hero .thesis-link {
+  margin-top: 1.2rem;
+  padding: 1rem 1.2rem;
+  background: rgba(255,255,255,0.7);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.88rem;
+  color: var(--teal);
+  line-height: 1.5;
+}
+.hero .thesis-link strong {
+  color: var(--navy);
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+/* --- NAV --- */
+.toc {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250,250,247,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+.toc-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+.toc a {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.toc a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* --- MAIN --- */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+/* --- SECTIONS --- */
+section {
+  margin-top: 3rem;
+}
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+section > h2 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+section > h3, .sub-h3 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin: 1.8rem 0 0.7rem;
+}
+p { margin-bottom: 1rem; }
+
+/* --- CARDS --- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin: 1.2rem 0;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.4rem;
+  transition: box-shadow 0.25s;
+}
+.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.card .card-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+.card h4 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+.card p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0; }
+
+.icon-red { background: var(--accent-light); color: var(--accent); }
+.icon-teal { background: var(--teal-light); color: var(--teal); }
+.icon-navy { background: var(--navy-light); color: var(--navy); }
+.icon-gold { background: var(--gold-light); color: var(--gold); }
+
+/* --- HIGHLIGHT BOX --- */
+.highlight-box {
+  background: var(--highlight);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+}
+.highlight-box strong { color: var(--accent-dark); }
+
+.info-box {
+  background: var(--teal-light);
+  border-left: 4px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+}
+
+.warn-box {
+  background: #FFF0F0;
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+}
+
+/* --- EQUATIONS --- */
+.eq-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+.eq-block .eq-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+.eq-block .eq-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.6rem;
+  border-top: 1px dashed var(--border);
+  padding-top: 0.6rem;
+}
+
+/* --- FLOWCHART --- */
+.flow-container {
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: 700px;
+  padding: 1rem 0;
+}
+.flow-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+}
+.flow-node {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem 1.3rem;
+  text-align: center;
+  min-width: 180px;
+  max-width: 240px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.2s;
+}
+.flow-node:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 12px rgba(184,67,47,0.1);
+}
+.flow-node.primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent-dark);
+}
+.flow-node.teal-node {
+  background: var(--teal);
+  color: white;
+  border-color: #1F6054;
+}
+.flow-node.navy-node {
+  background: var(--navy);
+  color: white;
+  border-color: #142A45;
+}
+.flow-node.gold-node {
+  background: var(--gold);
+  color: white;
+  border-color: #9A7A1E;
+}
+.flow-node small {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 400;
+  opacity: 0.85;
+  margin-top: 3px;
+}
+.flow-arrow {
+  display: flex;
+  justify-content: center;
+  padding: 0.3rem 0;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
+.flow-arrow-h {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+.flow-branch {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* --- TABLE --- */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.2rem 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  background: var(--surface);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+thead th {
+  background: var(--surface-alt);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.7rem 1rem;
+  border-bottom: 2px solid var(--border);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+tbody td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: #FDFCF9; }
+
+/* --- TAGS --- */
+.tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+.tag-red { background: var(--accent-light); color: var(--accent); }
+.tag-teal { background: var(--teal-light); color: var(--teal); }
+.tag-navy { background: var(--navy-light); color: var(--navy); }
+.tag-gold { background: var(--gold-light); color: var(--gold); }
+
+/* --- LIST --- */
+.styled-list {
+  list-style: none;
+  padding: 0;
+}
+.styled-list li {
+  padding: 0.5rem 0 0.5rem 1.6rem;
+  position: relative;
+  font-size: 0.92rem;
+}
+.styled-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.85rem;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.num-list {
+  list-style: none;
+  padding: 0;
+  counter-reset: item;
+}
+.num-list li {
+  padding: 0.5rem 0 0.5rem 2.2rem;
+  position: relative;
+  font-size: 0.92rem;
+  counter-increment: item;
+}
+.num-list li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* --- FOOTER --- */
+footer {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: var(--surface-alt);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 700px) {
+  .hero h1 { font-size: 1.6rem; }
+  section > h2 { font-size: 1.35rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .toc-inner { gap: 0; }
+  .toc a { padding: 0.6rem 0.7rem; font-size: 0.72rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== HERO ============== -->
+<header class="hero">
+  <div class="hero-inner">
+    <span class="paper-tag">Referensi Paper · DSGE · Bencana Alam</span>
+    <h1>Monetary Policy Under Natural Disaster Shocks</h1>
+    <p class="authors">Alessandro Cantelmo, Nikos Fatouros, Giovanni Melina &amp; Chris Papageorgiou</p>
+    <p class="journal">International Economic Review, Vol. 65, No. 3, Agustus 2024 · DOI: 10.1111/iere.12694</p>
+    <div class="thesis-link">
+      <strong>Relevansi untuk Tesis Andre</strong>
+      Laman ini dibuat sebagai referensi untuk tesis <em>"Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context"</em> — menyediakan breakdown detail model DSGE, persamaan, dan metode dari Cantelmo et al. (2024).
+    </div>
+  </div>
+</header>
+
+<!-- ============== NAV ============== -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#problem">Masalah</a>
+    <a href="#features">Fitur Model</a>
+    <a href="#flowchart">Alur Model</a>
+    <a href="#equations">Persamaan</a>
+    <a href="#estimation">Estimasi</a>
+    <a href="#results">Hasil Utama</a>
+    <a href="#relevance">Relevansi Tesis</a>
+  </div>
+</nav>
+
+<main class="container">
+
+<!-- ======================================================
+     SECTION 1: PROBLEM
+     ====================================================== -->
+<section id="problem">
+  <div class="section-label">Bagian 01</div>
+  <h2>Masalah Utama yang Ingin Diselesaikan</h2>
+
+  <p>
+    Perubahan iklim meningkatkan frekuensi dan intensitas bencana alam. Negara-negara berkembang rawan bencana (<em>disaster-prone EMDEs</em>) mengalami kerugian GDP yang signifikan — seringkali setara atau lebih besar dari krisis minyak 1970-an di AS. Namun, <strong>belum ada konsensus mengenai bagaimana bank sentral seharusnya merespons guncangan bencana alam.</strong>
+  </p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon icon-red">❓</div>
+      <h4>Research Question 1</h4>
+      <p>Bagaimana kebijakan moneter sebenarnya ditetapkan (<em>de facto</em>) di negara-negara rawan bencana setelah bencana terjadi?</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-teal">❓</div>
+      <h4>Research Question 2</h4>
+      <p>Apa rezim kebijakan moneter (<em>interest rate rule</em>) yang optimal dari sisi kesejahteraan (<em>welfare</em>) dalam konteks guncangan bencana alam?</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>Dilema Utama:</strong> Bencana alam berperilaku seperti <em>supply shock</em> — menurunkan GDP sekaligus meningkatkan inflasi. Ini menciptakan <em>trade-off</em> klasik bagi bank sentral: menstabilkan inflasi vs. mendorong output. Paper ini menunjukkan bahwa <strong>Flexible Inflation Targeting (FIT)</strong> tetap merupakan rezim yang welfare-optimal.
+  </div>
+
+  <h3>Konteks Empiris</h3>
+  <p>
+    Berdasarkan analisis naratif terhadap <strong>34 disaster-years</strong> di <strong>16 negara</strong> (1999–2017), paper ini menemukan bahwa: (i) GDP umumnya turun dan inflasi sering naik pasca-bencana; (ii) bank sentral hampir selalu mengubah stance kebijakan moneternya; (iii) ~56% kasus kebijakan diperketat, sisanya dilonggarkan; dan (iv) saran staf IMF sendiri bervariasi — menunjukkan tidak adanya <em>best practice</em> yang jelas.
+  </p>
+</section>
+
+<!-- ======================================================
+     SECTION 2: MODEL FEATURES
+     ====================================================== -->
+<section id="features">
+  <div class="section-label">Bagian 02</div>
+  <h2>Fitur-Fitur Model DSGE</h2>
+
+  <p>Model ini merupakan model New-Keynesian small open economy dengan pertumbuhan tren stokastik dan guncangan bencana, yang merupakan ekstensi signifikan dari framework Fernández-Villaverde &amp; Levintal (2018).</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon icon-red">🏠</div>
+      <h4>Household dengan Preferensi Epstein-Zin</h4>
+      <p>Memisahkan risk aversion ($\gamma$) dari IES ($1/\hat{\psi}$), sehingga menangkap <em>precautionary savings</em> akibat risiko bencana secara realistis.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-teal">🌊</div>
+      <h4>Disaster Shocks pada Modal &amp; TFP</h4>
+      <p>Bencana menghancurkan stok kapital ($e^{-d_t\theta_t}$) dan menurunkan TFP melalui komponen permanen &amp; temporer, mengikuti Gourio (2012).</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-navy">🌐</div>
+      <h4>Small Open Economy</h4>
+      <p>Mengikuti Gali &amp; Monacelli (2005): basket konsumsi CES dari barang domestik &amp; impor, nilai tukar riil, uncovered interest parity, dan net foreign assets.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-gold">✈️</div>
+      <h4>Export Demand Channel</h4>
+      <p>Bencana secara langsung mengurangi permintaan ekspor (menangkap efek pada pariwisata, infrastruktur mobilitas, dll.), mengubah bencana dari <em>pure supply shock</em> menjadi campuran supply-demand.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-red">🏭</div>
+      <h4>Nominal Rigidities (Calvo Pricing)</h4>
+      <p>Firm menghadapi probabilitas $\theta_p$ untuk tidak bisa me-reset harga setiap periode, dengan indexation parsial terhadap inflasi masa lalu.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-teal">📊</div>
+      <h4>Array Aturan Kebijakan Moneter</h4>
+      <p>FIT, SIT, Hard Peg, Taylor Rule, dan Exchange-Rate-Augmented Taylor Rule — semuanya dibandingkan secara welfare.</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>Catatan Penting:</strong> Model ini bersifat <em>representative agent</em> dan <em>cashless</em>. Tidak ada friksi finansial, heterogenitas agen, ataupun respons fiskal. Namun, robustness check yang ekstensif — termasuk ekstensi labor supply channel — menunjukkan bahwa hasil utama tetap konsisten.
+  </div>
+</section>
+
+<!-- ======================================================
+     SECTION 3: FLOWCHART
+     ====================================================== -->
+<section id="flowchart">
+  <div class="section-label">Bagian 03</div>
+  <h2>Alur Proses Model DSGE</h2>
+
+  <p>Diagram berikut menggambarkan arsitektur model dan alur transmisi guncangan bencana alam:</p>
+
+  <div class="flow-container">
+    <div class="flow">
+
+      <!-- Level 1: Shock Origin -->
+      <div class="flow-row">
+        <div class="flow-node primary">
+          <strong>Disaster Shock</strong>
+          <small>$d_t = 1$ dgn prob. $p_d$; ukuran $\theta_t$</small>
+        </div>
+      </div>
+      <div class="flow-arrow">▼</div>
+
+      <!-- Level 2: Three channels -->
+      <div class="flow-branch">
+        <div class="flow-node" style="border-color:var(--accent);">
+          <strong>Destruksi Kapital</strong>
+          <small>$k_t = k^*_{t-1} e^{-d_t \theta_t}$</small>
+        </div>
+        <div class="flow-node" style="border-color:var(--teal);">
+          <strong>Penurunan TFP</strong>
+          <small>Permanen ($A_t$) + Temporer ($A^T_t$)</small>
+        </div>
+        <div class="flow-node" style="border-color:var(--gold);">
+          <strong>Penurunan Ekspor</strong>
+          <small>$\psi_d \cdot d_t \theta_t$</small>
+        </div>
+      </div>
+      <div class="flow-arrow">▼</div>
+
+      <!-- Level 3: Economy -->
+      <div class="flow-row">
+        <div class="flow-node navy-node">
+          <strong>Produksi Domestik</strong>
+          <small>$y_{i,t} = A^{agg}_t k^\alpha_{i,t} l^{1-\alpha}_{i,t}$</small>
+        </div>
+      </div>
+      <div class="flow-arrow">▼</div>
+
+      <!-- Level 4: Outcomes -->
+      <div class="flow-branch">
+        <div class="flow-node">
+          <strong>Output ↓</strong>
+          <small>Penurunan GDP</small>
+        </div>
+        <div class="flow-node">
+          <strong>Inflasi CPI ↑</strong>
+          <small>Depresiasi nilai tukar</small>
+        </div>
+        <div class="flow-node">
+          <strong>Konsumsi ↓</strong>
+          <small>Efek pendapatan negatif</small>
+        </div>
+        <div class="flow-node">
+          <strong>Investasi ↓</strong>
+          <small>Dgn export channel aktif</small>
+        </div>
+      </div>
+      <div class="flow-arrow">▼</div>
+
+      <!-- Level 5: Policy Response -->
+      <div class="flow-row">
+        <div class="flow-node teal-node">
+          <strong>Respons Kebijakan Moneter</strong>
+          <small>Taylor-type interest rate rule</small>
+        </div>
+      </div>
+      <div class="flow-arrow">▼</div>
+
+      <!-- Level 6: Policy Alternatives -->
+      <div class="flow-branch">
+        <div class="flow-node" style="border-color:var(--teal);">
+          <strong>FIT</strong>
+          <small>$\gamma_\pi = 1.5$, $\gamma_y = \gamma_e = 0$</small>
+        </div>
+        <div class="flow-node" style="border-color:var(--teal);">
+          <strong>SIT</strong>
+          <small>$\gamma_\pi \to \infty$</small>
+        </div>
+        <div class="flow-node" style="border-color:var(--teal);">
+          <strong>Hard Peg</strong>
+          <small>$\gamma_e \to \infty$</small>
+        </div>
+        <div class="flow-node" style="border-color:var(--teal);">
+          <strong>Taylor Rule</strong>
+          <small>$\gamma_\pi=1.5$, $\gamma_y=0.5$</small>
+        </div>
+        <div class="flow-node" style="border-color:var(--teal);">
+          <strong>ER-Aug TR</strong>
+          <small>$+\gamma_e=0.5$</small>
+        </div>
+      </div>
+      <div class="flow-arrow">▼</div>
+
+      <!-- Level 7: Welfare -->
+      <div class="flow-row">
+        <div class="flow-node gold-node">
+          <strong>Evaluasi Welfare</strong>
+          <small>Consumption-equivalent (C.E.) gain/loss</small>
+        </div>
+      </div>
+      <div class="flow-arrow">▼</div>
+
+      <div class="flow-row">
+        <div class="flow-node primary">
+          <strong>Hasil: FIT ≻ SIT ≻ HP ≻ TR ≻ ER-Aug TR</strong>
+          <small>Optimal: $\gamma_\pi \approx 1.17$, $\gamma_y = \gamma_e = 0$</small>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     SECTION 4: EQUATIONS
+     ====================================================== -->
+<section id="equations">
+  <div class="section-label">Bagian 04</div>
+  <h2>Daftar Persamaan Model</h2>
+
+  <!-- 4.1 Disasters -->
+  <h3>4.1 Guncangan Bencana (Disaster Shocks)</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (1) — Hukum Gerak Kapital (pre-disaster)</div>
+    $$k^*_t = (1 - \delta) k_t + \left[1 - S\!\left(\frac{x_t}{x_{t-1}}\right)\right] x_t$$
+    <div class="eq-desc">di mana $S\!\left(\frac{x_t}{x_{t-1}}\right) = \frac{\kappa}{2}\!\left(\frac{x_t}{x_{t-1}}\hat{z}_t - \hat{z}\right)^2$ adalah biaya penyesuaian investasi kuadratik, dan $\hat{z}_t = \left(\frac{A_t}{A_{t-1}}\right)^{\frac{1}{1-\alpha}}$ adalah pertumbuhan tren stokastik.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (2) — Kapital Aktual (post-disaster)</div>
+    $$k_t = k^*_{t-1} \, e^{-d_t \theta_t}$$
+    <div class="eq-desc">$d_t \in \{0,1\}$ adalah variabel dummy bencana: bernilai 1 dengan probabilitas $p_d$ dan 0 sebaliknya. Ketika $d_t = 1$, stok kapital turun sebesar $\theta_t$.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (3) — Proses Ukuran Bencana (Disaster Risk)</div>
+    $$\log \theta_t = (1 - \rho_\theta)\log \bar{\theta} + \rho_\theta \log \theta_{t-1} + \sigma_\theta \epsilon_{\theta,t}$$
+    <div class="eq-desc">$\theta_t$ berdistribusi log-normal dengan rata-rata $\bar{\theta}$, persistensi $\rho_\theta$, dan volatilitas stokastik $\sigma_\theta$. Realisasi bencana bersifat <em>one-off</em> (satu kuartal), namun risiko bencana bersifat persisten.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (4)–(6) — Total Factor Productivity</div>
+    $$\log A^{agg}_t = \log A_t + \log A^T_t$$
+    $$\log A_t = \log A_{t-1} + \mu_A + \sigma_A \epsilon_{A,t} - \omega(1-\alpha)\,d_t\theta_t$$
+    $$\log A^T_t = \rho_A \log A^T_{t-1} - (1-\omega)(1-\alpha)\,d_t\theta_t$$
+    <div class="eq-desc">TFP terdiri dari komponen permanen $A_t$ (random walk with drift) dan temporer $A^T_t$ (AR(1)). Parameter $\omega \in [0,1]$ mengatur distribusi dampak bencana antara kedua komponen. Faktor $(1-\alpha)$ memastikan output dan kapital jatuh secara proporsional.</div>
+  </div>
+
+  <!-- 4.2 Households -->
+  <h3>4.2 Rumah Tangga (Households)</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (7) — Preferensi Rekursif Epstein-Zin</div>
+    $$V_t^{1-\psi} = U_t^{1-\psi} + \beta \, \mathbb{E}_t \left[V_{t+1}^{1-\gamma}\right]^{\frac{1-\psi}{1-\gamma}}$$
+    <div class="eq-desc">$U_t = e^{\xi_t} c_t (1-l_t)^\nu$ adalah utilitas per-periode. $\gamma$ mengatur risk aversion, $1/\hat{\psi}$ adalah IES di mana $\hat{\psi} = 1-(1+\nu)(1-\psi)$. Struktur rekursif menangkap <em>precautionary savings</em> terhadap risiko bencana.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (8) — Basket Konsumsi CES</div>
+    $$c_t = \left[\varphi^{\frac{1}{\chi_c}} \left(c^H_t\right)^{\frac{\chi_c - 1}{\chi_c}} + (1-\varphi)^{\frac{1}{\chi_c}} \left(c^F_t\right)^{\frac{\chi_c - 1}{\chi_c}}\right]^{\frac{\chi_c}{\chi_c - 1}}$$
+    <div class="eq-desc">$\varphi$ = home bias, $\chi_c > 0$ = elastisitas substitusi intratemporal antara barang domestik ($c^H_t$) dan barang asing ($c^F_t$).</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (9) — Indeks Harga Komposit</div>
+    $$1 = \left[\varphi \left(\tilde{p}^H_t\right)^{1-\chi_c} + (1-\varphi)\left(s_t\right)^{1-\chi_c}\right]^{\frac{1}{1-\chi_c}}$$
+    <div class="eq-desc">$\tilde{p}^H_t \equiv p^H_t / p_t$ = harga relatif barang domestik; $s_t \equiv p^F_t / p_t = e_t p^*_t / p_t$ = nilai tukar riil.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (10) — Purchasing Power Parity</div>
+    $$\frac{s_t}{s_{t-1}} = \frac{e_t}{e_{t-1}} \cdot \frac{\Pi^*_t}{\Pi_t}$$
+    <div class="eq-desc">Menghubungkan inflasi domestik $\Pi_t$, inflasi luar negeri $\Pi^*_t$, dan perubahan nilai tukar nominal $e_t$.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (12) — Demand Functions</div>
+    $$c^H_t = \varphi \left(\tilde{p}^H_t\right)^{-\chi_c} c_t \qquad \text{dan} \qquad c^F_t = (1-\varphi)(s_t)^{-\chi_c} c_t$$
+    <div class="eq-desc">Derived dari minimisasi pengeluaran konsumsi terhadap basket CES.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (13) — Budget Constraint Rumah Tangga</div>
+    $$c_t + x_t + \frac{b_{t+1}}{p_t} + e_t \frac{b^*_{t+1}}{p_t} = w_t l_t + r_t k_t + R_{t-1}\frac{b_t}{p_t} + e_t R^*_{t-1}\Phi_{t-1}\frac{b^*_t}{p_t} + F_t + T_t$$
+    <div class="eq-desc">$b_t$ = obligasi domestik, $b^*_t$ = net foreign assets, $w_t$ = upah riil, $r_t$ = sewa kapital, $F_t$ = profit, $T_t$ = transfer. $\Phi_t \equiv \psi_0 \exp\{-\psi_1(b^*_t - b^*)\}$ = premi holding aset asing.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (15)–(16) — Euler Equations</div>
+    $$1 = \mathbb{E}_t \left[M_{t+1} \frac{R_t}{\Pi_{t+1}}\right]$$
+    $$1 = \mathbb{E}_t \left[M_{t+1} \frac{e_{t+1}}{e_t} \Phi_t \frac{R^*_t}{\Pi_{t+1}}\right]$$
+    <div class="eq-desc">di mana $M_{t+1} \equiv \beta \frac{\lambda_{t+1}}{\lambda_t} \frac{V_{t+1}^{\psi - \gamma}}{\left[\mathbb{E}_t(V_{t+1}^{1-\gamma})\right]^{\frac{\psi-\gamma}{1-\gamma}}}$ adalah stochastic discount factor dengan preferensi Epstein-Zin.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (17) — Penawaran Tenaga Kerja (MRS)</div>
+    $$w_t = \nu \frac{c_t}{1 - l_t}$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (18) — Harga Aset (Tobin's q)</div>
+    $$q_t = \mathbb{E}_t \left\{M_{t+1} \, e^{-d_{t+1}\theta_{t+1}} \left[r_{t+1} + q_{t+1}(1-\delta)\right]\right\}$$
+    <div class="eq-desc">Perhatikan faktor $e^{-d_{t+1}\theta_{t+1}}$ yang menangkap risiko destruksi kapital oleh bencana di periode berikutnya.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (19) — Keputusan Investasi</div>
+    $$1 = q_t \left[1 - S\!\left(\frac{x_t}{x_{t-1}}\right) - S'\!\left(\frac{x_t}{x_{t-1}}\right)\frac{x_t}{x_{t-1}}\right] + \mathbb{E}_t \left[M_{t+1} q_{t+1} S'\!\left(\frac{x_{t+1}}{x_t}\right)\left(\frac{x_{t+1}}{x_t}\right)^2\right]$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (20) — Uncovered Interest Parity (UIP)</div>
+    $$\frac{R_t}{R^*_t} = \Phi_t \, \mathbb{E}_t\left[\frac{e_{t+1}}{e_t}\right] = \Phi_t \, \mathbb{E}_t\left[\frac{s_{t+1}}{s_t}\frac{\Pi_{t+1}}{\Pi^*_{t+1}}\right]$$
+  </div>
+
+  <!-- 4.3 Firms -->
+  <h3>4.3 Perusahaan (Firms)</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (23)–(24) — Produksi</div>
+    $$y_t = \left(\int_0^1 y_{i,t}^{\frac{\epsilon-1}{\epsilon}} \, di\right)^{\frac{\epsilon}{\epsilon-1}} \qquad \text{(final good)}$$
+    $$y_{i,t} = A^{agg}_t \, k^\alpha_{i,t} \, l^{1-\alpha}_{i,t} \qquad \text{(intermediate good)}$$
+    <div class="eq-desc">$\epsilon$ = elastisitas substitusi antar barang intermediate. $\alpha$ = pangsa kapital dalam pendapatan.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (25) — Rasio Input Optimal</div>
+    $$\frac{k_t}{l_t} = \frac{\alpha}{1-\alpha}\frac{w_t}{r_t}$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (26)–(31) — Phillips Curve &amp; Pricing (Calvo)</div>
+    $$g^1_t = mc_t \, y_t + \theta_p \, \mathbb{E}_t\left[M_{t+1}\left(\Pi^H_{t}\right)^{\chi}\left(\Pi^H_{t+1}\right)^{-\epsilon} g^1_{t+1}\right]$$
+    $$g^2_t = (\Pi^H_t)^O \, y_t + \theta_p \, \mathbb{E}_t\left[M_{t+1}\left(\Pi^H_t\right)^{\chi}\left(\Pi^H_{t+1}\right)^{1-\epsilon} \frac{(\Pi^H_t)^O}{(\Pi^H_{t+1})^O} g^2_{t+1}\right]$$
+    $$g^1_t = (\epsilon - 1) \, g^2_t$$
+    $$1 = \theta_p \left(\frac{(\Pi^H_{t-1})^\chi}{\Pi^H_t}\right)^{1-\epsilon} + (1-\theta_p)\left((\Pi^H_t)^O\right)^{1-\epsilon}$$
+    <div class="eq-desc">$\theta_p$ = probabilitas Calvo (tidak reset harga), $\chi$ = derajat indexation, $mc_t$ = marginal cost, $(\Pi^H_t)^O$ = rasio harga optimal reset terhadap harga barang domestik.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (31) — Marginal Cost</div>
+    $$\tilde{p}^H_t \, mc_t = \frac{1}{A^{agg}_t}\left(\frac{1}{1-\alpha}\right)^{1-\alpha}\left(\frac{1}{\alpha}\right)^{\alpha} w_t^{1-\alpha} \, r_t^{\alpha}$$
+  </div>
+
+  <!-- 4.4 Monetary Policy -->
+  <h3>4.4 Kebijakan Moneter</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (32) — Generalized Interest Rate Rule</div>
+    $$\frac{R_t}{R} = \left(\frac{\Pi_t}{\bar{\Pi}}\right)^{\gamma_\pi} \left(\frac{y_t}{y_{t-1}\exp(\mu_y)}\right)^{\gamma_y} \left(\frac{e_t}{e_{t-1}}\right)^{\gamma_e}$$
+    <div class="eq-desc">$\bar{\Pi}$ = target inflasi, $\gamma_\pi$ = respons terhadap inflasi, $\gamma_y$ = respons terhadap output growth, $\gamma_e$ = respons terhadap depresiasi nilai tukar.</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rezim</th>
+          <th>$\gamma_\pi$</th>
+          <th>$\gamma_y$</th>
+          <th>$\gamma_e$</th>
+          <th>Deskripsi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-teal">FIT</span></td>
+          <td>1.5</td>
+          <td>0</td>
+          <td>0</td>
+          <td>Flexible Inflation Targeting — deviasi sementara diizinkan</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-navy">SIT</span></td>
+          <td>$\to \infty$</td>
+          <td>0</td>
+          <td>0</td>
+          <td>Strict Inflation Targeting — inflasi dijaga konstan</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-red">HP</span></td>
+          <td>0</td>
+          <td>0</td>
+          <td>$\to \infty$</td>
+          <td>Hard Peg — nilai tukar nominal dijaga konstan</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-gold">TR</span></td>
+          <td>1.5</td>
+          <td>0.5</td>
+          <td>0</td>
+          <td>Taylor Rule konvensional</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-gold">ERTR</span></td>
+          <td>1.5</td>
+          <td>0.5</td>
+          <td>0.5</td>
+          <td>Exchange-Rate-Augmented Taylor Rule</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4.5 Equilibrium -->
+  <h3>4.5 Keseimbangan (Equilibrium)</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (38) — Impor</div>
+    $$imp_t = c^F_t + x^F_t = (1-\varphi)(s_t)^{-\chi_c}(c_t + x_t)$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (39) — Ekspor (dengan Disaster Channel)</div>
+    $$exp_t = \varphi^* \left(\frac{p^H_t}{e_t p^*_t}\right)^{-\chi^*_c} y^*_t - \psi_d \, d_t \theta_t$$
+    <div class="eq-desc">$\psi_d$ = parameter dampak bencana pada permintaan ekspor. Menangkap misalnya jatuhnya pariwisata dan disrupsi infrastruktur mobilitas.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (41) — Resource Constraint</div>
+    $$\tilde{p}^H_t \, y_t = c_t + x_t + \tilde{p}^H_t \, exp_t - s_t \, imp_t$$
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (43) — Balance of Payments (real terms)</div>
+    $$\tilde{p}^H_t \, exp_t - s_t \, imp_t + s_t\left(R^*_{t-1}\Phi_{t-1} - 1\right)\frac{\tilde{b}^*_{t-1}}{\Pi^*_t} = s_t\left(\tilde{b}^*_t - \frac{\tilde{b}^*_{t-1}}{\Pi^*_t}\right)$$
+  </div>
+
+  <!-- 4.6 Exogenous Processes -->
+  <h3>4.6 Proses Eksogen</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (11), (14), (40) — Foreign Variables (AR(1))</div>
+    $$\log\frac{\Pi^*_t}{\Pi^*} = \rho_{\Pi^*} \log\frac{\Pi^*_{t-1}}{\Pi^*} + \epsilon^{\Pi^*}_t$$
+    $$\log\frac{R^*_t}{R^*} = \rho_{R^*} \log\frac{R^*_{t-1}}{R^*} + \epsilon^{R^*}_t$$
+    $$\log\frac{y^*_t}{y^*} = \rho_{y^*} \log\frac{y^*_{t-1}}{y^*} + \epsilon^{y^*}_t$$
+  </div>
+
+  <!-- 4.7 Labor Supply Extension -->
+  <h3>4.7 Ekstensi: Labor Supply Channel</h3>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. (44) — Penurunan Permanen Penawaran Tenaga Kerja</div>
+    $$\log \varepsilon^l_t = \log \varepsilon^l_{t-1} - \zeta_l (d_t \theta_t)$$
+    <div class="eq-desc">$\zeta_l$ menentukan dampak permanen bencana pada penawaran tenaga kerja (menangkap migrasi pasca-bencana). Dikalibrasi untuk menghasilkan penurunan populasi jangka panjang ~10%.</div>
+  </div>
+</section>
+
+<!-- ======================================================
+     SECTION 5: ESTIMATION / CALIBRATION
+     ====================================================== -->
+<section id="estimation">
+  <div class="section-label">Bagian 05</div>
+  <h2>Metode Kalibrasi &amp; Solusi</h2>
+
+  <h3>5.1 Strategi Kalibrasi</h3>
+  <p>
+    Model dikalibrasi (bukan diestimasi) pada frekuensi kuartalan untuk representasi rata-rata negara EMDE rawan bencana. Sebagian besar parameter dipinjam dari literatur, dengan beberapa parameter dikalibrasi untuk mencocokkan momen data negara rawan bencana (1997–2017).
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Simbol</th><th>Nilai</th><th>Sumber / Target</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Discount factor</td><td>$\beta$</td><td>0.9838</td><td>Garcia-Cicco et al. (2010), yield 8.52% p.a.</td></tr>
+        <tr><td>Inverse IES</td><td>$\hat{\psi}$</td><td>0.5</td><td>Konvensi literatur business cycle</td></tr>
+        <tr><td>Risk aversion</td><td>$\gamma$</td><td>3.8</td><td>Gourio (2012); FV-Levintal (2018)</td></tr>
+        <tr><td>Leisure preference</td><td>$\nu$</td><td>1.1</td><td>Agen bekerja 1/3 waktu</td></tr>
+        <tr><td>Intratemporal elast. subst.</td><td>$\chi_c$</td><td>0.67</td><td>Justiniano &amp; Preston (2010)</td></tr>
+        <tr><td>Home bias</td><td>$\varphi$</td><td>0.5502</td><td>Match rasio impor/GDP = 55%</td></tr>
+        <tr><td>Capital share</td><td>$\alpha$</td><td>0.32</td><td>Garcia-Cicco et al. (2010)</td></tr>
+        <tr><td>TFP trend growth</td><td>$\mu_A$</td><td>0.0035</td><td>Araujo et al. (2016)</td></tr>
+        <tr><td>Perm./temp. TFP split</td><td>$\omega$</td><td>0.50</td><td>Baseline: split sama rata</td></tr>
+        <tr><td>Investment adj. cost</td><td>$\kappa$</td><td>12</td><td>Schubert &amp; Turnovsky (2011)</td></tr>
+        <tr><td>Depreciation</td><td>$\delta$</td><td>0.025</td><td>Shen et al. (2018)</td></tr>
+        <tr><td>Calvo parameter</td><td>$\theta_p$</td><td>0.68</td><td>Justiniano &amp; Preston (2010)</td></tr>
+        <tr><td>Price indexation</td><td>$\chi$</td><td>0.11</td><td>Justiniano &amp; Preston (2010)</td></tr>
+        <tr><td>Elast. subst. final good</td><td>$\epsilon$</td><td>6</td><td>Isore &amp; Szczerbowicz (2017)</td></tr>
+        <tr><td>Inflation target</td><td>$\bar{\Pi}$</td><td>1.0122</td><td>Match avg. inflasi EMDE = 4.87% p.a.</td></tr>
+        <tr><td>Disaster probability (annual)</td><td>$p_d$</td><td>16.2%</td><td>Cantelmo et al. (2023)</td></tr>
+        <tr><td>Mean disaster size</td><td>$\bar{\theta}$</td><td>0.0344</td><td>Target: avg. GDP loss ~7%</td></tr>
+        <tr><td>Disaster risk persistence</td><td>$\rho_\theta$</td><td>0.90</td><td>Gourio (2012); FV-Levintal (2018)</td></tr>
+        <tr><td>Export demand impact</td><td>$\psi_d$</td><td>0.25</td><td>Target: +1% CPI inflation annualized</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>5.2 Metode Solusi: Taylor Projection</h3>
+
+  <div class="info-box">
+    <strong>Taylor Projection</strong> (Levintal 2018; Fernández-Villaverde &amp; Levintal 2018) menggabungkan setup projection methods standar (Judd 1992) dengan aproksimasi Taylor. Metode ini bukan solusi global, namun dapat mengaproksimasi banyak titik pada state-space, sehingga akurat dalam menangani nonlinearitas besar dari guncangan bencana.
+  </div>
+
+  <p>Keunggulan kunci Taylor Projection untuk konteks ini:</p>
+  <ul class="styled-list">
+    <li>Orde ketiga Taylor Projection <strong>lebih akurat dan umumnya lebih cepat</strong> dibanding perturbation methods hingga orde kelima dan projection methods (Smolyak collocation) hingga orde ketiga.</li>
+    <li>Efektif menangani <strong>large shocks</strong> — berbeda dari perturbation standar yang mengasumsikan deviasi kecil dari steady state.</li>
+    <li>Cocok untuk model berukuran medium seperti model ini, meskipun kurang sesuai untuk model berskala sangat besar.</li>
+  </ul>
+
+  <h3>5.3 Prosedur Simulasi</h3>
+  <ol class="num-list">
+    <li>Simulasikan model <strong>tanpa shock selama 100 kuartal</strong> untuk memperoleh stochastic steady state.</li>
+    <li>Aktifkan seluruh shock (bencana + business cycle) dan simulasikan <strong>900 kuartal</strong>.</li>
+    <li>Hitung IRFs terhadap one-off disaster shock ukuran rata-rata selama <strong>20 kuartal</strong>.</li>
+    <li>Hitung rata-rata welfare dari definisi rekursif utilitas household (Eq. 7).</li>
+    <li>Hitung <strong>consumption-equivalent (C.E.) welfare gain/loss</strong> relatif terhadap rezim FIT.</li>
+  </ol>
+</section>
+
+<!-- ======================================================
+     SECTION 6: RESULTS
+     ====================================================== -->
+<section id="results">
+  <div class="section-label">Bagian 06</div>
+  <h2>Hasil Utama</h2>
+
+  <h3>6.1 Ranking Welfare Rezim Kebijakan Moneter</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rezim</th>
+          <th>$\gamma_\pi$</th>
+          <th>$\gamma_y$</th>
+          <th>$\gamma_e$</th>
+          <th>Vol. Output (%)</th>
+          <th>Vol. Inflasi (%)</th>
+          <th>Welfare</th>
+          <th>C.E. vs FIT (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#F8FFF6;">
+          <td><strong><span class="tag tag-teal">FIT ★</span></strong></td>
+          <td>1.5</td><td>0</td><td>0</td>
+          <td>2.85</td><td>0.0086</td><td>0.4611</td><td>—</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-navy">SIT</span></td>
+          <td>$\infty$</td><td>0</td><td>0</td>
+          <td>2.88</td><td>0.0008</td><td>0.4597</td><td>−0.33</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-red">HP</span></td>
+          <td>0</td><td>0</td><td>$\infty$</td>
+          <td>3.05</td><td>0.0079</td><td>0.4580</td><td>−0.67</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-gold">TR</span></td>
+          <td>1.5</td><td>0.5</td><td>0</td>
+          <td>2.98</td><td>0.0103</td><td>0.4575</td><td>−0.78</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-gold">ERTR</span></td>
+          <td>1.5</td><td>0.5</td><td>0.5</td>
+          <td>2.99</td><td>0.0091</td><td>0.4573</td><td>−0.82</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box">
+    <strong>Temuan Kunci:</strong> FIT mendominasi seluruh rezim lain. Nilai optimal $\gamma_\pi \approx 1.17$ — cukup rendah untuk mengakomodasi sebagian besar deviasi inflasi, namun tetap menjangkar ekspektasi. Merespons output ($\gamma_y > 0$) atau nilai tukar ($\gamma_e > 0$) selalu menurunkan welfare.
+  </div>
+
+  <h3>6.2 Temuan Lainnya</h3>
+
+  <ul class="styled-list">
+    <li><strong>Export demand channel</strong> mengubah bencana dari <em>pure supply shock</em> menjadi campuran supply-demand, menghasilkan kenaikan CPI dan penurunan investasi yang persisten. Tanpa channel ini, investasi justru naik pada dampak (karena marginal product of capital lebih tinggi).</li>
+    <li><strong>Labor supply channel</strong> (penurunan permanen akibat migrasi pasca-bencana) memperbesar dampak output namun <strong>tidak mengubah ranking welfare</strong> — FIT tetap optimal.</li>
+    <li>Hasil <strong>robust</strong> terhadap: pengecualian satu shock pada satu waktu, targeting inflasi domestik vs. CPI, Nominal GDP Targeting (suboptimal), CRRA utility, variasi $\omega$, interest rate inertia, dan elastisitas substitusi yang lebih tinggi.</li>
+    <li>Bencana yang lebih sering/parah menurunkan level welfare, namun <strong>tidak mengubah bahwa FIT adalah rezim optimal</strong>.</li>
+  </ul>
+</section>
+
+<!-- ======================================================
+     SECTION 7: RELEVANCE
+     ====================================================== -->
+<section id="relevance">
+  <div class="section-label">Bagian 07</div>
+  <h2>Relevansi untuk Tesis &amp; Catatan Penting</h2>
+
+  <h3>Koneksi Langsung dengan Tesis Andre</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon icon-teal">🔗</div>
+      <h4>Disaster Shock Modeling</h4>
+      <p>Mekanisme $d_t\theta_t$ yang menghancurkan kapital dan TFP (permanen + temporer) adalah blueprint langsung untuk modeling rare disasters di tesis. Parameter $\omega$ sangat relevan untuk "recovery dynamics".</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-navy">🔗</div>
+      <h4>Export Demand Channel → Interregional Linkages</h4>
+      <p>Konsep $\psi_d$ yang menghubungkan bencana ke permintaan eksternal bisa diadaptasi menjadi <em>interregional trade channel</em> — bencana di satu region menurunkan demand dari region lain.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-red">🔗</div>
+      <h4>Taylor Projection</h4>
+      <p>Metode solusi ini sangat relevan jika tesis menggunakan rare disaster shocks yang besar. Perturbation standar tidak akurat untuk shock sebesar ini.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-gold">🔗</div>
+      <h4>Welfare Evaluation Framework</h4>
+      <p>Consumption-equivalent welfare metric dan prosedur simulasi (100q stochastic SS → 900q simulasi) bisa diadopsi untuk membandingkan intervensi kebijakan di tesis.</p>
+    </div>
+  </div>
+
+  <h3>Apa yang <em>Tidak</em> Ada di Paper Ini (Gap untuk Tesis)</h3>
+
+  <div class="card-grid">
+    <div class="card" style="border-left: 3px solid var(--accent);">
+      <h4>🚫 Tidak Ada Multi-Region</h4>
+      <p>Model ini single-region SOE. Tesis Andre membutuhkan <strong>two-region DSGE</strong> (disaster-affected vs. non-affected) dengan interregional trade — gap utama yang harus diisi.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--accent);">
+      <h4>🚫 Tidak Ada Respons Fiskal</h4>
+      <p>Paper ini abstrak dari fiskal. Tesis perlu menambahkan <strong>post-disaster fiscal interventions</strong> (reconstruction spending, transfers) untuk menjawab RQ tentang efektivitas kebijakan.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--accent);">
+      <h4>🚫 Tidak Ada Heterogenitas Agen</h4>
+      <p>Model representative agent. Untuk konteks Indonesia, pertimbangkan apakah perlu Ricardian vs. rule-of-thumb agents (seperti Marto et al. 2018).</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--accent);">
+      <h4>🚫 Tidak Ada Kalibrasi Indonesia</h4>
+      <p>Dikalibrasi untuk "rata-rata EMDE". Tesis perlu <strong>kalibrasi spesifik Indonesia</strong>: data SUSENAS, BPS, BI rate, rasio impor-ekspor regional, frekuensi bencana BNPB.</p>
+    </div>
+  </div>
+
+  <h3>Mapping ke Research Questions Tesis</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th style="width:40%;">Research Question Tesis</th><th>Kontribusi Paper Ini</th><th>Gap yang Perlu Diisi</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>RQ1: Intervensi kebijakan mana yang paling efektif?</td>
+          <td>Framework welfare evaluation dgn C.E. metric; array monetary policy rules</td>
+          <td>Tambahkan <em>fiscal policy rules</em> dan regional allocation</td>
+        </tr>
+        <tr>
+          <td>RQ2: Bagaimana model dinamis menangkap struktur regional, bencana, &amp; recovery?</td>
+          <td>Blueprint disaster shock mechanism ($d_t\theta_t$ pada kapital, TFP permanen/temporer, ekspor)</td>
+          <td>Ekstensi ke <em>two-region</em> dengan interregional trade; kalibrasi Indonesia</td>
+        </tr>
+        <tr>
+          <td>RQ3: Bagaimana bencana mempengaruhi output, konsumsi, welfare lintas region?</td>
+          <td>IRF analysis dan welfare computation utk single-region</td>
+          <td>Perlu <em>spillover analysis</em> antar-region</td>
+        </tr>
+        <tr>
+          <td>RQ4: Bagaimana kecepatan recovery mempengaruhi magnitude &amp; persistensi kerugian?</td>
+          <td>Parameter $\omega$ (permanent vs. temporary TFP) dan $\rho_A$ (persistensi komponen temporer)</td>
+          <td>Eksplorasi lebih lanjut dgn variasi $\omega$ dan tambahkan <em>reconstruction investment dynamics</em></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn-box">
+    <strong>Catatan Teknis Penting:</strong> Jika mengadopsi Taylor Projection, perhatikan bahwa metode ini kurang sesuai untuk model berskala sangat besar. Jika model two-region menjadi terlalu besar, pertimbangkan alternatif seperti Smolyak collocation atau pendekatan hybrid.
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Halaman referensi dibuat untuk keperluan tesis · Cantelmo, Fatouros, Melina &amp; Papageorgiou (2024) · <em>International Economic Review</em></p>
+  <p style="margin-top:0.4rem;">Terakhir diperbarui: Februari 2026 · The Ansyaku's Atelier</p>
+</footer>
+
+</body>
+</html>
