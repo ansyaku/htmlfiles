@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smolyak Collocation Method — Referensi untuk DSGE Two-Region</title>
+
+<!-- KaTeX CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+    });"></script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400;1,7..72,500&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --ink: #1a1a2e;
+    --paper: #faf8f4;
+    --cream: #f3efe8;
+    --accent: #b44b2a;
+    --accent-light: #e8d4cb;
+    --accent-deep: #8a3520;
+    --teal: #2a6b5e;
+    --teal-light: #d4e8e3;
+    --slate: #4a5568;
+    --border: #d4cfc6;
+    --highlight: #fff7e0;
+    --code-bg: #f0ece4;
+    --shadow-soft: 0 2px 20px rgba(26,26,46,0.06);
+    --shadow-card: 0 1px 8px rgba(26,26,46,0.08), 0 4px 24px rgba(26,26,46,0.04);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Literata', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.78;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== HEADER ===== */
+.header {
+    background: linear-gradient(175deg, #1a1a2e 0%, #2d2d4a 60%, #3a2a28 100%);
+    color: #fff;
+    padding: 3.5rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+        radial-gradient(circle at 15% 80%, rgba(180,75,42,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 85% 20%, rgba(42,107,94,0.12) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.header .breadcrumb {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 1.5rem;
+}
+
+.header .breadcrumb a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.header .breadcrumb a:hover { color: rgba(255,255,255,0.8); }
+
+.header h1 {
+    font-family: 'Literata', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+}
+
+.header .subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+    max-width: 680px;
+}
+
+.header .paper-ref {
+    margin-top: 1.4rem;
+    padding: 0.9rem 1.2rem;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.55;
+}
+
+.paper-ref strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+
+/* ===== LAYOUT ===== */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ===== NAVIGATION ===== */
+.toc-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+}
+
+.toc-bar-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.toc-bar-inner::-webkit-scrollbar { display: none; }
+
+.toc-bar a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--slate);
+    text-decoration: none;
+    padding: 0.85rem 1rem;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.toc-bar a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent-light);
+}
+
+/* ===== SECTIONS ===== */
+.section {
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.section:last-of-type { border-bottom: none; }
+
+.section-number {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+}
+
+h2 {
+    font-family: 'Literata', Georgia, serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+    line-height: 1.3;
+}
+
+h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 2rem 0 0.8rem;
+}
+
+h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--teal);
+    margin: 1.5rem 0 0.6rem;
+}
+
+p { margin-bottom: 1rem; }
+
+/* ===== EQUATION BOX ===== */
+.eq-box {
+    background: var(--cream);
+    border-left: 3px solid var(--accent);
+    padding: 1.2rem 1.5rem;
+    margin: 1.2rem 0;
+    border-radius: 0 6px 6px 0;
+    overflow-x: auto;
+}
+
+.eq-box.teal {
+    border-left-color: var(--teal);
+}
+
+.eq-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+}
+
+.eq-box.teal .eq-label { color: var(--teal); }
+
+/* ===== CALLOUT BOXES ===== */
+.callout {
+    padding: 1.3rem 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+.callout-insight {
+    background: var(--teal-light);
+    border: 1px solid rgba(42,107,94,0.2);
+}
+
+.callout-insight .callout-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    color: var(--teal);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+}
+
+.callout-warning {
+    background: #fff3e0;
+    border: 1px solid rgba(180,75,42,0.2);
+}
+
+.callout-warning .callout-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+}
+
+.callout-thesis {
+    background: linear-gradient(135deg, #f5f0e8 0%, #ede6db 100%);
+    border: 1px solid var(--border);
+    position: relative;
+    padding-left: 2rem;
+}
+
+.callout-thesis::before {
+    content: '🇮🇩';
+    position: absolute;
+    left: 1.3rem;
+    top: 1.3rem;
+    font-size: 1.1rem;
+}
+
+.callout-thesis .callout-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    color: var(--accent-deep);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+    padding-left: 1.2rem;
+}
+
+.callout-thesis p { padding-left: 1.2rem; }
+
+/* ===== TABLE ===== */
+.table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+thead {
+    background: var(--cream);
+}
+
+th {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    text-align: left;
+    padding: 0.7rem 1rem;
+    border-bottom: 2px solid var(--border);
+    color: var(--slate);
+}
+
+td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+
+tr:hover { background: rgba(243,239,232,0.5); }
+
+/* ===== CODE ===== */
+code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+}
+
+.code-block {
+    background: #2d2d3a;
+    color: #e0ddd4;
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    overflow-x: auto;
+    margin: 1.2rem 0;
+}
+
+.code-block .comment { color: #7a7a8a; }
+.code-block .keyword { color: #e09070; }
+.code-block .string { color: #8abf8a; }
+.code-block .number { color: #c0a0e0; }
+
+/* ===== STEP FLOW ===== */
+.step-flow {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.step {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    position: relative;
+}
+
+.step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 2.8rem;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+}
+
+.step-num {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+}
+
+.step-content { flex: 1; }
+
+.step-content strong {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    font-weight: 600;
+}
+
+/* ===== COMPARISON ===== */
+.comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.comparison-card {
+    padding: 1.2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.comparison-card.pro { background: #f0f7f4; border-color: rgba(42,107,94,0.25); }
+.comparison-card.con { background: #fef5f0; border-color: rgba(180,75,42,0.2); }
+
+.comparison-card h4 {
+    margin: 0 0 0.5rem;
+    font-size: 0.88rem;
+}
+
+.comparison-card ul {
+    list-style: none;
+    font-size: 0.9rem;
+}
+
+.comparison-card ul li {
+    padding: 0.25rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.comparison-card.pro ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--teal);
+    font-weight: 700;
+}
+
+.comparison-card.con ul li::before {
+    content: '✗';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* ===== DIAGRAM ===== */
+.diagram-container {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+}
+
+.diagram-container svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    padding: 2.5rem 2rem;
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+}
+
+.footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--slate);
+    line-height: 1.6;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .header { padding: 2.5rem 1.2rem 2rem; }
+    .header h1 { font-size: 1.8rem; }
+    .container { padding: 0 1.2rem; }
+    .comparison { grid-template-columns: 1fr; }
+    body { font-size: 16px; }
+    .eq-box { padding: 1rem; }
+}
+
+/* KaTeX overrides */
+.katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; }
+.katex { font-size: 1.05em; }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+    <div class="header-inner">
+        <div class="breadcrumb">
+            The Ansyaku's Atelier / Catatan Teknis / Metode Numerik
+        </div>
+        <h1>Smolyak Collocation Method</h1>
+        <p class="subtitle">
+            Panduan komprehensif metode sparse-grid collocation untuk menyelesaikan model DSGE berdimensi tinggi — ditulis sebagai referensi untuk model two-region bencana alam Indonesia.
+        </p>
+        <div class="paper-ref">
+            <strong>Sumber Utama:</strong> Malin, B.A., Krueger, D., &amp; Kubler, F. (2011). "Solving the Multi-Country Real Business Cycle Model Using a Smolyak-Collocation Method." <em>Journal of Economic Dynamics &amp; Control</em>, 35, 229–239.
+        </div>
+    </div>
+</header>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="toc-bar">
+    <div class="toc-bar-inner">
+        <a href="#motivasi">Motivasi</a>
+        <a href="#curse">Curse of Dimensionality</a>
+        <a href="#smolyak-grid">Smolyak Grid</a>
+        <a href="#interpolasi">Interpolasi</a>
+        <a href="#integrasi">Integrasi</a>
+        <a href="#time-iteration">Time Iteration</a>
+        <a href="#implementasi">Implementasi</a>
+        <a href="#aplikasi-tesis">Aplikasi Tesis</a>
+        <a href="#perbandingan">Perbandingan Metode</a>
+    </div>
+</nav>
+
+<main class="container">
+
+<!-- ===== SECTION 1: MOTIVASI ===== -->
+<section class="section" id="motivasi">
+    <div class="section-number">Bagian 01</div>
+    <h2>Mengapa Smolyak Collocation?</h2>
+
+    <p>
+        Dalam konteks model DSGE multi-region, jumlah <em>state variable</em> tumbuh secara linear terhadap jumlah wilayah. Untuk model two-region seperti yang akan dibangun dalam tesis ini, state vector $s = (k_1, k_2, a_1, a_2)$ sudah memiliki dimensi $d = 4$ — dan bisa jauh lebih besar jika ditambah variabel endogen lain (misalnya utang pemerintah, infrastructure capital, dsb).
+    </p>
+
+    <p>
+        Metode collocation standar (dengan <em>full tensor grid</em>) mengalami masalah serius: jika kita menggunakan $n$ titik per dimensi, jumlah total titik grid adalah $n^d$. Untuk $n=5$ dan $d=10$, ini berarti hampir 10 juta titik — jelas tidak praktis.
+    </p>
+
+    <p>
+        Smolyak (1963) memberikan solusi elegan: sebuah metode konstruksi <em>sparse grid</em> yang jumlah titiknya hanya tumbuh <strong>secara polinomial</strong> (bukan eksponensial) terhadap dimensi $d$, namun tetap menjamin konvergensi uniform dari polynomial interpolasi.
+    </p>
+
+    <div class="callout callout-thesis">
+        <div class="callout-title">Relevansi untuk Tesis</div>
+        <p>
+            Model two-region bencana alam Indonesia akan memiliki setidaknya state variables: $k_1, k_2$ (capital stocks dua region), $a_1, a_2$ (technology shocks), dan potensial $g_1, g_2$ (public infrastructure), $d_1, d_2$ (disaster damage stocks). Ini bisa mencapai $d = 8$ — ideal untuk pendekatan Smolyak.
+        </p>
+    </div>
+</section>
+
+<!-- ===== SECTION 2: CURSE OF DIMENSIONALITY ===== -->
+<section class="section" id="curse">
+    <div class="section-number">Bagian 02</div>
+    <h2>Curse of Dimensionality dan Sparse Grids</h2>
+
+    <h3>Masalah dengan Full Tensor Grid</h3>
+
+    <p>
+        Misalkan kita ingin mengaproksimasi fungsi $f: [-1,1]^d \to \mathbb{R}$ dengan interpolasi polynomial. Pendekatan tensor product standar membutuhkan $n$ titik per dimensi, menghasilkan total $n^d$ titik grid. Polynomial interpolasi yang dihasilkan memiliki degree total $(n-1)d$ — jumlah koefisien yang tidak realistis untuk $d$ besar.
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">Full Tensor Grid — Jumlah Titik</div>
+        $$\text{Jumlah titik} = n^d$$
+        <p style="font-size:0.88rem; color: var(--slate); margin:0.5rem 0 0;">
+            Contoh: $n=5, d=8 \Rightarrow 5^8 = 390{,}625$ titik
+        </p>
+    </div>
+
+    <h3>Solusi Smolyak: Pertumbuhan Polinomial</h3>
+
+    <p>
+        Smolyak grid menghindari masalah ini dengan mengkonstruksi grid secara hierarkis. Untuk level aproksimasi $\mu$, jumlah titik grid dalam dimensi $d$ adalah:
+    </p>
+
+    <div class="eq-box teal">
+        <div class="eq-label">Jumlah Titik Smolyak Grid</div>
+        $$|\mathcal{H}_{d,\mu}| = \begin{cases}
+        1 + 2d & \text{untuk } \mu = 1 \\[6pt]
+        1 + 4d + \frac{4d(d-1)}{2} & \text{untuk } \mu = 2 \\[6pt]
+        1 + 8d + \frac{12d(d-1)}{2} + \frac{8d(d-1)(d-2)}{6} & \text{untuk } \mu = 3
+        \end{cases}$$
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Dimensi $d$</th>
+                    <th>Smolyak $\mu=2$</th>
+                    <th>Full Grid $n=5$</th>
+                    <th>Rasio Penghematan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>4 (two-region dasar)</td>
+                    <td>41</td>
+                    <td>625</td>
+                    <td>15×</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>85</td>
+                    <td>15.625</td>
+                    <td>184×</td>
+                </tr>
+                <tr>
+                    <td>8 (two-region penuh)</td>
+                    <td>145</td>
+                    <td>390.625</td>
+                    <td>2.694×</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>221</td>
+                    <td>9.765.625</td>
+                    <td>44.187×</td>
+                </tr>
+                <tr>
+                    <td>20 (10-country model)</td>
+                    <td>841</td>
+                    <td>$\approx 10^{14}$</td>
+                    <td>$\approx 10^{11}\times$</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="callout callout-insight">
+        <div class="callout-title">💡 Insight Kunci</div>
+        <p>
+            Untuk model two-region tesis dengan $d=8$, Smolyak $\mu=2$ hanya butuh 145 titik collocation — sangat terjangkau secara komputasional. Bahkan level $\mu=3$ (dengan 1.377 titik) masih sangat feasible.
+        </p>
+    </div>
+</section>
+
+<!-- ===== SECTION 3: SMOLYAK GRID ===== -->
+<section class="section" id="smolyak-grid">
+    <div class="section-number">Bagian 03</div>
+    <h2>Konstruksi Smolyak Grid</h2>
+
+    <h3>Langkah 1: Chebyshev Extrema sebagai Basis</h3>
+
+    <p>
+        Fondasi metode Smolyak adalah penggunaan extrema polynomial Chebyshev sebagai titik interpolasi. Didefinisikan himpunan $G_1 = \{0\}$ dan untuk $n \geq 2$:
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">Chebyshev Extrema</div>
+        $$G_n = \{z_1, \ldots, z_n\} \subset [-1,1], \quad z_j = -\cos\left(\frac{\pi(j-1)}{n-1}\right), \quad j = 1, \ldots, n$$
+    </div>
+
+    <p>
+        Kunci dari konstruksi Smolyak: didefinisikan urutan integer $m(1) = 1$ dan $m(i) = 2^{i-1} + 1$ untuk $i = 2, 3, \ldots$, sehingga himpunan Chebyshev extrema bersifat <em>nested</em>:
+    </p>
+
+    <div class="eq-box teal">
+        <div class="eq-label">Nested Structure</div>
+        $$G_{m(i)} \subset G_{m(i+1)} \quad \forall i$$
+        <p style="font-size:0.88rem; color:var(--slate); margin-top:0.5rem;">
+            $m(1)=1 \to G_1 = \{0\}$ <br>
+            $m(2)=3 \to G_3 = \{-1, 0, 1\}$ <br>
+            $m(3)=5 \to G_5 = \{-1, -\tfrac{\sqrt{2}}{2}, 0, \tfrac{\sqrt{2}}{2}, 1\}$ <br>
+            $m(4)=9 \to G_9 = \{-1, -\cos(\pi/8), \ldots, 1\}$
+        </p>
+    </div>
+
+    <p>
+        Nestedness ini krusial — memungkinkan konstruksi grid secara hierarkis, dimana grid pada level $\mu+1$ selalu memuat grid level $\mu$.
+    </p>
+
+    <h3>Langkah 2: Konstruksi Grid Multi-Dimensi</h3>
+
+    <p>
+        Definisikan <em>multi-index</em> $\mathbf{i} = (i_1, \ldots, i_d) \in \mathbb{Z}_{++}^d$ dan $|\mathbf{i}| = i_1 + \cdots + i_d$. Smolyak grid level $\mu$ dalam dimensi $d$ dikonstruksi sebagai:
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">Definisi Smolyak Grid</div>
+        $$\mathcal{H}_{d,\mu} = \bigcup_{|\mathbf{i}| = d + \mu} \left( G_{m(i_1)} \times \cdots \times G_{m(i_d)} \right)$$
+    </div>
+
+    <p>
+        Rumus ini bekerja dengan cara: untuk setiap kombinasi multi-index $\mathbf{i}$ yang memenuhi $|\mathbf{i}| = d + \mu$, buat tensor product dari himpunan Chebyshev extrema yang bersesuaian, lalu gabungkan semua hasilnya.
+    </p>
+
+    <h3>Contoh Konkret: $d = 4$, $\mu = 2$ (Relevan untuk Tesis)</h3>
+
+    <p>
+        Untuk model two-region dasar dengan $d = 4$ (yakni $k_1, k_2, a_1, a_2$) dan level $\mu = 2$, kita memerlukan semua multi-index $(i_1, i_2, i_3, i_4)$ dengan $i_1+i_2+i_3+i_4 = 6$, dimana tiap $i_j \geq 1$. Multi-index yang relevan meliputi:
+    </p>
+
+    <div class="eq-box teal">
+        <div class="eq-label">Dekomposisi Grid $\mathcal{H}_{4,2}$</div>
+        <p style="font-size:0.92rem; margin-bottom:0.5rem;">
+            <strong>Tipe "sumbu" ($|\mathbf{i}|=6$, satu komponen = 3):</strong><br>
+            $(3,1,1,1), (1,3,1,1), (1,1,3,1), (1,1,1,3)$ → masing-masing $G_5 \times G_1 \times G_1 \times G_1$, dsb.
+        </p>
+        <p style="font-size:0.92rem; margin-bottom:0;">
+            <strong>Tipe "bidang" ($|\mathbf{i}|=6$, dua komponen = 2):</strong><br>
+            $(2,2,1,1), (2,1,2,1), (2,1,1,2), (1,2,2,1), (1,2,1,2), (1,1,2,2)$ → masing-masing $G_3 \times G_3 \times G_1 \times G_1$, dsb.
+        </p>
+    </div>
+
+    <p>
+        Totalnya: $4 \times 5 + 6 \times 9 - \text{tumpang tindih} = 41$ titik unik. Bandingkan dengan $5^4 = 625$ titik untuk full grid!
+    </p>
+
+    <!-- DIAGRAM: Smolyak Grid Visual -->
+    <div class="diagram-container">
+        <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Title -->
+            <text x="300" y="22" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="13" font-weight="600" fill="#1a1a2e">Ilustrasi Sparse Grid vs Full Grid (2D, level μ = 2)</text>
+
+            <!-- Full Grid -->
+            <text x="150" y="50" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#4a5568">Full Tensor Grid: 25 titik</text>
+            <rect x="50" y="60" width="200" height="200" fill="none" stroke="#d4cfc6" stroke-width="1" rx="4"/>
+            <!-- 5x5 grid -->
+            <g fill="#b44b2a" opacity="0.35">
+                <circle cx="70" cy="80" r="4"/><circle cx="120" cy="80" r="4"/><circle cx="150" cy="80" r="4"/><circle cx="180" cy="80" r="4"/><circle cx="230" cy="80" r="4"/>
+                <circle cx="70" cy="120" r="4"/><circle cx="120" cy="120" r="4"/><circle cx="150" cy="120" r="4"/><circle cx="180" cy="120" r="4"/><circle cx="230" cy="120" r="4"/>
+                <circle cx="70" cy="160" r="4"/><circle cx="120" cy="160" r="4"/><circle cx="150" cy="160" r="4"/><circle cx="180" cy="160" r="4"/><circle cx="230" cy="160" r="4"/>
+                <circle cx="70" cy="200" r="4"/><circle cx="120" cy="200" r="4"/><circle cx="150" cy="200" r="4"/><circle cx="180" cy="200" r="4"/><circle cx="230" cy="200" r="4"/>
+                <circle cx="70" cy="240" r="4"/><circle cx="120" cy="240" r="4"/><circle cx="150" cy="240" r="4"/><circle cx="180" cy="240" r="4"/><circle cx="230" cy="240" r="4"/>
+            </g>
+
+            <!-- Smolyak Grid -->
+            <text x="450" y="50" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#4a5568">Smolyak Grid μ=2: 13 titik</text>
+            <rect x="350" y="60" width="200" height="200" fill="none" stroke="#d4cfc6" stroke-width="1" rx="4"/>
+            <!-- Smolyak points for d=2, mu=2 -->
+            <g fill="#2a6b5e">
+                <!-- Center -->
+                <circle cx="450" cy="160" r="5"/>
+                <!-- Axis points (G5 along each axis) -->
+                <circle cx="370" cy="160" r="5"/><circle cx="410" cy="160" r="5"/><circle cx="490" cy="160" r="5"/><circle cx="530" cy="160" r="5"/>
+                <circle cx="450" cy="80" r="5"/><circle cx="450" cy="120" r="5"/><circle cx="450" cy="200" r="5"/><circle cx="450" cy="240" r="5"/>
+                <!-- Corners (G3 x G3 minus already counted) -->
+                <circle cx="370" cy="80" r="5"/><circle cx="530" cy="80" r="5"/>
+                <circle cx="370" cy="240" r="5"/><circle cx="530" cy="240" r="5"/>
+            </g>
+
+            <!-- Arrow -->
+            <line x1="270" y1="160" x2="330" y2="160" stroke="#4a5568" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+            <text x="300" y="152" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#4a5568">sparse</text>
+
+            <defs>
+                <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+                    <polygon points="0 0, 8 3, 0 6" fill="#4a5568"/>
+                </marker>
+            </defs>
+        </svg>
+    </div>
+
+    <h3>Properti Penting Smolyak Grid</h3>
+
+    <p>
+        <strong>Nestedness:</strong> $\mathcal{H}_{d,\mu} \subset \mathcal{H}_{d,\mu+1}$. Peningkatan level aproksimasi hanya menambahkan titik baru tanpa membuang komputasi sebelumnya.
+    </p>
+    <p>
+        <strong>Exactness:</strong> $\hat{f}_{d,\mu}$ mereplikasi secara eksak setiap fungsi polynomial dengan monomial berderajat $\leq \mu$. Artinya, level $\mu=2$ setidaknya sama baiknya dengan aproksimasi polynomial derajat kedua manapun.
+    </p>
+    <p>
+        <strong>Konvergensi Uniform:</strong> Karena menggunakan Chebyshev extrema, interpolasi Smolyak menjamin konvergensi uniform seiring $\mu$ meningkat — tidak seperti interpolasi pada titik-titik equidistant yang bisa divergen (fenomena Runge).
+    </p>
+</section>
+
+<!-- ===== SECTION 4: INTERPOLASI ===== -->
+<section class="section" id="interpolasi">
+    <div class="section-number">Bagian 04</div>
+    <h2>Interpolasi Smolyak</h2>
+
+    <h3>Polynomial Chebyshev</h3>
+
+    <p>
+        Metode ini menggunakan polynomial Chebyshev $T_j(x)$ sebagai basis. Didefinisikan secara rekursif:
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">Polynomial Chebyshev — Definisi Rekursif</div>
+        $$T_1(x) = 1, \quad T_2(x) = x, \quad T_{j+1}(x) = 2x \cdot T_j(x) - T_{j-1}(x)$$
+    </div>
+
+    <p>
+        Keunggulan Chebyshev dibanding monomial standar $(1, x, x^2, \ldots)$ adalah sifat ortogonalitasnya yang membuat problem interpolasi lebih <em>well-conditioned</em> — menghindari ill-conditioning numerik yang umum pada polynomial degree tinggi.
+    </p>
+
+    <h3>Tensor Product Polynomial</h3>
+
+    <p>
+        Untuk setiap multi-index $\mathbf{i}$, didefinisikan tensor-product polynomial:
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">Tensor Product Polynomial</div>
+        $$p^{\mathbf{i}}_{\theta}(s) = \sum_{l_1=1}^{m(i_1)} \cdots \sum_{l_d=1}^{m(i_d)} \theta_{l_1 \ldots l_d} \cdot T_{l_1}(s_1) \cdots T_{l_d}(s_d)$$
+    </div>
+
+    <p>
+        Koefisien $\theta_{l_1 \ldots l_d}$ dihitung dalam closed form:
+    </p>
+
+    <div class="eq-box teal">
+        <div class="eq-label">Koefisien Interpolasi (Closed Form)</div>
+        $$\theta_{l_1 \ldots l_d} = \frac{2^d}{(k_1-1)\cdots(k_d-1)} \cdot \frac{1}{c_{l_1} \cdots c_{l_d}} \sum_{j_1=1}^{k_1} \cdots \sum_{j_d=1}^{k_d} \frac{T_{l_1}(z_{j_1}) \cdots T_{l_d}(z_{j_d}) \cdot f(z_{j_1}, \ldots, z_{j_d})}{c_{j_1} \cdots c_{j_d}}$$
+        <p style="font-size:0.85rem; color: var(--slate); margin-top:0.5rem;">
+            dengan $c_1 = c_{k_d} = 2$ dan $c_j = 1$ untuk $j = 2, \ldots, k_d - 1$.
+        </p>
+    </div>
+
+    <h3>Fungsi Aproksimasi Smolyak</h3>
+
+    <p>
+        Fungsi interpolasi final adalah <em>weighted sum</em> dari tensor product polynomials di atas:
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">Smolyak Interpolating Function</div>
+        $$\hat{f}_{d,\mu}(x) = \sum_{q \leq |\mathbf{i}| \leq d+\mu} (-1)^{d+\mu-|\mathbf{i}|} \binom{d-1}{d+\mu-|\mathbf{i}|} \cdot p^{\mathbf{i}}(x)$$
+        <p style="font-size:0.85rem; color:var(--slate); margin-top:0.5rem;">
+            dimana $q = \max(d, \mu+1)$.
+        </p>
+    </div>
+
+    <p>
+        Bobot $(-1)^{d+\mu-|\mathbf{i}|}\binom{d-1}{d+\mu-|\mathbf{i}|}$ dipilih secara spesifik agar weighted sum dari polynomial-polynomial yang menginterpolasi <em>subset</em> dari $\mathcal{H}$ menghasilkan interpolasi yang tepat pada keseluruhan $\mathcal{H}$.
+    </p>
+
+    <div class="callout callout-insight">
+        <div class="callout-title">💡 Kenapa Perlu Weighted Sum?</div>
+        <p>
+            Bayangkan titik-titik sudut: mereka muncul di beberapa tensor product sekaligus. Tanpa bobot koreksi, titik-titik ini akan "dihitung berlebihan". Bobot alternating-sign (positif-negatif) mengoreksi double-counting ini, mirip dengan prinsip inklusi-eksklusi dalam kombinatorika.
+        </p>
+    </div>
+</section>
+
+<!-- ===== SECTION 5: INTEGRASI ===== -->
+<section class="section" id="integrasi">
+    <div class="section-number">Bagian 05</div>
+    <h2>Evaluasi Integral (Ekspektasi)</h2>
+
+    <p>
+        Persamaan Euler dalam model DSGE mengandung ekspektasi bersyarat yang perlu dihitung sebagai integral multidimensi. Dalam paper Malin et al. (2011), integral ini berbentuk:
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">Integral Euler Equation</div>
+        $$\int_{\mathbb{R}^d} f(\mathbf{x}) \cdot e^{-\sum_{i=1}^d x_i^2} \, d\mathbf{x}$$
+        <p style="font-size:0.85rem; color:var(--slate); margin-top:0.5rem;">
+            dimana inovasi $\varepsilon$ berdistribusi normal standar, sehingga integral ditulis ulang dalam bentuk Gauss-Hermite.
+        </p>
+    </div>
+
+    <h3>Monomial Cubature Rules</h3>
+
+    <p>
+        Malin et al. menggunakan <em>monomial cubature rule</em> derajat 5 — sebuah rumus kuadratur yang mengaproksimasi integral dengan evaluasi fungsi di sejumlah titik tertentu. Keunggulannya dibanding Monte Carlo untuk dimensi $\leq 15$: jauh lebih akurat dengan evaluasi fungsi yang lebih sedikit.
+    </p>
+
+    <p>
+        Jumlah titik evaluasi untuk monomial rule derajat 5 dalam $d$ dimensi hanya sekitar $2d^2 + 1$ — sangat efisien. Untuk $d=4$ (model two-region dasar), ini hanya 33 titik evaluasi per titik collocation.
+    </p>
+
+    <div class="callout callout-thesis">
+        <div class="callout-title">Relevansi untuk Tesis</div>
+        <p>
+            Dalam model two-region Indonesia, ekspektasi bersyarat muncul dalam Euler equation untuk capital accumulation dan bond holdings antar-region. Jika shock bencana dimodelkan sebagai proses stokastik (misalnya Poisson arrival + lognormal severity), integrasi numerik menjadi lebih menantang. Monomial rules tetap bisa digunakan, tapi mungkin perlu dikombinasikan dengan quadrature terpisah untuk komponen disaster shock.
+        </p>
+    </div>
+</section>
+
+<!-- ===== SECTION 6: TIME ITERATION ===== -->
+<section class="section" id="time-iteration">
+    <div class="section-number">Bagian 06</div>
+    <h2>Algoritma Time Iteration</h2>
+
+    <p>
+        Untuk mencari koefisien polynomial yang merepresentasikan policy functions, Malin et al. menggunakan <em>time iteration</em> — sebuah skema iteratif yang memecah problem besar menjadi banyak problem kecil.
+    </p>
+
+    <h3>Struktur Iterasi</h3>
+
+    <div class="step-flow">
+        <div class="step">
+            <div class="step-num">0</div>
+            <div class="step-content">
+                <strong>Inisialisasi:</strong> Tebak awal policy functions $\{K_0'^j(s), L_0^j(s), C_0^j(s)\}$ menggunakan solusi log-linear di sekitar steady state. Ini cepat (kurang dari 1 detik) dan memberikan starting point yang reasonable.
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <strong>Iterasi $m$:</strong> Untuk setiap titik collocation $s \in \mathcal{H}_{d,\mu}$, selesaikan sistem $3N$ persamaan nonlinear untuk menemukan $\{K_m'^j(s), L_m^j(s), C_m^j(s)\}$, menggunakan policy functions iterasi sebelumnya $m-1$ untuk mengevaluasi sisi kanan Euler equation.
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <strong>Update Koefisien:</strong> Setelah semua pasangan $(s, y)$ ditentukan di semua titik grid, hitung koefisien polynomial $\theta$ menggunakan rumus closed-form. Ini mendefinisikan policy functions $m$-th di seluruh domain.
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <strong>Cek Konvergensi:</strong> Hitung perbedaan antara koefisien iterasi $m$ dan $m-1$. Jika $\|\theta_m - \theta_{m-1}\| < \text{tol}$, berhenti. Jika tidak, kembali ke langkah 1.
+            </div>
+        </div>
+    </div>
+
+    <h3>Sistem Persamaan per Titik Collocation</h3>
+
+    <p>
+        Di setiap titik $s = (k,a)$, sistem yang diselesaikan terdiri dari:
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">Euler Equation (Time-Iterated)</div>
+        $$\tau_j u_c^j(C_m^j, L_m^j) = \frac{\beta \int \tau_j u_c^j(C_{m-1}^j(s'), L_{m-1}^j(s')) \left[1 + a_j' f_k^j(K_m'^j, L_{m-1}^j(s')) + \Phi_j \right] g_a(a') \, da'}{1 + \phi \frac{K_m'^j(s) - k_j}{k_j}}$$
+    </div>
+
+    <div class="eq-box">
+        <div class="eq-label">Intratemporal Optimality</div>
+        $$-\frac{u_l^j(C^j, L^j)}{u_c^j(C^j, L^j)} = a_j f_l^j(k_j, L^j) \quad \forall j$$
+    </div>
+
+    <div class="eq-box">
+        <div class="eq-label">Risk Sharing</div>
+        $$\tau_j u_c^j(C_m^j, L_m^j) = \tau_i u_c^i(C_m^i, L_m^i) \quad \forall i, j$$
+    </div>
+
+    <div class="eq-box">
+        <div class="eq-label">Resource Constraint</div>
+        $$\sum_{j=1}^N C^j + \sum_{j=1}^N \left[ K'^j + \frac{\phi}{2} \frac{(K'^j - k_j)^2}{k_j} \right] = \sum_{j=1}^N \left( a_j f^j(k_j, L^j) + k_j \right)$$
+    </div>
+
+    <h3>Trik Implementasi: Parameterisasi Parsial</h3>
+
+    <p>
+        Insight penting dari Malin et al.: tidak semua $3N$ policy functions perlu diparameterisasi secara eksplisit. Mereka hanya memparameterisasi:
+    </p>
+
+    <p>
+        (a) Semua capital decision rules $\{K'^j(s)\}_{j=1}^N$ dan (b) konsumsi satu negara $C^1(s)$.
+    </p>
+
+    <p>
+        Sisanya — $\{C^j(s)\}_{j=2}^N$ dan $\{L^j(s)\}_{j=1}^N$ — ditentukan secara "non-parametrik" dari kondisi risk-sharing dan intratemporal optimality. Ini mengurangi jumlah polynomial yang harus diestimasi sambil menjamin akurasi tinggi pada kondisi keseimbangan tertentu.
+    </p>
+
+    <div class="callout callout-thesis">
+        <div class="callout-title">Relevansi untuk Tesis</div>
+        <p>
+            Untuk model two-region ($N=2$), kamu perlu memparameterisasi secara eksplisit: $K_1'(s)$, $K_2'(s)$, dan $C_1(s)$ — total 3 fungsi dengan Smolyak polynomial. $C_2(s)$, $L_1(s)$, $L_2(s)$ ditentukan implisit. Jika model memiliki additional endogenous states (misalnya government debt, infrastructure), jumlah fungsi yang diparameterisasi bertambah sesuai.
+        </p>
+    </div>
+</section>
+
+<!-- ===== SECTION 7: IMPLEMENTASI ===== -->
+<section class="section" id="implementasi">
+    <div class="section-number">Bagian 07</div>
+    <h2>Detail Implementasi Praktis</h2>
+
+    <h3>Pemilihan Batas State Space</h3>
+
+    <p>
+        Smolyak method didefinisikan pada hypercube $[-1,1]^d$. State variables perlu ditransformasi ke interval ini. Malin et al. menggunakan:
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">Batas Capital Stock</div>
+        $$[\underline{k}_j, \bar{k}_j] = [0.8 \bar{k}^{ss}, \; 1.2 \bar{k}^{ss}]$$
+        <p style="font-size:0.85rem; color:var(--slate); margin-top:0.5rem;">
+            yakni ±20% dari steady state capital.
+        </p>
+    </div>
+
+    <div class="eq-box">
+        <div class="eq-label">Batas Productivity Shock</div>
+        $$[\underline{\ln a}_j, \overline{\ln a}_j] = \left[-\frac{0.8\sigma}{1-\rho}, \; \frac{0.8\sigma}{1-\rho}\right]$$
+        <p style="font-size:0.85rem; color:var(--slate); margin-top:0.5rem;">
+            yakni ±80% dari unconditional standard deviation proses AR(1).
+        </p>
+    </div>
+
+    <div class="callout callout-warning">
+        <div class="callout-title">⚠ Trade-off Batas</div>
+        <p>
+            Batas terlalu ketat → akurasi tinggi di interior tapi state variable sering keluar batas (ekstrapolasi buruk). Batas terlalu longgar → akurasi rendah secara keseluruhan karena polynomial "direntangkan" terlalu lebar. Untuk model bencana alam, dimana <em>disaster shock</em> bisa sangat besar, pelebaran batas mungkin diperlukan — dengan konsekuensi harus menaikkan level $\mu$.
+        </p>
+    </div>
+
+    <h3>Transformasi Variabel</h3>
+
+    <p>
+        Transformasi affine dari domain fisik $[a,b]$ ke domain Smolyak $[-1,1]$:
+    </p>
+
+    <div class="eq-box teal">
+        <div class="eq-label">Transformasi Affine</div>
+        $$\tilde{x} = \frac{2(x - a)}{b - a} - 1, \qquad x = \frac{(b-a)(\tilde{x}+1)}{2} + a$$
+    </div>
+
+    <h3>Pseudocode Lengkap</h3>
+
+    <div class="code-block">
+<span class="comment">% ============================================</span>
+<span class="comment">% SMOLYAK COLLOCATION — PSEUDOCODE</span>
+<span class="comment">% ============================================</span>
+
+<span class="comment">% 1. Setup</span>
+<span class="keyword">DEFINE</span> d, mu, tol, max_iter
+<span class="keyword">CONSTRUCT</span> H = SmolyakGrid(d, mu)       <span class="comment">% Himpunan titik collocation</span>
+<span class="keyword">CONSTRUCT</span> Q = MonomialRule(d, degree=5) <span class="comment">% Quadrature nodes & weights</span>
+<span class="keyword">COMPUTE</span>  ss = SteadyState(params)        <span class="comment">% Steady state model</span>
+
+<span class="comment">% 2. Inisialisasi dari solusi linear</span>
+<span class="keyword">SOLVE</span>    linear_solution = LogLinearize(model, ss)
+<span class="keyword">SET</span>      theta_old = FitSmolyak(linear_solution, H)
+
+<span class="comment">% 3. Time Iteration Loop</span>
+<span class="keyword">FOR</span> iter = <span class="number">1</span> : max_iter
+    <span class="keyword">FOR EACH</span> s_tilde <span class="keyword">IN</span> H                <span class="comment">% Loop over collocation pts</span>
+        s = Transform(s_tilde, bounds)   <span class="comment">% [-1,1]^d → physical domain</span>
+
+        <span class="comment">% Evaluasi RHS Euler menggunakan policy lama</span>
+        rhs = <span class="number">0</span>
+        <span class="keyword">FOR EACH</span> (node, weight) <span class="keyword">IN</span> Q
+            s_prime = TransitionLaw(s, node)
+            policy_prime = EvalSmolyak(theta_old, s_prime)
+            rhs += weight * EulerRHS(s, s_prime, policy_prime)
+        <span class="keyword">END FOR</span>
+
+        <span class="comment">% Selesaikan sistem 3N persamaan untuk policy hari ini</span>
+        policy_today = SolveNonlinear(rhs, s, params)
+        <span class="keyword">STORE</span> (s, policy_today)
+    <span class="keyword">END FOR</span>
+
+    <span class="comment">% Update koefisien Smolyak dari semua pasangan (s, policy)</span>
+    theta_new = FitSmolyak(stored_pairs, H)
+
+    <span class="comment">% Cek konvergensi</span>
+    <span class="keyword">IF</span> norm(theta_new - theta_old) < tol
+        <span class="keyword">BREAK</span>
+    <span class="keyword">END IF</span>
+    theta_old = theta_new
+<span class="keyword">END FOR</span>
+    </div>
+</section>
+
+<!-- ===== SECTION 8: APLIKASI TESIS ===== -->
+<section class="section" id="aplikasi-tesis">
+    <div class="section-number">Bagian 08</div>
+    <h2>Penerapan untuk Model Two-Region Indonesia</h2>
+
+    <h3>Spesifikasi State Vector</h3>
+
+    <p>
+        Untuk model DSGE two-region (Region 1: daerah rawan bencana, Region 2: daerah non-bencana) dengan fitur-fitur lengkap, state vector potensial:
+    </p>
+
+    <div class="eq-box">
+        <div class="eq-label">State Vector Model Tesis</div>
+        $$s = \underbrace{(k_1, k_2)}_{\text{private capital}} \;,\; \underbrace{(k_1^g, k_2^g)}_{\text{public infra}} \;,\; \underbrace{(a_1, a_2)}_{\text{TFP shocks}} \;,\; \underbrace{(D)}_{\text{disaster state}} \;,\; \underbrace{(b^g)}_{\text{gov't debt}}$$
+        <p style="font-size:0.85rem; color:var(--slate); margin-top:0.5rem;">
+            Dimensi total: $d = 8$ (jika $D$ adalah damage stock per region) atau $d = 6$ (jika disaster shock iid).
+        </p>
+    </div>
+
+    <h3>Mapping Persamaan Model ke Smolyak Framework</h3>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Persamaan Model</th>
+                    <th>Peran dalam Smolyak</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Euler equation (capital)</td>
+                    <td>Persamaan fungsional utama</td>
+                    <td>Satu per region; membutuhkan evaluasi integral</td>
+                </tr>
+                <tr>
+                    <td>Euler equation (gov't bond)</td>
+                    <td>Persamaan fungsional tambahan</td>
+                    <td>Jika ada trade antar-region via bonds</td>
+                </tr>
+                <tr>
+                    <td>Intratemporal (labor-leisure)</td>
+                    <td>Ditentukan implisit (non-parametrik)</td>
+                    <td>Selesaikan nonlinear per titik</td>
+                </tr>
+                <tr>
+                    <td>Resource constraint (per region atau aggregate)</td>
+                    <td>Residual equation</td>
+                    <td>Akurasi tergantung policy function lain</td>
+                </tr>
+                <tr>
+                    <td>Government budget constraint</td>
+                    <td>Ditentukan implisit</td>
+                    <td>Menentukan tax rate atau transfer</td>
+                </tr>
+                <tr>
+                    <td>Disaster damage law of motion</td>
+                    <td>State transition</td>
+                    <td>$D_{t+1} = h(D_t, \varepsilon_t^D)$</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Strategi Parameterisasi</h3>
+
+    <p>
+        Mengikuti pendekatan Malin et al., parameterisasi eksplisit hanya untuk policy functions yang <em>tidak bisa</em> ditentukan secara analitis atau dari persamaan statis:
+    </p>
+
+    <div class="callout callout-insight">
+        <div class="callout-title">💡 Rekomendasi Parameterisasi untuk Two-Region</div>
+        <p>
+            <strong>Parameterisasi eksplisit (Smolyak polynomial):</strong> $K_1'(s)$, $K_2'(s)$, $K_1^{g\prime}(s)$, $K_2^{g\prime}(s)$, $C_1(s)$, dan $B^{g\prime}(s)$.
+        </p>
+        <p>
+            <strong>Ditentukan implisit:</strong> $C_2(s)$ dari risk-sharing condition; $L_1(s), L_2(s)$ dari intratemporal FOC; tax rates dari government budget constraint.
+        </p>
+    </div>
+
+    <h3>Penanganan Disaster Shocks</h3>
+
+    <p>
+        Disaster shocks memiliki karakteristik khusus: kejadian langka (<em>rare events</em>) dengan dampak besar. Ini menciptakan tantangan untuk Smolyak method:
+    </p>
+
+    <p>
+        <strong>Opsi 1 — Disaster sebagai state variable kontinu:</strong> Modelkan damage stock $D_t$ sebagai state variable endogen yang mengikuti law of motion $D_{t+1} = (1-\delta_D)D_t + \xi_t \cdot \text{Disaster}_t$. Ini menambah dimensi tapi ditangani langsung oleh Smolyak grid. Perlu melebarkan batas untuk mengakomodasi rare large values.
+    </p>
+
+    <p>
+        <strong>Opsi 2 — Regime switching:</strong> Modelkan disaster sebagai regime switch (disaster vs normal) dan selesaikan Smolyak collocation secara terpisah untuk setiap regime. Lebih sederhana tapi butuh iterasi antar-regime untuk konsistensi.
+    </p>
+
+    <p>
+        <strong>Opsi 3 — Pendekatan Hybrid:</strong> Gunakan Smolyak untuk state variables endogen dan TFP, tapi tangani disaster shock secara terpisah dalam evaluasi integral (misalnya dengan mixture quadrature: quadrature biasa untuk regime normal + titik tambahan untuk regime bencana).
+    </p>
+
+    <div class="callout callout-warning">
+        <div class="callout-title">⚠ Tantangan Khusus Rare Disasters</div>
+        <p>
+            Batas state space yang terlalu ketat bisa menyebabkan masalah saat disaster shock besar memindahkan ekonomi ke luar batas grid. Solusi: (1) gunakan batas lebih lebar untuk dimensi yang terkena disaster, (2) gunakan level $\mu=3$ jika $\mu=2$ kurang akurat, atau (3) transformasi variabel (misalnya log capital) untuk mengurangi rentang.
+        </p>
+    </div>
+</section>
+
+<!-- ===== SECTION 9: PERBANDINGAN ===== -->
+<section class="section" id="perbandingan">
+    <div class="section-number">Bagian 09</div>
+    <h2>Smolyak vs Alternatif Lain</h2>
+
+    <div class="comparison">
+        <div class="comparison-card pro">
+            <h4 style="color: var(--teal);">Kelebihan Smolyak</h4>
+            <ul>
+                <li>Skalabel ke dimensi tinggi ($d \leq 20$ terbukti feasible)</li>
+                <li>Akurasi global (bukan hanya lokal di sekitar steady state)</li>
+                <li>Grid bersifat nested — mudah meningkatkan akurasi</li>
+                <li>Robust terhadap large shocks (nonlinear dynamics tertangkap)</li>
+                <li>Konvergensi uniform terjamin secara teoritis</li>
+            </ul>
+        </div>
+        <div class="comparison-card con">
+            <h4 style="color: var(--accent);">Kekurangan Smolyak</h4>
+            <ul>
+                <li>Lebih lambat dari perturbation (terutama di $\mu$ tinggi)</li>
+                <li>Kurang cocok untuk policy functions tidak smooth (kink)</li>
+                <li>Pemilihan batas memerlukan trial-and-error</li>
+                <li>Implementasi lebih kompleks dari linearisasi</li>
+                <li>Running time naik cepat seiring $\mu$ (bukan $d$)</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>Perbandingan Metode Solusi DSGE</h3>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Metode</th>
+                    <th>Dimensi Max</th>
+                    <th>Akurasi</th>
+                    <th>Kecepatan</th>
+                    <th>Cocok untuk Tesis?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Perturbation (1st order)</td>
+                    <td>Sangat tinggi</td>
+                    <td>Rendah (lokal)</td>
+                    <td>Sangat cepat</td>
+                    <td>Benchmark awal ✓</td>
+                </tr>
+                <tr>
+                    <td>Perturbation (2nd/3rd order)</td>
+                    <td>Tinggi</td>
+                    <td>Sedang</td>
+                    <td>Cepat</td>
+                    <td>Bisa, tapi kurang akurat untuk rare disasters</td>
+                </tr>
+                <tr>
+                    <td>Taylor Projection</td>
+                    <td>Sedang</td>
+                    <td>Tinggi</td>
+                    <td>Sedang</td>
+                    <td>Alternatif bagus, tapi skala terbatas</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:600; color: var(--teal);">Smolyak Collocation</td>
+                    <td>Tinggi ($\leq 20$)</td>
+                    <td>Tinggi (global)</td>
+                    <td>Sedang-Lambat</td>
+                    <td style="font-weight:600; color: var(--teal);">Sangat cocok ✓✓</td>
+                </tr>
+                <tr>
+                    <td>Ergodic Set Methods (Maliar et al.)</td>
+                    <td>Tinggi</td>
+                    <td>Tinggi</td>
+                    <td>Sedang</td>
+                    <td>Alternatif baik ✓</td>
+                </tr>
+                <tr>
+                    <td>Value Function Iteration</td>
+                    <td>Rendah ($\leq 5$)</td>
+                    <td>Sangat tinggi</td>
+                    <td>Sangat lambat</td>
+                    <td>Tidak praktis untuk $d > 5$</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="callout callout-thesis">
+        <div class="callout-title">Rekomendasi untuk Tesis</div>
+        <p>
+            <strong>Strategi optimal:</strong> Gunakan perturbation (Dynare, 2nd order) sebagai benchmark awal dan starting guess. Kemudian selesaikan model penuh dengan Smolyak collocation ($\mu=2$) untuk menangkap nonlinearitas bencana alam. Bandingkan hasil keduanya — perbedaan besar menunjukkan bahwa nonlinear effects signifikan (ini sendiri merupakan kontribusi penting).
+        </p>
+        <p style="margin-bottom:0;">
+            <strong>Software:</strong> Pertimbangkan implementasi di MATLAB atau Julia. Julia package <code>SmolyakApprox.jl</code> atau <code>BasisMatrices.jl</code> sudah menyediakan banyak building blocks. Malin et al. juga menyediakan kode Fortran di website Krueger.
+        </p>
+    </div>
+
+    <h3>Kapan Smolyak Lebih Baik dari Perturbation?</h3>
+
+    <p>
+        Malin et al. menunjukkan bahwa keunggulan Smolyak paling menonjol ketika: (1) shocks besar (large $\sigma$), (2) utilitas/produksi memiliki kurvatur tinggi (risk aversion tinggi, elastisitas substitusi rendah), dan (3) ada asimetri antar-region/negara. Semua kondisi ini relevan untuk model bencana alam: disaster shocks besar dan asimetris, risk aversion penting untuk welfare analysis, dan dua region memiliki eksposur berbeda terhadap bencana.
+    </p>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="footer-inner">
+        <p>
+            <strong>Catatan Teknis</strong> — Disiapkan sebagai referensi untuk tesis "Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context."
+        </p>
+        <p style="margin-top: 0.5rem;">
+            Sumber utama: Malin, Krueger &amp; Kubler (2011), JEDC 35, 229–239. Referensi tambahan: Krueger &amp; Kubler (2004), Barthelmann et al. (2000), Judd (1998).
+        </p>
+        <p style="margin-top: 0.8rem; font-size: 0.8rem; color: #888;">
+            The Ansyaku's Atelier · Universitas Gadjah Mada · 2025
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
