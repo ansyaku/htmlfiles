@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le et al. (2025) — Ringkasan Akademik DSGE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- KaTeX CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '$', right: '$', inline: true},
+        {left: '\\(', right: '\\)', inline: true}
+      ],
+      throwOnError: false
+    });"></script>
+
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --warm-white: #faf8f3;
+      --parchment: #ede8dc;
+      --ink: #1a1612;
+      --ink-light: #3d352b;
+      --rust: #b5451b;
+      --rust-light: #d4622e;
+      --gold: #c49a2b;
+      --gold-light: #e0b94a;
+      --sage: #4a6741;
+      --sage-light: #6a8f65;
+      --steel: #3a5068;
+      --steel-light: #5a789a;
+      --border: #d4c9b0;
+      --border-dark: #b5a88a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background-color: var(--warm-white);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: var(--cream);
+      border-bottom: 3px solid var(--ink);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-rule-top {
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--rust) 0px, var(--rust) 20px,
+        var(--gold) 20px, var(--gold) 40px,
+        var(--sage) 40px, var(--sage) 60px,
+        var(--steel) 60px, var(--steel) 80px
+      );
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 3rem 2rem 2.5rem;
+    }
+
+    .header-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rust);
+      border: 1.5px solid var(--rust);
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.9rem);
+      font-weight: 900;
+      line-height: 1.2;
+      color: var(--ink);
+      max-width: 820px;
+      margin-bottom: 0.75rem;
+    }
+
+    header h1 em {
+      color: var(--rust);
+      font-style: italic;
+    }
+
+    .header-meta {
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.92rem;
+      color: var(--ink-light);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    .header-rq {
+      background: var(--parchment);
+      border-left: 4px solid var(--rust);
+      padding: 1.1rem 1.5rem;
+      margin-top: 1.5rem;
+      max-width: 860px;
+    }
+
+    .header-rq h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 0.6rem;
+    }
+
+    .header-rq ol {
+      padding-left: 1.4rem;
+      font-size: 0.93rem;
+      line-height: 1.6;
+      color: var(--ink-light);
+    }
+
+    .header-rq ol li { margin-bottom: 0.35rem; }
+
+    /* ─── NAV ─── */
+    nav {
+      background: var(--ink);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    nav ul li a {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: var(--cream);
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    nav ul li a:hover {
+      color: var(--gold-light);
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-child { border-bottom: none; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .section-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--parchment);
+      line-height: 1;
+      flex-shrink: 0;
+      -webkit-text-stroke: 1.5px var(--border-dark);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .section-title span {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 400;
+      margin-bottom: 0.2rem;
+    }
+
+    p { margin-bottom: 1rem; color: var(--ink-light); }
+    p:last-child { margin-bottom: 0; }
+
+    /* ─── CARDS ─── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+    }
+
+    .card.rust::before { background: var(--rust); }
+    .card.gold::before { background: var(--gold); }
+    .card.sage::before { background: var(--sage); }
+    .card.steel::before { background: var(--steel); }
+
+    .card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .card .icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    /* ─── EQUATION BLOCKS ─── */
+    .eq-block {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--steel);
+      padding: 1.25rem 1.5rem;
+      margin: 1.25rem 0;
+      overflow-x: auto;
+    }
+
+    .eq-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .eq-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .eq-desc {
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    .eq-num {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--border-dark);
+      margin-top: 0.4rem;
+    }
+
+    /* Eq group headers */
+    .eq-group-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 2rem 0 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* ─── FLOWCHART ─── */
+    .flowchart {
+      margin: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    .flow-node {
+      background: var(--cream);
+      border: 2px solid var(--border-dark);
+      padding: 0.9rem 1.3rem;
+      text-align: center;
+      flex: 1;
+      max-width: 220px;
+      position: relative;
+    }
+
+    .flow-node.start { border-color: var(--rust); border-width: 2.5px; }
+    .flow-node.shock { border-color: var(--rust); background: #fdf0ec; }
+    .flow-node.mechanism { border-color: var(--steel); background: #eef2f6; }
+    .flow-node.outcome { border-color: var(--sage); background: #eef3ee; }
+    .flow-node.policy { border-color: var(--gold); background: #fdf6e6; }
+
+    .flow-node .node-type {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .flow-node.shock .node-type { color: var(--rust); }
+    .flow-node.mechanism .node-type { color: var(--steel); }
+    .flow-node.outcome .node-type { color: var(--sage); }
+    .flow-node.policy .node-type { color: var(--gold); }
+
+    .flow-node .node-label {
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .flow-arrow-v {
+      width: 2px;
+      height: 32px;
+      background: var(--border-dark);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .flow-arrow-v::after {
+      content: '▼';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      color: var(--border-dark);
+    }
+
+    .flow-arrow-h {
+      font-size: 1.1rem;
+      color: var(--border-dark);
+      flex-shrink: 0;
+    }
+
+    .flow-connector {
+      height: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .flow-connector .line {
+      flex: 1;
+      width: 2px;
+      background: var(--border-dark);
+    }
+
+    .flow-connector .arrow {
+      font-size: 0.75rem;
+      color: var(--border-dark);
+    }
+
+    .flow-branch {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 0;
+      justify-content: center;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    .flow-branch-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      max-width: 240px;
+    }
+
+    .flow-section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--border-dark);
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+
+    /* ─── TABLE ─── */
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .param-table th {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 0.7rem 1rem;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .param-table td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-light);
+      vertical-align: top;
+    }
+
+    .param-table tr:nth-child(even) td { background: var(--cream); }
+    .param-table tr:hover td { background: var(--parchment); }
+
+    .param-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--steel);
+    }
+
+    .param-table td:nth-child(2) {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    /* ─── FINDING BOX ─── */
+    .finding {
+      display: flex;
+      gap: 1rem;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .finding .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--rust);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 2rem;
+    }
+
+    .finding .content h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+
+    .finding .content p {
+      font-size: 0.92rem;
+      margin: 0;
+    }
+
+    /* ─── THESIS RELEVANCE ─── */
+    .relevance-box {
+      background: var(--parchment);
+      border: 2px solid var(--gold);
+      padding: 1.5rem 1.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .relevance-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .relevance-box h3::before {
+      content: '◆';
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    .relevance-box ul {
+      padding-left: 1.3rem;
+      font-size: 0.93rem;
+      color: var(--ink-light);
+    }
+
+    .relevance-box ul li { margin-bottom: 0.4rem; }
+
+    /* ─── CITATION ─── */
+    .citation-block {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 1.25rem 1.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      margin-top: 2rem;
+    }
+
+    .citation-block .cite-label {
+      color: var(--gold-light);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: var(--parchment);
+      text-align: center;
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+    }
+
+    footer span { color: var(--gold-light); }
+
+    /* ─── HIGHLIGHT ─── */
+    .highlight {
+      background: linear-gradient(120deg, rgba(196,154,43,0.2) 0%, rgba(196,154,43,0.1) 100%);
+      padding: 0 0.25rem;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      margin: 0.1rem;
+      border-radius: 0;
+    }
+
+    .tag.rust { background: var(--rust); color: white; }
+    .tag.gold { background: var(--gold); color: white; }
+    .tag.sage { background: var(--sage); color: white; }
+    .tag.steel { background: var(--steel); color: white; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 700px) {
+      .header-inner { padding: 2rem 1rem 1.5rem; }
+      .container { padding: 0 1rem 3rem; }
+      .flow-branch { flex-direction: column; align-items: center; }
+      .flow-row { flex-wrap: wrap; }
+      nav ul li a { font-size: 0.65rem; padding: 0.65rem 0.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="header-rule-top"></div>
+  <div class="header-inner">
+    <div class="header-badge">Referensi Akademik • DSGE • Bencana Alam</div>
+    <h1>Bagaimana Risiko Bencana Mempengaruhi <em>Fiskal</em> dan Ketimpangan?</h1>
+    <p class="header-meta">Le, A.H., Park, D., Beirne, J., &amp; Uddin, G.S. (2025) — <em>Economic Modelling</em>, 151, 107220.</p>
+
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom: 1.25rem;">
+      <span class="tag rust">DSGE</span>
+      <span class="tag gold">Heterogeneous Agents</span>
+      <span class="tag sage">Fiscal Policy</span>
+      <span class="tag steel">Disaster Risk</span>
+      <span class="tag rust">Panel LP 184 Negara</span>
+      <span class="tag gold">EMDE</span>
+    </div>
+
+    <div class="header-rq">
+      <h3>Relevansi dengan Research Question Tesis</h3>
+      <ol>
+        <li>Kebijakan apa yang paling efektif memitigasi penurunan output dan konsumsi pasca bencana langka?</li>
+        <li>Bagaimana model makroekonomi dinamis dapat menangkap bencana langka dan kebijakan pemulihan pasca-bencana?</li>
+        <li>Bagaimana bencana langka memengaruhi output, konsumsi, dan kesejahteraan lintas wilayah?</li>
+        <li>Bagaimana kecepatan pemulihan memengaruhi besar dan persistensi kerugian makroekonomi?</li>
+      </ol>
+    </div>
+  </div>
+</header>
+
+<!-- ── NAV ── -->
+<nav>
+  <ul>
+    <li><a href="#problem">1. Problem Utama</a></li>
+    <li><a href="#fitur">2. Fitur Model</a></li>
+    <li><a href="#flowchart">3. Alur DSGE</a></li>
+    <li><a href="#persamaan">4. Persamaan</a></li>
+    <li><a href="#estimasi">5. Metode Estimasi</a></li>
+    <li><a href="#temuan">6. Temuan Utama</a></li>
+    <li><a href="#tesis">7. Relevansi Tesis</a></li>
+  </ul>
+</nav>
+
+<!-- ── CONTENT ── -->
+<div class="container">
+
+  <!-- 1. PROBLEM UTAMA -->
+  <section id="problem">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-title">
+        <span>Problem Statement</span>
+        Problem Utama yang Ingin Diselesaikan
+      </div>
+    </div>
+
+    <p>Frekuensi kejadian bencana iklim meningkat tajam dalam tiga dekade terakhir, baik di negara maju (AE) maupun negara berkembang (EMDE). Kondisi ini memunculkan dua tantangan mendasar yang saling berkaitan:</p>
+
+    <div class="card-grid">
+      <div class="card rust">
+        <span class="icon">📉</span>
+        <h4>Keberlanjutan Fiskal</h4>
+        <p>Bencana iklim meningkatkan rasio utang pemerintah terhadap PDB dan mengikis keseimbangan fiskal. Negara dengan ruang fiskal terbatas semakin sulit merespons bencana karena premi obligasi soveren meningkat.</p>
+      </div>
+      <div class="card gold">
+        <span class="icon">⚖️</span>
+        <h4>Ketimpangan Pendapatan</h4>
+        <p>Bencana memperburuk ketimpangan: kelompok berpendapatan rendah (<em>hand-to-mouth</em>) tidak memiliki tabungan untuk meredam guncangan, sehingga konsumsi mereka turun tiga kali lipat dibanding rumah tangga Ricardian.</p>
+      </div>
+      <div class="card sage">
+        <span class="icon">🏗️</span>
+        <h4>Respons Kebijakan Optimal</h4>
+        <p>Pemerintah menghadapi trade-off: meningkatkan transfer untuk melindungi kelompok rentan vs. menahan kenaikan utang. Kebijakan mana yang paling efisien secara fiskal sekaligus efektif mengurangi ketimpangan?</p>
+      </div>
+      <div class="card steel">
+        <span class="icon">🌏</span>
+        <h4>Kerentanan EMDE</h4>
+        <p>Negara berkembang lebih rentan (indeks ND-GAIN lebih tinggi) karena akses pasar keuangan terbatas, infrastruktur lemah, dan kapasitas fiskal rendah — kombinasi yang memperburuk dampak bencana.</p>
+      </div>
+    </div>
+
+    <div class="relevance-box" style="margin-top:1.5rem;">
+      <h3>Kesenjangan Literatur yang Diisi Paper Ini</h3>
+      <ul>
+        <li>Studi empiris sebelumnya menganalisis fiskal atau ketimpangan secara terpisah; paper ini menggabungkan keduanya secara simultan.</li>
+        <li>Model DSGE dengan risiko bencana belum memasukkan heterogenitas agen (rumah tangga HtM vs. Ricardian) secara eksplisit.</li>
+        <li>Evaluasi komparatif <em>targeted transfers</em> vs. <em>progressive income tax</em> sebagai instrumen kebijakan pasca-bencana masih jarang dilakukan.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. FITUR MODEL -->
+  <section id="fitur">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-title">
+        <span>Model Features</span>
+        Fitur Model DSGE
+      </div>
+    </div>
+
+    <p>Model yang dikembangkan adalah NK-DSGE (New Keynesian Dynamic Stochastic General Equilibrium) dua-agen dengan risiko bencana eksplisit. Berikut adalah fitur-fitur utamanya:</p>
+
+    <div class="card-grid">
+      <div class="card rust">
+        <span class="icon">👥</span>
+        <h4>Dua Tipe Rumah Tangga</h4>
+        <p><strong>Ricardian (fraksi $1-\eta$):</strong> dapat menabung, berinvestasi, dan memiliki obligasi pemerintah. Memaksimalkan preferensi Epstein-Zin-Weil.<br><br>
+        <strong>Hand-to-Mouth / HtM (fraksi $\eta = 0.42$):</strong> tidak dapat menabung, hanya bergantung pada pendapatan kerja. Kalibrasi EMDE dari Bracco et al. (2021).</p>
+      </div>
+      <div class="card gold">
+        <span class="icon">⚡</span>
+        <h4>Risiko Bencana Eksplisit</h4>
+        <p>Bencana dimodelkan mengikuti Gourio (2012): probabilitas bencana $\Xi_t$ bervariasi, dan ketika terjadi, bencana menghancurkan <span class="highlight">fraksi $\Delta = 22\%$</span> dari TFP dan stok kapital secara bersamaan.</p>
+      </div>
+      <div class="card sage">
+        <span class="icon">🏛️</span>
+        <h4>Otoritas Fiskal Aktif</h4>
+        <p>Pemerintah membiayai pengeluaran $G_t$ melalui campuran: (1) pajak lump-sum, (2) pajak penghasilan $\tau^N$, dan (3) utang publik $B_t$. Aturan fiskal mengikuti Galí et al. (2007).</p>
+      </div>
+      <div class="card steel">
+        <span class="icon">📈</span>
+        <h4>Interaksi Fiskal-Moneter</h4>
+        <p>Biaya obligasi pemerintah terkait dengan suku bunga kebijakan bank sentral (Taylor rule), sehingga interaksi antara kebijakan fiskal dan moneter dalam merespons bencana dapat dianalisis.</p>
+      </div>
+      <div class="card rust">
+        <span class="icon">🔢</span>
+        <h4>Higher-Order Approximation</h4>
+        <p>Model diselesaikan menggunakan <strong>perturbation order ketiga</strong> — diperlukan karena preferensi Epstein-Zin untuk menangkap premi risiko dan efek momen kedua dari ketidakpastian bencana.</p>
+      </div>
+      <div class="card gold">
+        <span class="icon">💱</span>
+        <h4>Rigiditas Harga (Calvo)</h4>
+        <p>Produsen intermediat dapat menyesuaikan harga dengan probabilitas $1-\theta = 0.25$ per periode (Calvo pricing), menghasilkan dinamika inflasi yang realistis pasca-bencana.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. FLOWCHART -->
+  <section id="flowchart">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title">
+        <span>Process Flow</span>
+        Alur Proses Model DSGE
+      </div>
+    </div>
+
+    <p>Berikut adalah alur kerja model DSGE dari shock bencana hingga evaluasi kebijakan:</p>
+
+    <div class="flowchart">
+
+      <!-- LAYER 1: SHOCK -->
+      <div class="flow-section-label">LAYER 1 — SHOCK GENERATION</div>
+      <div class="flow-row">
+        <div class="flow-node shock">
+          <div class="node-type">Shock Input</div>
+          <div class="node-label">Probabilitas Bencana Meningkat<br><small style="font-size:0.75rem; color:var(--rust);">$\uparrow \Xi_t$</small></div>
+        </div>
+      </div>
+
+      <div style="height:36px;display:flex;flex-direction:column;align-items:center;">
+        <div style="flex:1;width:2px;background:var(--border-dark);"></div>
+        <div style="font-size:0.75rem;color:var(--border-dark);">▼</div>
+      </div>
+
+      <!-- LAYER 2: DAMPAK LANGSUNG -->
+      <div class="flow-section-label">LAYER 2 — DAMPAK LANGSUNG</div>
+      <div class="flow-branch">
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node mechanism">
+            <div class="node-type">Supply Side</div>
+            <div class="node-label">Destruksi TFP &amp; Kapital<br><small style="font-size:0.75rem;">$z_{t+1}$ turun $\Delta$</small></div>
+          </div>
+        </div>
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node mechanism">
+            <div class="node-type">Demand Side</div>
+            <div class="node-label">Discount Factor $\beta(\Xi)$ naik<br><small style="font-size:0.75rem;">Household lebih "sabar"</small></div>
+          </div>
+        </div>
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node mechanism">
+            <div class="node-type">Asset Market</div>
+            <div class="node-label">Flight-to-Safety<br><small style="font-size:0.75rem;">Permintaan obligasi $\uparrow$</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:36px;display:flex;flex-direction:column;align-items:center;">
+        <div style="flex:1;width:2px;background:var(--border-dark);"></div>
+        <div style="font-size:0.75rem;color:var(--border-dark);">▼</div>
+      </div>
+
+      <!-- LAYER 3: TRANSMISI -->
+      <div class="flow-section-label">LAYER 3 — TRANSMISI MAKROEKONOMI</div>
+      <div class="flow-branch">
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node mechanism">
+            <div class="node-type">Produksi</div>
+            <div class="node-label">Output &amp; Investasi turun<br><small style="font-size:0.75rem;">$\downarrow Y_t$, $\downarrow I_t$</small></div>
+          </div>
+        </div>
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node mechanism">
+            <div class="node-type">Labor Market</div>
+            <div class="node-label">Upah &amp; jam kerja turun<br><small style="font-size:0.75rem;">$\downarrow W_t$, $\downarrow L_t$</small></div>
+          </div>
+        </div>
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node mechanism">
+            <div class="node-type">Harga</div>
+            <div class="node-label">Tekanan deflasi<br><small style="font-size:0.75rem;">$\downarrow \pi_t$ (Calvo)</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:36px;display:flex;flex-direction:column;align-items:center;">
+        <div style="flex:1;width:2px;background:var(--border-dark);"></div>
+        <div style="font-size:0.75rem;color:var(--border-dark);">▼</div>
+      </div>
+
+      <!-- LAYER 4: OUTCOMES HETEROGEN -->
+      <div class="flow-section-label">LAYER 4 — DAMPAK HETEROGEN ANTAR AGEN</div>
+      <div class="flow-branch">
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node outcome">
+            <div class="node-type">Ricardian</div>
+            <div class="node-label">Konsumsi turun moderat<br><small style="font-size:0.75rem;">Bisa rebalance portfolio</small></div>
+          </div>
+        </div>
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node outcome" style="border-color:var(--rust);background:#fdf0ec;">
+            <div class="node-type" style="color:var(--rust);">HtM — Lebih Terdampak</div>
+            <div class="node-label">Konsumsi turun <strong>3×</strong> lebih besar<br><small style="font-size:0.75rem;">Tak punya buffer tabungan</small></div>
+          </div>
+        </div>
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node outcome" style="border-color:var(--rust);background:#fdf0ec;">
+            <div class="node-type" style="color:var(--rust);">Fiskal</div>
+            <div class="node-label">Utang pemerintah naik tajam<br><small style="font-size:0.75rem;">$\uparrow B_t/Y_t$</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:36px;display:flex;flex-direction:column;align-items:center;">
+        <div style="flex:1;width:2px;background:var(--border-dark);"></div>
+        <div style="font-size:0.75rem;color:var(--border-dark);">▼</div>
+      </div>
+
+      <!-- LAYER 5: KEBIJAKAN -->
+      <div class="flow-section-label">LAYER 5 — EVALUASI KEBIJAKAN</div>
+      <div class="flow-branch">
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node policy">
+            <div class="node-type">Kebijakan A</div>
+            <div class="node-label"><strong>Targeted Transfers</strong><br><small style="font-size:0.75rem;">Transfer ke HtM saja<br>Fiskal cost rendah ✓</small></div>
+          </div>
+        </div>
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node policy">
+            <div class="node-type">Kebijakan B</div>
+            <div class="node-label"><strong>Progressive Tax</strong><br><small style="font-size:0.75rem;">Pajak progresif otomatis<br>Fiskal cost tinggi ×</small></div>
+          </div>
+        </div>
+        <div class="flow-branch-col">
+          <div style="height:20px;width:2px;background:var(--border-dark);"></div>
+          <div class="flow-node policy">
+            <div class="node-type">Baseline</div>
+            <div class="node-label"><strong>No Active Policy</strong><br><small style="font-size:0.75rem;">Pajak &amp; transfer tidak aktif<br>Benchmark</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:36px;display:flex;flex-direction:column;align-items:center;">
+        <div style="flex:1;width:2px;background:var(--border-dark);"></div>
+        <div style="font-size:0.75rem;color:var(--border-dark);">▼</div>
+      </div>
+
+      <!-- LAYER 6: SOLUSI -->
+      <div class="flow-section-label">METODE SOLUSI</div>
+      <div class="flow-row">
+        <div class="flow-node" style="border-color:var(--ink);background:var(--cream);max-width:400px;">
+          <div class="node-type" style="color:var(--ink-light);">Solution Method</div>
+          <div class="node-label">Third-Order Perturbation (Dynare/MATLAB)<br>
+          <small style="font-size:0.75rem;color:var(--ink-light);">Diperlukan untuk menangkap risk premium dan second-moment effects</small></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. PERSAMAAN -->
+  <section id="persamaan">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div class="section-title">
+        <span>Mathematical Framework</span>
+        Daftar Persamaan Utama
+      </div>
+    </div>
+
+    <!-- A. DISASTER RISK -->
+    <div class="eq-group-title">A. Proses Risiko Bencana</div>
+
+    <div class="eq-block">
+      <div class="eq-label">Pertumbuhan TFP dengan Risiko Bencana</div>
+      $$\frac{z_{t+1}}{z_t} = e^{\mu + \varepsilon_{z,t+1} + \vartheta_{t+1}\log(1-\Delta)}$$
+      <div class="eq-desc">$z_t$ = TFP (labor-augmenting). $\mu$ = tren pertumbuhan. $\vartheta_{t+1} = 1$ jika bencana terjadi (menghancurkan fraksi $\Delta$ dari produktivitas). $\varepsilon_{z,t+1} \sim \mathcal{N}(0,\sigma_z^2)$ = shock TFP biasa.</div>
+      <div class="eq-num">(2)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Dinamika Probabilitas Bencana</div>
+      $$\log(\Xi_t) = (1-\rho_\Xi)\log(\tilde{\Xi}) + \rho_\Xi \log(\Xi_{t-1}) + \sigma_\Xi \varepsilon_{\Xi t}$$
+      <div class="eq-desc">$\Xi_t$ = probabilitas bencana pada periode $t$. $\tilde{\Xi} = 0.0688$ = rata-rata probabilitas bencana. $\rho_\Xi = 0.9$ = persistensi. $\sigma_\Xi = 0.6$ = std. deviasi inovasi probabilitas.</div>
+      <div class="eq-num">(3)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Ekspektasi Bersyarat Bencana</div>
+      $$\mathbb{E}_t\!\left(e^{\vartheta_{t+1}\log(1-\Delta)}\right) = 1 - \Xi_t \Delta$$
+      <div class="eq-desc">Probabilitas terbobot dari kehancuran fraksi $\Delta$ produktivitas. Ini adalah komponen kunci dalam ekspektasi agen terhadap masa depan.</div>
+      <div class="eq-num">(4)</div>
+    </div>
+
+    <!-- B. RICARDIAN -->
+    <div class="eq-group-title">B. Rumah Tangga Ricardian</div>
+
+    <div class="eq-block">
+      <div class="eq-label">Preferensi Epstein-Zin-Weil</div>
+      $$\tilde{U}_t = \left[\left[C_t^O(1-L_t^O)^\zeta\right]^{1-\psi} + \beta(\Xi)\left(\mathbb{E}_t \tilde{U}_{t+1}^{1-\gamma}\right)^{\frac{1-\psi}{1-\gamma}}\right]^{\frac{1}{1-\psi}}$$
+      <div class="eq-desc">$C_t^O$ = konsumsi Ricardian. $L_t^O$ = tenaga kerja. $\psi$ = kebalikan elastisitas substitusi antar-waktu. $\gamma$ = koefisien aversitas risiko ($= 3.8$). $\beta(\Xi)$ = discount factor yang bergantung probabilitas bencana (time-varying).</div>
+      <div class="eq-num">(5)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Budget Constraint Ricardian</div>
+      $$C_t^O + I_t + T_t^O + \frac{B_t}{p_t} = (1-\tau^N)W_t L_t^O + P_t^k u_t K_t + Div_t + \frac{B_t R_{t-1}}{p_t}$$
+      <div class="eq-desc">Sumber pendapatan: upah setelah pajak $(1-\tau^N)W_tL_t^O$, return kapital $P_t^k u_t K_t$, dividen perusahaan $Div_t$, dan pembayaran obligasi $B_t R_{t-1}/p_t$. Pengeluaran: konsumsi, investasi, pajak lump-sum, dan pembelian obligasi baru.</div>
+      <div class="eq-num">(6)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Akumulasi Kapital dengan Destruksi Bencana</div>
+      $$K_{t+1} = \left[(1-\delta_t)K_t + \Gamma\!\left(\frac{I_t}{K_t}\right)K_t\right]e^{\vartheta_{t+1}\ln(1-\Delta)}$$
+      <div class="eq-desc">$\Gamma(\cdot)$ = fungsi biaya penyesuaian investasi. Faktor $e^{\vartheta_{t+1}\ln(1-\Delta)}$ merepresentasikan destruksi kapital ketika bencana terjadi — kapital berkurang sebesar $\Delta = 22\%$.</div>
+      <div class="eq-num">(7)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Stochastic Discount Factor (SDF)</div>
+      $$Q_{t,t+1} = \beta(\Xi)\left(\frac{C_{t+1}^O}{C_t^O}\right)^{-\psi}\!\left(\frac{1-L_{t+1}^O}{1-L_t^O}\right)^{\zeta(1-\psi)} \times \frac{\tilde{U}_{t+1}^{-X}}{\mathbb{E}_t\!\left(\tilde{U}_{t+1}^{1-X}\right)^{\frac{-X}{1-X}}}$$
+      <div class="eq-desc">$X = \frac{\gamma-\psi}{1-\psi}$. SDF ini menangkap preferensi terhadap waktu resolusi ketidakpastian dan premium risiko — komponen kritis yang membutuhkan approximation orde ketiga.</div>
+      <div class="eq-num">(8)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Persamaan Euler (Obligasi)</div>
+      $$\mathbb{E}_t\!\left(Q_{t,t+1}\frac{R_t}{\pi_{t+1}}\right) = 1$$
+      <div class="eq-desc">$R_t$ = return riil obligasi pemerintah. $\pi_{t+1} = p_{t+1}/p_t$ = laju inflasi. Kondisi no-arbitrage antara obligasi pemerintah dan aset berisiko.</div>
+      <div class="eq-num">(9)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Return Kapital (FOC)</div>
+      $$R_{t+1}^k = e^{\vartheta_{t+1}\ln(1-\Delta)}\left\{\frac{p_{t+1}^k u_{t+1}}{q_t} + \frac{q_{t+1}}{q_t}\left[1-\delta_{t+1} + \Gamma'_{K_{t+1}}K_{t+1} + \Gamma_{t+1}\right]\right\}$$
+      <div class="eq-desc">$q_t$ = Tobin's Q. $u_t$ = tingkat utilisasi kapital. Return kapital tergantung pada kemungkinan terjadi bencana $\vartheta_{t+1}$ yang mengurangi nilainya.</div>
+      <div class="eq-num">(10)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Risk Premium (Annualized)</div>
+      $$\mathbb{E}_t(\text{Prem}_{t+1}) \equiv \mathbb{E}_t\!\left(\frac{R_{t+1}^k \pi_{t+1}}{R_t}\right)$$
+      <div class="eq-desc">Premium risiko atas obligasi pemerintah. Meningkat ketika probabilitas bencana naik — merepresentasikan kompensasi yang diminta agen atas risiko bencana.</div>
+      <div class="eq-num">(11)</div>
+    </div>
+
+    <!-- C. HtM -->
+    <div class="eq-group-title">C. Rumah Tangga Hand-to-Mouth (HtM)</div>
+
+    <div class="eq-block">
+      <div class="eq-label">Fungsi Utilitas HtM (CRRA Standard)</div>
+      $$\max \mathbb{E}_t \sum_{t=0}^{\infty} \beta^t \left(\frac{C_t^{r(1-\sigma)}}{1-\sigma} - \kappa_L \frac{L_t^{r(1+\varphi)}}{1+\varphi}\right)$$
+      <div class="eq-desc">HtM menggunakan utilitas CRRA standar (bukan Epstein-Zin), karena mereka tidak memiliki aset sehingga resolusi ketidakpastian tidak relevan bagi mereka. $\sigma$ = koefisien aversitas risiko. $\varphi$ = elastisitas Frisch tenaga kerja.</div>
+      <div class="eq-num">(12)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Budget Constraint HtM (Tidak Ada Tabungan)</div>
+      $$C_t^r = (1-\tau^N)W_t L_t^r - T_t^r$$
+      <div class="eq-desc">Konsumsi HtM sepenuhnya bergantung pada pendapatan kerja setelah pajak dikurangi transfer bersih $T_t^r$. Tidak ada akumulasi kekayaan — setiap guncangan pendapatan langsung berdampak ke konsumsi.</div>
+      <div class="eq-num">(13)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Optimal Labor Supply HtM</div>
+      $$\kappa_L \left(L_t^r\right)^\varphi \left(C_t^r\right)^\sigma = (1-\tau^N)W_t$$
+      <div class="eq-desc">MRS tenaga kerja — upah riil setelah pajak. HtM menyesuaikan jam kerja berdasarkan upah dan konsumsi saat ini (tanpa forward-looking intertemporal optimization).</div>
+      <div class="eq-num">(15)</div>
+    </div>
+
+    <!-- D. PRODUKSI -->
+    <div class="eq-group-title">D. Sektor Produksi</div>
+
+    <div class="eq-block">
+      <div class="eq-label">Fungsi Produksi Firma Intermediat</div>
+      $$y_t(j) = A_t\left(u_t K_{j,t}\right)^\alpha \left(z_t L_{j,t}\right)^{1-\alpha}$$
+      <div class="eq-desc">$A_t$ = shock TFP eksogen. $z_t$ = produktivitas labor-augmenting yang terpengaruh bencana. $u_t K_{j,t}$ = kapital efektif. $\alpha = 0.33$ = share kapital. Spesifikasi ini memisahkan efek bencana ke dalam kapital vs. TFP agregat.</div>
+      <div class="eq-num">(19)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">CES Aggregator Output</div>
+      $$y_t = \left[\int_0^1 y_t(j)^{\frac{\varepsilon-1}{\varepsilon}} dj\right]^{\frac{\varepsilon}{\varepsilon-1}}$$
+      <div class="eq-desc">$\varepsilon = 6$ = elastisitas substitusi antar barang diferensiasi. Menghasilkan markup $\varepsilon/(\varepsilon-1) = 1.2$ dalam ekuilibrium simetris — standar NK-DSGE.</div>
+      <div class="eq-num">(16)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Calvo Pricing — New Keynesian Phillips Curve</div>
+      $$\pi_t^* = \frac{\varepsilon}{\varepsilon-1}\frac{X_{1,t}}{X_{2,t}}\pi_t$$
+      <div class="eq-desc">Dengan: $X_{1,t} = Y_t p_{w,t} + \theta \mathbb{E}_t[Q_{t,t+1}\pi_{t+1}^{\varepsilon_p} X_{1,t+1}]$ dan $X_{2,t} = Y_t + \theta\mathbb{E}_t[Q_{t,t+1}\pi_{t+1}^{\varepsilon_p-1}X_{2,t+1}]$. $\theta = 0.75$ = probabilitas harga tetap (rata-rata harga direvisi tiap 4 kuartal).</div>
+      <div class="eq-num">(21–23)</div>
+    </div>
+
+    <!-- E. PEMERINTAH -->
+    <div class="eq-group-title">E. Bank Sentral, Pemerintah, dan Kliring Pasar</div>
+
+    <div class="eq-block">
+      <div class="eq-label">Taylor Rule Bank Sentral</div>
+      $$\ln\!\left(\frac{R_t}{R_{ss}}\right) = \rho_r \ln\!\left(\frac{R_{t-1}}{R_{ss}}\right) + (1-\rho_r)\left[\rho_y \ln\!\left(\frac{Y_t}{Y_{t-1}}\right) + \rho_\pi \ln\!\left(\frac{\pi_t}{\pi_{ss}}\right)\right]$$
+      <div class="eq-desc">$\rho_r = 0.85$ = persistensi suku bunga. $\rho_\pi = 1.5$ (melebihi 1, syarat Taylor principle). $\rho_y = 0.0625$ = respons terhadap pertumbuhan output. $\pi_{ss} = 1.01$ (target inflasi 4% per tahun).</div>
+      <div class="eq-num">(24)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Budget Constraint Pemerintah</div>
+      $$G_t + \frac{R_{t-1}}{\pi_t}B_{t-1} = (1-\eta)T_t^O + \eta T_t^r + (1-\eta)\tau_t^N W_t L_t^O + \eta\tau_t^N W_t L_t^R + B_t$$
+      <div class="eq-desc">Pengeluaran pemerintah $G_t$ plus pembayaran utang dibiayai oleh pajak lump-sum dari kedua tipe rumah tangga (bobot $1-\eta$ untuk Ricardian dan $\eta$ untuk HtM), pajak penghasilan, dan penerbitan utang baru $B_t$.</div>
+      <div class="eq-num">(28)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Aturan Transfer (Baseline — Galí et al. 2007)</div>
+      $$T_t^r - \bar{T}^r = \phi_B(B_t - \bar{B}) + \phi_G(G_t - \bar{G})$$
+      $$T_t^O - \bar{T}^O = \phi_B(B_t - \bar{B}) + \phi_G(G_t - \bar{G})$$
+      <div class="eq-desc">Transfer bersih merespons deviasi utang dan pengeluaran dari steady-state. Dalam baseline, respons transfer ke konsumsi HtM dinonaktifkan ($\phi_{c^r} = 0$).</div>
+      <div class="eq-num">(30–31)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Aturan Transfer Tertarget (Targeted Transfer Rule)</div>
+      $$T_t^r - \bar{T}^r = \phi_{c^r}(C_t^r - \bar{C}^r) + \phi_B(B_t - \bar{B})$$
+      <div class="eq-desc">Modifikasi aturan transfer: transfer ke HtM merespons langsung terhadap deviasi konsumsi HtM dari steady-state. $\phi_{c^r} = 0.7$ dikalibrasi agar puncak debt-to-GDP tetap sama dengan baseline. Ini mengidentifikasi biaya fiskal yang minimal untuk melindungi kelompok rentan.</div>
+      <div class="eq-num">(33)</div>
+    </div>
+
+    <!-- F. PROGRESSIVE TAX -->
+    <div class="eq-group-title">F. Pajak Penghasilan Progresif</div>
+
+    <div class="eq-block">
+      <div class="eq-label">Aturan Pajak Progresif (Mattesini &amp; Rossi, 2012)</div>
+      $$\tau_t^{N,O} - \tau^{N,O} = 1 - \left(\frac{INC^O}{INC_t^O}\right)^{\phi_N}$$
+      $$\tau_t^{N,r} - \tau^{N,r} = 1 - \left(\frac{INC^r}{INC_t^r}\right)^{\phi_N}$$
+      <div class="eq-desc">$\phi_N = 0.6$ = parameter progressivitas. Ketika pendapatan rumah tangga turun di bawah steady-state, tarif pajak turun (automatic stabilizer). HtM mendapat pengurangan pajak lebih besar karena pendapatan mereka lebih rendah. $INC_t^O = W_t L_t^O + Profit_t$ (Ricardian) dan $INC_t^r = W_t L_t^r$ (HtM).</div>
+      <div class="eq-num">(35)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Market Clearing — Output</div>
+      $$Y_t = C_t + I_t + G_t$$
+      <div class="eq-desc">Keseimbangan pasar barang. Konsumsi agregat: $C_t = (1-\eta)C_t^O + \eta C_t^r$. Tenaga kerja agregat: $L_t = (1-\eta)L_t^O + \eta L_t^r$. Hanya Ricardian yang berinvestasi.</div>
+      <div class="eq-num">(25–27)</div>
+    </div>
+
+  </section>
+
+  <!-- 5. METODE ESTIMASI -->
+  <section id="estimasi">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div class="section-title">
+        <span>Estimation Methods</span>
+        Metode Estimasi &amp; Kalibrasi
+      </div>
+    </div>
+
+    <p>Paper ini menggunakan dua pendekatan metodologis yang saling melengkapi: bukti empiris dari panel data internasional, dan simulasi teoritikal menggunakan DSGE.</p>
+
+    <div class="card-grid">
+      <div class="card rust" style="grid-column: span 2;">
+        <span class="icon">📊</span>
+        <h4>Bagian Empiris: Local Projections (Jordà, 2005)</h4>
+        <p>Spesifikasi estimasi:
+        $$Y_{i,t+h} = \beta_h S_{i,t} + \gamma_h Y_{i,t-1} + \theta X_{i,t-1} + \delta_i + V_{i,t+h}, \quad h = 0, 1, 2, \ldots$$
+        $Y_{i,t+h}$ = variabel dependen (debt-to-GDP, Gini index, income share). $S_{i,t}$ = shock kerentanan iklim (ND-GAIN Vulnerability Index). $X_{i,t}$ = vektor kontrol. $\delta_i$ = fixed effects negara. <strong>Data:</strong> 184 negara, 1995–2021, frekuensi tahunan. <strong>Keunggulan LP vs VAR:</strong> bias lebih rendah di horizon menengah-panjang, lebih fleksibel untuk channel transmisi non-linear.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 1.5rem;">
+      <h3 style="font-family:'Playfair Display',serif; font-size:1.15rem; margin-bottom:1rem; color:var(--ink);">Kalibrasi Parameter Model DSGE</h3>
+
+      <table class="param-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Nilai</th>
+            <th>Deskripsi</th>
+            <th>Sumber</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>$\beta$</td>
+            <td>0.9945</td>
+            <td>Discount factor (real rate 1.9%/tahun)</td>
+            <td>IMF IPF</td>
+          </tr>
+          <tr>
+            <td>$\varepsilon_p$</td>
+            <td>6</td>
+            <td>Elastisitas substitusi barang diferensiasi</td>
+            <td>Christiano et al. (2005)</td>
+          </tr>
+          <tr>
+            <td>$\alpha$</td>
+            <td>0.33</td>
+            <td>Share kapital dalam produksi ($i/y = 0.263$)</td>
+            <td>Standar</td>
+          </tr>
+          <tr>
+            <td>$\theta$</td>
+            <td>0.75</td>
+            <td>Probabilitas harga tetap (Calvo)</td>
+            <td>IMF IPF</td>
+          </tr>
+          <tr>
+            <td>$\delta$</td>
+            <td>3.5%</td>
+            <td>Tingkat penyusutan kapital</td>
+            <td>Chang et al. (2019)</td>
+          </tr>
+          <tr>
+            <td>$\tilde{\Xi}$</td>
+            <td>0.0688</td>
+            <td>Rata-rata probabilitas bencana tahunan</td>
+            <td>Cantelmo et al. (2023)</td>
+          </tr>
+          <tr>
+            <td>$\Delta$</td>
+            <td>0.22</td>
+            <td>Ukuran bencana (fraksi TFP &amp; kapital yang hancur)</td>
+            <td>Isoré &amp; Szczerbowicz (2017)</td>
+          </tr>
+          <tr>
+            <td>$\sigma_\Xi$</td>
+            <td>0.6</td>
+            <td>Std. deviasi inovasi probabilitas bencana</td>
+            <td>Cantelmo et al. (2023)</td>
+          </tr>
+          <tr>
+            <td>$\rho_\Xi$</td>
+            <td>0.9</td>
+            <td>Persistensi probabilitas bencana</td>
+            <td>Isoré &amp; Szczerbowicz (2017)</td>
+          </tr>
+          <tr>
+            <td>$\gamma$</td>
+            <td>3.8</td>
+            <td>Koefisien aversitas risiko</td>
+            <td>Isoré &amp; Szczerbowicz (2017)</td>
+          </tr>
+          <tr>
+            <td>$\eta$</td>
+            <td>0.42</td>
+            <td>Share HtM agents (rata-rata EMDE)</td>
+            <td>Bracco et al. (2021)</td>
+          </tr>
+          <tr>
+            <td>$\tau^N$</td>
+            <td>0.15</td>
+            <td>Tarif pajak penghasilan</td>
+            <td>IMF IPF</td>
+          </tr>
+          <tr>
+            <td>$\rho_\pi$</td>
+            <td>1.5</td>
+            <td>Taylor rule — koef. inflasi</td>
+            <td>IMF IPF</td>
+          </tr>
+          <tr>
+            <td>$\rho_y$</td>
+            <td>0.0625</td>
+            <td>Taylor rule — koef. output</td>
+            <td>IMF IPF</td>
+          </tr>
+          <tr>
+            <td>$\rho_r$</td>
+            <td>0.85</td>
+            <td>Persistensi suku bunga</td>
+            <td>IMF IPF</td>
+          </tr>
+          <tr>
+            <td>$B/Y$</td>
+            <td>0.58</td>
+            <td>Rasio debt-to-GDP steady state</td>
+            <td>IMF WEO</td>
+          </tr>
+          <tr>
+            <td>$\mu$</td>
+            <td>0.005</td>
+            <td>Tren pertumbuhan TFP (2%/tahun)</td>
+            <td>Isoré &amp; Szczerbowicz (2017)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-grid" style="margin-top:1.5rem;">
+      <div class="card steel">
+        <span class="icon">🔧</span>
+        <h4>Metode Solusi Model DSGE</h4>
+        <p><strong>Third-Order Perturbation Method</strong> (Dynare). Dipilih karena preferensi Epstein-Zin membutuhkan approximation orde-3 untuk mengidentifikasi risk premium dan efek momen kedua dari bencana. Lihat detail metodologis di Isoré &amp; Szczerbowicz (2017) dan Gourio (2012). Sistem di-detrend terlebih dahulu agar variabel bencana biner ($\vartheta$) keluar dari sistem.</p>
+      </div>
+      <div class="card sage">
+        <span class="icon">📐</span>
+        <h4>State-Dependent Analysis (Empiris)</h4>
+        <p>Membedakan "high vulnerability state" (indeks kerentanan melebihi rata-rata negara tersebut) vs. "low vulnerability state". Memungkinkan estimasi efek non-linear bencana — temuan: efek fiskal dan ketimpangan jauh lebih besar dalam high-vulnerability states.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. TEMUAN -->
+  <section id="temuan">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div class="section-title">
+        <span>Key Findings</span>
+        Temuan Utama &amp; Implikasi Kebijakan
+      </div>
+    </div>
+
+    <p>Paper menghasilkan temuan empiris dan teoritis yang saling menguatkan:</p>
+
+    <div style="margin-bottom:1.5rem;">
+      <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--ink); margin-bottom:1rem;">Temuan Empiris (Panel Local Projections)</h3>
+
+      <div class="finding">
+        <div class="num">1</div>
+        <div class="content">
+          <h4>Shock Kerentanan Iklim → Utang Pemerintah Naik ~2% PDB</h4>
+          <p>Dampak bersifat persisten, mencapai puncak sekitar 2 tahun pasca-shock. Keseimbangan fiskal (sustainability gap) memburuk hampir 1 poin persentase PDB. Efek lebih parah dalam high-vulnerability states.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="num">2</div>
+        <div class="content">
+          <h4>Kerentanan Iklim Meningkatkan Indeks Gini</h4>
+          <p>Ketimpangan pendapatan memburuk: share pendapatan kelompok top-20% meningkat, sementara bottom-20% mengalami penurunan moderat namun signifikan. Efek lebih kuat dan persisten ketika kerentanan iklim DAN risiko fiskal sama-sama tinggi.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.5rem;">
+      <h3 style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--ink); margin-bottom:1rem;">Temuan Teoritis (DSGE Simulation)</h3>
+
+      <div class="finding">
+        <div class="num">3</div>
+        <div class="content">
+          <h4>HtM Consumption Turun 3× Lebih Besar dari Ricardian</h4>
+          <p>Ketika disaster risk meningkat 10%, konsumsi HtM jatuh tiga kali lipat lebih dalam dibanding Ricardian. Meskipun HtM mengurangi tenaga kerja lebih sedikit, hal ini tidak cukup mengompensasi hilangnya pendapatan upah.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="num">4</div>
+        <div class="content">
+          <h4>Flight-to-Safety Memperparah Kenaikan Utang</h4>
+          <p>Ricardian beralih ke obligasi pemerintah (safe assets), mendorong debt-to-GDP naik meski pemerintah tidak meningkatkan belanja countercyclical. Ditambah penurunan penerimaan pajak dari kontraksi upah dan jam kerja.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="num">5</div>
+        <div class="content">
+          <h4>Targeted Transfers Lebih Efisien dari Progressive Tax</h4>
+          <p>Transfer tertarget ke HtM mengurangi konsumsi gap (dari 3× menjadi 2× Ricardian) dengan biaya fiskal yang lebih rendah. Progressive income tax juga efektif tapi menghasilkan kenaikan debt-to-GDP lebih besar karena penerimaan pajak turun lebih tajam.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. RELEVANSI TESIS -->
+  <section id="tesis">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div class="section-title">
+        <span>Thesis Relevance</span>
+        Relevansi untuk Tesis &amp; Perbedaan Kontribusi
+      </div>
+    </div>
+
+    <p>Paper Le et al. (2025) adalah referensi metodologis penting, namun tesis Anda memiliki posisi unik yang mengisi gap yang belum disentuh paper ini:</p>
+
+    <div class="relevance-box">
+      <h3>Yang Dapat Diadaptasi dari Paper Ini</h3>
+      <ul>
+        <li><strong>Mekanisme risiko bencana Gourio (2012):</strong> Spesifikasi $z_{t+1}/z_t = e^{\mu + \varepsilon_z + \vartheta\log(1-\Delta)}$ dapat langsung diadaptasi untuk model dua-wilayah.</li>
+        <li><strong>Kalibrasi EMDE:</strong> Parameter $\eta = 0.42$ (share HtM), $\Delta = 0.22$, $\Xi = 0.0688$ relevan untuk konteks Indonesia.</li>
+        <li><strong>Third-order perturbation:</strong> Metode solusi ini diperlukan untuk menangkap risk premium dan second-moment effects bencana langka.</li>
+        <li><strong>Interaksi fiskal-moneter:</strong> Budget constraint pemerintah dan Taylor rule dapat diextend ke dua-wilayah.</li>
+        <li><strong>Targeted transfers rule (Pers. 33):</strong> Dapat dimodifikasi menjadi interregional fiscal transfer rule.</li>
+      </ul>
+    </div>
+
+    <div class="relevance-box" style="border-color: var(--sage); margin-top:1rem;">
+      <h3 style="color:var(--sage);">Kontribusi Unik Tesis Anda (Gap yang Diisi)</h3>
+      <ul>
+        <li><strong>Dimensi Regional:</strong> Le et al. adalah model satu-wilayah. Tesis Anda menambahkan <em>interregional economic linkages</em> antara wilayah terdampak bencana dan tidak terdampak — ini novelty utama.</li>
+        <li><strong>Recovery Dynamics:</strong> Paper ini tidak menganalisis bagaimana <em>kecepatan pemulihan</em> memengaruhi persistensi kerugian. Tesis Anda mengisi gap ini secara eksplisit.</li>
+        <li><strong>Spillover Effects:</strong> Mekanisme transmisi shock bencana lintas wilayah (trade, labor mobility, fiscal transfer) belum dimodelkan dalam Le et al.</li>
+        <li><strong>Konteks Indonesia:</strong> Kalibrasi spesifik menggunakan data BPS, BI, dan karakteristik geografis Indonesia sebagai negara kepulauan yang rentan bencana.</li>
+        <li><strong>Research Question Empiris:</strong> "Seberapa besar linkage antar-wilayah memengaruhi magnitude dan persistensi dampak bencana?" — pertanyaan yang tidak dijawab Le et al.</li>
+      </ul>
+    </div>
+
+    <div class="citation-block" style="margin-top:2rem;">
+      <span class="cite-label">Sitasi Formal (APA 7th)</span>
+      Le, A. H., Park, D., Beirne, J., &amp; Uddin, G. S. (2025). How does disaster risk impact fiscal sustainability and inequality? <em>Economic Modelling</em>, 151, 107220. https://doi.org/10.1016/j.econmod.2025.107220
+    </div>
+
+  </section>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  Halaman Referensi Akademik — Dibuat untuk Tesis: <span>"Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context"</span><br>
+  Persamaan dirender menggunakan <span>KaTeX v0.16.9</span>
+</footer>
+
+</body>
+</html>
