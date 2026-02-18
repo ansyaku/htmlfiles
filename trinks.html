@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carbon Costs & Industrial Firm Performance — Trinks & Hille (2026)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+<style>
+  :root {
+    --cream: #f9f5ee;
+    --warm-white: #fdfaf4;
+    --ink: #1a1510;
+    --ink-light: #3d3428;
+    --rust: #b84a2e;
+    --rust-light: #d4674e;
+    --gold: #c9973a;
+    --gold-pale: #f0e3c0;
+    --sage: #4a6b5a;
+    --sage-light: #6d8f7c;
+    --border: #d8cdb8;
+    --border-light: #ede5d4;
+    --shadow: rgba(26,21,16,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ─────────────────────────────── */
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3.5rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,151,58,0.18), transparent 70%);
+    pointer-events: none;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,74,46,0.14), transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .journal-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,151,58,0.5);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.9rem, 4vw, 2.9rem);
+    font-weight: 900;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: #fff;
+    margin-bottom: 1.25rem;
+    max-width: 820px;
+  }
+
+  header h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .authors {
+    font-size: 0.95rem;
+    color: rgba(249,245,238,0.7);
+    margin-bottom: 0.4rem;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .meta-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(249,245,238,0.55);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .meta-chip span { color: rgba(249,245,238,0.85); }
+
+  /* ── NAV ─────────────────────────────────── */
+  nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+
+  nav ul {
+    max-width: 900px;
+    margin: 0 auto;
+    list-style: none;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding: 0 1rem;
+  }
+
+  nav a {
+    display: block;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.82rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    color: var(--ink-light);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2.5px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  nav a:hover { color: var(--rust); border-bottom-color: var(--rust); }
+
+  /* ── MAIN LAYOUT ─────────────────────────── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+  }
+
+  /* ── ABSTRACT BOX ────────────────────────── */
+  .abstract-box {
+    background: var(--warm-white);
+    border-left: 4px solid var(--rust);
+    border-radius: 0 8px 8px 0;
+    padding: 2rem 2.25rem;
+    margin: 3rem 0;
+    box-shadow: 0 2px 12px var(--shadow);
+    position: relative;
+  }
+
+  .abstract-box::before {
+    content: '"';
+    position: absolute;
+    top: -0.5rem; left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--rust);
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  .abstract-box p {
+    font-size: 0.97rem;
+    line-height: 1.8;
+    color: var(--ink-light);
+    font-style: italic;
+  }
+
+  /* ── SECTIONS ────────────────────────────── */
+  section {
+    margin-top: 3.5rem;
+    scroll-margin-top: 60px;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.6rem;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.45rem, 3vw, 1.85rem);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 1.4rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 2rem 0 0.75rem;
+  }
+
+  p { margin-bottom: 1rem; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── CALLOUT CARDS ───────────────────────── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 6px var(--shadow);
+    transition: box-shadow 0.25s, transform 0.25s;
+  }
+
+  .card:hover {
+    box-shadow: 0 6px 20px rgba(26,21,16,0.12);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--rust);
+    margin-bottom: 0.5rem;
+  }
+
+  .card p {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── EQUATION BOX ────────────────────────── */
+  .eq-box {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 0 0 8px 8px;
+    padding: 1.75rem 2rem;
+    margin: 1.75rem 0;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+
+  .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+    display: block;
+  }
+
+  .eq-desc {
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    margin-top: 1rem;
+    line-height: 1.65;
+  }
+
+  .eq-desc code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+    background: var(--gold-pale);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    color: var(--ink);
+  }
+
+  /* ── FINDINGS TABLE ──────────────────────── */
+  .findings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-top: 1.25rem;
+  }
+
+  .findings-table th {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .findings-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+    line-height: 1.55;
+  }
+
+  .findings-table tr:hover td { background: var(--gold-pale); }
+
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  .badge-neg { background: #fde8e3; color: var(--rust); }
+  .badge-pos { background: #e3f0e8; color: var(--sage); }
+  .badge-neu { background: #f0eade; color: #6b5c3e; }
+
+  /* ── HIGHLIGHT BOX ───────────────────────── */
+  .highlight {
+    background: linear-gradient(135deg, #fdf5e6, #fef9f0);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 1.5rem 1.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .highlight p {
+    font-size: 0.92rem;
+    color: var(--ink-light);
+    margin: 0;
+  }
+
+  .highlight strong { color: var(--rust); }
+
+  /* ── TIMELINE ────────────────────────────── */
+  .logic-chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 1.5rem;
+    position: relative;
+  }
+
+  .logic-step {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .logic-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px; top: 40px;
+    width: 2px;
+    height: calc(100% - 8px);
+    background: var(--border);
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 0.15rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-content {
+    padding: 0.2rem 0 1.75rem;
+  }
+
+  .step-content h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--rust);
+    margin-bottom: 0.35rem;
+  }
+
+  .step-content p {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* ── CONCLUSION PILLS ────────────────────── */
+  .conclusion-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .conclusion-list li {
+    background: var(--warm-white);
+    border: 1px solid var(--border-light);
+    border-left: 4px solid var(--sage);
+    border-radius: 0 6px 6px 0;
+    padding: 0.9rem 1.25rem;
+    font-size: 0.91rem;
+    color: var(--ink-light);
+    line-height: 1.65;
+  }
+
+  .conclusion-list li strong { color: var(--ink); }
+
+  /* ── FOOTER ──────────────────────────────── */
+  footer {
+    background: var(--ink);
+    color: rgba(249,245,238,0.55);
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    font-size: 0.82rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.03em;
+  }
+
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* ── DIVIDER ─────────────────────────────── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border-light);
+    margin: 0.5rem 0;
+  }
+
+  /* ── FADE IN ─────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  section { animation: fadeUp 0.5s ease both; }
+  section:nth-child(2) { animation-delay: 0.05s; }
+  section:nth-child(3) { animation-delay: 0.1s; }
+  section:nth-child(4) { animation-delay: 0.15s; }
+
+  @media (max-width: 640px) {
+    .meta-row { gap: 0.75rem; }
+    .eq-box { padding: 1.25rem; }
+    .findings-table { font-size: 0.82rem; }
+    .findings-table th, .findings-table td { padding: 0.55rem 0.65rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="journal-tag">Energy Economics · Vol. 153 · 2026 · Article 109077</div>
+    <h1>Carbon Costs and Industrial Firm Performance:<br><em>Evidence from International Microdata</em></h1>
+    <p class="authors">Arjan Trinks (CPB Netherlands) &nbsp;·&nbsp; Erik Hille (HHL Leipzig)</p>
+    <div class="meta-row">
+      <div class="meta-chip">Metode: <span>FE-IV Panel Regression</span></div>
+      <div class="meta-chip">Data: <span>3.1 juta perusahaan · 32 negara</span></div>
+      <div class="meta-chip">Periode: <span>2000–2019</span></div>
+      <div class="meta-chip">JEL: <span>D22 · H23 · Q41 · Q52 · Q58</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav>
+  <ul>
+    <li><a href="#abstrak">Abstrak</a></li>
+    <li><a href="#latar">Latar Belakang</a></li>
+    <li><a href="#tujuan">Tujuan</a></li>
+    <li><a href="#logika">Logika Model</a></li>
+    <li><a href="#metode">Metode</a></li>
+    <li><a href="#persamaan">Persamaan Utama</a></li>
+    <li><a href="#hasil">Hasil</a></li>
+    <li><a href="#kesimpulan">Kesimpulan</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ABSTRAK -->
+  <section id="abstrak">
+    <div class="section-label">01 · Abstrak</div>
+    <h2>Ringkasan Penelitian</h2>
+    <div class="abstract-box">
+      <p>
+        Kekhawatiran sentral dalam kebijakan iklim adalah bahwa peningkatan biaya karbon secara unilateral akan merugikan aktivitas ekonomi dan daya saing. Paper ini mengevaluasi kekhawatiran tersebut secara empiris dengan menyajikan bukti pertama di tingkat perusahaan internasional mengenai efek gabungan kebijakan iklim. <em>Shadow prices</em> sumber energi fosil digunakan sebagai ukuran biaya karbon yang terintegrasi dan dapat dibandingkan secara internasional. Ukuran ini menangkap biaya karbon eksplisit maupun implisit dari berbagai bauran kebijakan dan interaksinya.
+      </p>
+    </div>
+    <div class="highlight">
+      <p><strong>Temuan utama:</strong> Biaya karbon hampir tidak merugikan sebagian besar perusahaan industri dan tampaknya telah memicu <em>adaptasi</em> daripada <em>relokasi</em>. Penurunan lapangan kerja yang moderat secara ekonomi terkonsentrasi pada perusahaan padat modal dan perusahaan kecil di sektor EITE (<em>emissions-intensive, trade-exposed</em>), khususnya di EU.</p>
+    </div>
+  </section>
+
+  <!-- LATAR BELAKANG -->
+  <section id="latar">
+    <div class="section-label">02 · Latar Belakang Permasalahan</div>
+    <h2>Mengapa Biaya Karbon Menjadi Isu Sentral?</h2>
+
+    <p>Target pengurangan emisi karbon nasional dan internasional membutuhkan kebijakan ketat yang meningkatkan biaya emisi karbon (IPCC, 2018). Biaya karbon dapat diintroduksi melalui <strong>harga karbon eksplisit</strong> (pajak karbon atau sistem perdagangan emisi/ETS) maupun <strong>instrumen implisit</strong> seperti pajak bahan bakar fosil, subsidi, standar emisi, dan pembatasan teknologi.</p>
+
+    <p>Namun, pemegang kebijakan dan manajer perusahaan khawatir bahwa kenaikan biaya karbon akan berdampak buruk pada aktivitas ekonomi dan daya saing perusahaan domestik. Perusahaan industri khususnya rentan karena intensitas energi dan perdagangannya yang tinggi, serta terbatasnya kemampuan untuk meneruskan biaya karbon ke konsumen.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">⚠️</span>
+        <h4>Masalah "Swiss Cheese"</h4>
+        <p>Pajak karbon eksplisit hanya mencakup sebagian kecil basis pajak emisi global, dengan tingkat rendah dan banyak pengecualian — menyulitkan pengukuran beban biaya efektif secara komprehensif.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌍</span>
+        <h4>Cakupan Terbatas</h4>
+        <p>Instrumen harga karbon eksplisit hanya mencakup ~20% emisi karbon global, dengan rata-rata berbobot emisi global di bawah USD 2,40/tCO₂e pada 2020.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📊</span>
+        <h4>Gap Bukti Empiris</h4>
+        <p>Studi empiris sebelumnya fokus pada kebijakan tunggal atau satu negara, sehingga sulit untuk digeneralisasi dan tidak mencerminkan bauran kebijakan yang kompleks di dunia nyata.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏭</span>
+        <h4>Risiko Carbon Leakage</h4>
+        <p>Kebijakan unilateral dapat mendorong relokasi perusahaan ke yurisdiksi dengan regulasi lebih longgar, menurunkan aktivitas ekonomi domestik sambil meningkatkan emisi global.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TUJUAN -->
+  <section id="tujuan">
+    <div class="section-label">03 · Tujuan Penelitian</div>
+    <h2>Kontribusi dan Tujuan Utama</h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🎯</span>
+        <h4>Kontribusi 1: Pengukuran Biaya Karbon</h4>
+        <p>Mengestimasi ukuran efektif biaya energi fosil di tingkat <em>country-sector-year</em> yang memungkinkan penilaian koheren terhadap keketatan kebijakan iklim yang dihadapi perusahaan secara internasional, melalui konstruksi <em>shadow prices</em>.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📈</span>
+        <h4>Kontribusi 2: Bukti Internasional Pertama</h4>
+        <p>Menyediakan bukti internasional komprehensif pertama mengenai dampak biaya karbon terhadap kinerja perusahaan industri, menggunakan dataset mikro global terbesar (BvD Orbis Historical).</p>
+      </div>
+    </div>
+
+    <h3>Variabel Kinerja yang Diteliti</h3>
+    <p>Penelitian ini mengkaji enam ukuran kinerja perusahaan yang mencerminkan kekhawatiran kebijakan utama:</p>
+
+    <table class="findings-table" style="margin-top: 0.75rem;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Variabel</th>
+          <th>Proksi</th>
+          <th>Relevansi Kebijakan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Sales (Penjualan)</td>
+          <td>Log operating revenue</td>
+          <td>Potensi kehilangan produksi</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Investment (Investasi)</td>
+          <td>Perubahan aset tetap berwujud</td>
+          <td>Pertumbuhan masa depan & keputusan lokasi</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Employment (Tenaga Kerja)</td>
+          <td>Log jumlah karyawan</td>
+          <td>Erosi basis pajak</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Productivity (TFP)</td>
+          <td>Total Factor Productivity (Ackerberg et al., 2015)</td>
+          <td>Efisiensi produksi</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Profitability</td>
+          <td>Return on Assets (ROA)</td>
+          <td>Daya saing keuangan</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Exit (Keluar)</td>
+          <td>Variabel biner: berhenti melapor</td>
+          <td>Risiko relokasi / kebangkrutan</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- LOGIKA MODEL -->
+  <section id="logika">
+    <div class="section-label">04 · Logika Model</div>
+    <h2>Mekanisme Transmisi Biaya Karbon</h2>
+
+    <p>Secara teoritis, biaya karbon mempengaruhi perusahaan melalui berbagai saluran yang saling terhubung, berakar pada perubahan biaya produksi relatif (Dechezleprêtre &amp; Sato, 2017):</p>
+
+    <div class="logic-chain">
+      <div class="logic-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Efek Orde Pertama (First-Order Effects)</h4>
+          <p>Peningkatan langsung dan tidak langsung biaya karbon dan/atau energi. Biaya karbon naik melalui pajak eksplisit, ETS, pajak bahan bakar, subsidi negatif, dan standar emisi.</p>
+        </div>
+      </div>
+      <div class="logic-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Efek Orde Kedua (Second-Order Effects) — Respon Perusahaan</h4>
+          <p>Perusahaan bereaksi terhadap kenaikan biaya dengan menyesuaikan volume produksi, harga output, atau investasi. Ini mencakup efisiensi energi, substitusi bahan bakar, dan inovasi teknologi bersih.</p>
+        </div>
+      </div>
+      <div class="logic-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Efek Orde Ketiga (Third-Order Effects) — Outcome Ekonomi</h4>
+          <p>Hasil ekonomi yang mengikuti: profitabilitas, lapangan kerja, produktivitas, dan keputusan lokasi. Besarnya tergantung pada kemampuan perusahaan berinovasi, meneruskan biaya ke konsumen, dan mengadaptasi operasi.</p>
+        </div>
+      </div>
+      <div class="logic-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Moderasi Heterogenitas</h4>
+          <p>Dampak bervariasi antar sektor (EITE vs non-EITE), ukuran perusahaan (besar vs kecil), intensitas modal, dan wilayah (EU vs non-EU). Perusahaan dengan buffer finansial lebih besar dan skala ekonomi mampu memitigasi dampak lebih baik.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p>Pandangan dominan: biaya karbon dapat berdampak negatif pada kinerja perusahaan — terutama dalam jangka pendek — tetapi efek ini mungkin teroffset dalam jangka panjang melalui penyesuaian dinamis (<em>Ambec et al., 2013</em>). <strong>Hipotesis Porter</strong> menyatakan bahwa regulasi lingkungan yang dirancang baik justru dapat mendorong inovasi dan meningkatkan produktivitas.</p>
+    </div>
+  </section>
+
+  <!-- METODE -->
+  <section id="metode">
+    <div class="section-label">05 · Metode & Karakterisasi</div>
+    <h2>Metodologi Penelitian</h2>
+
+    <h3>A. Data &amp; Sampel</h3>
+    <p>Dataset yang digunakan adalah <strong>BvD Orbis Historical</strong> — dataset mikro global terbesar yang tersedia — mencakup informasi produksi dan keuangan yang diharmonisasi untuk populasi semua akun perusahaan publik dan swasta di seluruh dunia.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🏢</span>
+        <h4>Cakupan Perusahaan</h4>
+        <p><strong>3,1 juta</strong> perusahaan industri dari 32 negara, mencakup 15 sektor industri berdasarkan klasifikasi ISIC Rev. 4. Menggunakan akun unconsolidated (98,8% dari semua entri).</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📅</span>
+        <h4>Periode Analisis</h4>
+        <p>Baseline: <strong>2000–2014</strong>. Analisis efek jangka panjang diperpanjang hingga <strong>2019</strong>. Mencakup periode sebelum pandemi COVID-19.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌐</span>
+        <h4>Representasi Global</h4>
+        <p>32 negara mewakili <strong>75% emisi gas rumah kaca kumulatif global</strong> selama periode sampel. Termasuk ekonomi Global South dan beberapa negara EU.</p>
+      </div>
+    </div>
+
+    <h3>B. Pengukuran Biaya Karbon: Shadow Price</h3>
+    <p><em>Shadow prices</em> sumber energi fosil digunakan sebagai ukuran terintegrasi biaya karbon. Pendekatan ini unggul karena:</p>
+
+    <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.75rem; margin-bottom: 1rem;">
+      <li style="padding: 0.6rem 1rem; background: var(--warm-white); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; font-size: 0.88rem; color: var(--ink-light);">✓ Menangkap <strong>semua kebijakan</strong> — eksplisit maupun implisit — yang mempengaruhi biaya penggunaan energi karbon-intensif</li>
+      <li style="padding: 0.6rem 1rem; background: var(--warm-white); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; font-size: 0.88rem; color: var(--ink-light);">✓ Mengukur <strong>keketatan regulasi yang benar-benar dihadapi perusahaan</strong>, termasuk efek ekuilibrium umum dan kompensasi kebijakan</li>
+      <li style="padding: 0.6rem 1rem; background: var(--warm-white); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; font-size: 0.88rem; color: var(--ink-light);">✓ Berlandaskan kuat pada <strong>teori mikroekonomi</strong> — memfasilitasi perbandingan internasional yang konsisten</li>
+      <li style="padding: 0.6rem 1rem; background: var(--warm-white); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; font-size: 0.88rem; color: var(--ink-light);">✓ Dapat diturunkan dari <strong>data produksi</strong> yang tersedia luas di tingkat granular (WIOD)</li>
+    </ul>
+
+    <h3>C. Pendekatan Estimasi</h3>
+    <p>Dampak biaya karbon diestimasi menggunakan model panel regresi <strong>Fixed Effects Instrumental Variable (FE-IV)</strong>. Estimator efek tetap mengeksploitasi variasi within-perusahaan untuk menghilangkan bias dari perbedaan konstan yang tidak teramati antar perusahaan.</p>
+
+    <p>Untuk mengatasi masalah endogenitas (simultaneity), digunakan <strong>shift-share instrumental variable</strong> berdasarkan indeks harga energi berbobot tetap (fixed-weight energy price index dari Sato et al., 2019). Instrumen ini memiliki korelasi tinggi dengan shadow price variabel-bobot ($\rho = 0.894$) dan lolos uji identifikasi standar.</p>
+
+    <p>Kesalahan standar dicluster dua arah di tingkat sektor dan negara, dengan inferensi menggunakan <strong>Wild Restricted Efficient (WRE) Bootstrap</strong> dengan 999 replikasi untuk menghindari presisi palsu.</p>
+  </section>
+
+  <!-- PERSAMAAN UTAMA -->
+  <section id="persamaan">
+    <div class="section-label">06 · Model &amp; Persamaan Utama</div>
+    <h2>Spesifikasi Model Formal</h2>
+
+    <!-- Model Baseline -->
+    <h3>Model Baseline (Eq. 1)</h3>
+    <div class="eq-box">
+      <span class="eq-label">Persamaan Utama — Fixed Effects IV Regression</span>
+      $$
+        \text{FirmPerformance}_{isct} = \beta \cdot \text{CarbonCosts}_{sct} + \mathbf{Controls}'_{isct}\,\gamma + \alpha_i + \delta_t + \varepsilon_{isct}
+      $$
+      <div class="eq-desc">
+        <strong>Notasi:</strong><br>
+        • <code>FirmPerformance<sub>isct</sub></code> — variabel outcome perusahaan $i$, sektor $s$, negara $c$, waktu $t$<br>
+        • <code>CarbonCosts<sub>sct</sub></code> — ukuran shadow price yang bervariasi di level sektor-negara-waktu (diinstrumentasi dengan IV)<br>
+        • <code>β</code> — koefisien kepentingan (elastisitas untuk log-log; semi-elastisitas untuk log-level)<br>
+        • <code>Controls<sub>isct</sub></code> — vektor kontrol time-varying: ukuran perusahaan, leverage, GDP per kapita<br>
+        • <code>α<sub>i</sub></code> — firm fixed effects (mengeliminasi faktor konstan tidak teramati)<br>
+        • <code>δ<sub>t</sub></code> — time fixed effects (mengendalikan guncangan global seperti krisis keuangan)<br>
+        • <code>ε<sub>isct</sub></code> — error term dengan clustering dua arah (sektor &amp; negara)
+      </div>
+    </div>
+
+    <!-- Fungsi Biaya Variable -->
+    <h3>Generalized Leontief Variable Cost Function (Eq. 2)</h3>
+    <p>Untuk menurunkan shadow prices, diestimasi sistem persamaan berdasarkan fungsi biaya variabel Generalized Leontief yang mempertimbangkan tiga faktor produksi: modal kuasi-tetap ($K$), tenaga kerja variabel ($L$), dan energi terkait karbon ($E$):</p>
+
+    <div class="eq-box">
+      <span class="eq-label">Fungsi Biaya Variabel</span>
+      $$
+      \begin{aligned}
+        C_{sct} &= y_{sct}\left[\alpha_{LL}\,p_{L,sct} + \alpha_{LE}\,p_{L,sct}^{0.5}\,Z_{E,sct}^{0.5} + \alpha_{EE}\,Z_{E,sct}\right] \\
+        &\quad + p_{L,sct}\left[\alpha_{KK}\,x_{K,sct} + \alpha_{LK}\,x_{K,sct}^{0.5}\,y_{sct}^{0.5}\right] \\
+        &\quad + Z_{E,sct}\left[\alpha_{KK}\,x_{K,sct} + \alpha_{EK}\,x_{K,sct}^{0.5}\,y_{sct}^{0.5}\right]
+      \end{aligned}
+      $$
+      <div class="eq-desc">
+        <strong>Notasi:</strong><br>
+        • <code>y<sub>sct</sub></code> — output di sektor $s$, negara $c$, waktu $t$<br>
+        • <code>x<sub>K</sub></code> — stok kapital (input kuasi-tetap)<br>
+        • <code>p<sub>L</sub></code> — harga tenaga kerja<br>
+        • <code>Z<sub>E,sct</sub></code> — <em>shadow price</em> energi terkait karbon (yang akan diestimasi)<br>
+        • <code>α</code> — koefisien regresi dari sistem persamaan
+      </div>
+    </div>
+
+    <!-- Shadow Price Equation -->
+    <h3>Persamaan Shadow Price (Eq. 3)</h3>
+    <p>Shadow price energi diijinkan untuk menyimpang dari harga pasar yang tidak terdistorsi $p_E$ akibat regulasi iklim eksplisit maupun implisit:</p>
+
+    <div class="eq-box">
+      <span class="eq-label">Shadow Price Equation</span>
+      $$
+        Z_{E,sct} = \alpha_E\,p_{E,st} + \lambda_{E,sct}\,D_{sct}
+      $$
+      <div class="eq-desc">
+        • <code>λ<sub>E</sub></code> — <em>wedge</em>: selisih antara harga pasar dan shadow price, bervariasi antar sektor, negara, dan waktu<br>
+        • <code>D<sub>sct</sub></code> — variabel biner spesifik sektor-negara-waktu<br>
+        • <code>α<sub>E</sub></code> — koefisien (tidak dibatasi = 1, sehingga harga pasar tak terdistorsi yang diestimasi dapat berbeda dari rata-rata pasar yang diamati)<br><br>
+        Shadow price tinggi ketika kebijakan (pajak bahan bakar, ETS, standar emisi) ada dan ketat. Shadow price rendah ketika ada subsidi atau pembebasan pajak yang mendorong penggunaan energi fosil.
+      </div>
+    </div>
+
+    <!-- Factor Demand Equations -->
+    <h3>Fungsi Permintaan Faktor (Eq. 4 &amp; 5)</h3>
+    <p>Untuk memfasilitasi identifikasi koefisien, fungsi permintaan faktor diturunkan menggunakan <em>Shephard's Lemma</em> dan dinormalisasi dengan output:</p>
+
+    <div class="eq-box">
+      <span class="eq-label">Permintaan Tenaga Kerja (Labor Demand)</span>
+      $$
+        \frac{x_{L,sct}}{y_{sct}} = \frac{1}{y_{sct}}\cdot\frac{\partial C_{sct}(p_{L,sct},\, Z_{E,sct},\, x_{K,sct},\, y_{sct})}{\partial p_{L,sct}}
+      $$
+    </div>
+
+    <div class="eq-box">
+      <span class="eq-label">Permintaan Energi (Energy Demand)</span>
+      $$
+        \frac{x_{E,sct}}{y_{sct}} = \frac{1}{y_{sct}}\cdot\frac{\partial C_{sct}(p_{L,sct},\, Z_{E,sct},\, x_{K,sct},\, y_{sct})}{\partial Z_{E,sct}}
+      $$
+      <div class="eq-desc">
+        Sistem persamaan (3)–(5) diestimasi secara simultan menggunakan <strong>Seemingly Unrelated Regressions (SUR)</strong> karena terdapat koefisien bersama antar persamaan. Langkah terakhir: koefisien yang diestimasi digunakan untuk mengkuantifikasi shadow prices sebagai ukuran biaya karbon.
+      </div>
+    </div>
+
+    <h3>Interpretasi Biaya Karbon Bersih (Net Carbon Costs)</h3>
+    <div class="highlight">
+      <p>Dalam sampel, rata-rata <em>net carbon costs</em> (shadow price dikurangi harga pasar) adalah <strong>USD 6,71/tCO₂e</strong> bila dibobot emisi, dan <strong>USD 49,06/tCO₂e</strong> bila dibobot nilai tambah. Shadow prices lebih dari <strong>dua kali lipat</strong> selama periode sampel. Angka ini jauh melebihi estimasi harga karbon eksplisit global (~USD 0,40/tCO₂e, Dolphin et al., 2020), menunjukkan pentingnya kebijakan implisit.</p>
+    </div>
+  </section>
+
+  <!-- HASIL -->
+  <section id="hasil">
+    <div class="section-label">07 · Hasil Estimasi</div>
+    <h2>Temuan Empiris</h2>
+
+    <h3>Hasil Baseline</h3>
+    <table class="findings-table">
+      <thead>
+        <tr>
+          <th>Variabel Outcome</th>
+          <th>Koefisien β</th>
+          <th>Signifikansi</th>
+          <th>Efek USD 50/tCO₂e</th>
+          <th>Interpretasi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sales (log)</td>
+          <td>−0.109</td>
+          <td><span class="badge badge-neu">Tidak Sig.</span></td>
+          <td>−2.0%</td>
+          <td>Penjualan hampir tidak terpengaruh</td>
+        </tr>
+        <tr>
+          <td>Investment (log)</td>
+          <td>+0.123</td>
+          <td><span class="badge badge-neu">Tidak Sig. (10%)</span></td>
+          <td>+2.3%</td>
+          <td>Indikasi positif, tidak signifikan secara ketat</td>
+        </tr>
+        <tr>
+          <td>Employment (log)</td>
+          <td>−0.132</td>
+          <td><span class="badge badge-neg">Sig. 5%</span></td>
+          <td>−2.4%</td>
+          <td>Penurunan lapangan kerja yang moderat</td>
+        </tr>
+        <tr>
+          <td>Productivity (TFP)</td>
+          <td>+0.256</td>
+          <td><span class="badge badge-neu">Tidak Sig.</span></td>
+          <td>+0.9%</td>
+          <td>Konsisten dengan Hipotesis Porter</td>
+        </tr>
+        <tr>
+          <td>Profitability (ROA)</td>
+          <td>+0.012</td>
+          <td><span class="badge badge-neu">Tidak Sig.</span></td>
+          <td>+0.2 pp</td>
+          <td>Profitabilitas hampir tidak berubah</td>
+        </tr>
+        <tr>
+          <td>Exit (probabilitas)</td>
+          <td>+0.012</td>
+          <td><span class="badge badge-neu">Tidak Sig.</span></td>
+          <td>+0.2%</td>
+          <td>Risiko keluar tidak meningkat signifikan</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Heterogenitas: Sektor EITE &amp; Ukuran Perusahaan</h3>
+    <p>Dampak yang lebih signifikan ditemukan pada subkelompok spesifik:</p>
+
+    <table class="findings-table">
+      <thead>
+        <tr>
+          <th>Subkelompok</th>
+          <th>Variabel Terdampak</th>
+          <th>Efek USD 50/tCO₂e</th>
+          <th>Arah</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Perusahaan padat modal, sektor EITE</td>
+          <td>Employment</td>
+          <td>−3.2%</td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+        </tr>
+        <tr>
+          <td>Perusahaan kecil, sektor EITE</td>
+          <td>Employment</td>
+          <td>−13.2%</td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+        </tr>
+        <tr>
+          <td>Perusahaan besar &amp; padat modal, sektor EITE</td>
+          <td>Investment</td>
+          <td>+3.0% (s/d +4.9% di basic metals)</td>
+          <td><span class="badge badge-pos">Positif</span></td>
+        </tr>
+        <tr>
+          <td>Perusahaan kecil, sektor EITE</td>
+          <td>Productivity (TFP)</td>
+          <td>+1.8%</td>
+          <td><span class="badge badge-pos">Positif</span></td>
+        </tr>
+        <tr>
+          <td>Mining (tambang)</td>
+          <td>Employment</td>
+          <td>−12.1%</td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+        </tr>
+        <tr>
+          <td>Cement (semen)</td>
+          <td>Employment</td>
+          <td>−9.8%</td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+        </tr>
+        <tr>
+          <td>Semua subkelompok</td>
+          <td>Profitability &amp; Exit</td>
+          <td>~0</td>
+          <td><span class="badge badge-neu">Netral</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Efek Jangka Panjang</h3>
+    <p>Efek biaya karbon sebagian terasa baik secara kontemporer maupun dalam jangka yang lebih panjang. Untuk lapangan kerja, efek kumulatif jangka panjang signifikan hingga 4 tahun ke depan dengan magnitude 2,4× efek kontemporer. Pertumbuhan produktivitas kumulatif juga ditemukan signifikan, konsisten dengan proses adaptasi bertahap perusahaan.</p>
+  </section>
+
+  <!-- KESIMPULAN -->
+  <section id="kesimpulan">
+    <div class="section-label">08 · Kesimpulan</div>
+    <h2>Implikasi Kebijakan &amp; Kesimpulan</h2>
+
+    <p>Estimasi FE-IV yang robust memberikan sedikit bukti adanya efek kinerja yang merugikan dari kenaikan biaya karbon untuk rata-rata perusahaan di sektor industri yang rentan terhadap daya saing, kecuali penurunan lapangan kerja yang moderat secara ekonomi.</p>
+
+    <ul class="conclusion-list">
+      <li>
+        <strong>Adaptasi, bukan relokasi:</strong> Temuan menunjukkan bahwa perusahaan terutama beradaptasi daripada merelokasi sebagai respons terhadap kenaikan biaya karbon. Bukti untuk investasi positif yang persisten di sektor EITE, bersama tidak adanya peningkatan kerugian dan probabilitas keluar, mendukung kesimpulan ini.
+      </li>
+      <li>
+        <strong>Efek terkonsentrasi:</strong> Dampak merugikan yang signifikan terkonsentrasi pada subkelompok kecil perusahaan — khususnya perusahaan kecil dan padat modal di sektor EITE seperti pertambangan, semen, dan logam dasar, terutama di EU.
+      </li>
+      <li>
+        <strong>Investasi dekarbonisasi:</strong> Peningkatan investasi di perusahaan besar/padat modal di sektor EITE menunjukkan respon antisipatif dan penyesuaian: perusahaan merespons kenaikan biaya karbon dengan memulai investasi dalam teknologi dekarbonisasi (abatement).
+      </li>
+      <li>
+        <strong>Profitabilitas &amp; exit tidak berpengaruh:</strong> Di semua subsampel, profitabilitas dan probabilitas keluar hampir tidak dipengaruhi oleh kenaikan biaya karbon. Ini merupakan kabar baik bagi stabilitas kerangka kebijakan iklim.
+      </li>
+      <li>
+        <strong>Bukti mendukung kebijakan iklim:</strong> Studi ini mendemonstrasikan bahwa kebijakan iklim yang dirancang baik dapat diperkuat dengan kerusakan ekonomi yang terbatas. Sinyal biaya yang jelas dan dapat diprediksi membantu perusahaan menghindari kejutan dan mengurangi biaya penyesuaian.
+      </li>
+      <li>
+        <strong>Relevansi untuk ekonomi berkembang:</strong> Cakupan 32 negara termasuk ekonomi Global South menjadikan temuan ini relevan lebih luas dari sekadar konteks EU/OECD, menunjukkan bahwa pola adaptasi serupa terjadi di berbagai konteks kebijakan.
+      </li>
+    </ul>
+
+    <div class="highlight" style="margin-top: 1.75rem;">
+      <p><strong>Trade-off kunci:</strong> Kenaikan pajak karbon sebesar USD 50/tCO₂e dapat menghasilkan pengurangan emisi karbon nasional sebesar 10–20% relatif terhadap baseline kebijakan saat ini pada 2030 (Bollen et al., 2020). Penurunan lapangan kerja sebesar ~2,4% di industri merupakan biaya yang relatif kecil dibanding manfaat lingkungan tersebut — terutama mengingat bahwa manfaat lingkungan bersifat global, sementara dampak ekonomi lebih terlokalisasi.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Trinks, A. &amp; Hille, E. (2026). "Carbon costs and industrial firm performance: Evidence from international microdata." <em>Energy Economics</em>, 153, 109077.</p>
+  <p style="margin-top: 0.6rem;"><a href="https://doi.org/10.1016/j.eneco.2025.109077">doi:10.1016/j.eneco.2025.109077</a> &nbsp;·&nbsp; © 2025 The Authors (CC BY 4.0) &nbsp;·&nbsp; Ringkasan akademis untuk tujuan studi</p>
+</footer>
+
+</body>
+</html>

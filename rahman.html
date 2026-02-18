@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transisi dari Ketergantungan Minyak Indonesia | Rahman et al. 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #F5F1EB;
+    --ink: #1C1917;
+    --charcoal: #2C2825;
+    --stone: #6B6460;
+    --muted: #9B948E;
+    --rust: #B85C38;
+    --rust-light: #D4784F;
+    --sage: #4A6741;
+    --sage-light: #6B8F62;
+    --sand: #C4AA84;
+    --sand-light: #DDD0B8;
+    --teal: #2A6B7C;
+    --teal-light: #4A8A9C;
+    --border: #DDD6CC;
+    --section-gap: 5rem;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 4rem 0 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -80px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,92,56,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -60px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(42,107,124,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .journal-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust-light);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .journal-label::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--rust-light);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    max-width: 780px;
+  }
+
+  .author-list {
+    font-size: 0.9rem;
+    color: var(--sand-light);
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+  }
+
+  .affil {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  .meta-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .badge {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--sand-light);
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--charcoal);
+    border-bottom: 2px solid var(--rust);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  nav a {
+    display: block;
+    padding: 0.85rem 1rem;
+    color: var(--sand-light);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  nav a:hover {
+    color: var(--rust-light);
+    border-color: var(--rust-light);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  section {
+    padding: var(--section-gap) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 120px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin: 2rem 0 0.8rem;
+  }
+
+  p {
+    margin-bottom: 1.1rem;
+    color: var(--charcoal);
+  }
+
+  /* ── ABSTRACT BOX ── */
+  .abstract-box {
+    background: var(--warm-white);
+    border-left: 4px solid var(--rust);
+    border-radius: 0 8px 8px 0;
+    padding: 1.75rem 2rem;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--charcoal);
+    font-style: italic;
+  }
+
+  /* ── KEYWORD PILLS ── */
+  .keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .kw {
+    background: var(--ink);
+    color: var(--sand-light);
+    padding: 0.3rem 0.8rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── INFO GRID ── */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin: 2rem 0;
+  }
+
+  .info-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem 1.5rem;
+  }
+
+  .info-card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .info-card-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.4rem;
+  }
+
+  .info-card-body {
+    font-size: 0.92rem;
+    color: var(--charcoal);
+    line-height: 1.55;
+  }
+
+  /* ── HIGHLIGHT STAT ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+
+  .stat-cell {
+    background: var(--warm-white);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--rust);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-desc {
+    font-size: 0.8rem;
+    color: var(--stone);
+    margin-top: 0.4rem;
+    font-style: italic;
+  }
+
+  /* ── MATH BLOCK ── */
+  .math-block {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 8px;
+    padding: 1.75rem 2rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+
+  .math-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust-light);
+    margin-bottom: 0.8rem;
+  }
+
+  .math-block .katex { color: var(--cream); }
+  .math-block .katex-display { margin: 0.8rem 0; overflow-x: auto; }
+
+  .math-desc {
+    font-size: 0.85rem;
+    color: var(--sand-light);
+    margin-top: 0.8rem;
+    font-style: italic;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 0.7rem;
+    line-height: 1.6;
+  }
+
+  /* ── VAR TABLE ── */
+  .var-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 0.88rem;
+  }
+
+  .var-table td {
+    padding: 0.45rem 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: var(--cream);
+  }
+
+  .var-table td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--sand-light);
+    white-space: nowrap;
+    width: 30%;
+  }
+
+  /* ── LOOP DIAGRAM ── */
+  .loop-diagram {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.75rem 2rem;
+    margin: 1.5rem 0;
+  }
+
+  .loop-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+  }
+
+  .loop-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 0.7rem;
+    font-size: 0.88rem;
+    color: var(--charcoal);
+  }
+
+  .loop-badge {
+    background: var(--teal);
+    color: white;
+    padding: 0.1rem 0.55rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .loop-badge.reinforce { background: var(--rust); }
+
+  /* ── PHASE TIMELINE ── */
+  .phase-timeline {
+    position: relative;
+    margin: 2rem 0;
+  }
+
+  .phase-line {
+    position: absolute;
+    left: 22px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--rust), var(--teal));
+  }
+
+  .phase-item {
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .phase-dot {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: 2px solid var(--rust);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--rust-light);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .phase-content {
+    padding-top: 0.6rem;
+  }
+
+  .phase-content h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+
+  .phase-content p {
+    font-size: 0.88rem;
+    color: var(--stone);
+    margin: 0;
+  }
+
+  /* ── FINDINGS GRID ── */
+  .findings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin: 2rem 0;
+  }
+
+  .finding-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+  }
+
+  .finding-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .finding-text {
+    font-size: 0.9rem;
+    color: var(--charcoal);
+    line-height: 1.6;
+  }
+
+  /* ── CONCLUSION CALLOUT ── */
+  .conclusion-box {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 10px;
+    padding: 2.5rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .conclusion-box::before {
+    content: '"';
+    position: absolute;
+    top: -20px; left: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 12rem;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .conclusion-box h3 {
+    color: var(--rust-light);
+    font-size: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+  }
+
+  .conclusion-box p {
+    color: var(--sand-light);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── VALIDATION TABLE ── */
+  .val-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+  }
+
+  .val-table th {
+    background: var(--charcoal);
+    color: var(--cream);
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .val-table td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--charcoal);
+  }
+
+  .val-table tr:hover td { background: var(--warm-white); }
+
+  .good { color: var(--sage); font-weight: 500; }
+  .moderate { color: var(--rust); font-weight: 500; }
+
+  /* ── POLICY STEPS ── */
+  .policy-steps {
+    counter-reset: policy;
+    list-style: none;
+    margin: 1.5rem 0;
+  }
+
+  .policy-steps li {
+    counter-increment: policy;
+    padding: 1.1rem 1.2rem 1.1rem 4rem;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    font-size: 0.92rem;
+    color: var(--charcoal);
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .policy-steps li::before {
+    content: counter(policy, decimal-leading-zero);
+    position: absolute;
+    left: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--sand);
+    line-height: 1;
+  }
+
+  /* ── DIVIDER ── */
+  .ornament {
+    text-align: center;
+    color: var(--sand);
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+    margin: 0.5rem 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal);
+    color: var(--stone);
+    padding: 2.5rem 0;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.8;
+  }
+
+  footer a {
+    color: var(--sand-light);
+    text-decoration: none;
+  }
+
+  footer a:hover { color: var(--rust-light); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .stat-row { grid-template-columns: 1fr; }
+    .findings-grid { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    main { padding: 0 1.2rem; }
+    .header-inner { padding: 0 1.2rem; }
+    .nav-inner { padding: 0 1.2rem; }
+    h1 { font-size: 1.6rem; }
+  }
+
+  /* KaTeX light overrides */
+  .math-inline .katex { font-size: 1em; }
+
+  /* smooth scrolling offset for sticky nav */
+  section[id] { scroll-margin-top: 44px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ HEADER ══════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="journal-label">Energy Economics 148 (2025) 108662 &nbsp;·&nbsp; Elsevier</div>
+    <h1>The Complexity of Transitioning from Oil Dependency: A Dynamic Modelling Case Study of Indonesia</h1>
+    <div class="author-list">Arief Rahman &nbsp;·&nbsp; Russell Richards &nbsp;·&nbsp; Paul Dargusch &nbsp;·&nbsp; David Wadley</div>
+    <div class="affil">The University of Queensland &nbsp;|&nbsp; Griffith University &nbsp;|&nbsp; Monash University</div>
+    <div class="meta-badges">
+      <span class="badge">System Dynamics</span>
+      <span class="badge">Stock &amp; Flow Model</span>
+      <span class="badge">Energy Policy</span>
+      <span class="badge">Decarbonization</span>
+      <span class="badge">Bass Diffusion</span>
+      <span class="badge">Indonesia</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════ NAV ══════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#abstrak">Abstrak</a>
+    <a href="#latar">Latar Belakang</a>
+    <a href="#tujuan">Tujuan</a>
+    <a href="#logika">Logic Model</a>
+    <a href="#metode">Metode</a>
+    <a href="#persamaan">Persamaan</a>
+    <a href="#validasi">Validasi</a>
+    <a href="#kesimpulan">Kesimpulan</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════ MAIN ══════════════════════════════ -->
+<main>
+
+<!-- ─── ABSTRAK ─── -->
+<section id="abstrak">
+  <div class="section-label">00 &nbsp;·&nbsp; Abstract</div>
+  <h2>Abstrak</h2>
+  <div class="abstract-box">
+    Dekarbonisasi sektor minyak Indonesia menghadirkan tantangan kompleks mengingat peran besar bahan bakar fosil dalam perekonomian nasional. Prasyarat utama adalah penyesuaian praktik sisi permintaan. Dalam memodelkan jalur dinamis industri minyak, artikel ini menggunakan kerangka sistem komprehensif—sebuah <em>Stock and Flow Model</em> (SFM) untuk menilai kondisi permintaan dan pasokan minyak saat ini, serta memproyeksikan transisinya hingga 2050. Model ini menggabungkan proyeksi berbentuk S-shaped, teori difusi Bass, dan teori zero-sum game. Biofuel kemungkinan akan menjadi bagian dari bauran energi masa depan, namun pemanfaatan listrik secara signifikan merupakan fokus utama substitusi minyak. Penerimaan berbasis inovasi dan efektivitas insentif kebijakan adalah dua variabel kunci yang mendorong perubahan.
+  </div>
+  <div class="keywords">
+    <span class="kw">Oil</span>
+    <span class="kw">Decarbonization</span>
+    <span class="kw">Biofuel</span>
+    <span class="kw">Electricity</span>
+    <span class="kw">System Dynamics</span>
+    <span class="kw">Energy Policy</span>
+  </div>
+</section>
+
+<!-- ─── LATAR BELAKANG ─── -->
+<section id="latar">
+  <div class="section-label">01 &nbsp;·&nbsp; Latar Belakang</div>
+  <h2>Latar Belakang Permasalahan</h2>
+
+  <div class="stat-row">
+    <div class="stat-cell">
+      <span class="stat-number">85%</span>
+      <span class="stat-desc">Ketergantungan Indonesia pada bahan bakar fosil selama dua dekade terakhir</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-number">90%</span>
+      <span class="stat-desc">Konsumsi minyak Indonesia untuk sektor transportasi (2021)</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-number">3%</span>
+      <span class="stat-desc">Pangsa Indonesia dalam emisi GHG global (2022)</span>
+    </div>
+  </div>
+
+  <p>Indonesia, dengan 281 juta penduduk (2023), merupakan negara kepulauan terbesar di Asia Tenggara dengan GDP USD 1,3 triliun. Meskipun kaya sumber daya alam, Indonesia mengalami fenomena <em>paradox of plenty</em> (kutukan sumber daya), di mana kekayaan alam tidak mudah dikonversi menjadi kesejahteraan masyarakat luas.</p>
+
+  <p>Kebijakan populis pemerintah berupa subsidi bahan bakar fosil murah telah menciptakan ketergantungan yang dalam terhadap minyak. Ketergantungan ini mempersulit transisi ke ekonomi rendah karbon, sementara emisi CO₂ Indonesia tumbuh 375% dari 1990 hingga 2022—jauh melampaui pertumbuhan GDP sebesar 316% dalam periode yang sama.</p>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="info-card-icon">🏭</span>
+      <div class="info-card-title">Sektor Transportasi</div>
+      <div class="info-card-body">90% konsumsi minyak Indonesia berasal dari transportasi—jauh di atas rata-rata global 60% dan OECD 58%. Ini menjadikan transportasi sebagai target utama dekarbonisasi.</div>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">💰</span>
+      <div class="info-card-title">Subsidi Pemerintah</div>
+      <div class="info-card-body">Sejak era Soeharto (1966–1998), subsidi energi telah menjadi pilar kebijakan ekonomi politik. Subsidi dapat mencapai 50–60% dari harga internasional, seperti saat pandemi COVID-19 dan perang Rusia-Ukraina.</div>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">⚡</span>
+      <div class="info-card-title">Sektor Listrik</div>
+      <div class="info-card-body">Batubara dan gas menyumbang sekitar 75% sumber energi pembangkit listrik Indonesia. Ini berarti elektrikasi kendaraan saja tidak cukup—sektor listrik sendiri harus didekarbonisasi.</div>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">🌿</span>
+      <div class="info-card-title">Regulasi & Target</div>
+      <div class="info-card-body">Indonesia berkomitmen net zero 2060, namun target ini belum diatur di tingkat regulasi tertinggi. Mandat biodiesel progresif (B10 → B20 → B30 → B35) telah berjalan sejak 2014.</div>
+    </div>
+  </div>
+
+  <p>Kompleksitas permasalahan diperparah oleh keterlibatan minimal 15 lembaga pemerintah dalam koordinasi kebijakan energi, serta regulasi minyak dan gas yang terakhir diperbarui pada tahun 2001—jauh sebelum Paris Agreement 2015.</p>
+</section>
+
+<!-- ─── TUJUAN ─── -->
+<section id="tujuan">
+  <div class="section-label">02 &nbsp;·&nbsp; Tujuan Penelitian</div>
+  <h2>Tujuan &amp; Pertanyaan Penelitian</h2>
+
+  <p>Penelitian ini bertujuan memodelkan transisi dari minyak ke sumber energi rendah karbon di Indonesia menggunakan pendekatan <em>systems modelling</em> dari perspektif makro tingkat nasional. Pendekatan ini menggunakan kerangka <em>goal-seek</em> untuk menekankan peran target dekarbonisasi/iklim.</p>
+
+  <div class="info-grid">
+    <div class="info-card" style="border-left: 3px solid var(--rust);">
+      <div class="info-card-title">Pertanyaan Penelitian 1</div>
+      <div class="info-card-body" style="font-size: 1rem; color: var(--ink); font-weight: 500; line-height: 1.5;">"Peran apa yang dimainkan minyak dalam sistem energi nasional hingga 2050?"</div>
+    </div>
+    <div class="info-card" style="border-left: 3px solid var(--teal);">
+      <div class="info-card-title">Pertanyaan Penelitian 2</div>
+      <div class="info-card-body" style="font-size: 1rem; color: var(--ink); font-weight: 500; line-height: 1.5;">"Apa pendekatan yang layak untuk transisi dari minyak menuju sumber energi yang lebih bersih?"</div>
+    </div>
+  </div>
+
+  <h3>Novelty (Kebaruan Penelitian)</h3>
+  <p>Penelitian ini mengisi empat kesenjangan literatur yang belum terpenuhi:</p>
+  <ol class="policy-steps">
+    <li>Tidak ada publikasi peer-reviewed sebelumnya yang secara eksplisit menggunakan <strong>kerangka goal-seek</strong> sebagai struktur fondasi pemodelan sistem kuantitatif transisi energi.</li>
+    <li>Integrasi <strong>faktor demand-driven, subsidi, dinamika substitusi, dan transisi antar-sumber energi</strong> secara simultan belum pernah dilakukan dalam literatur yang ada.</li>
+    <li>Mekanisme <strong>price collar yang diregulasi pemerintah</strong> (komponen ceiling dan floor) untuk memicu intervensi kebijakan publik belum pernah dimodelkan sebelumnya.</li>
+    <li>Tidak ada penelitian sebelumnya yang <strong>mengkombinasikan pemodelan system dynamics dengan pendekatan zero-sum game dan Bass diffusion</strong> secara bersamaan dalam analisis transisi energi.</li>
+  </ol>
+</section>
+
+<!-- ─── LOGIC MODEL ─── -->
+<section id="logika">
+  <div class="section-label">03 &nbsp;·&nbsp; Logic Model</div>
+  <h2>Logika Model</h2>
+
+  <p>Model dibangun di atas teori transisi energi yang menyatakan bahwa pergeseran sistem energi mengikuti kurva S-shaped (sigmoidal). Dalam konteks Indonesia, transisi berlangsung dalam dua fase utama yang saling berkaitan:</p>
+
+  <div class="phase-timeline">
+    <div class="phase-line"></div>
+    <div class="phase-item">
+      <div class="phase-dot">1</div>
+      <div class="phase-content">
+        <h4>Fase 1: Transisi Minyak → Biofuel (2010–sekarang)</h4>
+        <p>Didorong oleh mandat biodiesel progresif pemerintah (B10 hingga B35). Indonesia sebagai produsen CPO terbesar dunia memiliki keunggulan komparatif dalam fase ini. Pertumbuhan per-kapita biofuel bersifat eksponensial sejak 2010.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot">2</div>
+      <div class="phase-content">
+        <h4>Fase 2: Minyak/Biofuel → Elektrifikasi EV (2025–2050)</h4>
+        <p>Elektrikasi via kendaraan listrik (EV) diproyeksikan mulai signifikan pada 2030 dan melampaui biofuel pada 2050. EV memiliki efisiensi operasional 2.43–3.33× lebih baik dibandingkan kendaraan berbahan bakar konvensional.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot">3</div>
+      <div class="phase-content">
+        <h4>Fase Paralel: Dekarbonisasi Sektor Listrik</h4>
+        <p>Efektivitas elektrifikasi bergantung pada dekarbonisasi sektor pembangkit listrik via VREN (Variable Renewable Energy and Nuclear) dan CCS (Carbon Capture and Storage). Tanpa ini, elektrikasi hanya memindahkan emisi, bukan mengeliminasinya.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Struktur Kausal: Feedback Loops Utama</h3>
+  <p>SFM terdiri dari <strong>18 balancing loops (B)</strong> dan <strong>9 reinforcing loops (R)</strong>:</p>
+
+  <div class="loop-diagram">
+    <div class="loop-title">Balancing Loops (B) — Penyeimbang</div>
+    <div class="loop-row">
+      <span class="loop-badge">B1–B3</span>
+      Mekanisme subsidi: penyesuaian harga domestik terhadap ceiling (B1) dan floor (B2) price, memicu perubahan harga domestik (B3) ketika volatilitas internasional melebihi ±20%.
+    </div>
+    <div class="loop-row">
+      <span class="loop-badge">B4</span>
+      Model pertumbuhan populasi bersih bersama R1 (loop reinforcing pertama).
+    </div>
+    <div class="loop-row">
+      <span class="loop-badge">B5</span>
+      Struktur goal-seek: selisih antara kebutuhan bahan bakar yang dirasakan dan permintaan aktual, mendorong tindakan korektif terhadap pasokan.
+    </div>
+    <div class="loop-row">
+      <span class="loop-badge">B6–B10</span>
+      Kebijakan transisi ke biofuel dan EV menggunakan pendekatan zero-sum game: kenaikan permintaan biofuel setara penurunan permintaan minyak (Fase 1); adopsi EV menurunkan penggunaan minyak dan biofuel (Fase 2).
+    </div>
+    <div class="loop-row">
+      <span class="loop-badge">B12–B19</span>
+      Dinamika produksi listrik dari gas, batubara, minyak, VREN, dan integrasi CCS.
+    </div>
+  </div>
+
+  <div class="loop-diagram" style="border-color: var(--rust-light); margin-top: 0.75rem;">
+    <div class="loop-title" style="color: var(--rust);">Reinforcing Loops (R) — Penguat</div>
+    <div class="loop-row">
+      <span class="loop-badge reinforce">R2–R4</span>
+      Penerimaan sosial terhadap transisi menggunakan struktur difusi Bass: ketika lebih banyak orang mengadopsi biofuel/EV, penerimaan sosial meningkat, mempercepat adopsi lebih lanjut.
+    </div>
+    <div class="loop-row">
+      <span class="loop-badge reinforce">R5, R7–R9</span>
+      Pertumbuhan bersih produksi listrik dari gas, minyak, batubara, dan VREN—masing-masing dengan pendekatan overshoot-and-collapse untuk memodelkan dekomisioning.
+    </div>
+    <div class="loop-row">
+      <span class="loop-badge reinforce">R10</span>
+      Produksi minyak domestik Indonesia yang terus menurun selama dua dekade terakhir, memperbesar kesenjangan pasokan yang diisi oleh impor.
+    </div>
+  </div>
+
+  <h3>Subsistem Model</h3>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-title">Sektor 1</div>
+      <div class="info-card-body">Dinamika harga: mekanisme price collar (ceiling &amp; floor) dan pengaruh harga terhadap permintaan via elastisitas.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Sektor 2–3</div>
+      <div class="info-card-body">Pasokan minyak dan populasi: permintaan bersifat <em>demand-driven</em>, diskalakan ke tingkat nasional berdasarkan dinamika populasi.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Sektor 5</div>
+      <div class="info-card-body">Transisi per-kapita dari minyak → biofuel → EV menggunakan struktur Bass diffusion dengan zero-sum game.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Sektor 6</div>
+      <div class="info-card-body">Dinamika pembangkit listrik (PP): produksi dari batubara, gas, minyak, dan VREN dengan proyeksi hingga 2050.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Sektor 7–8</div>
+      <div class="info-card-body">Estimasi emisi CO₂ dari pembakaran minyak/biofuel dan dari pengisian daya EV.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Sektor 9</div>
+      <div class="info-card-body">Faktor emisi sektor listrik dan peran CCS dalam mereduksi emisi dari pembangkit berbahan bakar fosil.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── METODE ─── -->
+<section id="metode">
+  <div class="section-label">04 &nbsp;·&nbsp; Metodologi</div>
+  <h2>Metode &amp; Karakterisasi Model</h2>
+
+  <h3>Kerangka Pemodelan Sistem (Sterman, 2000)</h3>
+  <p>Penelitian mengikuti lima tahap pemodelan sistem dinamis:</p>
+  <ol class="policy-steps">
+    <li><strong>Artikulasi masalah</strong> — Identifikasi batas sistem dan variabel kunci (telah dilakukan dalam Rahman et al., 2023).</li>
+    <li><strong>Hipotesis dinamis</strong> — Pengembangan Causal Loop Diagram (CLD) kualitatif (telah dilakukan sebelumnya).</li>
+    <li><strong>Formulasi model</strong> — Pembangunan SFM kuantitatif menggunakan software <em>Stella Architect 3.2.1</em> (dibahas dalam paper ini).</li>
+    <li><strong>Pengujian model</strong> — Legitimasi, kalibrasi, tes struktural, dan analisis sensitivitas.</li>
+    <li><strong>Analisis skenario</strong> — Proyeksi 2000–2050 (arah untuk penelitian masa depan).</li>
+  </ol>
+
+  <h3>Spesifikasi Model</h3>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-title">Stocks</div>
+      <div class="info-card-body">16 stocks (reservoar/akumulasi): populasi, permintaan minyak, biofuel, EV; produksi listrik dari berbagai sumber; stok CCS.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Flows</div>
+      <div class="info-card-body">22 flows (laju perubahan): difusi dari minyak ke biofuel dan EV; pertumbuhan dan dekomisioning pembangkit listrik; pertumbuhan CCS.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Converters</div>
+      <div class="info-card-body">99 converters: 41 konstanta eksogen, 3 Dimensionless Multipliers (DMs), dan sisanya persamaan individual.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Horizon Waktu</div>
+      <div class="info-card-body">2000–2050. Data historis (2000–2021) dari World Bank, MEMR, dan British Petroleum; proyeksi (2021–2050) mengikuti target Paris Agreement.</div>
+    </div>
+  </div>
+
+  <h3>Parameterisasi &amp; Grounded Theory</h3>
+  <p>Parameterisasi dilakukan melalui dua cara: (1) nilai dari literatur yang ada, dan (2) kalibrasi terhadap data time-series 2000–2021. Pendekatan <em>grounded theory</em> digunakan untuk mengatasi keterbatasan data historis pada proses transisi yang belum matang (biofuel dan EV), mengikuti lima langkah: identifikasi pola data → komparasi dengan teori → penjelasan pendekatan teoritis → konjektur teoritis → diskusi implikasi terhadap pemodelan.</p>
+
+  <p><strong>Dimensionless Multipliers (DMs)</strong> digunakan untuk mengkuantifikasi hubungan kausal di mana hubungan analitis antar komponen model tidak diketahui namun kritis. Dua DM diterapkan dengan fungsi <em>logarithmic decay</em> untuk memodelkan trajektori produksi listrik dari gas dan minyak.</p>
+
+  <h3>Mekanisme Price Collar</h3>
+  <p>Untuk mensimulasikan intervensi subsidi pemerintah, dikembangkan <em>logic tree</em> dengan mekanisme binary trigger (0 = off, 1 = on). Ketika harga internasional melampaui <em>ceiling</em> atau turun di bawah <em>floor</em> lebih dari ±20%, sistem mengaktifkan penyesuaian harga domestik secara langsung dalam 1 DT. Subsidi rata-rata diasumsikan 25% dari harga minyak dunia.</p>
+</section>
+
+<!-- ─── PERSAMAAN ─── -->
+<section id="persamaan">
+  <div class="section-label">05 &nbsp;·&nbsp; Persamaan Utama</div>
+  <h2>Persamaan &amp; Relasi Matematika Kunci</h2>
+
+  <!-- Eq 1: Stock-Flow ODE -->
+  <div class="math-block">
+    <div class="math-label">Persamaan 0 &nbsp;·&nbsp; Struktur Dasar Stock &amp; Flow</div>
+    $$\frac{d}{dt}C = \beta_1 \times C - \beta_2 \times C$$
+    <div class="math-desc">
+      Di mana $C$ adalah stock (akumulasi), $\beta_1 \times C$ adalah inflow dan $\beta_2 \times C$ adalah outflow. Seluruh persamaan diferensial dalam model mengikuti bentuk ini.
+    </div>
+  </div>
+
+  <!-- Eq Bass Diffusion -->
+  <div class="math-block">
+    <div class="math-label">Persamaan 1 &nbsp;·&nbsp; Bass Diffusion Model — Adopsi Biofuel &amp; EV</div>
+    $$n_t = p \cdot (M - N_t) + q \cdot \frac{1}{M} \cdot (M - N_t)$$
+    <table class="var-table">
+      <tr><td>$n_t$</td><td>Permintaan per kapita biofuel atau EV pada periode $t$</td></tr>
+      <tr><td>$M$</td><td>Kumulatif total bahan bakar (pasar potensial penuh)</td></tr>
+      <tr><td>$N_t$</td><td>Permintaan kumulatif biofuel/EV per kapita hingga awal periode $t$</td></tr>
+      <tr><td>$p = 0.002$</td><td>Koefisien penerimaan dari inovasi (innovation pull — <em>push rate</em>)</td></tr>
+      <tr><td>$q = 0.23$</td><td>Koefisien efektivitas induksi kebijakan (policy pull — <em>pull rate</em>)</td></tr>
+    </table>
+    <div class="math-desc">
+      Model Bass digunakan untuk mensimulasikan difusi biofuel (Fase 1) dan EV (Fase 2). Parameter $p$ dan $q$ mengacu pada Jensen et al. (2017) dan Davies &amp; Diaz-Rainey (2011) yang mengidentifikasi kurva Bass muncul ketika terdapat induksi kebijakan yang kuat.
+    </div>
+  </div>
+
+  <!-- Eq 2: Zero-Sum Identity -->
+  <div class="math-block">
+    <div class="math-label">Persamaan 2 &nbsp;·&nbsp; Zero-Sum Game — Identitas Permintaan Bahan Bakar</div>
+    $$\text{Permintaan Bahan Bakar per Kapita} \begin{cases} \text{Minyak} \\ \text{Biofuel} \\ \text{Listrik dari EV} \end{cases}$$
+    <div class="math-desc">
+      Penurunan permintaan minyak per kapita setara dengan peningkatan ekuivalen permintaan biofuel dan/atau EV. Pertumbuhan permintaan per-kapita secara keseluruhan diasumsikan terjadi di sektor minyak, yang kemudian mengalir ke biofuel dan EV.
+    </div>
+  </div>
+
+  <!-- Eq 3: CO2 Combustion -->
+  <div class="math-block">
+    <div class="math-label">Persamaan 3 &nbsp;·&nbsp; Emisi CO₂ dari Pembakaran</div>
+    $$CO_2^{comb} = (D_{oil} \cdot EF_{oil}) + (D_{bio} \cdot EF_{bio})$$
+    <table class="var-table">
+      <tr><td>$D_{oil}$</td><td>Permintaan minyak</td></tr>
+      <tr><td>$D_{bio}$</td><td>Permintaan biofuel</td></tr>
+      <tr><td>$EF_{oil} = 3 \text{ tCO}_2/\text{toe}$</td><td>Faktor emisi minyak</td></tr>
+      <tr><td>$EF_{bio} = 2.8 \text{ tCO}_2/\text{toe}$</td><td>Faktor emisi biofuel</td></tr>
+    </table>
+    <div class="math-desc">
+      Perbedaan kecil antara faktor emisi minyak dan biofuel (3 vs 2.8 tCO₂/toe) menjelaskan mengapa perubahan ±10% pada parameter inovasi/kebijakan biofuel hanya berdampak minimal (&lt;0.5%) pada emisi dari pembakaran.
+    </div>
+  </div>
+
+  <!-- Eq 4: CO2 from Charging -->
+  <div class="math-block">
+    <div class="math-label">Persamaan 4 &nbsp;·&nbsp; Emisi CO₂ dari Pengisian Daya EV</div>
+    $$CO_2^{charge} = D_{EV} \cdot EF_{PP}$$
+    <div class="math-desc">
+      Di mana $D_{EV}$ adalah permintaan listrik dari EV dan $EF_{PP}$ adalah faktor emisi keseluruhan sektor pembangkit listrik.
+    </div>
+  </div>
+
+  <!-- Eq 5: Emission Factor PP -->
+  <div class="math-block">
+    <div class="math-label">Persamaan 5 &nbsp;·&nbsp; Faktor Emisi Sektor Pembangkit Listrik</div>
+    $$EF_{PP} = \left(\%_{coal} \cdot EF_{coal}\right) + \left(\%_{gas} \cdot EF_{gas}\right) + \left(\%_{oil} \cdot EF_{oil}\right)$$
+    <div class="math-desc">
+      Faktor emisi dipengaruhi oleh komposisi sumber energi pembangkit. Semakin besar porsi bahan bakar fosil (terutama batubara), semakin tinggi faktor emisi. Sumber VREN (Variable Renewable Energy and Nuclear) diasumsikan nol atau dapat diabaikan emisinya, sehingga dikeluarkan dari persamaan.
+    </div>
+  </div>
+
+  <!-- Eq 6: Price Elasticity -->
+  <div class="math-block">
+    <div class="math-label">Persamaan 6 &nbsp;·&nbsp; Elastisitas Harga Jangka Panjang</div>
+    $$\epsilon_{LR} = -0.16 \quad \text{(Sa'ad, 2008; 2009)}$$
+    <div class="math-desc">
+      Elastisitas harga jangka panjang minyak domestik Indonesia sebesar $-0.16$ diterapkan untuk periode 2000–2050. Harga domestik rata-rata diasumsikan 75% dari harga internasional rata-rata (USD 617/toe), yaitu USD 463/toe, mencerminkan rata-rata efektif subsidi pemerintah.
+    </div>
+  </div>
+
+  <!-- Eq 7: EV Efficiency -->
+  <div class="math-block">
+    <div class="math-label">Persamaan 7 &nbsp;·&nbsp; Rasio Efisiensi EV terhadap Kendaraan Konvensional</div>
+    $$\eta_{EV/ICE} \approx 2.43 \text{ hingga } 3.33$$
+    <div class="math-desc">
+      Perbandingan efisiensi battery-to-wheel vs tank-to-wheel menunjukkan EV 2.43–3.33× lebih efisien dalam konsumsi energi. Ini adalah komponen kritis dalam pemodelan makroskopik karena implikasinya terhadap total kebutuhan energi setelah transisi.
+    </div>
+  </div>
+</section>
+
+<!-- ─── VALIDASI ─── -->
+<section id="validasi">
+  <div class="section-label">06 &nbsp;·&nbsp; Validasi</div>
+  <h2>Hasil Pengujian &amp; Validasi Model</h2>
+
+  <p>Model divalidasi melalui empat jenis pengujian komprehensif mengikuti best practices Sterman (2000) dan Barlas (1989):</p>
+
+  <h3>Hasil Uji Perilaku (Behavioural Test)</h3>
+  <table class="val-table">
+    <thead>
+      <tr>
+        <th>Variabel</th>
+        <th>Theil's U</th>
+        <th>MAPE</th>
+        <th>Kualitas Fit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Populasi</td>
+        <td class="good">0.25</td>
+        <td class="good">0.003</td>
+        <td class="good">Sangat Baik</td>
+      </tr>
+      <tr>
+        <td>Permintaan minyak per kapita</td>
+        <td class="moderate">0.90</td>
+        <td class="good">0.03</td>
+        <td class="good">Baik</td>
+      </tr>
+      <tr>
+        <td>Permintaan biofuel per kapita</td>
+        <td class="moderate">0.87</td>
+        <td class="moderate">0.16</td>
+        <td class="moderate">Cukup Baik</td>
+      </tr>
+      <tr>
+        <td>Produksi listrik dari minyak</td>
+        <td class="moderate">0.82</td>
+        <td class="good">0.11</td>
+        <td class="good">Baik</td>
+      </tr>
+      <tr>
+        <td>Produksi listrik dari gas</td>
+        <td class="good">0.75</td>
+        <td class="good">0.05</td>
+        <td class="good">Baik</td>
+      </tr>
+      <tr>
+        <td>Produksi listrik dari batubara</td>
+        <td class="good">0.66</td>
+        <td class="good">0.08</td>
+        <td class="good">Baik</td>
+      </tr>
+      <tr>
+        <td>Produksi listrik dari VREN</td>
+        <td class="moderate">0.94</td>
+        <td class="moderate">0.13</td>
+        <td class="moderate">Cukup Baik</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size: 0.8rem; color: var(--stone); font-style: italic;">Theil's U &lt; 1 = lebih baik dari naïve forecast. MAPE 0.1–0.2 = prediksi cukup akurat (Lewis, 1982).</p>
+
+  <h3>Temuan Analisis Sensitivitas</h3>
+  <div class="findings-grid">
+    <div class="finding-card">
+      <div class="finding-num">01</div>
+      <div class="finding-text"><strong>Fuel population constant</strong> (rasio konsumsi bahan bakar/populasi) adalah parameter yang paling sensitif terhadap permintaan minyak per kapita dan terbesar kedua terhadap permintaan biofuel.</div>
+    </div>
+    <div class="finding-card">
+      <div class="finding-num">02</div>
+      <div class="finding-text"><strong>Variabel harga</strong> (harga internasional, fraksi subsidi, elastisitas) memiliki pengaruh signifikan terhadap permintaan domestik minyak dan biofuel.</div>
+    </div>
+    <div class="finding-card">
+      <div class="finding-num">03</div>
+      <div class="finding-text"><strong>Pertumbuhan dan dekomisioning PP batubara &amp; VREN</strong> memberikan dampak terbesar terhadap faktor emisi listrik—dengan arah yang berlawanan satu sama lain.</div>
+    </div>
+    <div class="finding-card">
+      <div class="finding-num">04</div>
+      <div class="finding-text"><strong>Variabel dekarbonisasi</strong> (konversi inovasi dan induksi kebijakan biofuel/EV) berdampak nyata terhadap transisi, namun perubahan ±10% hanya mempengaruhi emisi pembakaran &lt;0.5% karena kemiripan faktor emisi minyak dan biofuel.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── KESIMPULAN ─── -->
+<section id="kesimpulan">
+  <div class="section-label">07 &nbsp;·&nbsp; Kesimpulan</div>
+  <h2>Kesimpulan</h2>
+
+  <div class="conclusion-box">
+    <h3>Jawaban atas Pertanyaan Penelitian 1</h3>
+    <p>Minyak murah dan terjangkau telah menjadi sumber energi utama Indonesia selama 50 tahun terakhir, membentuk ekonomi politik dan perkembangan historisnya. Masa depan minyak bergantung pada perubahan sosial dan seberapa cepat ia digantikan oleh alternatif yang lebih bersih. Dari sudut pandang normatif, model ini menyarankan minimalisasi konsumsi minyak dan promosi elektrifikasi sektor pengguna akhir—terutama transportasi—untuk mencapai pengurangan emisi yang signifikan.</p>
+  </div>
+
+  <div class="conclusion-box" style="background: var(--sage); margin-top: 1rem;">
+    <h3>Jawaban atas Pertanyaan Penelitian 2</h3>
+    <p>Transformasi konsumsi minyak menjadi biofuel dan listrik adalah suatu keharusan logis dan politis. Transisi bertahap ke biofuel layak dan sudah berjalan. Namun, listrik harus dipandang sebagai tujuan akhir, mengingat biofuel meskipun terbarukan masih menghasilkan CO₂ melalui pembakaran. Tingkat dekarbonisasi yang dapat dicapai bergantung pada sejauh mana sektor listrik itu sendiri dapat mengurangi emisi melalui VREN, dan CCS dapat memainkan peran krusial karena VREN saja tidak dapat sepenuhnya menggantikan batubara dan gas dalam bauran energi listrik dalam jangka panjang.</p>
+  </div>
+
+  <h3>Implikasi Kebijakan</h3>
+  <ol class="policy-steps">
+    <li><strong>Harga &amp; Subsidi:</strong> Variabel harga domestik (floor/ceiling price) adalah pengungkit utama konsumsi. Kebijakan pengurangan subsidi secara bertahap dengan targeting pada segmen masyarakat rentan perlu diimplementasikan.</li>
+    <li><strong>Efisiensi Energi:</strong> <em>Fuel population constant</em> yang konstan mengindikasikan peluang besar dari intervensi efisiensi energi dan penggunaan lebih sedikit energi untuk output yang sama.</li>
+    <li><strong>Percepatan Adopsi:</strong> Penerimaan berbasis inovasi dan efektivitas induksi kebijakan harus ditingkatkan untuk mendorong kurva S-shaped ke fase akselerasi lebih cepat.</li>
+    <li><strong>Dekarbonisasi Listrik:</strong> Seiring minyak dan biofuel digantikan oleh listrik, emisi dari pembakaran menurun—tetapi emisi dari pengisian EV meningkat. Satu-satunya cara memotong emisi total adalah dengan mengurangi faktor emisi pembangkit listrik via VREN dan CCS.</li>
+  </ol>
+
+  <div class="ornament">· · ·</div>
+
+  <h3>Arah Penelitian Masa Depan</h3>
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="info-card-icon">📊</span>
+      <div class="info-card-title">Analisis Skenario</div>
+      <div class="info-card-body">Membangun skenario realistis/optimis/pesimis menggunakan model yang telah dikembangkan untuk menghasilkan proyeksi relevan bagi pembuat kebijakan.</div>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">🔍</span>
+      <div class="info-card-title">Perluasan Model</div>
+      <div class="info-card-body">Menambahkan faktor dan variabel yang berkontribusi pada keberhasilan transisi minyak, termasuk analisis kasus negara-spesifik untuk menangkap dinamika regional.</div>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">🏭</span>
+      <div class="info-card-title">CCS &amp; VREN</div>
+      <div class="info-card-body">Menginvestigasi interaksi dan implikasi CCS terhadap promosi VREN dan pemeliharaan bahan bakar fosil dalam bauran energi—area penelitian penting yang belum terjamah.</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════════════════════ FOOTER ══════════════════════════════ -->
+<footer>
+  <p><strong style="color: var(--sand-light);">Rahman, A., Richards, R., Dargusch, P., &amp; Wadley, D. (2025).</strong><br>
+  The complexity of transitioning from oil dependency: A dynamic modelling case study of Indonesia.<br>
+  <em>Energy Economics</em>, 148, 108662.</p>
+  <p style="margin-top: 1rem;">
+    DOI: <a href="https://doi.org/10.1016/j.eneco.2025.108662">10.1016/j.eneco.2025.108662</a>
+    &nbsp;·&nbsp; Open Access (CC BY 4.0)
+  </p>
+  <p style="margin-top: 0.8rem; font-size: 0.72rem; color: #5a5550;">
+    Didukung oleh LPDP — Lembaga Pengelola Dana Pendidikan, Kementerian Keuangan Republik Indonesia.<br>
+    Halaman ringkasan akademis ini dibuat untuk keperluan riset dan referensi.
+  </p>
+</footer>
+
+</body>
+</html>
