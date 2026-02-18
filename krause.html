@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krause (2026) — Adjusting to the Energy Transition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ],
+      throwOnError: false
+    });"></script>
+<style>
+  :root {
+    --cream: #faf7f2;
+    --warm-white: #f5f1ea;
+    --text-dark: #1a1612;
+    --text-body: #2d2520;
+    --text-muted: #6b5f57;
+    --accent: #b85c2c;
+    --accent-light: #d4763e;
+    --accent-pale: #f0dccf;
+    --border: #ddd5ca;
+    --border-light: #ece6df;
+    --teal: #2a6b6b;
+    --teal-light: #4a8e8e;
+    --teal-pale: #d0e8e8;
+    --gold: #8b6914;
+    --gold-pale: #f5ead0;
+    --shadow-sm: 0 1px 4px rgba(26,22,18,0.08);
+    --shadow-md: 0 4px 16px rgba(26,22,18,0.1);
+    --shadow-lg: 0 8px 32px rgba(26,22,18,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text-body);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+  }
+
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #fff9f5 0%, var(--warm-white) 50%, #eef5f5 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 5rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,92,44,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -60px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(42,107,107,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .journal-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: var(--teal-pale);
+    border: 1px solid var(--teal-light);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.25;
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-subtitle {
+    font-style: italic;
+    color: var(--accent);
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+  }
+
+  .author-block {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .author-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  .author-affil {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.65rem;
+    border-radius: 2px;
+  }
+
+  .tag-jel { background: var(--gold-pale); color: var(--gold); border: 1px solid #d4b87a; }
+  .tag-kw { background: var(--accent-pale); color: var(--accent); border: 1px solid #c87a50; }
+
+  /* ── ABSTRACT ── */
+  .abstract-section {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 4px;
+    padding: 2rem 2.5rem;
+    margin-top: 2.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .abstract-section h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .abstract-section p {
+    font-size: 0.95rem;
+    color: var(--text-body);
+    line-height: 1.8;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+  }
+
+  p { margin-bottom: 1rem; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-radius: 4px;
+    padding: 1.25rem 1.75rem;
+    margin: 1.5rem 0;
+    border: 1px solid;
+  }
+
+  .callout-finding {
+    background: var(--teal-pale);
+    border-color: var(--teal-light);
+  }
+
+  .callout-finding strong {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--teal);
+    display: block;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+
+  .callout-method {
+    background: var(--gold-pale);
+    border-color: #c9a84c;
+  }
+
+  .callout-method strong {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .callout-eq {
+    background: #f8f4ff;
+    border-color: #c5b4e8;
+  }
+
+  .callout-eq strong {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: #6644aa;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── EQUATION DISPLAY ── */
+  .eq-block {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 3px solid #7c5cbf;
+    border-radius: 3px;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7c5cbf;
+    margin-bottom: 0.75rem;
+  }
+
+  .eq-note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ── GRID CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .card p {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── FINDING HIGHLIGHT ── */
+  .finding-box {
+    background: linear-gradient(135deg, #fff9f5 0%, #f0f8f8 100%);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .finding-box::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    color: var(--accent);
+    opacity: 0.08;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .finding-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+
+  .finding-box p {
+    font-size: 0.92rem;
+    position: relative;
+    line-height: 1.75;
+  }
+
+  /* ── TABLE ── */
+  .stat-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+    margin: 1.5rem 0;
+    box-shadow: var(--shadow-sm);
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .stat-table thead th {
+    background: var(--text-dark);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    font-weight: 500;
+  }
+
+  .stat-table tbody tr:nth-child(even) { background: var(--warm-white); }
+  .stat-table tbody tr:hover { background: var(--accent-pale); }
+
+  .stat-table td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+  }
+
+  .stat-table td:first-child {
+    font-weight: 400;
+    color: var(--text-dark);
+  }
+
+  .stat-table td.num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 2rem 0;
+  }
+
+  /* ── TOC SIDEBAR ── */
+  .toc-float {
+    position: fixed;
+    left: calc(50% + 480px);
+    top: 100px;
+    width: 160px;
+    display: none;
+  }
+
+  @media (min-width: 1200px) {
+    .toc-float { display: block; }
+  }
+
+  .toc-float h5 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .toc-float a {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.25rem 0;
+    border-left: 2px solid var(--border);
+    padding-left: 0.75rem;
+    transition: all 0.2s;
+    line-height: 1.4;
+    margin-bottom: 0.25rem;
+  }
+
+  .toc-float a:hover {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  /* ── HIGHLIGHT TEXT ── */
+  .highlight { color: var(--accent); font-weight: 600; }
+  .highlight-teal { color: var(--teal); font-weight: 600; }
+
+  /* ── CONCLUSION LIST ── */
+  .conclusion-list {
+    list-style: none;
+    margin: 1.5rem 0;
+  }
+
+  .conclusion-list li {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    align-items: flex-start;
+  }
+
+  .conclusion-list li::before {
+    content: attr(data-num);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--accent);
+    opacity: 0.4;
+    line-height: 1;
+    flex-shrink: 0;
+    font-weight: 700;
+    margin-top: -2px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--text-dark);
+    color: #a09488;
+    padding: 2rem;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    margin-top: 4rem;
+    line-height: 1.8;
+  }
+
+  footer a { color: #d4a892; text-decoration: none; }
+
+  /* ── SCROLL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── TWO COLUMN ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .hero { padding: 3rem 1.5rem; }
+    main { padding: 0 1.25rem; }
+    .abstract-section { padding: 1.25rem; }
+  }
+
+  /* ── LOGIC CHAIN ── */
+  .logic-chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 1.5rem 0;
+    position: relative;
+  }
+
+  .logic-node {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .logic-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #fff;
+    margin-top: 2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logic-dot-accent { background: var(--accent); }
+  .logic-dot-teal { background: var(--teal); }
+  .logic-dot-gold { background: var(--gold); }
+  .logic-dot-purple { background: #7c5cbf; }
+
+  .logic-line {
+    width: 2px;
+    height: 24px;
+    background: linear-gradient(to bottom, var(--border), transparent);
+    margin-left: 15px;
+  }
+
+  .logic-content h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.3rem;
+  }
+
+  .logic-content p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+    line-height: 1.6;
+  }
+
+  /* ── STICKY SECTION TITLES ── */
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.07;
+    line-height: 1;
+    float: right;
+    margin-top: -20px;
+    margin-left: 1rem;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand">Krause · JEEM 2026</a>
+    <ul class="nav-links">
+      <li><a href="#latar">Latar</a></li>
+      <li><a href="#tujuan">Tujuan</a></li>
+      <li><a href="#logik">Model Logik</a></li>
+      <li><a href="#metode">Metode</a></li>
+      <li><a href="#persamaan">Persamaan</a></li>
+      <li><a href="#temuan">Temuan</a></li>
+      <li><a href="#kesimpulan">Kesimpulan</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="journal-badge">Journal of Environmental Economics and Management · Vol. 136 · 2026</div>
+    <h1>Adjusting to the Energy Transition:<br>Training and Transfers in Coal Country</h1>
+    <p class="hero-subtitle">Mengelola transisi energi: Investasi pendidikan dan transfer pemerintah di daerah pertambangan batu bara Appalachia</p>
+
+    <div class="author-block">
+      <div>
+        <div class="author-name">Eleanor Krause</div>
+        <div class="author-affil">University of Kentucky · Dept. of Economics</div>
+      </div>
+    </div>
+
+    <div class="meta-tags">
+      <span class="tag tag-jel">JEL: J24</span>
+      <span class="tag tag-jel">H5</span>
+      <span class="tag tag-jel">Q30</span>
+      <span class="tag tag-jel">R11</span>
+      <span class="tag tag-kw">Local Labor Markets</span>
+      <span class="tag tag-kw">Energy Transition</span>
+      <span class="tag tag-kw">Human Capital</span>
+      <span class="tag tag-kw">Social Insurance</span>
+      <span class="tag tag-kw">Postsecondary Education</span>
+      <span class="tag tag-kw">Regional Adjustment</span>
+    </div>
+
+    <div class="abstract-section">
+      <h3>Abstrak</h3>
+      <p>
+        Antara 2011 dan 2016, lapangan kerja pertambangan batu bara menurun lebih dari 50% di wilayah Appalachia, 
+        menghasilkan kehilangan pendapatan dan pekerjaan yang tajam di komunitas yang bergantung pada batu bara. 
+        Dengan mengeksploitasi perbedaan paparan <em>Commuting Zone</em> (CZ) terhadap penurunan batu bara, 
+        studi ini menemukan bahwa CZ yang terpapar mengalami <span class="highlight">kenaikan besar dan persisten dalam 
+        penerimaan transfer pemerintah per kapita</span>, namun <span class="highlight-teal">tidak ada perubahan yang 
+        terdeteksi secara statistik dalam penghargaan pascasarjana, pendaftaran, atau keuangan institusi</span>. 
+        Temuan ini mengindikasikan bahwa daerah yang terdampak transisi dari sektor energi warisan mungkin menghadapi 
+        tantangan lebih besar dalam beradaptasi terhadap perubahan struktural tanpa investasi pendidikan yang diperluas.
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- TOC FLOAT -->
+<div class="toc-float">
+  <h5>Navigasi</h5>
+  <a href="#latar">01 · Latar Belakang</a>
+  <a href="#tujuan">02 · Tujuan</a>
+  <a href="#logik">03 · Model Logik</a>
+  <a href="#metode">04 · Metode</a>
+  <a href="#persamaan">05 · Persamaan</a>
+  <a href="#temuan">06 · Temuan</a>
+  <a href="#kesimpulan">07 · Kesimpulan</a>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ── 1. LATAR BELAKANG ── -->
+  <section class="section reveal" id="latar">
+    <div class="section-label">01 · Latar Belakang Permasalahan</div>
+    <h2>Keruntuhan Industri Batu Bara dan Krisis Regional</h2>
+    <span class="section-num">01</span>
+
+    <p>
+      Transisi besar-besaran menjauhi batu bara telah memberikan konsekuensi yang luas bagi pekerja, perusahaan, 
+      dan komunitas yang secara tradisional bergantung pada sumber daya ini. Ketika wilayah batu bara kehilangan 
+      industri ekspor utama mereka, lintasan ekonomi jangka panjang mereka bergantung pada seberapa besar investasi 
+      publik dan swasta mendukung individu dan institusi melalui transisi ini.
+    </p>
+
+    <div class="finding-box">
+      <h4>Konteks Sejarah</h4>
+      <p>
+        Wilayah Appalachia — mencakup seluruh West Virginia dan sebagian 12 negara bagian lainnya — telah lama 
+        bergantung pada industri batu bara sebagai tulang punggung ekonomi dan budaya, khususnya di Eastern Kentucky 
+        dan West Virginia. Ketergantungan historis ini bertepatan dengan tingkat kemiskinan persisten yang tinggi 
+        dan mobilitas ekonomi ke atas yang relatif rendah.
+      </p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h4>Revolusi Gas Alam</h4>
+        <p>Teknologi <em>hydraulic fracturing</em> membuat gas alam lebih kompetitif secara biaya. Pada 2011, produksi gas alam melampaui batu bara untuk pertama kalinya dalam tiga dekade.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📉</div>
+        <h4>Kehancuran Pekerjaan</h4>
+        <p>Antara 2011–2016, lapangan kerja pertambangan batu bara di Appalachia turun lebih dari <strong>50%</strong> — mencerminkan kehancuran sektoral yang masif dan teramat cepat.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💸</div>
+        <h4>Dampak Fiskal</h4>
+        <p>Penurunan ini mengakibatkan berkurangnya pendapatan pajak lokal secara tajam, penurunan pendapatan pekerja, dan tekanan keuangan yang signifikan bagi rumah tangga.</p>
+      </div>
+    </div>
+
+    <p>
+      Meskipun minat kebijakan terhadap penanganan biaya distribusional dekarbonisasi semakin berkembang, 
+      bukti terbatas tersedia mengenai apakah alat-alat yang ada cukup untuk mendorong adaptasi jangka panjang 
+      di daerah yang bergantung pada bahan bakar fosil. Inilah celah yang dijawab oleh penelitian ini.
+    </p>
+
+    <div class="callout callout-finding">
+      <strong>🔑 Pertanyaan Inti</strong>
+      Apakah gangguan ekonomi akibat runtuhnya batu bara mencerminkan biaya penyesuaian sementara, ataukah 
+      menandakan penurunan yang lebih persisten? Dan apakah transfer pemerintah serta investasi pelatihan 
+      berhasil merespons kejutan ini?
+    </div>
+  </section>
+
+  <!-- ── 2. TUJUAN ── -->
+  <section class="section reveal" id="tujuan">
+    <div class="section-label">02 · Tujuan Penelitian</div>
+    <h2>Mengevaluasi Respons Investasi Terhadap Guncangan Batu Bara</h2>
+    <span class="section-num">02</span>
+
+    <p>
+      Penelitian ini secara spesifik memeriksa bagaimana dua saluran respons utama bereaksi terhadap kontraksi 
+      sektor batu bara di Appalachia antara 2011 dan 2016:
+    </p>
+
+    <div class="two-col">
+      <div class="callout callout-finding">
+        <strong>🏛️ Transfer Pemerintah</strong>
+        Apakah program jaring pengaman sosial — Medicaid, Medicare, Social Security, UI, SNAP — berkembang 
+        secara otomatis sebagai respons terhadap guncangan ekonomi lokal?
+      </div>
+      <div class="callout callout-method">
+        <strong>🎓 Investasi Pelatihan</strong>
+        Apakah komunitas merespons dengan meningkatkan pendaftaran di pendidikan pascasarjana, penyelesaian 
+        gelar, sertifikat, dan keuangan institusi pendidikan?
+      </div>
+    </div>
+
+    <p>
+      Dengan menggunakan data tahunan yang terhubung dari 2003 hingga 2019 untuk semua <em>Commuting Zone</em> (CZ) 
+      Appalachian, studi ini mengestimasi bagaimana kedua jenis respons ini berevolusi seiring waktu — selama 
+      periode pra-guncangan, sepanjang guncangan berlangsung, dan setelah guncangan mereda.
+    </p>
+
+    <div class="callout callout-finding">
+      <strong>💡 Kontribusi Penelitian</strong>
+      Penelitian ini berkontribusi pada tiga literatur: (1) biaya penyesuaian lokal dari transisi energi, 
+      (2) hubungan antara pertumbuhan ekonomi lokal dan investasi modal manusia dan fisik, dan (3) responsivitas 
+      program transfer otomatis.
+    </div>
+  </section>
+
+  <!-- ── 3. MODEL LOGIK ── -->
+  <section class="section reveal" id="logik">
+    <div class="section-label">03 · Logic Model</div>
+    <h2>Kerangka Konseptual: Biaya-Manfaat Pendidikan Saat Guncangan Sektoral</h2>
+    <span class="section-num">03</span>
+
+    <p>
+      Pilihan investasi pendidikan direpresentasikan sebagai keputusan di antara alternatif-alternatif $j$ 
+      (misalnya, mendaftar ke program sertifikat atau langsung masuk pasar kerja). Setiap alternatif dikaitkan 
+      dengan manfaat seumur hidup yang diharapkan $Y_{ij}$ dan biaya yang diharapkan $C_{ij}$.
+    </p>
+
+    <div class="eq-block">
+      <div class="eq-label">Fungsi Utilitas Individual</div>
+      $$U_{ij} = U_i(Y_{ij} - C_{ij})$$
+      <p class="eq-note">
+        Di mana $U_i(\cdot)$ adalah fungsi yang meningkat dan konkaf. Individu memilih alternatif yang 
+        memaksimalkan utilitas yang diharapkan.
+      </p>
+    </div>
+
+    <p>Ketika sektor lokal berkontraksi, beberapa kekuatan menggeser biaya dan manfaat yang diharapkan dari alternatif pelatihan pascasarjana:</p>
+
+    <div class="logic-chain">
+      <div class="logic-node">
+        <div class="logic-dot logic-dot-accent">01</div>
+        <div class="logic-content">
+          <h5>Penurunan Opportunity Cost</h5>
+          <p>Dengan lebih sedikitnya peluang kerja tersedia, upah yang hilang terkait dengan waktu yang dihabiskan untuk pendidikan turun, menurunkan biaya $C_{ij}$.</p>
+        </div>
+      </div>
+      <div class="logic-line"></div>
+      <div class="logic-node">
+        <div class="logic-dot logic-dot-teal">02</div>
+        <div class="logic-content">
+          <h5>Kenaikan Expected Return</h5>
+          <p>Guncangan yang dianggap persisten menyebabkan keterampilan spesifik-sektor kehilangan nilai, sementara kredensial alternatif mendapatkan nilai dalam jangka panjang, menaikkan $Y_{ij}$.</p>
+        </div>
+      </div>
+      <div class="logic-line"></div>
+      <div class="logic-node">
+        <div class="logic-dot logic-dot-gold">03</div>
+        <div class="logic-content">
+          <h5>Efek Kontrafaktual Transfer</h5>
+          <p>Transfer non-upah meningkatkan $Y_{ij}$ untuk alternatif "non-sekolah" tanpa memerlukan biaya atau penundaan tambahan, sehingga meredam insentif untuk berinvestasi dalam pendidikan.</p>
+        </div>
+      </div>
+      <div class="logic-line"></div>
+      <div class="logic-node">
+        <div class="logic-dot logic-dot-purple">04</div>
+        <div class="logic-content">
+          <h5>Prediksi Teoritis</h5>
+          <p>Teori dan bukti empiris secara umum memprediksi peningkatan permintaan pendidikan pascasarjana selama penurunan ekonomi — namun temuan studi ini bertentangan dengan prediksi ini dalam konteks batu bara.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-method">
+      <strong>⚠️ Keunikan Konteks Batu Bara</strong>
+      Pekerjaan batu bara secara historis menawarkan upah tinggi bahkan pada tingkat pendidikan rendah. 
+      Penambang batu bara dengan ijazah SMA mendapat rata-rata $20.000 lebih banyak daripada pekerja 
+      Appalachia rata-rata dengan kredensial yang sama. Hal ini dapat melemahkan insentif untuk mengejar 
+      kredensial tambahan — terutama jika pekerja mengharapkan kesempatan kerja batu bara akan kembali.
+    </div>
+  </section>
+
+  <!-- ── 4. METODE ── -->
+  <section class="section reveal" id="metode">
+    <div class="section-label">04 · Metode & Karakterisasi Data</div>
+    <h2>Desain Empiris: Shift-Share IV dengan Regresi Long-Difference</h2>
+    <span class="section-num">04</span>
+
+    <p>
+      Untuk memahami bagaimana transfer dan investasi pelatihan merespons guncangan batu bara 2011–2016, 
+      penelitian ini menggunakan serangkaian model <strong>long-difference</strong> pada berbagai cakrawala waktu, 
+      mengikuti kerangka proyeksi lokal (Jordà, 2005).
+    </p>
+
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: var(--text-dark);">Sumber Data</h3>
+
+    <table class="stat-table">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Sumber</th>
+          <th>Variabel Utama</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lapangan Kerja Pertambangan</td>
+          <td class="num">MSHA</td>
+          <td>Jumlah penambang per tambang, diagregasi ke CZ</td>
+        </tr>
+        <tr>
+          <td>Lapangan Kerja Keseluruhan</td>
+          <td class="num">BLS QCEW</td>
+          <td>Data county-level, mencakup hampir semua upah & gaji</td>
+        </tr>
+        <tr>
+          <td>Transfer Pemerintah</td>
+          <td class="num">BEA Regional Economic Accounts</td>
+          <td>Medicaid, Medicare, SS, UI, SNAP, SSI, EITC, dll.</td>
+        </tr>
+        <tr>
+          <td>Pendidikan Pascasarjana</td>
+          <td class="num">NCES IPEDS</td>
+          <td>Penyelesaian gelar, pendaftaran FTE, keuangan institusi</td>
+        </tr>
+        <tr>
+          <td>Karakteristik Populasi</td>
+          <td class="num">ACS / U.S. Census</td>
+          <td>Usia, pendidikan, pendapatan per kapita</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: var(--text-dark);">Strategi Identifikasi: Bartik Shift-Share IV</h3>
+
+    <p>
+      Daripada menggunakan perubahan yang diamati secara langsung, penelitian menggunakan instrumen shift-share 
+      satu-industri gaya Bartik. Pendekatan ini mengisolasi penurunan lapangan kerja batu bara lokal yang 
+      didorong oleh paparan diferensial terhadap guncangan batu bara makroekonomi.
+    </p>
+
+    <div class="callout callout-method">
+      <strong>🔧 Logika Instrumen</strong>
+      Meskipun guncangan bersifat makroekonomi, wilayah-wilayah tertentu memiliki keunggulan komparatif dalam 
+      industri berdasarkan konsentrasi spasial deposit batu bara dan karenanya lebih terpapar pada kemerosotan 
+      sektor ini. CZ di Eastern Kentucky dan West Virginia memiliki pangsa lapangan kerja batu bara hingga 
+      200 per 1.000 pekerja — jauh di atas rata-rata.
+    </div>
+
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: var(--text-dark);">Statistik Ringkas: CZ Batu Bara Appalachian (2011)</h3>
+
+    <table class="stat-table">
+      <thead>
+        <tr>
+          <th>Variabel</th>
+          <th>Mean</th>
+          <th>SD</th>
+          <th>p50</th>
+          <th>p95</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Coal share of emp. (×100)</td>
+          <td class="num">0.93</td>
+          <td class="num">2.55</td>
+          <td class="num">0.12</td>
+          <td class="num">4.76</td>
+        </tr>
+        <tr>
+          <td>ΔCoal 2011–16 (×100)</td>
+          <td class="num">0.50</td>
+          <td class="num">1.60</td>
+          <td class="num">0.03</td>
+          <td class="num">2.79</td>
+        </tr>
+        <tr>
+          <td>All awards per 1,000 (usia 20–34)</td>
+          <td class="num">60.80</td>
+          <td class="num">33.28</td>
+          <td class="num">60.86</td>
+          <td class="num">110.41</td>
+        </tr>
+        <tr>
+          <td>FTE enroll. per 1,000</td>
+          <td class="num">233.67</td>
+          <td class="num">116.52</td>
+          <td class="num">228.44</td>
+          <td class="num">458.87</td>
+        </tr>
+        <tr>
+          <td>Gov. transfers per capita ($1,000)</td>
+          <td class="num">9.58</td>
+          <td class="num">1.19</td>
+          <td class="num">9.42</td>
+          <td class="num">11.53</td>
+        </tr>
+        <tr>
+          <td>— Medical (Medicaid + Medicare)</td>
+          <td class="num">4.09</td>
+          <td class="num">0.63</td>
+          <td class="num">4.06</td>
+          <td class="num">4.89</td>
+        </tr>
+        <tr>
+          <td>— Social Security</td>
+          <td class="num">3.24</td>
+          <td class="num">0.48</td>
+          <td class="num">3.28</td>
+          <td class="num">3.99</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem; color: var(--text-muted); margin-top:0.5rem;">
+      <em>N = 46 CZ dengan lapangan kerja batu bara pada 2011. Semua statistik timbang populasi.</em>
+    </p>
+  </section>
+
+  <!-- ── 5. PERSAMAAN ── -->
+  <section class="section reveal" id="persamaan">
+    <div class="section-label">05 · Persamaan Utama</div>
+    <h2>Spesifikasi Ekonometrik</h2>
+    <span class="section-num">05</span>
+
+    <!-- EQ 1 -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan 1 · Regresi Long-Difference Utama (IV)</div>
+      $$\Delta y_{j,t+h} = \beta_0 + \beta_1 \Delta Coal_{j,2011-16} + \beta_2 \mathbf{1}[Coal_{j,2011}>0] + \beta_3 \mathbf{1}[College_j] + \mathbf{X}'_j \gamma + \delta_r + \varepsilon_j$$
+      <p class="eq-note">
+        Di mana $\Delta y_{j,t+h}$ adalah perubahan outcome $y$ di CZ $j$ antara tahun $t=2011$ dan $t+h$ 
+        untuk $h \in \{-8,-7,\ldots,8\}$. Variabel $\Delta Coal_{j,2011-16}$ mencerminkan perubahan lapangan kerja 
+        pertambangan batu bara antara 2011 dan 2016 di CZ $j$ sebagai proporsi dari total lapangan kerja CZ pada 2011 
+        (dikalikan $-1$ sehingga nilai lebih tinggi = penurunan lebih besar). $\mathbf{X}'_j$ adalah vektor 
+        kovariat tingkat-CZ; $\delta_r$ adalah fixed effects region sensus.
+      </p>
+    </div>
+
+    <!-- EQ 2 -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan 2 · Instrumen Shift-Share Bartik</div>
+      $$\widehat{\Delta Coal}_{j,2011-16} = -1 \times \frac{L_{jc,2011}}{L_{j,2011}} \times \left( \frac{L^{j'}_{c,2016} - L^{j'}_{c,2011}}{L^{j'}_{c,2011}} \right)$$
+      <p class="eq-note">
+        Di mana $\frac{L_{jc,2011}}{L_{j,2011}}$ adalah pangsa lapangan kerja pertambangan batu bara di CZ $j$ 
+        pada 2011. Nilai ini dikalikan dengan persentase perubahan lapangan kerja batu bara antara 2011 dan 2016 
+        di semua CZ kecuali CZ $j$ sendiri (leave-one-out). F-statistik first-stage = <strong>61.84</strong> 
+        (melebihi ambang batas instrumen lemah).
+      </p>
+    </div>
+
+    <!-- EQ 3 -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan 3 · Kontrol Paparan Resesi Besar</div>
+      $$\phi_j = \sum_k \frac{L_{jk,2000}}{L_{j,2000}} \times \left( \frac{L^{j'}_{k,2009} - L^{j'}_{k,2006}}{L^{j'}_{k,2006}} \right)$$
+      <p class="eq-note">
+        Di mana $\frac{L_{jk,2000}}{L_{j,2000}}$ adalah pangsa lapangan kerja industri $k$ di county $j$ pada 
+        tahun 2000. Setiap pangsa industri dikalikan dengan pergeseran lapangan kerja dalam industri tersebut 
+        di semua county kecuali $j$ antara 2006–2009. Mengikuti logika dalam Yagan (2019), variabel ini 
+        menangkap paparan diferensial CZ terhadap efek lapangan kerja Resesi Besar.
+      </p>
+    </div>
+
+    <!-- EQ WAGE RETURNS -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan 4 · Estimasi Wage Returns to Education (Appendix B)</div>
+      $$\ln(Y_i) = \sum_{q \in \{HS, SC, BP\}} \beta_q \cdot \mathbf{1}[E_i = q] + \mathbf{X}'_i \gamma + \varepsilon_i$$
+      <p class="eq-note">
+        Di mana $Y_i$ adalah pendapatan upah dan gaji pekerja $i$, $E_i \in \{\text{High School, Some College, Bachelor's Plus}\}$ 
+        adalah kategori pendidikan, dan kurang dari ijazah SMA adalah kategori yang dihilangkan. Kontrol meliputi 
+        usia, usia kuadrat, jenis kelamin, dan fixed effects untuk status perkawinan, kode industri 2-digit, kode 
+        pekerjaan 2-digit, dan divisi sensus.
+      </p>
+    </div>
+
+    <!-- EQ SPATIAL -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan 5–6 · Kontrol Spillover Spasial (Appendix C)</div>
+      $$\phi_c = \sum_{c' \notin j} \omega_{cc'} \times Coal^{2011}_{c'} \qquad \text{dengan} \qquad \omega_{cc'} = \frac{N_{c'} D^{-\delta}_{cc'}}{\sum_k N_k D^{-\delta}_{ck}}$$
+      <p class="eq-note">
+        Di mana $Coal^{2011}_{c'}$ adalah pangsa lapangan kerja batu bara di county $c' \neq c$ pada 2011, 
+        $N_{c'}$ adalah populasi 2011 county $c'$, $D_{cc'}$ adalah jarak (dalam mil) antara county $c$ dan $c'$, 
+        dan $\delta = 5$ adalah elastisitas biaya perdagangan. Ukuran ini mencerminkan kedekatan relatif county 
+        $c$ dengan area intensif-batu bara di luar CZ-nya sendiri.
+      </p>
+    </div>
+
+    <div class="callout callout-eq">
+      <strong>📊 Interpretasi Koefisien</strong>
+      Dalam semua persamaan, $\beta_1$ mencerminkan efek guncangan batu bara 2011–2016 terhadap outcome yang 
+      diminati selama periode yang ditentukan. Regresi pra-guncangan berfungsi sebagai pengecekan placebo alami 
+      terhadap eksogenitas guncangan terhadap outcome yang diharapkan.
+    </div>
+  </section>
+
+  <!-- ── 6. TEMUAN ── -->
+  <section class="section reveal" id="temuan">
+    <div class="section-label">06 · Temuan Utama</div>
+    <h2>Transfer Meningkat, Pelatihan Stagnan</h2>
+    <span class="section-num">06</span>
+
+    <div class="two-col">
+      <div class="callout callout-finding">
+        <strong>📈 Transfer Pemerintah: MENINGKAT</strong>
+        Kenaikan 1 standar deviasi (SD) dalam guncangan batu bara (1,6pp) menghasilkan kenaikan transfer 
+        pemerintah sebesar <strong>$157 per kapita</strong> — setara dengan 13,2% dari SD dalam transfer 
+        per kapita berdasarkan nilai 2011. Efek ini persisten hingga 2019.
+      </div>
+      <div class="callout callout-method">
+        <strong>📊 Pelatihan Pascasarjana: NULL</strong>
+        Tidak ada efek yang terdeteksi secara statistik pada penyelesaian gelar, pendaftaran FTE, komposisi 
+        program, atau keuangan institusi — bahkan pada program jangka pendek di institusi yang melayani 
+        populasi lokal.
+      </div>
+    </div>
+
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: var(--text-dark);">Rincian Transfer Pemerintah</h3>
+
+    <table class="stat-table">
+      <thead>
+        <tr>
+          <th>Program Transfer</th>
+          <th>Koefisien 2011–16</th>
+          <th>Signifikansi</th>
+          <th>Interpretasi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Total Government Transfers</td>
+          <td class="num">98.34</td>
+          <td class="num">***</td>
+          <td>+$157/kapita per 1-SD shock</td>
+        </tr>
+        <tr>
+          <td>— Medical (Medicaid + Medicare)</td>
+          <td class="num">74.84</td>
+          <td class="num">***</td>
+          <td>~76% dari total respons transfer</td>
+        </tr>
+        <tr>
+          <td>— Medicaid saja</td>
+          <td class="num">66.43</td>
+          <td class="num">***</td>
+          <td>Didorong sebagian ekspansi ACA</td>
+        </tr>
+        <tr>
+          <td>— EITC</td>
+          <td class="num">2.70</td>
+          <td class="num">*</td>
+          <td>+$4.3/kapita per 1-SD shock</td>
+        </tr>
+        <tr>
+          <td>— UI (Unemployment Insurance)</td>
+          <td class="num">~modest</td>
+          <td class="num">Temp.</td>
+          <td>Kenaikan awal, kemudian stabil</td>
+        </tr>
+        <tr>
+          <td>— SNAP / SSI</td>
+          <td class="num">≈ 0</td>
+          <td class="num">n.s.</td>
+          <td>Tidak responsif terhadap guncangan</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: var(--text-dark);">Benchmarking: Dibandingkan Guncangan Lain</h3>
+
+    <table class="stat-table">
+      <thead>
+        <tr>
+          <th>Guncangan</th>
+          <th>Δ Degree Completions</th>
+          <th>Δ FTE Enrollment</th>
+          <th>Δ Gov. Transfers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Coal Shock (Appalachia)</strong></td>
+          <td class="num">−2.95* (≈ 0, n.s.)</td>
+          <td class="num">2.07 (n.s.)</td>
+          <td class="num"><strong>157.4***</strong></td>
+        </tr>
+        <tr>
+          <td>Great Recession (2006–2009)</td>
+          <td class="num">+1.48**</td>
+          <td class="num">+4.84*</td>
+          <td class="num">179.4***</td>
+        </tr>
+        <tr>
+          <td>Manufacturing Decline (2000–2007)</td>
+          <td class="num">+2.16***</td>
+          <td class="num">+4.84***</td>
+          <td class="num">67.07**</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem; color: var(--text-muted); margin-top:0.5rem;">
+      <em>Semua guncangan distandardisasi per 1-SD. *** p&lt;0.01, ** p&lt;0.05, * p&lt;0.1.</em>
+    </p>
+
+    <div class="finding-box" style="margin-top: 2rem;">
+      <h4>Temuan Krusial: Respons Pelatihan Nol yang Anomalik</h4>
+      <p>
+        Sementara Resesi Besar dan penurunan manufaktur menghasilkan peningkatan yang terdeteksi secara statistik 
+        dalam penyelesaian gelar dan pendaftaran, guncangan batu bara Appalachian tidak menghasilkan respons 
+        serupa. Guncangan transfer, sebaliknya, sebanding besarannya dengan Resesi Besar — menunjukkan bahwa 
+        absennya respons pelatihan bukan karena kecilnya guncangan, melainkan karena karakteristik spesifik 
+        komunitas berbasis batu bara dan frisi struktural yang unik.
+      </p>
+    </div>
+
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: var(--text-dark);">Dampak pada Pendapatan & Dekomposisi Pendapatan Pribadi</h3>
+
+    <table class="stat-table">
+      <thead>
+        <tr>
+          <th>Komponen</th>
+          <th>Koefisien 2011–16</th>
+          <th>Signifikansi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Wages & Salaries per pekerja</td>
+          <td class="num">−596</td>
+          <td class="num">***</td>
+        </tr>
+        <tr>
+          <td>Total earnings per pekerja</td>
+          <td class="num">−734</td>
+          <td class="num">***</td>
+        </tr>
+        <tr>
+          <td>Total personal income per kapita</td>
+          <td class="num">−248</td>
+          <td class="num">**</td>
+        </tr>
+        <tr>
+          <td>— Net earnings per kapita</td>
+          <td class="num">−409</td>
+          <td class="num">***</td>
+        </tr>
+        <tr>
+          <td>— Dividends, interest, rent</td>
+          <td class="num">+63</td>
+          <td class="num">**</td>
+        </tr>
+        <tr>
+          <td>— Government transfers</td>
+          <td class="num">+98</td>
+          <td class="num">***</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem; color: var(--text-muted); margin-top:0.5rem;">
+      <em>Transfer hanya mengkompensasi sebagian kecil dari penurunan pendapatan kerja yang substansial.</em>
+    </p>
+  </section>
+
+  <!-- ── 7. KESIMPULAN ── -->
+  <section class="section reveal" id="kesimpulan">
+    <div class="section-label">07 · Kesimpulan & Implikasi Kebijakan</div>
+    <h2>Ketidaksimetrisan Respons dan Hambatan Struktural</h2>
+    <span class="section-num">07</span>
+
+    <p>
+      Kontraksi tajam dalam permintaan batu bara telah secara dramatis mengubah peluang pasar kerja yang tersedia 
+      bagi penduduk di daerah yang secara historis bergantung pada batu bara. Studi ini memberikan evaluasi 
+      komprehensif atas dua saluran respons utama.
+    </p>
+
+    <ul class="conclusion-list">
+      <li data-num="①">
+        <div>
+          <strong>Transfer pemerintah meningkat substansial dan persisten</strong>, didorong terutama oleh 
+          kenaikan pembayaran Medicaid per kapita, kenaikan sementara dalam penerimaan UI, dan kenaikan 
+          moderat dalam penerimaan EITC. Meskipun sebagian kenaikan Medicaid mencerminkan ekspansi ACA 
+          di beberapa negara bagian intensif-batu bara, kebijakan ini hanya menjelaskan sebagian kecil dari 
+          total kenaikan.
+        </div>
+      </li>
+      <li data-num="②">
+        <div>
+          <strong>Respons pelatihan pascasarjana sepenuhnya nol</strong> — tidak ada efek yang terdeteksi 
+          secara statistik di seluruh rangkaian ukuran pelatihan pascasarjana, termasuk penyelesaian gelar, 
+          pendaftaran, komposisi program, dan keuangan institusi. Hasil null ini persisten bahkan ketika 
+          berfokus pada kredensial jangka pendek dan perguruan tinggi komunitas.
+        </div>
+      </li>
+      <li data-num="③">
+        <div>
+          <strong>Efek null pelatihan tidak konsisten dengan bukti dari penurunan ekonomi lain</strong>. 
+          Baik Resesi Besar maupun penurunan manufaktur menghasilkan peningkatan yang terdeteksi dalam 
+          investasi pendidikan pascasarjana. Besarnya guncangan transfer batu bara sebanding dengan Resesi Besar, 
+          menunjukkan bahwa absennya respons pelatihan mencerminkan fitur khusus komunitas berbasis batu bara.
+        </div>
+      </li>
+      <li data-num="④">
+        <div>
+          <strong>Hambatan sisi permintaan dan sisi pasokan kemungkinan keduanya berperan</strong>: 
+          upah historis tinggi di sektor batu bara mungkin meninggikan reservation wage dan meredam 
+          persepsi return to retraining; biaya finansial kehadiran, keterbatasan kedekatan geografis ke 
+          institusi, hambatan informasional, dan rendahnya persiapan akademik menekan permintaan pendidikan; 
+          sementara batasan kapasitas institusi mungkin membatasi pasokan.
+        </div>
+      </li>
+      <li data-num="⑤">
+        <div>
+          <strong>Implikasi kebijakan yang kritis</strong>: Modal manusia adalah penentu penting pertumbuhan 
+          ekonomi dan pemulihan regional dari guncangan permintaan tenaga kerja. Jika penduduk di daerah yang 
+          menurun secara struktural menghadapi hambatan persisten untuk mengakses pendidikan pascasarjana, 
+          realokasi berbasis pasar saja mungkin tidak cukup untuk mendukung adaptasi jangka panjang. 
+          Diperlukan kebijakan komplementer yang mengatasi hambatan sisi permintaan dan sisi pasokan.
+        </div>
+      </li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <div class="callout callout-finding">
+        <strong>🏗️ Implikasi untuk Kebijakan Transisi</strong>
+        Program seperti Inflation Reduction Act memberikan subsidi berbasis tempat untuk investasi energi 
+        bersih di "energy communities" tetapi tidak ada investasi paralel dalam modal manusia. Alokasi 
+        sumber daya pendidikan dan pelatihan federal melalui hibah kompetitif mungkin kurang melayani 
+        daerah yang paling tertekan relatif terhadap kebutuhan mereka.
+      </div>
+      <div class="callout callout-method">
+        <strong>🔬 Keterbatasan Penelitian</strong>
+        Analisis tidak dapat mengamati lokasi residensial semua mahasiswa; CZ hanya mencakup 104 unit 
+        analisis yang terbatas; IPEDS tidak mencakup penyedia non-Title IV seperti boot camp coding 
+        dan program CDL; mekanisme tidak dapat sepenuhnya dipisahkan.
+      </div>
+    </div>
+
+    <div class="finding-box">
+      <h4>Pesan Akhir: Asimetri Kebijakan</h4>
+      <p>
+        Ada asimetri mendasar dalam desain kebijakan AS saat ini: sementara banyak program transfer dirancang 
+        untuk berkembang secara otomatis dalam merespons guncangan di tingkat individu, peluang pelatihan 
+        pascasarjana tidak. Transfer menjadi lebih responsif; pelatihan tidak. Temuan ini menyoroti kebutuhan 
+        potensial untuk dukungan yang ditargetkan guna memfasilitasi adaptasi tenaga kerja dalam menghadapi 
+        berkurangnya kesempatan kerja di industri-industri warisan — terutama ketika komunitas yang terdampak 
+        memiliki kapasitas administratif yang lebih lemah dan modal manusia yang menurun.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <strong style="color:#e8c9b8;">Krause, E. (2026)</strong><br>
+    Adjusting to the Energy Transition: Training and Transfers in Coal Country<br>
+    <em>Journal of Environmental Economics and Management</em>, 136, 103264<br>
+    <a href="https://doi.org/10.1016/j.jeem.2025.103264">doi:10.1016/j.jeem.2025.103264</a>
+    <br><br>
+    <span style="opacity:0.5;">Halaman ini dibuat untuk keperluan akademis. Semua hak atas konten asli milik penulis dan penerbit.</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Nav active link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(a => {
+          a.style.color = a.getAttribute('href') === '#' + id ? 'var(--accent)' : '';
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => sectionObserver.observe(s));
+
+  // Stagger card animations
+  document.querySelectorAll('.card-grid .card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 80}ms`;
+    card.classList.add('reveal');
+  });
+</script>
+</body>
+</html>

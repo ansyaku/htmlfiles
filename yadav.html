@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Integration: Green, Energy & Carbon Markets</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]
+  });"></script>
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #F5F0E8;
+    --charcoal: #1C1C1E;
+    --ink: #2D2D2D;
+    --muted: #6B6560;
+    --accent-teal: #1A6B6B;
+    --accent-gold: #C8882A;
+    --accent-rust: #B84D2A;
+    --accent-sage: #4A7C59;
+    --border: #DDD8CF;
+    --section-bg: #F0EBE2;
+    --card-bg: #FDFAF5;
+    --highlight: #EDE5D4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--charcoal);
+    color: var(--cream);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 30px,
+        rgba(255,255,255,0.015) 30px,
+        rgba(255,255,255,0.015) 60px
+      );
+  }
+
+  .header-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 72px 40px 60px;
+  }
+
+  .journal-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    border: 1px solid rgba(200,136,42,0.4);
+    padding: 5px 12px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #F5F0E8;
+    max-width: 760px;
+    margin-bottom: 24px;
+  }
+
+  header h1 em {
+    color: var(--accent-gold);
+    font-style: italic;
+  }
+
+  .authors {
+    font-size: 14px;
+    color: rgba(245,240,232,0.65);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .pub-info {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(245,240,232,0.45);
+    letter-spacing: 0.05em;
+  }
+
+  .header-accent {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-teal), var(--accent-gold));
+    margin: 28px 0 32px;
+    border-radius: 2px;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  nav a {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 16px 18px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  nav a:hover {
+    color: var(--accent-teal);
+    border-bottom-color: var(--accent-teal);
+  }
+
+  /* MAIN CONTENT */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 60px 0 0;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-teal);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 0 0 32px;
+    height: 1px;
+    background: var(--accent-teal);
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    color: var(--charcoal);
+    line-height: 1.25;
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin: 32px 0 14px;
+    padding-left: 14px;
+    border-left: 3px solid var(--accent-teal);
+  }
+
+  p {
+    margin-bottom: 18px;
+    color: var(--ink);
+    font-weight: 300;
+  }
+
+  /* ABSTRACT BOX */
+  .abstract-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-teal);
+    padding: 32px 36px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .abstract-box::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    color: var(--accent-teal);
+    opacity: 0.12;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    line-height: 1;
+  }
+
+  /* FINDING CARDS */
+  .findings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin: 28px 0;
+  }
+
+  .finding-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 24px;
+    border-radius: 4px;
+    position: relative;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .finding-card:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  .finding-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent-gold);
+    opacity: 0.3;
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    line-height: 1;
+  }
+
+  .finding-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+
+  .finding-card p {
+    font-size: 14.5px;
+    color: var(--muted);
+    margin-bottom: 0;
+    line-height: 1.6;
+  }
+
+  /* EQUATION BLOCK */
+  .eq-block {
+    background: var(--section-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .eq-number {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .eq-desc {
+    font-size: 14.5px;
+    color: var(--muted);
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* METHODOLOGY TABLE */
+  .method-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 15px;
+  }
+
+  .method-table th {
+    background: var(--charcoal);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 500;
+  }
+
+  .method-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+    vertical-align: top;
+    font-size: 14.5px;
+  }
+
+  .method-table tr:nth-child(even) td {
+    background: var(--section-bg);
+  }
+
+  .method-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* CONNECTEDNESS TABLE */
+  .connect-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .connect-table th {
+    background: var(--accent-teal);
+    color: white;
+    padding: 10px 14px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .connect-table td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    text-align: center;
+    color: var(--ink);
+  }
+
+  .connect-table tr:nth-child(even) td {
+    background: var(--section-bg);
+  }
+
+  .connect-table .highlight-row td {
+    background: var(--highlight);
+    font-weight: 500;
+    color: var(--accent-teal);
+  }
+
+  .connect-table .net-positive {
+    color: var(--accent-sage);
+    font-weight: 500;
+  }
+
+  .connect-table .net-negative {
+    color: var(--accent-rust);
+    font-weight: 500;
+  }
+
+  /* ROLE BADGES */
+  .role-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .badge-transmitter {
+    background: rgba(26,107,107,0.1);
+    color: var(--accent-teal);
+    border: 1px solid rgba(26,107,107,0.3);
+  }
+
+  .badge-receiver {
+    background: rgba(184,77,42,0.1);
+    color: var(--accent-rust);
+    border: 1px solid rgba(184,77,42,0.3);
+  }
+
+  /* TIMELINE / FLOW */
+  .flow-steps {
+    position: relative;
+    padding-left: 32px;
+    margin: 24px 0;
+  }
+
+  .flow-steps::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent-teal), var(--accent-gold));
+  }
+
+  .flow-step {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .flow-step::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background: var(--accent-teal);
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 2px var(--accent-teal);
+  }
+
+  .flow-step h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-teal);
+    margin-bottom: 6px;
+  }
+
+  .flow-step p {
+    font-size: 14.5px;
+    margin-bottom: 0;
+    color: var(--muted);
+  }
+
+  /* CONCLUSION BOX */
+  .conclusion-highlight {
+    background: linear-gradient(135deg, #EAF3F0, #F5F0E8);
+    border: 1px solid rgba(26,107,107,0.2);
+    border-radius: 6px;
+    padding: 32px 36px;
+    margin: 28px 0;
+  }
+
+  .conclusion-highlight h3 {
+    border-left-color: var(--accent-sage);
+    font-size: 18px;
+  }
+
+  .conclusion-highlight p {
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+
+  /* POLICY IMPLICATIONS */
+  .policy-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .policy-list li {
+    padding: 12px 16px 12px 44px;
+    margin-bottom: 10px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 15px;
+    position: relative;
+  }
+
+  .policy-list li::before {
+    content: attr(data-icon);
+    position: absolute;
+    left: 14px;
+    top: 11px;
+    font-size: 16px;
+  }
+
+  /* KEYWORD TAGS */
+  .keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .keyword-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 5px 12px;
+    background: var(--highlight);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 48px 0 0;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--charcoal);
+    color: rgba(245,240,232,0.5);
+    padding: 40px;
+    text-align: center;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    margin-top: 80px;
+  }
+
+  footer a {
+    color: var(--accent-gold);
+    text-decoration: none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    main { padding: 0 20px 60px; }
+    .header-inner { padding: 48px 20px 40px; }
+    .nav-inner { padding: 0 20px; }
+    .abstract-box { padding: 24px; }
+    .findings-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ANIMATION */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  section {
+    animation: fadeInUp 0.5s ease-out both;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-pattern"></div>
+  <div class="header-inner">
+    <div class="journal-tag">Energy Economics · Vol. 153 · 2026 · 109053</div>
+    <h1>Market Integration across <em>Green, Energy</em> and Carbon Markets in Emerging Economies</h1>
+    <div class="header-accent"></div>
+    <div class="authors">Mahender Yadav · Albert Danso · Emmanuel Adu-Ameyaw · Annu Yadav · Agyenim Boateng · Mohit Saini</div>
+    <div class="pub-info">DOI: 10.1016/j.eneco.2025.109053 · Published: 24 November 2025</div>
+    <div class="keywords" style="margin-top:24px;">
+      <span class="keyword-tag" style="color:var(--accent-gold); border-color:rgba(200,136,42,0.3);">TVP-VAR</span>
+      <span class="keyword-tag" style="color:var(--accent-gold); border-color:rgba(200,136,42,0.3);">DCC-GARCH</span>
+      <span class="keyword-tag" style="color:var(--accent-gold); border-color:rgba(200,136,42,0.3);">ESG</span>
+      <span class="keyword-tag" style="color:var(--accent-gold); border-color:rgba(200,136,42,0.3);">Carbon Market</span>
+      <span class="keyword-tag" style="color:var(--accent-gold); border-color:rgba(200,136,42,0.3);">Volatility Spillover</span>
+      <span class="keyword-tag" style="color:var(--accent-gold); border-color:rgba(200,136,42,0.3);">Emerging Markets</span>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#abstrak">Abstrak</a>
+    <a href="#latar-belakang">Latar Belakang</a>
+    <a href="#tujuan">Tujuan</a>
+    <a href="#logika">Logika Model</a>
+    <a href="#metode">Metode</a>
+    <a href="#persamaan">Persamaan</a>
+    <a href="#hasil">Hasil</a>
+    <a href="#kesimpulan">Kesimpulan</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ABSTRAK -->
+  <section id="abstrak">
+    <div class="section-label">01 · Abstrak</div>
+    <h2>Ringkasan Penelitian</h2>
+    <div class="abstract-box">
+      <p>Studi ini menginvestigasi bagaimana volatilitas ditransmisikan di antara <strong>pasar green bond</strong>, <strong>indeks sektor energi</strong>, dan <strong>indeks harga karbon</strong> pada kelompok negara MSCI Emerging Markets (MSCI EM). Menggunakan model Time-Varying Parameter Vector Autoregression (TVP-VAR), penelitian ini menangkap kekuatan dan arah transmisi risiko lintas sektor menggunakan data harian dari 2016 hingga 2025.</p>
+      <p>Temuan menunjukkan bahwa hubungan antara keuangan hijau, penetapan harga karbon, dan pasar energi tradisional bersifat <em>non-statis</em>—berubah seiring waktu—dengan implikasi penting bagi investor dan pembuat kebijakan dalam membangun portofolio terdiversifikasi dan sistem keuangan berkelanjutan di negara berkembang.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- LATAR BELAKANG -->
+  <section id="latar-belakang">
+    <div class="section-label">02 · Latar Belakang</div>
+    <h2>Permasalahan yang Diangkat</h2>
+
+    <p>Globalisasi dan industrialisasi pesat meningkatkan kekhawatiran terhadap emisi karbon—salah satu tantangan lingkungan dan ekonomi paling mendesak. Pertumbuhan ekonomi di negara berkembang disertai lonjakan tajam emisi CO₂, yang berkontribusi pada ketidakstabilan iklim. Proyeksi menunjukkan bahwa jika tren pemanasan berlanjut, GDP global bisa menyusut hingga <strong>10% pada 2050</strong>.</p>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-number">①</div>
+        <h4>Ketergantungan Bahan Bakar Fosil</h4>
+        <p>Negara berkembang masih sangat bergantung pada bahan bakar fosil. Sektor energi menjadi penggerak utama pertumbuhan sekaligus sumber terbesar kerentanan makroekonomi.</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-number">②</div>
+        <h4>Pertumbuhan Green Finance</h4>
+        <p>Urgensi perubahan iklim mendorong pertumbuhan keuangan hijau. Investor mengalihkan dana ke energi terbarukan dan teknologi bersih, menciptakan kompleksitas baru di pasar.</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-number">③</div>
+        <h4>Kesenjangan Literatur</h4>
+        <p>Sebagian besar penelitian integrasi pasar terkonsentrasi pada negara maju. Sangat sedikit yang menganalisis interaksi dinamis pasar-pasar ini di negara berkembang secara spesifik.</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-number">④</div>
+        <h4>Keunikan Emerging Markets</h4>
+        <p>Struktur keuangan berbasis perbankan, pasar modal yang dangkal, kerangka regulasi yang belum matang, dan paparan tinggi terhadap guncangan eksternal membuat dinamika berbeda dari negara maju.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- TUJUAN -->
+  <section id="tujuan">
+    <div class="section-label">03 · Tujuan Penelitian</div>
+    <h2>Empat Kontribusi Utama</h2>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <h4>Kontribusi I</h4>
+        <p>Mengukur <strong>besaran dan arah spillover volatilitas</strong> di antara pasar energi, karbon, dan keuangan hijau, memberikan bukti baru tentang bagaimana guncangan merambat antar domain ini.</p>
+      </div>
+      <div class="flow-step">
+        <h4>Kontribusi II</h4>
+        <p>Menerapkan <strong>pendekatan dual-method</strong> (TVP-VAR dan DCC-GARCH) untuk menangkap keterkaitan pasar yang terus berkembang di bawah kondisi ekonomi dan kebijakan yang berbeda.</p>
+      </div>
+      <div class="flow-step">
+        <h4>Kontribusi III</h4>
+        <p>Menganalisis bagaimana <strong>green finance merespons pergerakan harga energi</strong>—meski dirancang untuk mengurangi ketergantungan pada bahan bakar fosil, banyak proyek hijau masih terhubung dengan rantai pasokan energi konvensional.</p>
+      </div>
+      <div class="flow-step">
+        <h4>Kontribusi IV</h4>
+        <p>Memperluas literatur tentang <strong>penetapan harga karbon</strong> dengan menunjukkan bagaimana fluktuasi harga karbon memengaruhi dinamika keuangan lebih luas di pasar berkembang.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- LOGIKA MODEL -->
+  <section id="logika">
+    <div class="section-label">04 · Logika Model</div>
+    <h2>Landasan Teoritis</h2>
+
+    <h3>Efficient Market Hypothesis (EMH)</h3>
+    <p>EMH menyatakan bahwa harga aset mencerminkan sepenuhnya semua informasi yang tersedia. Dalam konteks ini, dinamika harga di pasar green finance, energi, dan karbon seharusnya memasukkan informasi tentang perubahan kebijakan, kemajuan teknologi, dan fundamental pasar. Ini membenarkan fokus pada <em>transmisi informasi dan price discovery</em> lintas pasar yang saling terhubung.</p>
+
+    <h3>Contagion Theory (Forbes & Rigobon, 2002)</h3>
+    <p>Teori ini menjelaskan bagaimana guncangan dapat merambat lintas pasar bahkan ketika fundamental tidak berubah. Spillover semacam itu sering diperkuat oleh sentimen investor, perilaku herding, dan reaksi panik. Berita negatif cenderung menghasilkan respons lintas pasar yang tidak proporsional besar.</p>
+
+    <div class="abstract-box" style="border-left-color: var(--accent-gold); margin-top: 24px;">
+      <p style="margin-bottom:0;"><strong>Logika Inti:</strong> EMH dan teori contagion bersama-sama membenarkan penggunaan model <em>time-varying connectedness</em> dan model volatilitas (TVP-VAR, DCC-GARCH). EMH menyoroti efisiensi informasi sebagai pendorong co-movement, sementara teori contagion menjelaskan periode ketika transmisi melebihi apa yang diprediksi oleh fundamental.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- METODE -->
+  <section id="metode">
+    <div class="section-label">05 · Metode Karakterisasi</div>
+    <h2>Data dan Pendekatan Ekonometrik</h2>
+
+    <h3>Data</h3>
+    <table class="method-table">
+      <thead>
+        <tr>
+          <th>Indeks</th>
+          <th>Keterangan</th>
+          <th>Sumber</th>
+          <th>Periode</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>MSCI World Energy Index</strong></td>
+          <td>Indeks sektor energi global</td>
+          <td>Bloomberg</td>
+          <td>2016–2025</td>
+        </tr>
+        <tr>
+          <td><strong>MSCI EM ESG Index</strong></td>
+          <td>Skor ESG agregat perusahaan di emerging markets</td>
+          <td>Bloomberg</td>
+          <td>2016–2025</td>
+        </tr>
+        <tr>
+          <td><strong>Real Carbon Price Index</strong></td>
+          <td>Indeks harga karbon riil pasar</td>
+          <td>Bloomberg</td>
+          <td>2016–2025</td>
+        </tr>
+        <tr>
+          <td><strong>Brent Crude Oil Futures</strong></td>
+          <td>Futures minyak Brent sebagai proksi harga minyak global</td>
+          <td>Investing.com</td>
+          <td>2016–2025</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Harga penutupan harian digunakan untuk menghitung <em>log return</em> sebagai variabel utama dalam analisis.</p>
+
+    <h3>TVP-VAR: Time-Varying Parameter VAR</h3>
+    <p>Model TVP-VAR dipilih karena dua keunggulan utama: (1) tidak memerlukan rolling window yang arbitrer, dan (2) sangat efektif dalam melacak hubungan yang berevolusi bahkan dengan data yang relatif terbatas. Parameter berevolusi seiring waktu mengikuti proses <em>random walk orde pertama</em>.</p>
+
+    <h3>DCC-GARCH (Robustness Check)</h3>
+    <p>DCC-GARCH digunakan sebagai robustness check. Model ini mengatasi keterbatasan TVP-VAR dalam mencerminkan kekuatan keterkaitan yang bervariasi antar pasar dengan memodelkan volatilitas kondisional dan korelasi yang berubah seiring waktu secara efisien.</p>
+
+    <table class="method-table">
+      <thead>
+        <tr>
+          <th>Aspek</th>
+          <th>TVP-VAR</th>
+          <th>DCC-GARCH</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Fokus utama</td>
+          <td>Interdependensi dinamis & kausalitas</td>
+          <td>Volatilitas & korelasi kondisional</td>
+        </tr>
+        <tr>
+          <td>Keunggulan</td>
+          <td>Tanpa rolling window arbitrer</td>
+          <td>Menangkap variasi kekuatan keterkaitan</td>
+        </tr>
+        <tr>
+          <td>Metode estimasi</td>
+          <td>Kalman filter</td>
+          <td>GARCH(1,1) + DCC</td>
+        </tr>
+        <tr>
+          <td>Ukuran utama</td>
+          <td>TCI, NPDC, NET</td>
+          <td>VIRF, GFEVD, cTCI</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- PERSAMAAN UTAMA -->
+  <section id="persamaan">
+    <div class="section-label">06 · Persamaan Utama</div>
+    <h2>Formulasi Matematis Model</h2>
+
+    <h3>Spesifikasi TVP-VAR</h3>
+
+    <div class="eq-block">
+      <div class="eq-label">Model utama TVP-VAR</div>
+      $$y_t = \beta_t z_{t-1} + \epsilon_t; \quad \epsilon_t \mid \mathcal{F}_{t-1} \sim \mathcal{N}(0, S_t)$$
+      <div class="eq-number">(1)</div>
+      <p class="eq-desc">$y_t$ adalah vektor $N \times 1$ variabel endogen; $z_t = [y_{t-1}, \ldots, y_{t-p}]'$ adalah vektor lag; $\beta_t$ adalah matriks koefisien yang bervariasi waktu; $S_t$ adalah matriks varians-kovarians.</p>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Evolusi parameter</div>
+      $$\text{vec}(\beta_t) = \text{vec}(\beta_{t-1}) + v_t; \quad v_t \mid \mathcal{F}_{t-1} \sim \mathcal{N}(0, R_t)$$
+      <div class="eq-number">(2)</div>
+      <p class="eq-desc">Parameter $\beta_t$ mengikuti proses <em>random walk</em> orde pertama, memungkinkan model menangkap perubahan struktural jangka panjang.</p>
+    </div>
+
+    <h3>Generalized Impulse Response Function (GIRF)</h3>
+
+    <div class="eq-block">
+      <div class="eq-label">GIRF — respons terhadap guncangan variabel $j$</div>
+      $$\text{GIRF}_t(K, \delta_j, \mathcal{F}_{t-1}) = E(y_{t+K} \mid \epsilon_{j,t} = \delta_{j,t}, \mathcal{F}_{t-1}) - E(y_{t+K} \mid \mathcal{F}_{t-1})$$
+      <div class="eq-number">(5)</div>
+      <p class="eq-desc">$K$ adalah horizon prediksi; $\delta_{j,t} = \sqrt{S_{jj,t}}$ adalah vektor seleksi dengan nilai 1 pada posisi $j$ dan 0 di tempat lain.</p>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">GIRF yang dinormalisasi</div>
+      $$\Psi^g_{j,t}(K) = A_{K,t} S_t e_j \sqrt{S_{jj,t}}^{-1}$$
+      <div class="eq-number">(7)</div>
+    </div>
+
+    <h3>Generalized Forecast Error Variance Decomposition (GFEVD)</h3>
+
+    <div class="eq-block">
+      <div class="eq-label">GFEVD — proporsi varians</div>
+      $$\Phi^g_{ij,t}(K) = \frac{\sum_{k=0}^{K-1} \left(\Psi^{g}_{ij,t}(k)\right)^2}{\sum_{j=1}^{N} \sum_{k=0}^{K-1} \left(\Psi^{g}_{ij,t}(k)\right)^2}$$
+      <div class="eq-number">(8)</div>
+      <p class="eq-desc">Mengukur proporsi varians variabel $i$ yang dijelaskan oleh guncangan dari variabel $j$. Memenuhi $\sum_{j=1}^{N} \Phi^g_{ij,t}(K) = 1$.</p>
+    </div>
+
+    <h3>Total Connectedness Index (TCI)</h3>
+
+    <div class="eq-block">
+      <div class="eq-label">Indeks konektivitas total</div>
+      $$C^g_t(K) = \frac{\sum_{i,j=1,\, i \neq j}^{N} \Phi^g_{ij,t}(K)}{N} \times 100$$
+      <div class="eq-number">(9)</div>
+      <p class="eq-desc">Mengukur tingkat keterkaitan keseluruhan sistem. Nilai tinggi menandakan pasar sangat terintegrasi dan risiko mudah merambat antar aset.</p>
+    </div>
+
+    <h3>Net Total Directional Connectedness</h3>
+
+    <div class="eq-block">
+      <div class="eq-label">Transmisi dari $i$ ke pasar lain</div>
+      $$C^g_{i \to j,t}(K) = \frac{\sum_{j=1, j\neq i}^{N} \Phi^g_{ij,t}(K)}{\sum_{i,j=1}^{N} \Phi^g_{ij,t}(K)} \times 100$$
+      <div class="eq-number">(10)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Penerimaan dari pasar lain ke $i$</div>
+      $$C^g_{i \leftarrow j,t}(K) = \frac{\sum_{j=1, j\neq i}^{N} \Phi^g_{ji,t}(K)}{\sum_{i,j=1}^{N} \Phi^g_{ij,t}(K)} \times 100$$
+      <div class="eq-number">(11)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Net connectedness = Transmisi − Penerimaan</div>
+      $$C^g_{i,t}(K) = C^g_{i \to j,t}(K) - C^g_{i \leftarrow j,t}(K)$$
+      <div class="eq-number">(12)</div>
+      <p class="eq-desc">Nilai <strong>positif</strong> → net transmitter (pengirim guncangan). Nilai <strong>negatif</strong> → net receiver (penerima guncangan).</p>
+    </div>
+
+    <h3>Net Pairwise Directional Connectedness (NPDC)</h3>
+
+    <div class="eq-block">
+      <div class="eq-label">Konektivitas berpasangan dua arah</div>
+      $$\text{NPDC}_{i,j}(K) = \Phi^g_{ji,t}(K) - \Phi^g_{ij,t}(K)$$
+      <div class="eq-number">(13)</div>
+      <p class="eq-desc">NPDC positif → indeks $i$ didominasi oleh $j$ (menerima lebih banyak dari $j$). NPDC negatif → indeks $i$ mendominasi $j$.</p>
+    </div>
+
+    <h3>DCC-GARCH: Volatility Impulse Response Function</h3>
+
+    <div class="eq-block">
+      <div class="eq-label">VIRF — dampak guncangan terhadap volatilitas kondisional</div>
+      $$\Psi^g = \text{VIRF}(J, \delta_{p,t}, \mathcal{F}_{t-1}) = E(H_{t+J} \mid \epsilon_{p,t} = \delta_{p,t}, \mathcal{F}_{t-1}) - E(H_{t+J} \mid \epsilon_{p,t} = 0, \mathcal{F}_{t-1})$$
+      <div class="eq-number">(14)</div>
+      <p class="eq-desc">Menunjukkan bagaimana guncangan terhadap variabel $p$ memengaruhi volatilitas kondisional variabel lain pada horizon $J$.</p>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Prediksi varians kondisional GARCH(1,1) untuk $h = 1$</div>
+      $$E(F_t) = \omega + \alpha \delta^2_{1,t} + \beta h_{ii,t}$$
+      <div class="eq-number">(15)</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Prediksi untuk $h > 1$</div>
+      $$E(F_t) = \sum_{i=0}^{h-1} \omega(\alpha + \beta)^i + (\alpha + \beta)^{h-1} E(F_t)$$
+      <div class="eq-number">(16)</div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- HASIL -->
+  <section id="hasil">
+    <div class="section-label">07 · Hasil Empiris</div>
+    <h2>Temuan Utama</h2>
+
+    <h3>Rata-rata Konektivitas (Full Sample 2016–2025)</h3>
+    <table class="connect-table">
+      <thead>
+        <tr>
+          <th>Dari ↓ / Ke →</th>
+          <th>ESG</th>
+          <th>Carbon Price</th>
+          <th>Oil Price</th>
+          <th>Energy</th>
+          <th>FROM</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ESG</strong></td>
+          <td>76.14</td><td>4.69</td><td>5.57</td><td>13.59</td>
+          <td>23.86</td>
+        </tr>
+        <tr>
+          <td><strong>Carbon Price</strong></td>
+          <td>4.80</td><td>83.78</td><td>4.93</td><td>6.49</td>
+          <td>16.22</td>
+        </tr>
+        <tr>
+          <td><strong>Oil Price</strong></td>
+          <td>4.50</td><td>4.07</td><td>63.51</td><td>27.92</td>
+          <td>36.49</td>
+        </tr>
+        <tr>
+          <td><strong>Energy</strong></td>
+          <td>8.56</td><td>4.77</td><td>26.00</td><td>60.68</td>
+          <td>39.32</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>TO</strong></td>
+          <td>17.86</td><td>13.53</td><td>36.50</td><td>48.01</td>
+          <td><strong>TCI = 28.97%</strong></td>
+        </tr>
+        <tr>
+          <td><strong>NET</strong></td>
+          <td class="net-negative">−6.00 <span class="role-badge badge-receiver">Receiver</span></td>
+          <td class="net-negative">−2.69 <span class="role-badge badge-receiver">Receiver</span></td>
+          <td class="net-positive">+0.01 <span class="role-badge badge-transmitter">Transmitter</span></td>
+          <td class="net-positive">+8.68 <span class="role-badge badge-transmitter">Transmitter</span></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Pola Utama yang Ditemukan</h3>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-number">①</div>
+        <h4>Pasar Karbon: Relatif Terisolasi</h4>
+        <p>Harga karbon memiliki self-contribution tertinggi (83.78%). Dinamika harganya sebagian besar didorong oleh faktor internal—mencerminkan desain skema ETS yang berbasis cap-and-trade, bukan tekanan spekulatif.</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-number">②</div>
+        <h4>Sektor Energi: Transmitter Dominan</h4>
+        <p>Sektor energi memiliki nilai "TO" tertinggi (48.01) dan NET positif terbesar (+8.68), menjadikannya hub utama transmisi volatilitas ke semua pasar lain secara konsisten di semua periode.</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-number">③</div>
+        <h4>COVID-19: Lonjakan Konektivitas</h4>
+        <p>TCI meningkat tajam selama pandemi, mencapai puncak di atas 65% pada Maret 2020. Ini menandakan bahwa manfaat diversifikasi justru berkurang ketika paling dibutuhkan.</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-number">④</div>
+        <h4>ESG: Pemain Baru yang Berpengaruh</h4>
+        <p>Indeks ESG mulai bertransisi dari instrumen reaktif menjadi partisipan aktif dalam price discovery. Dalam periode tertentu, ESG berperan sebagai net transmitter, menandakan pengaruh yang tumbuh.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- KESIMPULAN -->
+  <section id="kesimpulan">
+    <div class="section-label">08 · Kesimpulan & Implikasi</div>
+    <h2>Sintesis dan Rekomendasi</h2>
+
+    <div class="conclusion-highlight">
+      <h3>Tiga Takeaway Kritis</h3>
+      <p><strong>Pertama</strong>, pasar karbon bersifat relatif terisolasi dan digerakkan oleh kebijakan—bukan oleh dinamika pasar energi atau minyak. Penguatan desain pasar karbon (melalui auctioning, banking, atau price floor) akan lebih efektif daripada mengintegrasikannya secara paksa dengan indeks ESG atau energi.</p>
+      <p><strong>Kedua</strong>, sektor energi adalah node dominan dan konduktor utama guncangan sistemik. Investor harus memperhitungkan sentralitas sektor energi saat mengelola risiko portofolio yang mengandung aset hijau dan karbon.</p>
+      <p><strong>Ketiga</strong>, indeks ESG semakin menjadi pemain berpengaruh dalam jaringan konektivitas pasar. Seiring kematangan regulasi dan standar pengungkapan ESG, pengaruh ini diprediksi akan terus tumbuh.</p>
+    </div>
+
+    <h3>Implikasi Kebijakan untuk Negara Berkembang</h3>
+    <ul class="policy-list">
+      <li data-icon="📋">Perkuat kerangka green finance dengan menstandardisasi persyaratan pengungkapan ESG dan mengembangkan taksonomi hijau yang kuat untuk meningkatkan kepercayaan investor.</li>
+      <li data-icon="⚖️">Perdalam pasar karbon dan selaraskan dengan dinamika sektor energi—melalui mekanisme penetapan harga yang transparan dan sinyal kebijakan yang dapat diprediksi—untuk meredam lonjakan harga mendadak.</li>
+      <li data-icon="🏗️">Capacity-building: tingkatkan kualitas data dan transparansi pasar sebagai prasyarat transmisi informasi yang efisien lintas pasar.</li>
+      <li data-icon="🔗">Rancang kebijakan iklim yang secara eksplisit mempertimbangkan stabilitas keuangan, dengan menyelaraskan tujuan dekarbonisasi dengan ketahanan energi dan upaya integrasi pasar.</li>
+    </ul>
+
+    <h3>Keterbatasan dan Arah Penelitian Masa Depan</h3>
+    <p>Studi ini terbatas pada empat indeks utama dan data return. Penelitian mendatang dapat memperluas analisis dengan memasukkan <em>green bond index</em>, saham energi bersih, dan metrik sosial-governance yang lebih terperinci. Selain itu, pengujian structural break dan model regime-switching akan meningkatkan kemampuan deteksi perubahan mendadak selama krisis. Perpanjangan periode analisis pasca-2025 juga diperlukan untuk menangkap evolusi pasca-pandemi dan dampak komitmen net-zero.</p>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>Yadav et al. (2026) · <em>Energy Economics</em> 153 · 109053</p>
+  <p style="margin-top:8px;">
+    <a href="https://doi.org/10.1016/j.eneco.2025.109053">doi.org/10.1016/j.eneco.2025.109053</a>
+  </p>
+  <p style="margin-top:12px; font-size:11px; opacity:0.4;">Halaman referensi akademik · Dibuat dengan KaTeX untuk rendering persamaan matematika</p>
+</footer>
+
+</body>
+</html>
