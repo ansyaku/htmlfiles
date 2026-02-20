@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gignoux & Menéndez (2016) — Panduan Riset DSGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
+<style>
+  :root {
+    --cream: #f7f3ec;
+    --warm-white: #fdfaf5;
+    --ink: #1a1714;
+    --sienna: #8b3a2a;
+    --gold: #b8922a;
+    --slate: #4a5568;
+    --light-slate: #718096;
+    --border: #d4c9b8;
+    --section-bg: #f0ebe1;
+    --accent-light: #fef9f0;
+    --eq-bg: #f5f0e8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--warm-white);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--cream);
+    border-bottom: 2px solid var(--sienna);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--sienna), var(--gold), var(--sienna));
+  }
+
+  .header-tag {
+    display: inline-block;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sienna);
+    border: 1px solid var(--sienna);
+    padding: 0.3em 1.1em;
+    margin-bottom: 1.6rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.9rem);
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--ink);
+    max-width: 820px;
+    margin: 0 auto 1rem;
+  }
+
+  header h1 em {
+    font-style: italic;
+    color: var(--sienna);
+  }
+
+  .header-sub {
+    font-size: 1rem;
+    color: var(--light-slate);
+    font-style: italic;
+    margin-bottom: 0.4rem;
+  }
+
+  .thesis-note {
+    margin-top: 1.5rem;
+    display: inline-block;
+    background: var(--sienna);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.85rem;
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    letter-spacing: 0.04em;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--ink);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  nav ul::-webkit-scrollbar { display: none; }
+
+  nav ul li a {
+    display: block;
+    padding: 0.85rem 1.1rem;
+    color: #c8bfb0;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: color 0.2s;
+    border-bottom: 3px solid transparent;
+  }
+
+  nav ul li a:hover {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    min-width: 3rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    color: var(--ink);
+    border-left: 3px solid var(--sienna);
+    padding-left: 1rem;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--section-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--sienna);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--sienna);
+    margin-bottom: 0.6rem;
+  }
+
+  .card p, .card ul {
+    color: var(--slate);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .card ul { padding-left: 1.5rem; }
+  .card ul li { margin-bottom: 0.3rem; }
+
+  /* GRID */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* EQUATIONS */
+  .eq-block {
+    background: var(--eq-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    padding: 1.4rem 1.8rem;
+    margin: 1.2rem 0;
+    border-radius: 0 4px 4px 0;
+    overflow-x: auto;
+  }
+
+  .eq-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .eq-desc {
+    font-size: 0.88rem;
+    color: var(--light-slate);
+    margin-top: 0.6rem;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* FLOWCHART */
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 1rem 0;
+  }
+
+  .flow-step {
+    width: 100%;
+    max-width: 600px;
+    background: var(--section-bg);
+    border: 1.5px solid var(--border);
+    padding: 1rem 1.6rem;
+    text-align: center;
+    position: relative;
+    border-radius: 4px;
+  }
+
+  .flow-step.highlight {
+    background: var(--sienna);
+    color: white;
+    border-color: var(--sienna);
+  }
+
+  .flow-step.highlight .flow-num,
+  .flow-step.highlight .flow-text { color: white; }
+
+  .flow-step.gold-step {
+    background: var(--accent-light);
+    border-color: var(--gold);
+    border-width: 2px;
+  }
+
+  .flow-step.gold-step .flow-num { color: var(--gold); }
+
+  .flow-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sienna);
+    margin-bottom: 0.2rem;
+  }
+
+  .flow-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .flow-sub {
+    font-size: 0.8rem;
+    color: var(--light-slate);
+    margin-top: 0.25rem;
+  }
+
+  .flow-arrow {
+    font-size: 1.4rem;
+    color: var(--sienna);
+    margin: 0.1rem 0;
+    line-height: 1;
+  }
+
+  .flow-branch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    max-width: 640px;
+    margin: 0.1rem 0;
+  }
+
+  .flow-branch-item {
+    background: var(--eq-bg);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    padding: 0.9rem 1rem;
+    text-align: center;
+    border-radius: 4px;
+  }
+
+  .flow-branch-item .flow-text { font-size: 0.9rem; }
+  .flow-branch-item .flow-sub { font-size: 0.75rem; }
+
+  /* RQ BOX */
+  .rq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .rq-item {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    padding: 1.2rem 1.4rem;
+    border-radius: 4px;
+    border-top: 3px solid var(--sienna);
+  }
+
+  .rq-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--border);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .rq-item p {
+    font-size: 0.88rem;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  /* ESTIMATION TABLE */
+  .est-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-top: 1rem;
+  }
+
+  .est-table th {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .est-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--slate);
+  }
+
+  .est-table tr:nth-child(even) td { background: var(--section-bg); }
+
+  /* FINDING BOX */
+  .finding {
+    background: var(--accent-light);
+    border: 1px solid var(--gold);
+    border-left: 5px solid var(--gold);
+    padding: 1.2rem 1.6rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .finding strong {
+    display: block;
+    color: var(--gold);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.4rem;
+  }
+
+  .finding p {
+    font-size: 0.92rem;
+    color: var(--slate);
+    line-height: 1.65;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: #9a8e80;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    font-size: 0.82rem;
+    line-height: 1.8;
+  }
+
+  footer strong { color: var(--gold); }
+
+  /* DIVIDER */
+  .ornament {
+    text-align: center;
+    color: var(--border);
+    font-size: 1.2rem;
+    margin: 1.5rem 0;
+    letter-spacing: 0.5em;
+  }
+
+  /* PROSE */
+  p { margin-bottom: 1rem; }
+  p:last-child { margin-bottom: 0; }
+
+  /* TAG INLINE */
+  .tag {
+    display: inline-block;
+    background: var(--sienna);
+    color: white;
+    font-size: 0.7rem;
+    padding: 0.15em 0.6em;
+    font-family: 'Source Serif 4', serif;
+    font-style: normal;
+    vertical-align: middle;
+    margin-right: 0.3rem;
+    border-radius: 2px;
+  }
+
+  /* KATEX override */
+  .katex-display { margin: 0.4em 0; }
+
+  @media (max-width: 640px) {
+    .flow-branch { grid-template-columns: 1fr; }
+    .section-num { font-size: 2rem; }
+    nav ul { padding: 0 0.5rem; }
+    nav ul li a { padding: 0.8rem 0.7rem; font-size: 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Referensi Utama Tesis</div>
+  <h1>Benefit in the Wake of Disaster:<br><em>Long-run Effects of Earthquakes on Welfare in Rural Indonesia</em></h1>
+  <p class="header-sub">Gignoux & Menéndez (2016) — Journal of Development Economics, Vol. 118, hal. 26–44</p>
+  <div class="thesis-note">
+    Panduan untuk Tesis: eRegional Economic Linkages, Recovery Dynamics, and Macroeconomic Effects of Rare Natural Disasters — DSGE Analysis
+  </div>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#masalah">① Masalah</a></li>
+    <li><a href="#fitur">② Fitur Model</a></li>
+    <li><a href="#flowchart">③ Alur Pemodelan</a></li>
+    <li><a href="#persamaan">④ Persamaan</a></li>
+    <li><a href="#estimasi">⑤ Estimasi</a></li>
+    <li><a href="#lainnya">⑥ Lain-Lain</a></li>
+    <li><a href="#relevansi">⑦ Relevansi DSGE</a></li>
+  </ul>
+</nav>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: MASALAH -->
+<!-- ============================================================ -->
+<section id="masalah">
+<div class="container">
+  <div class="section-label">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Problem Utama yang Ingin Diselesaikan</h2>
+  </div>
+
+  <p>Bencana alam seperti gempa bumi dapat menghancurkan <strong>aset produktif</strong> secara masif. Pertanyaan sentral yang diangkat Gignoux & Menéndez (2016) adalah: apakah kerugian ini bersifat permanen (menjebak rumah tangga dalam kemiskinan) atau sementara (dan rumah tangga akhirnya pulih bahkan melampaui kondisi sebelum bencana)?</p>
+
+  <div class="ornament">— ✦ —</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Masalah Poverty Trap</h3>
+      <p>Apakah guncangan negatif pada stok aset fisik akibat gempa dapat mendorong rumah tangga perdesaan ke dalam <em>poverty trap</em> jangka panjang — suatu keseimbangan produktivitas rendah yang sulit dikeluar?</p>
+    </div>
+    <div class="card">
+      <h3>Masalah Creative Destruction</h3>
+      <p>Apakah sebaliknya, kehancuran kapital justru memicu pembaruan teknologi dan rekonstruksi infrastruktur yang menghasilkan <em>net welfare gains</em> dalam jangka panjang?</p>
+    </div>
+    <div class="card">
+      <h3>Peran Aid & Rekonstruksi</h3>
+      <p>Sejauh mana transfer bantuan sosial dan rekonstruksi infrastruktur publik (seperti jalan dan jaringan listrik) berkontribusi pada pemulihan ekonomi rumah tangga perdesaan?</p>
+    </div>
+    <div class="card">
+      <h3>Masalah Identifikasi Kausal</h3>
+      <p>Bagaimana mengestimasi efek kausal gempa bumi pada kesejahteraan jangka panjang, dengan mempertimbangkan endogenitas potensial dari lokasi tempat tinggal dan migrasi?</p>
+    </div>
+  </div>
+
+  <div class="finding">
+    <strong>Temuan Utama</strong>
+    <p>Rumah tangga yang terdampak gempa mengalami kerugian konsumsi rata-rata <strong>~10%</strong> dalam jangka pendek (0–1 tahun), tetapi <strong>6–12 tahun kemudian konsumsi per kapita mereka justru lebih tinggi ~10%</strong> dibanding kondisi sebelum gempa. Poverty trap tidak terbukti. Sebaliknya, ada bukti kuat <em>creative destruction</em> yang difasilitasi oleh rekonstruksi infrastruktur dan aid eksternal.</p>
+  </div>
+
+  <div class="ornament">— ✦ —</div>
+  <p style="font-size:0.9rem; color: var(--light-slate); font-style: italic;">Relevansi untuk tesismu: Research Question pertamamu — <em>"Which policy interventions are most effective in mitigating declines in output and consumption following rare natural disasters?"</em> — secara langsung berangkat dari debat poverty trap vs. creative destruction ini. Model DSGE-mu perlu mampu mereplikasi pola pemulihan non-linier seperti yang didokumentasikan Gignoux & Menéndez.</p>
+
+  <div class="rq-grid">
+    <div class="rq-item">
+      <div class="rq-num">RQ1</div>
+      <p>Intervensi kebijakan mana yang paling efektif dalam memitigasi penurunan output dan konsumsi pasca bencana alam langka?</p>
+    </div>
+    <div class="rq-item">
+      <div class="rq-num">RQ2</div>
+      <p>Bagaimana model makroekonomi dinamis dapat menangkap struktur ekonomi regional, bencana alam langka, dan kebijakan pemulihan pasca-bencana?</p>
+    </div>
+    <div class="rq-item">
+      <div class="rq-num">RQ3</div>
+      <p>Bagaimana bencana alam langka mempengaruhi output, konsumsi, dan kesejahteraan lintas wilayah dengan keterkaitan antarwilayah?</p>
+    </div>
+    <div class="rq-item">
+      <div class="rq-num">RQ4</div>
+      <p>Bagaimana kecepatan pemulihan pasca-bencana mempengaruhi besaran dan persistensi kerugian makroekonomi?</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: FITUR MODEL -->
+<!-- ============================================================ -->
+<section id="fitur">
+<div class="container">
+  <div class="section-label">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Fitur-Fitur Utama Model</h2>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>① Data Panel Individual Jangka Panjang</h3>
+      <ul>
+        <li>Indonesian Family Life Survey (IFLS) 4 gelombang: 1993, 1997, 2000, 2007</li>
+        <li>7.224 rumah tangga awal → 13.535 RT di IFLS4 (termasuk split-off)</li>
+        <li>Attrisi sangat rendah: 87,6% household awal diikuti di 3 gelombang berikutnya</li>
+        <li>Sampel: individu usia 25–54 tahun, pertama kali diamati di daerah perdesaan</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>② Data Seismologi Objektif</h3>
+      <ul>
+        <li><em>Centennial Earthquake Catalog</em> (USGS) — semua gempa M > 5,5 sejak 1965</li>
+        <li>1.111 gempa di area Indonesia (1985–2007) yang dianalisis</li>
+        <li>Menggunakan <em>Peak Ground Acceleration</em> (PGA) — ukuran percepatan tanah lokal</li>
+        <li>Konversi ke skala MMI (<em>Modified Mercalli Intensity</em>) untuk pemetaan kerusakan potensial</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>③ Penggabungan Data Individu–Gempa</h3>
+      <ul>
+        <li>Riwayat migrasi individu ditelusuri hingga tingkat subdistrict sejak 1985</li>
+        <li>Setiap individu mendapatkan profil eksposur gempa yang unik berdasarkan lokasi tempat tinggal masing-masing tahun</li>
+        <li>Menggunakan attenuation relation (Zhao et al., 2006) untuk imputasi intensitas lokal di tiap subdistrict</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>④ Variasi Quasi-Random Sebagai Identifikasi</h3>
+      <ul>
+        <li>Kejadian dan intensitas gempa dianggap <em>quasi-random</em> kondisional pada lokasi di provinsi yang terekspos</li>
+        <li>Validasi: tidak ada perbedaan signifikan karakteristik ex ante komunitas yang terdampak vs. tidak</li>
+        <li>Placebo test: eksposur gempa <em>masa depan</em> tidak memprediksi outcome masa kini</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>⑤ Cakupan Outcome yang Komprehensif</h3>
+      <ul>
+        <li>Konsumsi per kapita (total, pangan, non-pangan) di tingkat rumah tangga</li>
+        <li>Pendapatan dan upah bulanan (self-employed dan wage workers) per sektor</li>
+        <li>Kepemilikan dan nilai aset usaha tani (tanah, bangunan, aset bergerak, finansial)</li>
+        <li>Penerimaan bantuan sosial (transfer, subsidi pangan)</li>
+        <li>Infrastruktur komunitas (jalan aspal, waktu ke pasar, elektrifikasi)</li>
+        <li>Migrasi (jarak 20 km, 50 km, ke perkotaan)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>⑥ Analisis Multi-Horizon Temporal</h3>
+      <ul>
+        <li><strong>Jangka pendek:</strong> tahun t sampai t−1 (0–2 tahun pasca gempa)</li>
+        <li><strong>Jangka menengah:</strong> tahun t−2 sampai t−5 (2–5 tahun pasca gempa)</li>
+        <li><strong>Jangka panjang:</strong> tahun t−6 sampai t−12 (6–12 tahun pasca gempa)</li>
+        <li>Memungkinkan pemetaan trajektori pemulihan yang lengkap</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: FLOWCHART -->
+<!-- ============================================================ -->
+<section id="flowchart">
+<div class="container">
+  <div class="section-label">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Alur Proses Pemodelan</h2>
+  </div>
+
+  <div class="flowchart">
+
+    <div class="flow-step highlight">
+      <div class="flow-num">Langkah 1 — Sumber Data</div>
+      <div class="flow-text">Pengumpulan & Penggabungan Data</div>
+      <div class="flow-sub">IFLS Panel (1993–2007) + USGS Centennial Earthquake Catalog</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-branch">
+      <div class="flow-branch-item">
+        <div class="flow-num">Data Rumah Tangga</div>
+        <div class="flow-text">IFLS 4 Gelombang</div>
+        <div class="flow-sub">Konsumsi, aset, pendapatan, migrasi, infrastruktur komunitas</div>
+      </div>
+      <div class="flow-branch-item">
+        <div class="flow-num">Data Seismologi</div>
+        <div class="flow-text">1.111 Gempa Bumi</div>
+        <div class="flow-sub">Magnitudo, koordinat epicenter, kedalaman, waktu kejadian</div>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="flow-num">Langkah 2 — Perhitungan Intensitas Lokal</div>
+      <div class="flow-text">Attenuation Relation (Zhao et al., 2006)</div>
+      <div class="flow-sub">Estimasi PGA di setiap subdistrict untuk setiap kejadian gempa</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="flow-num">Langkah 3 — Konversi Skala</div>
+      <div class="flow-text">PGA → MMI (Wald et al., 1999)</div>
+      <div class="flow-sub">Mengklasifikasikan intensitas kerusakan: Level V, VI, VII, VIII, IX+</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="flow-num">Langkah 4 — Rekonstruksi Eksposur Individu</div>
+      <div class="flow-text">Penggabungan Riwayat Migrasi + Intensitas Gempa</div>
+      <div class="flow-sub">Setiap individu memperoleh profil eksposur unik berdasarkan subdistrict tempat tinggal per tahun</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step gold-step">
+      <div class="flow-num">Langkah 5 — Strategi Identifikasi</div>
+      <div class="flow-text">Quasi-Random Variation + Uji Validitas</div>
+      <div class="flow-sub">Balancing test ex ante karakteristik komunitas · Placebo test eksposur gempa masa depan</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-branch">
+      <div class="flow-branch-item">
+        <div class="flow-num">Outcome Individual</div>
+        <div class="flow-text">Model Fixed-Effects Individu</div>
+        <div class="flow-sub">Persamaan (1) — Pendapatan & upah tenaga kerja laki-laki</div>
+      </div>
+      <div class="flow-branch-item">
+        <div class="flow-num">Outcome Rumah Tangga</div>
+        <div class="flow-text">Model Fixed-Effects Grup</div>
+        <div class="flow-sub">Persamaan (6) — Konsumsi, aset, bantuan sosial</div>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="flow-num">Langkah 7 — Estimasi Efek Jangka Waktu</div>
+      <div class="flow-text">Short-Run · Medium-Run · Long-Run</div>
+      <div class="flow-sub">t–t−1 (0–2 thn) | t−2–t−5 (2–5 thn) | t−6–t−12 (6–12 thn)</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="flow-num">Langkah 8 — Uji Ketangguhan</div>
+      <div class="flow-text">Robustness Checks</div>
+      <div class="flow-sub">Rekomposisi RT · Heterogenitas spasial · Pengalaman gempa ganda</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step highlight">
+      <div class="flow-num">Langkah 9 — Interpretasi Mekanisme</div>
+      <div class="flow-text">Rekonstruksi Aset · Aid · Infrastruktur · Migrasi</div>
+      <div class="flow-sub">Menghubungkan efek neto dengan saluran pemulihan yang mungkin</div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: PERSAMAAN -->
+<!-- ============================================================ -->
+<section id="persamaan">
+<div class="container">
+  <div class="section-label">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Persamaan-Persamaan Utama</h2>
+  </div>
+
+  <!-- EQ 1 -->
+  <div class="eq-block">
+    <div class="eq-label">Persamaan 1 — Model Panel Fixed-Effects Individu</div>
+    $$y_{it} = \alpha_i + \beta_t + \gamma T_{it} + \delta' X_{it} + \varepsilon_{it}$$
+    <div class="eq-desc">
+      Digunakan untuk outcome yang diukur di tingkat individu (pendapatan dan upah tenaga kerja).
+      \(y_{it}\) = outcome individu \(i\) pada waktu \(t\);
+      \(\alpha_i\) = fixed effect individu (menyerap heterogenitas time-invariant);
+      \(\beta_t\) = fixed effect periode;
+      \(T_{it}\) = variabel treatment (pengalaman gempa pada horizon waktu tertentu);
+      \(X_{it}\) = karakteristik observabel yang bervariasi waktu (usia, pendidikan);
+      \(\gamma\) = parameter efek kausal yang menjadi perhatian utama.
+    </div>
+  </div>
+
+  <!-- EQ HOUSEHOLD LEVEL DERIVATION -->
+  <div class="eq-block">
+    <div class="eq-label">Persamaan 2–4 — Derivasi Model Tingkat Rumah Tangga</div>
+    <p style="font-size:0.85rem; color: var(--light-slate); margin-bottom:0.8rem;">Model individu yang mendasari (jika welfare diukur di tingkat individu):</p>
+    $$y_{ij} = \alpha_i + \gamma T_{ij} + \varepsilon_{ij}$$
+    <p style="font-size:0.85rem; color: var(--light-slate); margin: 0.6rem 0;">Model rata-rata tingkat rumah tangga yang konsisten:</p>
+    $$\bar{y}_j = \alpha_j + \gamma \bar{T}_j + \bar{\varepsilon}_j$$
+    <p style="font-size:0.85rem; color: var(--light-slate); margin: 0.6rem 0;">Spesifikasi yang bias jika menggunakan treatment individu pada outcome RT:</p>
+    $$\bar{y}_j = \alpha_i + \gamma T_{ij} + (\bar{y}_j - y_{ij}) + \varepsilon_{ij} = \alpha_i + \gamma T_{ij} + u_{ij}$$
+    <div class="eq-desc">Residual \(u_{ij} = (\bar{y}_j - y_{ij}) + \varepsilon_{ij}\) berkorelasi dengan \(T_{ij}\) → bias. Solusinya adalah model (5) dan (6) di bawah ini.</div>
+  </div>
+
+  <!-- EQ 5 -->
+  <div class="eq-block">
+    <div class="eq-label">Persamaan 5 — Model Panel Longitudinal Tingkat Rumah Tangga</div>
+    $$\bar{y}_{jt} = \sum_{k \in K_{jt}} p_{tk} \alpha_k + \beta_t + \gamma \bar{T}_{jt} + \delta' \bar{X}_{jt} + \bar{\varepsilon}_{jt}$$
+    <div class="eq-desc">
+      \(K_{jt}\) = himpunan individu \(k\) yang termasuk dalam rumah tangga \(j\) pada waktu \(t\);
+      \(p_{tk}\) = bobot berupa proporsi individu dalam total anggota RT (= 1/ukuran RT);
+      fixed effect individu dibobot oleh komposisi RT untuk mengakomodasi perubahan keanggotaan RT antargelombang.
+    </div>
+  </div>
+
+  <!-- EQ 6 -->
+  <div class="eq-block">
+    <div class="eq-label">Persamaan 6 — Model Estimasi Utama (Grup Fixed-Effects)</div>
+    $$\bar{y}_{jt} = \sum_{g \in G_{jt}} p_{tg} \lambda_g + \beta_t + \gamma \bar{T}_{jt} + \delta' \bar{X}_{jt} + \bar{\varepsilon}_{jt}$$
+    <div class="eq-desc">
+      \(\lambda_g\) = fixed effect untuk grup \(g\) — kelompok individu yang selalu diamati bersama di semua gelombang;
+      \(G_{jt}\) = himpunan grup yang termasuk dalam RT \(j\) pada waktu \(t\);
+      Treatment \(\bar{T}_{jt}\) didefinisikan di tingkat RT dan mengindikasikan apakah anggota RT manapun mengalami gempa pada jangka waktu tertentu sebelum pengamatan.
+    </div>
+  </div>
+
+  <!-- EQ ATTENUATION -->
+  <div class="eq-block">
+    <div class="eq-label">Persamaan 7 — Attenuation Relation (Zhao et al., 2006)</div>
+    $$\log PGA_{ij} = aM_{w_i} + bx_{ij} - \log_e(r_{ij}) + e(h)\delta_h - h_c\delta_h + F_R + S_L + S_S + S_{SL}\log_e(x_{ij}) + C_k + u_{ij} + v_i$$
+    <p style="font-size:0.8rem; color: var(--light-slate); margin: 0.5rem 0;">dengan:</p>
+    $$r_{ij} = x_{ij} + c \cdot \exp(dM_{w_i})$$
+    <div class="eq-desc">
+      \(PGA_{ij}\) = percepatan tanah puncak (dalam satuan g) di subdistrict \(j\) akibat gempa \(i\);
+      \(M_{w_i}\) = moment magnitude gempa;
+      \(x_{ij}\) = jarak sumber (km);
+      \(h\) = kedalaman fokus (km, dibatasi maksimum 125 km);
+      \(h_c = 15\) km (konstanta kedalaman);
+      \(F_R, S_L, S_S, S_{SL}\) = parameter tipe patahan (reverse, interface, subduction slab);
+      \(C_k\) = parameter jenis tanah lokal (\(k=1,...,4\): batuan hingga tanah lunak);
+      \(v_i\) = efek spesifik kejadian gempa; \(u_{ij}\) = error intra-event.
+      Parameter estimasi: \(a=1.101,\ b=-0.00564,\ c=0.0055,\ d=1.080,\ e=0.01412\).
+    </div>
+  </div>
+
+  <!-- EQ TREATMENT -->
+  <div class="eq-block">
+    <div class="eq-label">Persamaan 8 — Spesifikasi Variabel Treatment</div>
+    $$T_{it} = \begin{cases}
+      \mathbf{1}[\text{gempa MMI} \geq k,\ \tau \in (t-1, t)] & \text{(jangka pendek)} \\
+      \mathbf{1}[\text{gempa MMI} \geq k,\ \tau \in (t-5, t-2)] & \text{(jangka menengah)} \\
+      \mathbf{1}[\text{gempa MMI} \geq k,\ \tau \in (t-12, t-6)] & \text{(jangka panjang)}
+    \end{cases}$$
+    <div class="eq-desc">
+      \(k\) = ambang intensitas yang dipilih (VI atau VII dalam skala MMI);
+      \(\tau\) = tahun kejadian gempa;
+      Ketiga variabel treatment dimasukkan secara bersamaan dalam satu regresi untuk memperoleh efek dinamis.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: ESTIMASI -->
+<!-- ============================================================ -->
+<section id="estimasi">
+<div class="container">
+  <div class="section-label">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Metode Estimasi</h2>
+  </div>
+
+  <table class="est-table">
+    <thead>
+      <tr>
+        <th>Aspek</th>
+        <th>Pilihan Metodologis</th>
+        <th>Justifikasi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Strategi Identifikasi</strong></td>
+        <td>Difference-in-Differences (DiD) dengan dimensi panel</td>
+        <td>Mengeksploitasi variasi spasial dan temporal quasi-random dari kejadian gempa bumi</td>
+      </tr>
+      <tr>
+        <td><strong>Estimator Utama</strong></td>
+        <td>Fixed-Effects Within (FE) — individu dan periode</td>
+        <td>Menghilangkan heterogenitas tidak teramati yang bersifat time-invariant</td>
+      </tr>
+      <tr>
+        <td><strong>Asumsi Kunci</strong></td>
+        <td>Unconfoundedness: \(\varepsilon_{it} \perp T_{it} \mid \alpha_i, X_{it}\)</td>
+        <td>Dapat divalidasi karena gempa terjadi secara tidak terprediksi di lokasi manapun dalam area terekspos</td>
+      </tr>
+      <tr>
+        <td><strong>Standard Errors</strong></td>
+        <td>Robust terhadap heteroskedastisitas dan serial correlation di tingkat individu/grup</td>
+        <td>Mengoreksi potensi clustering kesalahan dalam panel longitudinal</td>
+      </tr>
+      <tr>
+        <td><strong>Ambang Intensitas</strong></td>
+        <td>Dua ambang: MMI ≥ VI dan MMI ≥ VII</td>
+        <td>Uji sensitivitas terhadap definisi gempa yang "berbahaya" (light-moderate vs. moderate-heavy damage)</td>
+      </tr>
+      <tr>
+        <td><strong>Threshold MMI</strong></td>
+        <td>105 gempa (MMI≥V), 48 (≥VI), 25 (≥VII), 15 (≥VIII), 6 (≥IX)</td>
+        <td>Distribusi frekuensi gempa: semakin tinggi intensitas semakin langka</td>
+      </tr>
+      <tr>
+        <td><strong>Sampel</strong></td>
+        <td>Individu usia 25–54 tahun, pertama diamati di perdesaan, provinsi dengan ≥100 observasi gempa MMI≥VI</td>
+        <td>Fokus pada angkatan kerja produktif; menghindari estimasi tidak presisi akibat sampel kecil</td>
+      </tr>
+      <tr>
+        <td><strong>Total Observasi</strong></td>
+        <td>14.773 observasi individu (panel tidak seimbang)</td>
+        <td>2.844 (1993) + 3.101 (1997) + 3.953 (2000) + 4.875 (2007)</td>
+      </tr>
+      <tr>
+        <td><strong>Kontrol Observable</strong></td>
+        <td>Gender, usia, pendidikan kepala RT; fixed effect provinsi</td>
+        <td>Meningkatkan presisi estimasi; mengendalikan heterogenitas regional</td>
+      </tr>
+      <tr>
+        <td><strong>Validasi 1</strong></td>
+        <td>Balancing test ex ante karakteristik komunitas (Tabel A3)</td>
+        <td>Komunitas terdampak dan tidak terdampak tidak berbeda signifikan sebelum gempa terjadi</td>
+      </tr>
+      <tr>
+        <td><strong>Validasi 2</strong></td>
+        <td>Placebo test: efek gempa masa depan (t+1 s.d. t+3) pada outcome saat ini</td>
+        <td>Tidak ada hubungan signifikan → tren pre-treatment paralel terkonfirmasi</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="finding" style="margin-top:1.5rem;">
+    <strong>Hasil Estimasi Utama — Konsumsi Per Kapita (MMI ≥ VI)</strong>
+    <p>
+      Jangka pendek (t–t−1): \(-0.098^{**}\) (total), \(-0.135^{**}\) (non-pangan) — penurunan ~10%.
+      Jangka menengah (t−2–t−5): \(-0.017\) (tidak signifikan) — pemulihan terjadi.
+      Jangka panjang (t−6–t−12): \(+0.096^{***}\) (total), \(+0.102^{***}\) (pangan) — peningkatan ~10%.
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: LAINNYA -->
+<!-- ============================================================ -->
+<section id="lainnya">
+<div class="container">
+  <div class="section-label">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Hal-Hal Penting Lainnya</h2>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Temuan pada Aset Produktif</h3>
+      <ul>
+        <li>Bangunan usaha tani turun signifikan jangka pendek (~8% kepemilikan, MMI≥VI)</li>
+        <li>Aset bergerak (ternak, mesin) pulih dan meningkat di jangka menengah (+5,6% kepemilikan)</li>
+        <li>Aset keuangan menurun di jangka pendek → bukti <em>self-insurance</em></li>
+        <li>Untuk gempa sangat besar (MMI≥VII), bangunan tetap negatif hingga 12 tahun</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Temuan pada Bantuan & Aid</h3>
+      <ul>
+        <li>Penerimaan transfer sosial meningkat +12% di jangka pendek dan +23% di jangka menengah</li>
+        <li>Terutama berupa subsidi pangan (food aid)</li>
+        <li>Di jangka panjang, bantuan tidak lagi diperlukan — sejalan dengan pemulihan kesejahteraan</li>
+        <li>Hanya 13 subdistrict yang sama sekali tidak menerima aid — menunjukkan cakupan yang luas</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Temuan pada Infrastruktur</h3>
+      <ul>
+        <li>Elektrifikasi turun ~4% jangka pendek (MMI≥VI) → naik +4% jangka panjang</li>
+        <li>Jalan aspal meningkat +7–10% di jangka panjang</li>
+        <li>Waktu tempuh ke pasar berkurang 17–22% di jangka panjang</li>
+        <li>80% komunitas yang mengalami kerusakan infrastruktur melaporkan kondisi infrastruktur akhirnya sama baik atau lebih baik dari sebelum bencana</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Temuan pada Migrasi</h3>
+      <ul>
+        <li>Migrasi jangka pendek <em>berkurang</em> pasca gempa (−4% untuk migrasi >20 km)</li>
+        <li>Tidak ada aliran besar perpindahan penduduk ke perkotaan</li>
+        <li>Beberapa individu tampak <em>tertahan</em> di daerah terdampak, bukan melarikan diri</li>
+        <li>Penyebab: keterbatasan modal migrasi atau peluang kerja rekonstruksi lokal</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Keterbatasan Studi</h3>
+      <ul>
+        <li>Tidak dapat memisahkan efek kausal aid dari efek guncangan bencana itu sendiri</li>
+        <li>Konteks Indonesia sebagai negara menengah dengan kapasitas redistribusi — <em>better case scenario</em></li>
+        <li>Tidak mencakup Aceh dan Bengkulu (bencana paling ekstrem)</li>
+        <li>Fokus pada aset fisik; mekanisme perubahan perilaku investasi dan preferensi risiko tidak teridentifikasi penuh</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Peran Program KDP Indonesia</h3>
+      <ul>
+        <li>Kecamatan Development Program (KDP) digunakan sejak 1998 untuk respons darurat bencana</li>
+        <li>Rekonstruksi jalan merupakan penggunaan dana utama</li>
+        <li>KDP menonjol karena partisipasi akar rumput dan sistem check-and-balance yang kompleks (Olken, 2007)</li>
+        <li>Menunjukkan pentingnya desain kelembagaan aid untuk efektivitas pemulihan</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="finding" style="margin-top:1.5rem;">
+    <strong>Implikasi Kebijakan dari Gignoux & Menéndez (2016)</strong>
+    <p>Intervensi pasca-bencana yang dirancang dengan baik — khususnya rekonstruksi infrastruktur produktif dan bantuan yang memungkinkan reinvestasi modal — dapat menghasilkan manfaat jangka panjang, bukan sekadar pemulihan ke kondisi semula. Ini mendukung kebijakan yang tidak hanya bersifat <em>recovery</em> tetapi juga <em>developmental</em> pasca bencana.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: RELEVANSI DSGE -->
+<!-- ============================================================ -->
+<section id="relevansi">
+<div class="container">
+  <div class="section-label">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Relevansi untuk Tesis DSGE Regional</h2>
+  </div>
+
+  <p style="margin-bottom:1.5rem;">Studi Gignoux & Menéndez (2016) adalah <em>empirical counterpart</em> yang akan menjadi dasar kalibrasi dan validasi model DSGE-mu. Berikut pemetaan dari temuan empiris ke kebutuhan modelmu:</p>
+
+  <div class="card" style="border-left-color: var(--gold);">
+    <h3 style="color:var(--gold);">Dari Gignoux & Menéndez → Ke Model DSGE-mu</h3>
+    <table style="width:100%; font-size:0.85rem; border-collapse:collapse; margin-top:0.8rem;">
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:0.5rem; font-weight:bold; color:var(--ink); width:45%;">Temuan Empiris (G&M 2016)</td>
+        <td style="padding:0.5rem; font-weight:bold; color:var(--ink);">Implikasi untuk Model DSGE</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:0.5rem; color:var(--slate);">Pola non-linier: turun jangka pendek, pulih jangka menengah, naik jangka panjang</td>
+        <td style="padding:0.5rem; color:var(--slate);">Model harus menangkap dinamika kapital yang memungkinkan <em>overshooting</em> pemulihan</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:0.5rem; color:var(--slate);">Shock bersifat fiskal/kapital, bukan human capital</td>
+        <td style="padding:0.5rem; color:var(--slate);">Gempa bumi dimodelkan sebagai shock destruksi kapital \(\xi_t\), bukan shock produktivitas TFP langsung</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:0.5rem; color:var(--slate);">Efek positif long-run pada sektor pertanian dan infrastruktur</td>
+        <td style="padding:0.5rem; color:var(--slate);">Perlu mekanisme rekonstruksi infrastruktur publik dalam blok fiskal model DSGE</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:0.5rem; color:var(--slate);">Migrasi berkurang pasca bencana</td>
+        <td style="padding:0.5rem; color:var(--slate);">Pasar tenaga kerja antarwilayah tidak sepenuhnya mobile — perlu frisi mobilitas dalam model multi-regional</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem; color:var(--slate);">Aid dan rekonstruksi penting, tapi tidak bisa dipisahkan efeknya</td>
+        <td style="padding:0.5rem; color:var(--slate);">Model DSGE memungkinkan simulasi kebijakan counterfactual — ini keunggulan utama pendekatan strukturalmu</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="finding" style="margin-top:1.5rem;">
+    <strong>Nilai Tambah Model DSGE-mu terhadap G&M (2016)</strong>
+    <p>Gignoux & Menéndez (2016) menemukan <em>pola pemulihan</em> tapi tidak dapat mengidentifikasi secara terpisah kontribusi kausal dari masing-masing kebijakan. Model DSGE-mu dengan keterkaitan antarwilayah memungkinkan analisis <em>counterfactual</em> yang tidak mungkin dilakukan secara empiris: simulasi skenario <em>no-aid</em>, percepatan rekonstruksi, desentralisasi fiskal, dan perubahan kecepatan pemulihan kapital publik.</p>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="container">
+    <p><strong>Referensi Utama:</strong> Gignoux, J., & Menéndez, M. (2016). Benefit in the wake of disaster: Long-run effects of earthquakes on welfare in rural Indonesia. <em>Journal of Development Economics</em>, 118, 26–44.</p>
+    <p style="margin-top:0.5rem;">Dokumen ini dibuat sebagai panduan referensi untuk tesis:<br>
+    <strong>eRegional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context</strong></p>
+  </div>
+</footer>
+
+</body>
+</html>
