@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kukeli (2025) — Referensi Tesis Andre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });">
+</script>
+<style>
+  :root {
+    --cream: #faf7f2;
+    --warm-white: #f5f0e8;
+    --ink: #1a1614;
+    --ink-light: #3d3330;
+    --brown-deep: #5c3d2e;
+    --brown-mid: #8b5e3c;
+    --brown-light: #c4956a;
+    --accent-gold: #c8973f;
+    --accent-rust: #b85c38;
+    --accent-sage: #6b7c5e;
+    --accent-teal: #3d6b6b;
+    --border: #d9cfc4;
+    --shadow: rgba(92, 61, 46, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ---- HEADER ---- */
+  .site-header {
+    background: var(--brown-deep);
+    padding: 0.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--accent-gold);
+  }
+  .site-header .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--brown-light);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .site-header .title-short {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: var(--cream);
+    font-weight: 700;
+  }
+  .site-header .sep { color: var(--brown-light); margin: 0 0.25rem; }
+
+  /* ---- HERO ---- */
+  .hero {
+    background: linear-gradient(135deg, var(--brown-deep) 0%, #3e2519 60%, #2a1a10 100%);
+    padding: 4rem 2rem 3.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(200,151,63,0.04) 40px,
+      rgba(200,151,63,0.04) 41px
+    );
+  }
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--accent-gold);
+    color: var(--brown-deep);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+  .hero h1 em {
+    color: var(--brown-light);
+    font-style: italic;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(200,151,63,0.3);
+  }
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .hero-meta-item .key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--brown-light);
+  }
+  .hero-meta-item .val {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.9);
+    font-weight: 300;
+  }
+  .jel-badges {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .jel-badge {
+    background: rgba(200,151,63,0.2);
+    border: 1px solid rgba(200,151,63,0.4);
+    color: var(--brown-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+  }
+
+  /* ---- LAYOUT ---- */
+  .main-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 5rem;
+  }
+
+  /* ---- SECTION CARDS ---- */
+  .section-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow);
+    transition: box-shadow 0.2s;
+  }
+  .section-card:hover { box-shadow: 0 4px 20px var(--shadow); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--warm-white);
+  }
+  .section-number {
+    width: 2rem;
+    height: 2rem;
+    background: var(--brown-deep);
+    color: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brown-deep);
+    letter-spacing: 0.01em;
+  }
+  .section-body {
+    padding: 1.5rem;
+  }
+  .section-body p {
+    color: var(--ink-light);
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+  }
+  .section-body p:last-child { margin-bottom: 0; }
+
+  /* ---- CALLOUT ---- */
+  .callout {
+    border-left: 4px solid var(--accent-gold);
+    background: #fffbf3;
+    padding: 1rem 1.25rem;
+    border-radius: 0 4px 4px 0;
+    margin: 1rem 0;
+    font-size: 0.92rem;
+    color: var(--ink-light);
+    font-style: italic;
+  }
+  .callout.teal { border-color: var(--accent-teal); background: #f3f8f8; }
+  .callout.rust { border-color: var(--accent-rust); background: #fdf5f3; }
+  .callout strong { font-style: normal; font-weight: 600; color: var(--ink); }
+
+  /* ---- RESEARCH QUESTIONS ---- */
+  .rq-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .rq-item {
+    display: flex;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    background: var(--warm-white);
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    font-size: 0.92rem;
+    color: var(--ink-light);
+    align-items: flex-start;
+  }
+  .rq-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-gold);
+    background: var(--brown-deep);
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* ---- FEATURES GRID ---- */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .feature-chip {
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    font-size: 0.875rem;
+  }
+  .feature-chip.green { background: #f2f6f0; border: 1px solid #c5d9bc; }
+  .feature-chip.teal  { background: #f0f6f6; border: 1px solid #b3d2d2; }
+  .feature-chip.gold  { background: #fdf8ee; border: 1px solid #e8d5a0; }
+  .feature-chip.rust  { background: #fdf4f1; border: 1px solid #e8c4b5; }
+  .feature-chip.purple{ background: #f5f3f8; border: 1px solid #c8bde0; }
+  .feature-chip .chip-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--brown-mid);
+    margin-bottom: 0.25rem;
+  }
+  .feature-chip .chip-val {
+    font-size: 0.875rem;
+    color: var(--ink-light);
+    font-weight: 400;
+  }
+
+  /* ---- FLOWCHART ---- */
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 0.5rem 0;
+  }
+  .flow-node {
+    width: 100%;
+    max-width: 520px;
+    padding: 0.85rem 1.25rem;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.88rem;
+    position: relative;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .flow-node.data-node {
+    background: #eef7f0;
+    border: 1.5px solid #9ecfaa;
+  }
+  .flow-node.process-node {
+    background: #eef3fd;
+    border: 1.5px solid #9ab5e6;
+  }
+  .flow-node.test-node {
+    background: #fdfaee;
+    border: 1.5px solid #e0cf82;
+  }
+  .flow-node.model-node {
+    background: var(--warm-white);
+    border: 1.5px solid var(--brown-light);
+  }
+  .flow-node.result-node {
+    background: #fef3ee;
+    border: 1.5px solid #e6a98a;
+  }
+  .flow-node.output-node {
+    background: var(--brown-deep);
+    border: 1.5px solid var(--brown-deep);
+    color: #fff;
+    font-weight: 600;
+  }
+  .flow-arrow {
+    font-size: 1.2rem;
+    color: var(--brown-light);
+    line-height: 1;
+    margin: 0.25rem 0;
+  }
+  .flow-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--brown-mid);
+    margin-bottom: 0.15rem;
+  }
+  .flow-desc {
+    font-size: 0.8rem;
+    color: inherit;
+    margin-top: 0.2rem;
+    opacity: 0.8;
+  }
+  .flow-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 520px;
+    justify-content: center;
+  }
+  .flow-row .flow-node {
+    flex: 1;
+    max-width: none;
+  }
+
+  /* ---- EQUATIONS ---- */
+  .eq-block {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--brown-deep);
+    border-radius: 0 5px 5px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+  }
+  .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--brown-mid);
+    margin-bottom: 0.5rem;
+  }
+  .eq-desc {
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    margin-top: 0.75rem;
+    font-style: italic;
+  }
+  .katex-display { overflow-x: auto; }
+
+  /* ---- VARIABLE TABLE ---- */
+  .var-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  .var-table th {
+    background: var(--brown-deep);
+    color: #fff;
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .var-table td {
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-light);
+    vertical-align: top;
+  }
+  .var-table tr:nth-child(even) td { background: #faf8f5; }
+  .var-table tr:hover td { background: #f5f0e8; }
+  .var-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent-rust);
+    font-weight: 600;
+  }
+  .sign-pos { color: #2e7d32; font-weight: 600; }
+  .sign-neg { color: var(--accent-rust); font-weight: 600; }
+  .sign-mix { color: var(--accent-gold); font-weight: 600; }
+
+  /* ---- RESULTS GRID ---- */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .result-card {
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .result-card .rc-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .result-card .rc-label {
+    font-size: 0.8rem;
+    color: var(--ink-light);
+  }
+  .result-card.positive { background: #f0f8f1; border-color: #9ecfaa; }
+  .result-card.positive .rc-val { color: #2e7d32; }
+  .result-card.negative { background: #fdf4f1; border-color: #e8c4b5; }
+  .result-card.negative .rc-val { color: var(--accent-rust); }
+  .result-card.neutral { background: var(--warm-white); border-color: var(--border); }
+  .result-card.neutral .rc-val { color: var(--brown-deep); }
+
+  /* ---- RELEVANCE SECTION ---- */
+  .relevance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  @media (max-width: 600px) {
+    .relevance-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .relevance-item {
+    padding: 0.9rem 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    font-size: 0.875rem;
+    background: var(--warm-white);
+  }
+  .relevance-item .ri-head {
+    font-weight: 600;
+    color: var(--brown-deep);
+    margin-bottom: 0.3rem;
+    font-size: 0.88rem;
+  }
+  .relevance-item p { color: var(--ink-light); font-size: 0.85rem; line-height: 1.55; }
+
+  /* ---- LIMITATION BOX ---- */
+  .limit-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .limit-list li {
+    padding: 0.65rem 1rem;
+    background: #fdfaee;
+    border: 1px solid #e8d5a0;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: var(--ink-light);
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .limit-icon {
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* ---- CITATION ---- */
+  .citation-box {
+    background: var(--ink);
+    color: rgba(255,255,255,0.85);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    word-break: break-word;
+  }
+  .citation-box .cite-key { color: var(--accent-gold); }
+
+  /* ---- FOOTER ---- */
+  .page-footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    color: var(--brown-light);
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- SEPARATOR ---- */
+  .ornament {
+    text-align: center;
+    color: var(--brown-light);
+    font-size: 0.9rem;
+    margin: 0.75rem 0 1.25rem;
+    letter-spacing: 0.5em;
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 700px) {
+    .main-container { padding: 1.5rem 1rem 4rem; }
+    .hero { padding: 2.5rem 1rem 2rem; }
+    .section-body { padding: 1rem; }
+    .hero h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STICKY HEADER -->
+<header class="site-header">
+  <span class="label">Referensi Tesis</span>
+  <span class="sep">|</span>
+  <span class="title-short">Kukeli (2025) · PVAR · Bencana Alam · Texas</span>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Kertas Kerja Referensi · Ekonomi Regional</div>
+    <h1>Efek dan Dinamika Makroekonomi dari Kerusakan Bencana Alam: <em>Investigasi Bukti Lokal</em></h1>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="key">Penulis</span>
+        <span class="val">Agim Kukeli</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="key">Jurnal</span>
+        <span class="val">Regional Studies, Regional Science</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="key">Volume / Tahun</span>
+        <span class="val">12(1), hal. 5–22 · 2025</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="key">DOI</span>
+        <span class="val">10.1080/21681376.2025.2452524</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="key">Klasifikasi JEL</span>
+        <div class="jel-badges">
+          <span class="jel-badge">E17</span>
+          <span class="jel-badge">Q54</span>
+          <span class="jel-badge">R11</span>
+          <span class="jel-badge">C33</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<main class="main-container">
+
+  <!-- 1. PERMASALAHAN UTAMA -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>Permasalahan Utama yang Ingin Dipecahkan</h2>
+    </div>
+    <div class="section-body">
+      <p>Studi ini berangkat dari dua pertanyaan inti yang selama ini kurang dijawab oleh literatur makroekonomi bencana:</p>
+      <ul class="rq-list">
+        <li class="rq-item">
+          <span class="rq-num">P1</span>
+          <span>Seberapa besar <strong>efek rata-rata</strong> kerusakan bencana alam terhadap variabel makroekonomi utama — pendapatan personal, upah, lapangan kerja, dan transfer pendapatan — di tingkat kabupaten/wilayah?</span>
+        </li>
+        <li class="rq-item">
+          <span class="rq-num">P2</span>
+          <span>Bagaimana <strong>dinamika dan ketahanan</strong> dampak bencana alam dari waktu ke waktu: seberapa lama efek negatif bertahan, dan apakah ada mekanisme pemulihan otomatis?</span>
+        </li>
+      </ul>
+      <div class="callout" style="margin-top: 1.25rem;">
+        <strong>Kesenjangan literatur:</strong> Meskipun studi lintas-negara sudah banyak, analisis <em>regional-level</em> yang menghubungkan kerusakan bencana nyata (real damage) dengan variabel makro spesifik wilayah masih sangat terbatas. Studi ini mengisi celah tersebut dengan fokus pada tiga kabupaten di Southeast Texas (1990–2019).
+      </div>
+
+      <div class="ornament">· · ·</div>
+      <p style="font-style: italic; color: var(--brown-mid); font-size: 0.9rem;">
+        <strong>Relevansi untuk Tesis Andre:</strong> Research Question tesis Andre tentang kebijakan mana yang paling efektif memitigasi penurunan output pasca-bencana, serta bagaimana keterkaitan antara kawasan terdampak dan tidak terdampak, secara langsung memerlukan pemahaman tentang besaran dan durasi efek bencana seperti yang dikuantifikasi Kukeli.
+      </p>
+    </div>
+  </div>
+
+  <!-- 2. FITUR MODEL -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>Fitur Model</h2>
+    </div>
+    <div class="section-body">
+      <p>Studi menggunakan dua pendekatan pemodelan yang saling melengkapi:</p>
+
+      <div class="features-grid">
+        <div class="feature-chip gold">
+          <div class="chip-label">Cakupan Data</div>
+          <div class="chip-val">3 kabupaten · 30 tahun (1990–2019) · Panel panjang $T > N$</div>
+        </div>
+        <div class="feature-chip green">
+          <div class="chip-label">Variabel Dependen</div>
+          <div class="chip-val">RPI, RWW, RW, EMP, RIT (5 variabel makro)</div>
+        </div>
+        <div class="feature-chip teal">
+          <div class="chip-label">Shock Eksogen</div>
+          <div class="chip-val">Real Disaster Damages (RDT) — kerusakan riil bencana alam dalam ribuan USD, base 2000</div>
+        </div>
+        <div class="feature-chip rust">
+          <div class="chip-label">Jenis Bencana</div>
+          <div class="chip-val">Banjir, badai, hurikan, tornado, dan lain-lain (418 kejadian)</div>
+        </div>
+        <div class="feature-chip purple">
+          <div class="chip-label">Metode Utama</div>
+          <div class="chip-val">Panel Data RE-EGLS + PVAR dengan IRF &amp; Variance Decomposition</div>
+        </div>
+        <div class="feature-chip gold">
+          <div class="chip-label">Asumsi Kunci</div>
+          <div class="chip-val">RDT diperlakukan sebagai variabel <strong>eksogen</strong>; data di-first-difference untuk stasionaritas</div>
+        </div>
+      </div>
+
+      <div class="callout teal" style="margin-top: 1.25rem;">
+        <strong>Pertimbangan penting:</strong> Berbeda dengan model DSGE struktural, pendekatan PVAR Kukeli bersifat <em>reduced-form</em> — tidak mengimposisi batasan teoritis yang ketat, melainkan membiarkan data berbicara tentang hubungan antar-variabel.
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ALUR PEMODELAN -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>Alur Proses Pemodelan (Flowchart)</h2>
+    </div>
+    <div class="section-body">
+      <div class="flowchart">
+
+        <div class="flow-node data-node">
+          <div class="flow-label">Langkah 1 — Pengumpulan Data</div>
+          <strong>Data Sekunder</strong>
+          <div class="flow-desc">NOAA (bencana), BEA (pendapatan), BLS (upah &amp; pengangguran), FRED (transfer)</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-node process-node">
+          <div class="flow-label">Langkah 2 — Penyiapan Data</div>
+          <strong>Deflasi &amp; Transformasi</strong>
+          <div class="flow-desc">Semua variabel nominal dikonversi ke nilai riil menggunakan CPI Houston (base 2000)</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-node test-node">
+          <div class="flow-label">Langkah 3 — Uji Stasionaritas</div>
+          <strong>ADF · PP · KPSS</strong>
+          <div class="flow-desc">Semua seri I(1) → dilakukan first-difference $\Delta$</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-row">
+          <div class="flow-node model-node">
+            <div class="flow-label">Jalur A — Panel Data</div>
+            <strong>LSDV &amp; RE-EGLS</strong>
+            <div class="flow-desc">Efek rata-rata RDT terhadap 5 variabel makro</div>
+          </div>
+          <div class="flow-node model-node">
+            <div class="flow-label">Jalur B — PVAR</div>
+            <strong>Panel VAR (lag 2)</strong>
+            <div class="flow-desc">Dinamika endogen antar variabel + shock RDT</div>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-node test-node">
+          <div class="flow-label">Langkah 5 — Validasi</div>
+          <strong>Uji Stabilitas VAR</strong>
+          <div class="flow-desc">Semua akar unit di dalam lingkaran unit → model stabil</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-row">
+          <div class="flow-node result-node">
+            <div class="flow-label">Output A</div>
+            <strong>Impulse Response</strong>
+            <div class="flow-desc">Reaksi variabel terhadap shock Cholesky ±2 S.D.</div>
+          </div>
+          <div class="flow-node result-node">
+            <div class="flow-label">Output B</div>
+            <strong>Variance Decomposition</strong>
+            <div class="flow-desc">Kontribusi RDT terhadap varians forecast error</div>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-node output-node">
+          <div class="flow-label">Hasil Akhir</div>
+          Temuan empiris: Bencana → ↓ upah, ↓ tenaga kerja, ↑ transfer, dampak bertahan 3–10 periode
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PERSAMAAN -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Daftar Persamaan yang Digunakan</h2>
+    </div>
+    <div class="section-body">
+
+      <p>Studi menggunakan dua blok persamaan utama:</p>
+
+      <!-- Eq 1 -->
+      <div class="eq-block">
+        <div class="eq-label">Persamaan (1) · Model Panel Data Dasar</div>
+        $$y_{i,t} = \beta_0 + \beta_{i,t} X_{i,t} + \gamma_{i,t} Z_{i,t} + \nu_i + \mu_{i,t}$$
+        <div class="eq-desc">
+          Di mana $y_{i,t}$ adalah variabel dependen kabupaten $i$ pada tahun $t$; $X_{i,t}$ adalah kerusakan bencana; $Z_{i,t}$ adalah variabel kontrol; $\nu_i$ adalah efek spesifik kabupaten; $\mu_{i,t}$ adalah error.
+        </div>
+      </div>
+
+      <!-- Eq 2 (after first-diff) -->
+      <div class="eq-block">
+        <div class="eq-label">Persamaan (3) · Setelah First-Difference (Stasionaritas)</div>
+        $$\Delta y_{i,t} = \beta_0 + \beta_{i,t} \Delta X_{i,t} + \gamma_{i,t} \Delta Z_{i,t} + \Delta \mu_{i,t}$$
+        <div class="eq-desc">
+          Karena semua seri bersifat I(1), model diestimasi dalam bentuk first-difference. Asumsi: efek unit $\nu_i = 0$ di bawah differencing.
+        </div>
+      </div>
+
+      <!-- Eq 3 PVAR -->
+      <div class="eq-block">
+        <div class="eq-label">Persamaan (2) · Model PVAR dengan Lag $q$ dari 1 hingga $m$</div>
+        $$\begin{bmatrix} y_{it} \\ e_{it} \\ w_{it} \end{bmatrix} = \begin{bmatrix} \phi_{1,0} \\ \phi_{2,0} \\ \phi_{3,0} \end{bmatrix} + \sum_{q=1}^{m} \begin{bmatrix} b_{11,q} & b_{12,q} & b_{13,q} \\ b_{21,q} & b_{22,q} & b_{23,q} \\ b_{31,q} & b_{32,q} & b_{33,q} \end{bmatrix} \begin{bmatrix} y_{i,t-q} \\ e_{i,t-q} \\ w_{i,t-q} \end{bmatrix} + \begin{bmatrix} \delta_1 \\ \delta_2 \\ \delta_3 \end{bmatrix} d_{it} + \begin{bmatrix} \varepsilon_{1,it} \\ \varepsilon_{2,it} \\ \varepsilon_{3,it} \end{bmatrix}$$
+        <div class="eq-desc">
+          $y_{it}$ = pendapatan personal riil; $e_{it}$ = lapangan kerja; $w_{it}$ = upah riil. $d_{it}$ = kerusakan bencana riil (eksogen). $b_{ij,q}$ menangkap efek nilai lag, $\delta$ menangkap dampak shock eksogen. Konvergensi dicapai setelah 12 iterasi dengan lag $q=2$.
+        </div>
+      </div>
+
+      <!-- Eq 4 IRF -->
+      <div class="eq-block">
+        <div class="eq-label">Persamaan (4) · Impulse Response Function (IRF)</div>
+        $$\text{IRF}(h) = A^h$$
+        <div class="eq-desc">
+          $\text{IRF}(h)$ adalah fungsi respons impuls pada horizon $h$, dan $A^h$ adalah pangkat ke-$h$ dari matriks koefisien autoregresif PVAR. Menangkap efek dari satu unit shock pada variabel endogen sepanjang $h$ periode ke depan.
+        </div>
+      </div>
+
+      <!-- Variables Table -->
+      <p style="margin-top: 1.25rem; margin-bottom: 0.5rem; font-weight: 600;">Keterangan Variabel:</p>
+      <table class="var-table">
+        <thead>
+          <tr>
+            <th>Kode</th>
+            <th>Nama Variabel</th>
+            <th>Satuan</th>
+            <th>Efek RDT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="var-code">RPI</span></td>
+            <td>Real Personal Income (Pendapatan Personal Riil)</td>
+            <td>Ribu USD, base 2000</td>
+            <td><span class="sign-pos">+ (positif lemah)</span></td>
+          </tr>
+          <tr>
+            <td><span class="var-code">RWW</span></td>
+            <td>Real Wage per Worker (Upah Riil per Pekerja)</td>
+            <td>USD/pekerja</td>
+            <td><span class="sign-neg">− (negatif marjinal)</span></td>
+          </tr>
+          <tr>
+            <td><span class="var-code">RW</span></td>
+            <td>Real Wages (Total Upah Riil)</td>
+            <td>Ribu USD</td>
+            <td><span class="sign-neg">−− (negatif signifikan)</span></td>
+          </tr>
+          <tr>
+            <td><span class="var-code">EMP</span></td>
+            <td>Employment (Total Lapangan Kerja)</td>
+            <td>Jumlah pekerja</td>
+            <td><span class="sign-neg">−− (negatif signifikan)</span></td>
+          </tr>
+          <tr>
+            <td><span class="var-code">RIT</span></td>
+            <td>Real Income Transfer (Transfer Pendapatan Riil)</td>
+            <td>Ribu USD</td>
+            <td><span class="sign-pos">++ (positif signifikan)</span></td>
+          </tr>
+          <tr>
+            <td><span class="var-code">RDT</span></td>
+            <td>Real Disaster Total (Kerusakan Bencana Riil)</td>
+            <td>Ribu USD (variabel eksogen)</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- 5. METODE ESTIMASI -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>Metode Estimasi</h2>
+    </div>
+    <div class="section-body">
+
+      <p><strong>Tahap 1 — Uji Stasionaritas</strong></p>
+      <div class="features-grid" style="margin-bottom: 1rem;">
+        <div class="feature-chip teal">
+          <div class="chip-label">ADF Test</div>
+          <div class="chip-val">$H_0$: unit root. Tolak $H_0$ → stasioner</div>
+        </div>
+        <div class="feature-chip green">
+          <div class="chip-label">PP Test</div>
+          <div class="chip-val">$H_0$: unit root. Robust terhadap heteroskedastisitas</div>
+        </div>
+        <div class="feature-chip rust">
+          <div class="chip-label">KPSS Test</div>
+          <div class="chip-val">$H_0$: stasioner. Gagal tolak → stasioner</div>
+        </div>
+      </div>
+      <div class="callout">Semua variabel bersifat <strong>I(1)</strong> — stasioner dalam first-difference. RDT tampak stasioner di level menurut ADF/PP, namun KPSS menunjukkan ambiguitas.</div>
+
+      <p style="margin-top: 1.25rem;"><strong>Tahap 2 — Panel Data (Efek Rata-Rata)</strong></p>
+      <p>Studi membandingkan tiga estimator:</p>
+      <ul class="limit-list" style="margin-bottom: 0.5rem;">
+        <li><span class="limit-icon">▸</span><span><strong>OLS Biasa</strong> — dasar pembanding</span></li>
+        <li><span class="limit-icon">▸</span><span><strong>LSDV (Least Square Dummy Variable)</strong> — menangkap efek tetap kabupaten</span></li>
+        <li><span class="limit-icon">▸</span><span><strong>RE-EGLS (Random Effect – Estimated GLS)</strong> — estimator terpilih; menghasilkan $R^2$ disesuaikan dan F-statistik lebih tinggi; mengasumsikan efek kabupaten tidak berkorelasi dengan regresor</span></li>
+      </ul>
+
+      <p style="margin-top: 1.25rem;"><strong>Tahap 3 — PVAR (Dinamika Temporal)</strong></p>
+      <ul class="limit-list">
+        <li><span class="limit-icon">▸</span><span>Penentuan lag menggunakan <strong>AIC, SC, HQ</strong> → lag $q=2$ dipilih</span></li>
+        <li><span class="limit-icon">▸</span><span>Estimasi PVAR dalam first-difference; konvergensi setelah 12 iterasi</span></li>
+        <li><span class="limit-icon">▸</span><span>Urutan variabel endogen: RPI → EMP → RW (berdasarkan teori ekonomi)</span></li>
+        <li><span class="limit-icon">▸</span><span><strong>Identifikasi Cholesky</strong> (±2 S.E.) untuk IRF</span></li>
+        <li><span class="limit-icon">▸</span><span>Uji stabilitas VAR: semua akar unit di dalam lingkaran unit ✓</span></li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- 6. TEMUAN UTAMA -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Temuan Utama &amp; Implikasi Kebijakan</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="results-grid">
+        <div class="result-card negative">
+          <div class="rc-val">−2.2%</div>
+          <div class="rc-label">Rata-rata kerugian pendapatan personal riil jika >4 bencana/tahun</div>
+        </div>
+        <div class="result-card negative">
+          <div class="rc-val">RW ↓↓</div>
+          <div class="rc-label">Dampak negatif signifikan pada total upah riil (koef. RE-EGLS: −27.99)</div>
+        </div>
+        <div class="result-card negative">
+          <div class="rc-val">EMP ↓</div>
+          <div class="rc-label">Penurunan lapangan kerja yang sangat signifikan (koef.: −0.000525***)</div>
+        </div>
+        <div class="result-card positive">
+          <div class="rc-val">RIT ↑</div>
+          <div class="rc-label">Peningkatan transfer pendapatan pemerintah pasca-bencana (koef.: +0.00755**)</div>
+        </div>
+        <div class="result-card neutral">
+          <div class="rc-val">3 prd.</div>
+          <div class="rc-label">Efek langsung IRF bertahan ~3 periode; osilasi hingga 10 periode</div>
+        </div>
+        <div class="result-card neutral">
+          <div class="rc-val">20% / 16% / 9%</div>
+          <div class="rc-label">Varians RPI / EMP / RW yang dijelaskan oleh shock RDT</div>
+        </div>
+      </div>
+
+      <div class="callout rust" style="margin-top: 1.25rem;">
+        <strong>Temuan paradoks:</strong> RPI menunjukkan respons <em>positif lemah</em> terhadap kerusakan bencana di jangka pendek — kemungkinan karena arus masuk dana bantuan pemerintah, rekonstruksi, dan efisiensi teknologi pasca-bencana (Mohan et al., 2023). Namun IRF menunjukkan dampak negatif persisten RDT terhadap RPI dalam jangka panjang.
+      </div>
+
+      <p style="margin-top: 1.25rem; font-weight: 600;">Implikasi Kebijakan:</p>
+      <ul class="limit-list">
+        <li><span class="limit-icon">→</span><span>Diversifikasi sumber pendapatan untuk mengurangi kerentanan terhadap bencana</span></li>
+        <li><span class="limit-icon">→</span><span>Peningkatan asuransi bencana dan infrastruktur tahan bencana</span></li>
+        <li><span class="limit-icon">→</span><span>Penciptaan lapangan kerja sebagai alat pemulihan upah pasca-bencana</span></li>
+        <li><span class="limit-icon">→</span><span>Penguatan sistem transfer pendapatan (jarring pengaman sosial) sebagai buffer otomatis</span></li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- 7. RELEVANSI UNTUK TESIS -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Relevansi untuk Tesis Andre &amp; Keterbatasan Studi</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="relevance-grid">
+        <div class="relevance-item">
+          <div class="ri-head">✅ Mendukung: Pertanyaan Riset 1</div>
+          <p>Menyediakan bukti empiris bahwa kebijakan transfer pendapatan (RIT) adalah respons kebijakan yang terkuantifikasi terhadap bencana — relevan untuk analisis kebijakan mitigasi dalam model DSGE Andre.</p>
+        </div>
+        <div class="relevance-item">
+          <div class="ri-head">✅ Mendukung: Pertanyaan Riset 4</div>
+          <p>IRF menunjukkan bahwa efek langsung berlangsung ~3 periode dan osilasi hingga 10 periode — memberikan benchmark empiris untuk kalibrasi parameter kecepatan pemulihan dalam model DSGE.</p>
+        </div>
+        <div class="relevance-item">
+          <div class="ri-head">✅ Mendukung: Pertanyaan Riset 3</div>
+          <p>Variance decomposition (20% RPI, 16% EMP, 9% RW) mengkuantifikasi magnitude relatif dampak bencana — penting sebagai dasar untuk mengkalibrasi besaran shock dalam model dua-region Andre.</p>
+        </div>
+        <div class="relevance-item">
+          <div class="ri-head">⚠️ Keterbatasan: Konteks</div>
+          <p>Data berbasis AS (Texas), bukan Indonesia. Institusi, kapasitas fiskal, dan keterbukaan ekonomi sangat berbeda. Parameter dari studi ini tidak bisa langsung ditransfer ke konteks Indonesia.</p>
+        </div>
+        <div class="relevance-item">
+          <div class="ri-head">⚠️ Keterbatasan: Metodologi</div>
+          <p>PVAR bersifat <em>reduced-form</em> tanpa fondasi mikro struktural — berbeda dengan DSGE Andre yang memiliki fondasi optimasi agen. PVAR tidak bisa menjawab pertanyaan kebijakan counterfactual secara langsung.</p>
+        </div>
+        <div class="relevance-item">
+          <div class="ri-head">⚠️ Keterbatasan: Keterkaitan Antar-Wilayah</div>
+          <p>Studi ini <em>tidak</em> memodelan spillover antar-region secara eksplisit — justru celah yang diisi tesis Andre dengan model dua-region DSGE dan keterkaitan ekonomi antar kawasan terdampak dan tidak terdampak.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 8. SITASI -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>Informasi Sitasi</h2>
+    </div>
+    <div class="section-body">
+      <div class="citation-box">
+        <span class="cite-key">APA 7:</span><br>
+        Kukeli, A. (2025). The effects and the macroeconomic dynamics of natural disaster damages: Investigation of local evidence. <em>Regional Studies, Regional Science, 12</em>(1), 5–22. https://doi.org/10.1080/21681376.2025.2452524
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="page-footer">
+  Disusun untuk referensi tesis: <em>Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context</em> &nbsp;|&nbsp; Universitas Gadjah Mada · 2025
+</footer>
+
+</body>
+</html>
