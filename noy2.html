@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noy (2009) — Konsekuensi Makroekonomi Bencana Alam</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+<style>
+  :root {
+    --cream: #faf7f2;
+    --warm-white: #f5f0e8;
+    --parchment: #ede8dc;
+    --gold: #b5863a;
+    --gold-light: #d4a853;
+    --gold-muted: #c9a06a;
+    --sienna: #8b4513;
+    --forest: #2d5016;
+    --ink: #1a1209;
+    --ink-mid: #3d2e1a;
+    --ink-light: #6b5840;
+    --rust: #c0392b;
+    --teal: #1a6b5a;
+    --teal-light: #2e8b72;
+    --border: #d4c9b0;
+    --shadow: rgba(26,18,9,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* HEADER */
+  .page-header {
+    background: var(--ink);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(181,134,58,0.04) 20px,
+      rgba(181,134,58,0.04) 21px
+    );
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .journal-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    margin-bottom: 1.2rem;
+  }
+  .paper-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.01em;
+  }
+  .paper-author {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--gold-muted);
+    margin-bottom: 0.4rem;
+  }
+  .paper-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(250,247,242,0.45);
+    letter-spacing: 0.08em;
+  }
+
+  /* THESIS CONTEXT BANNER */
+  .thesis-banner {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--forest) 100%);
+    padding: 1.25rem 2rem;
+    border-left: 4px solid var(--gold);
+  }
+  .thesis-banner-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .thesis-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .thesis-text {
+    color: rgba(250,247,242,0.92);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .thesis-text strong {
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  /* MAIN LAYOUT */
+  .main-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 3.5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+  .section:nth-child(2) { animation-delay: 0.05s; }
+  .section:nth-child(3) { animation-delay: 0.10s; }
+  .section:nth-child(4) { animation-delay: 0.15s; }
+  .section:nth-child(5) { animation-delay: 0.20s; }
+  .section:nth-child(6) { animation-delay: 0.25s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--parchment);
+    line-height: 1;
+    width: 2.5rem;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .section-accent {
+    width: 3rem;
+    height: 3px;
+    background: var(--gold);
+    margin-top: 0.3rem;
+  }
+
+  /* PROSE */
+  p { margin-bottom: 0.9rem; color: var(--ink-mid); }
+  p:last-child { margin-bottom: 0; }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    padding: 1.3rem 1.4rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px var(--shadow);
+  }
+  .card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .card-body {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* RESEARCH QUESTIONS */
+  .rq-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+  .rq-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--teal);
+    padding: 1rem 1.2rem;
+  }
+  .rq-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--teal);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .rq-text {
+    font-size: 0.93rem;
+    color: var(--ink-mid);
+    line-height: 1.65;
+  }
+  .rq-text em {
+    color: var(--sienna);
+    font-style: italic;
+  }
+
+  /* FLOWCHART */
+  .flowchart {
+    margin-top: 1rem;
+  }
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  .flow-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 52px;
+  }
+  .flow-node {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .flow-node.alt { background: var(--teal); color: var(--cream); }
+  .flow-node.end { background: var(--gold); color: var(--ink); }
+  .flow-connector {
+    width: 2px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--border), var(--parchment));
+    margin: 0 auto;
+  }
+  .flow-content {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    padding: 0.9rem 1.2rem;
+    flex: 1;
+    margin-top: 0.5rem;
+  }
+  .flow-content-title {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .flow-content-desc {
+    font-size: 0.84rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+  .flow-content-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--parchment);
+    color: var(--gold);
+    padding: 0.15rem 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  /* EQUATION BLOCK */
+  .eq-block {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .eq-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1.2rem;
+    background: var(--parchment);
+    border-bottom: 1px solid var(--border);
+  }
+  .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .eq-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-light);
+  }
+  .eq-body {
+    padding: 1.2rem 1.5rem;
+  }
+  .eq-math {
+    overflow-x: auto;
+    padding: 0.5rem 0;
+    text-align: center;
+  }
+  .eq-description {
+    margin-top: 0.8rem;
+    font-size: 0.86rem;
+    color: var(--ink-light);
+    line-height: 1.65;
+    border-top: 1px dashed var(--border);
+    padding-top: 0.8rem;
+  }
+  .eq-vars {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .eq-var {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    padding: 0.15rem 0.5rem;
+    color: var(--ink-mid);
+  }
+
+  /* FINDINGS TABLE */
+  .findings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.88rem;
+  }
+  .findings-table th {
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 500;
+  }
+  .findings-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-mid);
+    vertical-align: top;
+  }
+  .findings-table tr:nth-child(even) td { background: var(--warm-white); }
+  .findings-table tr:last-child td { border-bottom: none; }
+  .tag-pos {
+    display: inline-block;
+    background: rgba(46,139,114,0.12);
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.45rem;
+    letter-spacing: 0.06em;
+  }
+  .tag-neg {
+    display: inline-block;
+    background: rgba(192,57,43,0.1);
+    color: var(--rust);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.45rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* INSIGHT BOX */
+  .insight-box {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--teal);
+    padding: 1.3rem 1.5rem;
+    margin: 1.2rem 0;
+    position: relative;
+  }
+  .insight-box::before {
+    content: '❝';
+    position: absolute;
+    top: 0.6rem;
+    right: 1rem;
+    font-size: 2rem;
+    color: var(--parchment);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .insight-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+  }
+  .insight-text {
+    font-style: italic;
+    color: var(--ink-mid);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  /* TWO-COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  /* TAG CHIP */
+  .chip {
+    display: inline-block;
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.07em;
+    padding: 0.2rem 0.6rem;
+    color: var(--ink-mid);
+    margin: 0.2rem 0.15rem;
+  }
+  .chip.green { border-color: var(--teal); color: var(--teal); background: rgba(46,139,114,0.06); }
+  .chip.amber { border-color: var(--gold); color: var(--gold); background: rgba(181,134,58,0.06); }
+  .chip.red { border-color: var(--rust); color: var(--rust); background: rgba(192,57,43,0.06); }
+
+  /* FOOTER */
+  .page-footer {
+    background: var(--ink);
+    color: rgba(250,247,242,0.4);
+    text-align: center;
+    padding: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    margin-top: 3rem;
+  }
+  .page-footer a { color: var(--gold-muted); text-decoration: none; }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  /* STICKY NAV */
+  .toc-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,247,242,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.6rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-nav::-webkit-scrollbar { display: none; }
+  .toc-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+  .toc-link:hover {
+    border-color: var(--border);
+    color: var(--ink);
+    background: var(--parchment);
+  }
+  .toc-sep { color: var(--border); font-size: 0.8rem; flex-shrink: 0; }
+
+  /* CONTRIBUTION LINK CALLOUT */
+  .callout {
+    background: linear-gradient(135deg, rgba(46,139,114,0.07), rgba(26,107,90,0.04));
+    border: 1px solid rgba(46,139,114,0.25);
+    border-left: 4px solid var(--teal);
+    padding: 1.1rem 1.4rem;
+    margin-top: 1.5rem;
+  }
+  .callout-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+  }
+  .callout-body {
+    font-size: 0.88rem;
+    color: var(--ink-mid);
+    line-height: 1.65;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="header-inner">
+    <div class="journal-badge">Journal of Development Economics · Vol. 88 · 2009 · hal. 221–231</div>
+    <h1 class="paper-title">The Macroeconomic Consequences of Disasters</h1>
+    <div class="paper-author">Ilan Noy — University of Hawaii, Manoa</div>
+    <div class="paper-meta">JEL: O40 · Q54 &nbsp;|&nbsp; DOI: 10.1016/j.jdeveco.2008.02.005 &nbsp;|&nbsp; Data: EM-DAT · WDI 1970–2003 · 109 Negara</div>
+  </div>
+</header>
+
+<!-- THESIS BANNER -->
+<div class="thesis-banner">
+  <div class="thesis-banner-inner">
+    <div class="thesis-icon">📚</div>
+    <div class="thesis-text">
+      <strong>Relevansi Tesis:</strong> Makalah ini menjadi salah satu fondasi empiris penting bagi tesis 
+      <em>"Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context."</em>
+      Noy (2009) menyediakan evidensi lintas negara bahwa karakteristik institusional, keterbukaan perdagangan, dan kondisi keuangan memoderasi biaya makroekonomi bencana — motivasi langsung untuk pemodelan heterogenitas regional dalam DSGE.
+    </div>
+  </div>
+</div>
+
+<!-- TOC NAV -->
+<nav class="toc-nav">
+  <a class="toc-link" href="#problem">Masalah Utama</a>
+  <span class="toc-sep">·</span>
+  <a class="toc-link" href="#fitur">Fitur Model</a>
+  <span class="toc-sep">·</span>
+  <a class="toc-link" href="#alur">Alur Pemodelan</a>
+  <span class="toc-sep">·</span>
+  <a class="toc-link" href="#persamaan">Persamaan</a>
+  <span class="toc-sep">·</span>
+  <a class="toc-link" href="#estimasi">Metode Estimasi</a>
+  <span class="toc-sep">·</span>
+  <a class="toc-link" href="#temuan">Temuan Utama</a>
+  <span class="toc-sep">·</span>
+  <a class="toc-link" href="#kontribusi">Kontribusi & Keterbatasan</a>
+</nav>
+
+<main class="main-wrap">
+
+  <!-- SECTION 1: MASALAH UTAMA -->
+  <section class="section" id="problem">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div>
+        <div class="section-title">Masalah Utama yang Ingin Diselesaikan</div>
+        <div class="section-accent"></div>
+      </div>
+    </div>
+
+    <p>
+      Meskipun bencana alam menyebabkan kerugian ekonomi dan manusia yang masif selama berabad-abad, 
+      hampir tidak ada penelitian ekonomi yang secara sistematis mengukur <em>konsekuensi ex post makroekonomi</em> 
+      dari bencana dalam kerangka panel data internasional yang komprehensif. Sebagian besar studi sebelumnya 
+      berfokus pada preparedness (ex ante) atau studi kasus individual yang sulit digeneralisasi.
+    </p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-label">Kesenjangan 01</div>
+        <div class="card-title">Tidak Ada Analisis Komparatif Sistematis</div>
+        <div class="card-body">Studi kasus individual (misal: Gempa Kobe, Badai Mitch) tidak dapat memberikan generalisasi. Dibutuhkan kerangka multikountri dan multi-event.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Kesenjangan 02</div>
+        <div class="card-title">Determinan Biaya Belum Dipahami</div>
+        <div class="card-body">Mengapa negara dengan bencana serupa mengalami dampak sangat berbeda? Peran institusi, kebijakan fiskal, dan keuangan belum teridentifikasi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Kesenjangan 03</div>
+        <div class="card-title">Ukuran Dampak Tidak Terstandar</div>
+        <div class="card-body">Tidak ada metodologi baku untuk mengukur kerugian relatif terhadap ukuran ekonomi, sehingga perbandingan lintas negara tidak valid.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pertanyaan Pokok</div>
+        <div class="card-title">Apa yang Menentukan Biaya Makro Bencana?</div>
+        <div class="card-body">Apakah faktor struktural seperti keterbukaan perdagangan, kualitas institusi, dan kondisi keuangan memoderasi besarnya penurunan output pasca bencana?</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Koneksi ke Research Questions Tesis</div>
+      <div class="callout-body">
+        Pertanyaan Noy (2009) — apa yang menentukan biaya makro bencana? — secara langsung memotivasi RQ tesis:
+        <span class="chip amber">RQ1: Kebijakan mitigasi optimal</span>
+        <span class="chip amber">RQ3: Efek lintas wilayah (spill-over)</span>
+        <span class="chip amber">RQ4: Kecepatan pemulihan</span>
+        Noy memberikan evidensi empiris bahwa kebijakan dan institusi penting — DSGE memberikan mekanisme transmisi yang eksplisit.
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: FITUR MODEL -->
+  <section class="section" id="fitur">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div>
+        <div class="section-title">Fitur Model & Desain Empiris</div>
+        <div class="section-accent"></div>
+      </div>
+    </div>
+
+    <p>Noy (2009) bukan model struktural DSGE, melainkan model panel ekonometrik dinamis dengan desain berikut:</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-label">Data Bencana</div>
+        <div class="card-title">EM-DAT Database</div>
+        <div class="card-body">507 event (killed), 466 event (affected), 428 event (damage), periode 1970–2003. Tiga ukuran: jiwa meninggal, jiwa terdampak, kerusakan properti (% PDB).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cakupan</div>
+        <div class="card-title">109 Negara, Panel 1970–2003</div>
+        <div class="card-body">Rata-rata ~15 observasi per negara. Sumber data makro: World Bank WDI. Variabel kontrol: institusi, kredit, FDI, current account, neraca pemerintah.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Variabel Dependen</div>
+        <div class="card-title">Pertumbuhan PDB Tahunan</div>
+        <div class="card-body">Fokus utama pada short-run output dynamics. Juga mencoba inflasi, investasi, dan perdagangan — namun hasilnya tidak robust.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Heterogenitas</div>
+        <div class="card-title">Efek Tetap per Negara</div>
+        <div class="card-body">Country-specific fixed effects ($\alpha_i$) untuk menangkap perbedaan pengalaman pertumbuhan jangka panjang. Model dinamis dengan lag pertumbuhan PDB.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Interaksi</div>
+        <div class="card-title">Moderating Variables</div>
+        <div class="card-body">Bencana diinteraksikan dengan: illiteracy, institutional quality, GDP per capita, government size, exports, capital account openness, forex reserves, domestic credit.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Standardisasi</div>
+        <div class="card-title">Ukuran Bencana Relatif</div>
+        <div class="card-body">Semua ukuran bencana dinormalisasi terhadap PDB atau populasi tahun sebelumnya, dan disesuaikan berdasarkan bulan kejadian untuk menangkap efek temporal.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: ALUR PEMODELAN -->
+  <section class="section" id="alur">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div>
+        <div class="section-title">Alur Proses Pemodelan</div>
+        <div class="section-accent"></div>
+      </div>
+    </div>
+
+    <div class="flowchart">
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-node">1</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-content">
+          <div class="flow-content-title">Konstruksi Ukuran Bencana</div>
+          <div class="flow-content-desc">Data EM-DAT (1970–2003) diolah menjadi tiga ukuran: jiwa meninggal (DKILP), jiwa terdampak (DAFFP), dan kerusakan properti (DDAMG). Setiap ukuran dinormalisasi terhadap populasi/PDB tahun sebelumnya dan dibobotkan berdasarkan bulan onset bencana.</div>
+          <div class="flow-content-tag">Input: EM-DAT + WDI</div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-node">2</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-content">
+          <div class="flow-content-title">Spesifikasi Benchmark (Parsimoni)</div>
+          <div class="flow-content-desc">Estimasi persamaan pertumbuhan paling sederhana: PDB growth sebagai fungsi dari lagged growth, ukuran bencana, dan efek tetap negara. Tidak ada variabel kontrol tambahan pada tahap ini.</div>
+          <div class="flow-content-tag">Persamaan (2): Model Dasar</div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-node alt">3</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-content">
+          <div class="flow-content-title">Seleksi Ukuran Bencana Signifikan</div>
+          <div class="flow-content-desc">Dari tiga ukuran, hanya kerusakan properti (DDAMG) yang menunjukkan pengaruh negatif signifikan terhadap pertumbuhan PDB. Ukuran populasi (killed/affected) tidak signifikan. Analisis selanjutnya berfokus hanya pada DDAMG.</div>
+          <div class="flow-content-tag">Temuan Awal: Tabel 3</div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-node alt">4</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-content">
+          <div class="flow-content-title">Estimasi dengan Variabel Kontrol Penuh</div>
+          <div class="flow-content-desc">Spesifikasi diperluas dengan menambahkan faktor domestik (neraca pemerintah, inflasi, investasi, kredit), faktor eksternal (current account, FDI), dan faktor struktural (keterbukaan perdagangan, kualitas institusi, krisis keuangan). Semua variabel kontrol dengan lag satu tahun.</div>
+          <div class="flow-content-tag">Persamaan (3): Spesifikasi Lengkap via Hausman-Taylor</div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-node alt">5</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-content">
+          <div class="flow-content-title">Analisis Heterogenitas Lintas Negara</div>
+          <div class="flow-content-desc">Sampel dipecah berdasarkan: (1) OECD vs. berkembang, (2) ekonomi besar vs. kecil. Ditemukan bahwa dampak negatif bencana hanya signifikan untuk negara berkembang dan ekonomi kecil — bukan negara maju.</div>
+          <div class="flow-content-tag">Sub-Sampel: Tabel 4 Kolom 2–5</div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-node">6</div>
+          <div class="flow-connector"></div>
+        </div>
+        <div class="flow-content">
+          <div class="flow-content-title">Analisis Determinan Biaya (Interaksi)</div>
+          <div class="flow-content-desc">Persamaan diperluas dengan interaksi bencana × karakteristik negara ($Z_{i,t}$): illiteracy, institutional strength, per capita income, government size, export openness, capital account openness (dua ukuran), forex reserves, dan domestic credit.</div>
+          <div class="flow-content-tag">Persamaan (4): Model Interaksi — Tabel 6 & 7</div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-node end">7</div>
+        </div>
+        <div class="flow-content">
+          <div class="flow-content-title">Robustness Checks</div>
+          <div class="flow-content-desc">Uji ketahanan dengan: (1) binary indicator bencana (bukan ukuran kontinu), (2) ukuran intensitas fisik (skala Richter untuk gempa, kecepatan angin untuk badai), (3) replikasi hanya untuk sub-sampel negara berkembang.</div>
+          <div class="flow-content-tag">Tabel B1–B4: Appendix Robustness</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: PERSAMAAN -->
+  <section class="section" id="persamaan">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div>
+        <div class="section-title">Persamaan yang Digunakan</div>
+        <div class="section-accent"></div>
+      </div>
+    </div>
+
+    <!-- EQ 1 -->
+    <div class="eq-block">
+      <div class="eq-header">
+        <div class="eq-label">Konstruksi Ukuran Bencana</div>
+        <div class="eq-num">Pers. (1)</div>
+      </div>
+      <div class="eq-body">
+        <div class="eq-math">
+          $$DMS = DM \cdot \frac{12 - OM}{12}$$
+        </div>
+        <div class="eq-description">
+          Ukuran bencana yang digunakan dalam estimasi ($DMS$) dihitung dengan membobot ukuran bencana awal ($DM$) 
+          berdasarkan bulan onset bencana ($OM$). Bencana yang terjadi lebih awal dalam tahun memiliki bobot lebih besar 
+          karena dampaknya lebih lama dirasakan dalam tahun tersebut. Bobot maksimum (= 1) ketika bencana terjadi di bulan Januari ($OM = 0$).
+        </div>
+        <div class="eq-vars">
+          <div class="eq-var">$DMS$ = ukuran bencana berbobot</div>
+          <div class="eq-var">$DM$ = ukuran bencana asal (killed/affected/damage)</div>
+          <div class="eq-var">$OM$ = bulan onset bencana (1–12)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EQ 2 -->
+    <div class="eq-block">
+      <div class="eq-header">
+        <div class="eq-label">Spesifikasi Benchmark (Model Dasar)</div>
+        <div class="eq-num">Pers. (2)</div>
+      </div>
+      <div class="eq-body">
+        <div class="eq-math">
+          $$y_{i,t} = \alpha_i + \beta y_{i,t-1} + \gamma \, DMS_{i,t} + \phi X_{i,\cdot} + \varepsilon_{i,t}$$
+        </div>
+        <div class="eq-description">
+          Spesifikasi panel dinamis paling sederhana. Pertumbuhan PDB tahun ini merupakan fungsi dari: 
+          (1) efek tetap negara $\alpha_i$, (2) pertumbuhan PDB tahun lalu $y_{i,t-1}$ untuk menangkap persistensi, 
+          (3) ukuran bencana $DMS_{i,t}$, dan (4) variabel kontrol $X_{i,\cdot}$. 
+          Koefisien $\gamma$ mengukur dampak langsung bencana terhadap pertumbuhan output.
+        </div>
+        <div class="eq-vars">
+          <div class="eq-var">$y_{i,t}$ = pertumbuhan PDB negara $i$ tahun $t$</div>
+          <div class="eq-var">$\alpha_i$ = efek tetap negara</div>
+          <div class="eq-var">$\beta$ = koef. persistensi pertumbuhan</div>
+          <div class="eq-var">$\gamma$ = efek bencana terhadap output</div>
+          <div class="eq-var">$X_{i,\cdot}$ = variabel kontrol makro</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EQ 3 -->
+    <div class="eq-block">
+      <div class="eq-header">
+        <div class="eq-label">Spesifikasi Hausman-Taylor (Model Lengkap)</div>
+        <div class="eq-num">Pers. (3)</div>
+      </div>
+      <div class="eq-body">
+        <div class="eq-math">
+          $$y_{i,t} = \alpha_i + \beta y_{i,t-1} + \gamma \, DMS_{i,t} + \phi_1 X^1_{i,\cdot} + \phi_2 X^2_{i,\cdot} + \varepsilon_{i,t}$$
+        </div>
+        <div class="eq-description">
+          Perluasan Pers. (2) dengan membedakan variabel kontrol menjadi dua kelompok: 
+          $X^1_{i,\cdot}$ adalah variabel yang diasumsikan <em>eksogen lemah</em> (tidak berkorelasi dengan $\alpha_i$), 
+          sedangkan $X^2_{i,\cdot}$ adalah variabel yang diasumsikan <em>predetermined/endogen</em> (berkorelasi dengan efek tetap). 
+          Ukuran bencana $DMS_{i,t}$ diklasifikasikan sebagai predetermined karena dikonstruksi berdasarkan PDB tahun sebelumnya.
+        </div>
+        <div class="eq-vars">
+          <div class="eq-var">$X^1_{i,\cdot}$ = variabel eksogen (eksogen lemah)</div>
+          <div class="eq-var">$X^2_{i,\cdot}$ = variabel endogen/predetermined</div>
+          <div class="eq-var">$\phi_1, \phi_2$ = koefisien masing-masing kelompok</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EQ 4 -->
+    <div class="eq-block">
+      <div class="eq-header">
+        <div class="eq-label">Model Interaksi — Determinan Biaya Bencana</div>
+        <div class="eq-num">Pers. (4)</div>
+      </div>
+      <div class="eq-body">
+        <div class="eq-math">
+          $$y_{i,t} = \alpha_i + \beta y_{i,t-1} + \gamma \, DMS_{i,t} + \delta \left(DMS_{i,t} \cdot Z_{i,t}\right) + \tau Z_{i,t} + \phi X_{i,t-1} + \varepsilon_{i,t}$$
+        </div>
+        <div class="eq-description">
+          Persamaan kunci untuk mengidentifikasi determinan biaya makroekonomi bencana. 
+          Variabel $Z_{i,t}$ adalah karakteristik struktural/institusional yang diinteraksikan dengan ukuran bencana. 
+          Koefisien $\delta$ pada istilah interaksi mengukur <em>bagaimana</em> karakteristik negara memoderasi dampak bencana: 
+          $\delta > 0$ berarti karakteristik tersebut <em>meredam</em> dampak negatif bencana (misal: kualitas institusi yang lebih baik). 
+          Efek langsung $Z_{i,t}$ juga disertakan via $\tau$ untuk memastikan koefisien interaksi tidak bias.
+        </div>
+        <div class="eq-vars">
+          <div class="eq-var">$Z_{i,t}$ = moderating variable (institusi, kredit, dst.)</div>
+          <div class="eq-var">$\delta$ = efek moderasi bencana × karakteristik negara</div>
+          <div class="eq-var">$\tau$ = efek langsung karakteristik negara</div>
+          <div class="eq-var">$X_{i,t-1}$ = variabel kontrol dengan lag 1 tahun</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Normalization formulas -->
+    <div class="eq-block">
+      <div class="eq-header">
+        <div class="eq-label">Normalisasi Ukuran Bencana</div>
+        <div class="eq-num">Def. Operasional</div>
+      </div>
+      <div class="eq-body">
+        <div class="eq-math">
+          $$DKILP_{i,t} = \frac{\text{Jiwa Meninggal}_{i,t}}{Pop_{i,t-1}} \cdot \frac{12 - OM_{i,t}}{12}$$
+        </div>
+        <div class="eq-math" style="margin-top:0.8rem;">
+          $$DAFFP_{i,t} = \frac{\text{Jiwa Terdampak}_{i,t}}{Pop_{i,t-1}} \cdot \frac{12 - OM_{i,t}}{12}$$
+        </div>
+        <div class="eq-math" style="margin-top:0.8rem;">
+          $$DDAMG_{i,t} = \frac{\text{Kerusakan Langsung}_{i,t}}{PDB_{i,t-1}} \cdot \frac{12 - OM_{i,t}}{12}$$
+        </div>
+        <div class="eq-description">
+          Ketiga ukuran bencana dinormalisasi terhadap ukuran ekonomi/populasi tahun sebelumnya (bukan tahun berjalan) 
+          untuk menghindari endogeneitas — karena PDB dan populasi tahun berjalan sudah terpengaruh oleh bencana itu sendiri.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: METODE ESTIMASI -->
+  <section class="section" id="estimasi">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div>
+        <div class="section-title">Metode Estimasi</div>
+        <div class="section-accent"></div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">Metode Utama</div>
+      <div class="insight-text">
+        Hausman–Taylor (1981) Random Effects IV Estimator — estimator tiga langkah yang menangani korelasi 
+        antara efek tetap negara ($\alpha_i$) dengan variabel predetermined/endogen, menggunakan deviasi dari mean 
+        nilai lag variabel time-varying sebagai instrumen.
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:1.3rem;">
+      <div>
+        <div class="card" style="border-top-color: var(--teal);">
+          <div class="card-label">Langkah 1</div>
+          <div class="card-title">Fixed Effects OLS</div>
+          <div class="card-body">Estimasi country-fixed-effects untuk mendapatkan estimasi konsisten (tapi tidak efisien) bagi koefisien variabel time-varying. Menghilangkan heterogenitas tidak teramati antar negara.</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-top-color: var(--teal);">
+          <div class="card-label">Langkah 2</div>
+          <div class="card-title">FGLS</div>
+          <div class="card-body">Feasible Generalized Least Squares untuk mendapatkan estimasi variansi bagi variabel time-invariant. Menggunakan residual dari langkah pertama.</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-top-color: var(--gold);">
+          <div class="card-label">Langkah 3</div>
+          <div class="card-title">Weighted IV Estimation</div>
+          <div class="card-body">Estimasi IV berbobot menggunakan deviasi dari mean nilai lag variabel time-varying sebagai instrumen. Menggabungkan efisiensi dari langkah 1 dan 2.</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-top-color: var(--gold);">
+          <div class="card-label">Pertimbangan</div>
+          <div class="card-title">Mengapa Bukan GMM Arellano-Bond?</div>
+          <div class="card-body">AB-GMM lebih efisien untuk panel dengan $N$ besar dan $T$ kecil. Dalam dataset ini, jumlah instrumen akan sangat besar (over-identified). HT lebih praktis secara komputasi untuk konfigurasi panel ini.</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.3rem;">
+      <strong>Asumsi Eksogenitas:</strong> Ukuran bencana diasumsikan eksogen terhadap pertumbuhan PDB 
+      (reverse causality tidak masuk akal — pertumbuhan ekonomi tidak menyebabkan bencana alam). 
+      Asumsi ini diverifikasi secara informal dengan membandingkan distribusi variabel independen antara observasi bencana dan non-bencana.
+    </p>
+
+    <p>
+      <strong>Identifikasi dalam HT:</strong> Syarat identifikasi memerlukan jumlah variabel eksogen 
+      setidaknya sama dengan jumlah variabel time-invariant yang predetermined/endogen. 
+      Mean variabel eksogen ($\bar{X}^1_i$) diasumsikan tidak berkorelasi dengan efek tetap negara ($\alpha_i$): 
+      $\text{plim}\left[\frac{1}{N}\sum_{i=1}^N \alpha_i X^1_i\right] = 0$.
+    </p>
+  </section>
+
+  <!-- SECTION 6: TEMUAN UTAMA -->
+  <section class="section" id="temuan">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div>
+        <div class="section-title">Temuan Utama & Implikasi</div>
+        <div class="section-accent"></div>
+      </div>
+    </div>
+
+    <p>Temuan utama dikelompokkan ke dalam tiga kategori: dampak langsung bencana, heterogenitas lintas negara, dan determinan biaya.</p>
+
+    <table class="findings-table">
+      <thead>
+        <tr>
+          <th>Variabel Moderasi</th>
+          <th>Arah Efek pada Biaya Bencana</th>
+          <th>Interpretasi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Kerusakan properti (DDAMG)</strong></td>
+          <td><span class="tag-neg">Negatif Signifikan</span></td>
+          <td>Dampak bencana terhadap PDB bekerja melalui kerusakan kapital, bukan korban jiwa. Destruksi infrastruktur mengganggu sistem transportasi dan rantai produksi.</td>
+        </tr>
+        <tr>
+          <td><strong>Jiwa meninggal / terdampak</strong></td>
+          <td><span class="tag-pos">Tidak Signifikan</span></td>
+          <td>Biaya manusia berdampak jangka panjang (lihat Skidmore & Toya, 2002), bukan short-run. Mungkin karena kontribusi kelompok rentan terhadap produksi terukur terbatas.</td>
+        </tr>
+        <tr>
+          <td><strong>Status negara berkembang</strong></td>
+          <td><span class="tag-neg">Lebih Besar (–9% PDB)</span></td>
+          <td>Negara berkembang mengalami penurunan output ~9% lebih besar per satu standar deviasi kerusakan. Negara maju tidak signifikan — kapasitas kebijakan countercyclical lebih kuat.</td>
+        </tr>
+        <tr>
+          <td><strong>Kualitas institusi</strong></td>
+          <td><span class="tag-pos">Meredam Dampak (+)</span></td>
+          <td>Institusi lebih kuat → respons publik lebih efisien → biaya makro lebih rendah. Baik melalui mobilisasi sumber daya pemerintah maupun respons sektor swasta.</td>
+        </tr>
+        <tr>
+          <td><strong>Tingkat melek huruf</strong></td>
+          <td><span class="tag-pos">Meredam Dampak (+)</span></td>
+          <td>Modal manusia lebih tinggi mengurangi ketergantungan pada kapital fisik yang rusak. Satu-satunya proksi modal manusia tersedia dengan cakupan luas dalam WDI.</td>
+        </tr>
+        <tr>
+          <td><strong>PDB per kapita</strong></td>
+          <td><span class="tag-pos">Meredam Dampak (+)</span></td>
+          <td>Negara lebih kaya lebih terdiversifikasi dan mampu kebijakan countercyclical. Mengkonfirmasi temuan diferensiasi OECD vs. berkembang.</td>
+        </tr>
+        <tr>
+          <td><strong>Belanja pemerintah (% PDB)</strong></td>
+          <td><span class="tag-pos">Meredam Dampak (+)</span></td>
+          <td>Pemerintah lebih besar mampu memobilisasi sumber daya rekonstruksi lebih cepat dan dalam jumlah lebih besar.</td>
+        </tr>
+        <tr>
+          <td><strong>Keterbukaan ekspor</strong></td>
+          <td><span class="tag-pos">Meredam Dampak (+)</span></td>
+          <td>Ekonomi lebih terbuka mengalami syok permintaan lebih kecil dan lebih mudah menarik arus modal internasional untuk rekonstruksi.</td>
+        </tr>
+        <tr>
+          <td><strong>Keterbukaan akun modal</strong></td>
+          <td><span class="tag-neg">Memperburuk Dampak (–)</span></td>
+          <td>Akun modal lebih terbuka → capital flight lebih besar pasca bencana (konfirmasi Yang, 2006). Akun modal tertutup lebih protektif terhadap pelarian modal.</td>
+        </tr>
+        <tr>
+          <td><strong>Cadangan devisa</strong></td>
+          <td><span class="tag-pos">Meredam Dampak (+)</span></td>
+          <td>Cadangan devisa lebih besar berfungsi sebagai buffer stock terhadap capital outflows yang didokumentasikan pasca bencana.</td>
+        </tr>
+        <tr>
+          <td><strong>Kredit domestik</strong></td>
+          <td><span class="tag-pos">Meredam Dampak (+)</span></td>
+          <td>Sistem keuangan lebih dalam memungkinkan pembiayaan rekonstruksi lebih mudah. Pasar saham tidak terbukti penting.</td>
+        </tr>
+        <tr>
+          <td><strong>Lokasi tropis</strong></td>
+          <td><span class="tag-pos">Efek Positif (paradoks)</span></td>
+          <td>Negara tropis justru mengalami pertumbuhan lebih tinggi pasca bencana — kemungkinan karena ketahanan sektor pertanian (3 siklus tanam/tahun) yang cepat pulih.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:1.5rem; border-top-color: var(--gold);">
+      <div class="insight-label">Kuantifikasi Dampak (Tabel 5)</div>
+      <div class="insight-text">
+        Satu standar deviasi peningkatan kerusakan properti di negara berkembang menurunkan pertumbuhan output sekitar 9%. 
+        Efek kumulatif (memperhitungkan koefisien lag PDB) lebih besar lagi. 
+        Untuk negara maju, efek positif kecil dan tidak signifikan secara ekonomi (&lt;1%).
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: KONTRIBUSI & KETERBATASAN -->
+  <section class="section" id="kontribusi">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div>
+        <div class="section-title">Kontribusi, Keterbatasan & Agenda Riset</div>
+        <div class="section-accent"></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="card" style="border-top-color: var(--teal); height:100%;">
+          <div class="card-label">Kontribusi Utama</div>
+          <div class="card-title">Yang Pertama Dilakukan</div>
+          <div class="card-body">
+            <span class="chip green">Analisis panel lintas negara pertama</span>
+            <span class="chip green">Identifikasi moderating factors</span>
+            <span class="chip green">Normalisasi ukuran bencana relatif</span>
+            <span class="chip green">Differensiasi negara maju vs berkembang</span>
+            Pertama kali membuktikan secara sistematis bahwa biaya makro bencana bergantung pada karakteristik institusional dan kebijakan negara.
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-top-color: var(--rust); height:100%;">
+          <div class="card-label">Keterbatasan</div>
+          <div class="card-title">Yang Belum Dijawab</div>
+          <div class="card-body">
+            <span class="chip red">Tidak ada mekanisme transmisi eksplisit</span>
+            <span class="chip red">Tidak ada analisis regional/spasial</span>
+            <span class="chip red">Tidak ada efek jangka panjang</span>
+            <span class="chip red">Tidak ada heterogenitas agen</span>
+            <span class="chip red">Tidak ada dampak pada distribusi pendapatan</span>
+            Data reduced-form tidak dapat mengidentifikasi jalur kausal spesifik bagaimana bencana memengaruhi output.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:1.5rem; border-left-color: var(--gold);">
+      <div class="callout-title">Relevansi untuk Tesis DSGE Regional Anda</div>
+      <div class="callout-body">
+        Noy (2009) menyediakan <em>motivasi empiris</em> tetapi bukan mekanisme teoritis. Tesis Anda mengisi kesenjangan ini dengan:
+        <br><br>
+        <span class="chip amber">RQ1 ↔ Tabel 6–7</span> Noy mengidentifikasi variabel yang memoderasi biaya, tesis Anda mencari kebijakan optimal melalui mekanisme DSGE.
+        <br>
+        <span class="chip amber">RQ2 ↔ Kesenjangan</span> Tidak ada model struktur dalam Noy — DSGE Anda menyediakan fondasi mikroekonomi.
+        <br>
+        <span class="chip amber">RQ3 ↔ Absen</span> Noy tidak memiliki analisis regional/spillover — two-region DSGE Anda langsung menjawab ini.
+        <br>
+        <span class="chip amber">RQ4 ↔ Absen</span> "Kecepatan pemulihan" tidak dianalisis dalam Noy — recovery dynamics adalah kontribusi unik tesis Anda.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <p style="font-size:0.88rem; color: var(--ink-light);">
+      <strong>Variabel yang Tidak Signifikan:</strong> Inflasi, gross capital formation, 
+      import growth, anggaran pemerintah (untuk keseluruhan sampel), ukuran sektor pertanian/pertambangan, 
+      status pulau (islands), luas wilayah geografis.
+    </p>
+
+    <p style="font-size:0.88rem; color: var(--ink-light);">
+      <strong>Catatan Data:</strong> Kemungkinan over-reporting kerusakan oleh negara berkembang 
+      (insentif mendapat bantuan donor) → koefisien bisa jadi underestimate. 
+      Bias pengukuran diasumsikan sistematik dan tidak mempengaruhi estimasi relatif antar negara.
+    </p>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <div>Noy, I. (2009). The macroeconomic consequences of disasters. <em>Journal of Development Economics</em>, 88(2), 221–231.</div>
+  <div style="margin-top:0.4rem;">Halaman referensi dibuat untuk keperluan tesis Magister Ilmu Ekonomi — Universitas Gadjah Mada</div>
+</footer>
+
+</body>
+</html>

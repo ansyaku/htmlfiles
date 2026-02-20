@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSGE Bencana Alam: Tinjauan Literatur & Kerangka Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ],
+    throwOnError: false
+  });">
+</script>
+<style>
+  :root {
+    --cream: #faf7f2;
+    --warm-white: #f5f0e8;
+    --ink: #1a1714;
+    --brown-deep: #3d2b1f;
+    --brown-mid: #6b4c3b;
+    --amber: #c8843a;
+    --amber-light: #e8aa5e;
+    --sage: #5a7a5c;
+    --sage-light: #8aaa8c;
+    --terracotta: #c4603a;
+    --terracotta-light: #e07f5e;
+    --gold: #b8963a;
+    --gold-light: #d4b460;
+    --border: #d9cfc4;
+    --border-light: #ece7df;
+    --text-muted: #7a6e65;
+    --text-body: #2e2520;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--cream);
+    color: var(--text-body);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--brown-deep);
+    color: var(--cream);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(200,132,58,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(90,122,92,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--terracotta), var(--amber), var(--gold), var(--sage));
+  }
+  .header-badge {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    border: 1px solid rgba(200,132,58,0.4);
+    padding: 0.35rem 1rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  header h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.25;
+    max-width: 780px;
+    margin: 0 auto 1.2rem;
+    color: var(--cream);
+  }
+  header h1 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+  .header-meta {
+    font-size: 13px;
+    color: rgba(250,247,242,0.6);
+    letter-spacing: 0.04em;
+  }
+  .header-meta span { margin: 0 0.5rem; }
+
+  /* ─── NAV ─── */
+  nav {
+    background: var(--brown-mid);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding: 0 1.5rem;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  nav a {
+    display: inline-block;
+    padding: 0.85rem 1.1rem;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(250,247,242,0.65);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover {
+    color: var(--amber-light);
+    border-bottom-color: var(--amber-light);
+  }
+
+  /* ─── LAYOUT ─── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ─── RESEARCH QUESTIONS ─── */
+  .rq-section {
+    background: var(--warm-white);
+    border-top: 4px solid var(--terracotta);
+    padding: 3.5rem 2rem;
+  }
+  .rq-section .container { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: start; }
+  .rq-label {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.7rem;
+    color: var(--brown-deep);
+    line-height: 1.2;
+    position: sticky;
+    top: 4rem;
+  }
+  .rq-label span {
+    display: block;
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 0.5rem;
+  }
+  .rq-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .rq-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--terracotta);
+    padding: 1.2rem 1.5rem;
+    border-radius: 0 4px 4px 0;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 1rem;
+    align-items: start;
+    transition: box-shadow 0.2s;
+  }
+  .rq-card:hover { box-shadow: 0 3px 12px rgba(61,43,31,0.1); }
+  .rq-num {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--terracotta);
+    line-height: 1;
+    padding-top: 0.1rem;
+  }
+  .rq-card p { font-size: 14px; color: var(--text-body); line-height: 1.6; }
+
+  /* ─── PROBLEM SECTION ─── */
+  .problem-section {
+    padding: 4rem 2rem;
+    background: var(--cream);
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+  }
+  .section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.5rem;
+    color: var(--brown-deep);
+    font-weight: 700;
+  }
+  .section-title small {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.25rem;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .problem-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--amber);
+    padding: 1.5rem;
+    border-radius: 0 0 4px 4px;
+  }
+  .problem-card h4 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.95rem;
+    color: var(--brown-deep);
+    margin-bottom: 0.7rem;
+  }
+  .problem-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.65; }
+
+  .lit-gap {
+    background: linear-gradient(135deg, var(--brown-deep) 0%, #5a3a28 100%);
+    color: var(--cream);
+    padding: 2rem 2.5rem;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  .lit-gap::before {
+    content: '"';
+    position: absolute;
+    right: 1.5rem;
+    top: -0.5rem;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 8rem;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+  }
+  .lit-gap h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    margin-bottom: 0.8rem;
+  }
+  .lit-gap p { font-size: 14px; line-height: 1.7; color: rgba(250,247,242,0.85); max-width: 700px; }
+
+  /* ─── MODEL FEATURES ─── */
+  .features-section {
+    padding: 4rem 2rem;
+    background: var(--warm-white);
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .feature-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1rem;
+    align-items: start;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .feature-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(61,43,31,0.1); }
+  .feature-icon {
+    width: 2.5rem; height: 2.5rem;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .feature-card h4 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.9rem;
+    color: var(--brown-deep);
+    margin-bottom: 0.4rem;
+  }
+  .feature-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
+  .tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    background: var(--warm-white);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  /* ─── FLOWCHART ─── */
+  .flow-section {
+    padding: 4rem 2rem;
+    background: var(--cream);
+  }
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .flow-step {
+    width: 100%;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    padding: 1.2rem 2rem;
+    text-align: center;
+    border-radius: 4px;
+    position: relative;
+  }
+  .flow-step.start, .flow-step.end {
+    background: var(--brown-deep);
+    color: var(--cream);
+    border-radius: 50px;
+    padding: 0.9rem 2rem;
+  }
+  .flow-step.start .step-title, .flow-step.end .step-title {
+    color: var(--amber-light);
+  }
+  .flow-step.highlight {
+    border-color: var(--amber);
+    border-width: 2px;
+    background: #fff8f0;
+  }
+  .flow-step.alt {
+    border-color: var(--sage);
+    border-width: 2px;
+    background: #f0f7f0;
+  }
+  .step-num {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.25rem;
+  }
+  .step-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--brown-deep);
+    margin-bottom: 0.3rem;
+  }
+  .step-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+  .flow-arrow {
+    width: 2px; height: 2rem;
+    background: linear-gradient(to bottom, var(--amber), var(--amber-light));
+    position: relative;
+    flex-shrink: 0;
+  }
+  .flow-arrow::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 50%; transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--amber-light);
+  }
+  .flow-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+  }
+  .flow-split .flow-step { background: var(--cream); }
+  .flow-split-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.5rem 0;
+  }
+
+  /* ─── EQUATIONS ─── */
+  .eq-section {
+    padding: 4rem 2rem;
+    background: var(--warm-white);
+  }
+  .eq-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .eq-tab {
+    padding: 0.5rem 1.2rem;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--cream);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .eq-tab:hover, .eq-tab.active {
+    background: var(--brown-deep);
+    color: var(--amber-light);
+    border-color: var(--brown-deep);
+  }
+  .eq-panel { display: none; }
+  .eq-panel.active { display: block; }
+  .eq-block {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+  }
+  .eq-header {
+    padding: 0.75rem 1.2rem;
+    background: var(--brown-deep);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .eq-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    background: rgba(255,255,255,0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+  .eq-name {
+    font-size: 13px;
+    color: rgba(250,247,242,0.8);
+    font-weight: 400;
+  }
+  .eq-body {
+    padding: 1.2rem 1.5rem;
+  }
+  .eq-math {
+    padding: 1rem 0;
+    overflow-x: auto;
+  }
+  .eq-note {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border-light);
+    margin-top: 0.8rem;
+    line-height: 1.6;
+  }
+  .eq-note strong { color: var(--brown-mid); font-weight: 600; }
+
+  /* ─── ESTIMATION ─── */
+  .est-section {
+    padding: 4rem 2rem;
+    background: var(--cream);
+  }
+  .est-timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+  .est-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--amber), var(--sage));
+  }
+  .est-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+  }
+  .est-dot {
+    position: absolute;
+    left: -2rem; top: 0.3rem;
+    width: 1.2rem; height: 1.2rem;
+    border-radius: 50%;
+    border: 2px solid var(--amber);
+    background: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .est-dot span {
+    width: 0.5rem; height: 0.5rem;
+    border-radius: 50%;
+    background: var(--amber);
+  }
+  .est-item h4 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1rem;
+    color: var(--brown-deep);
+    margin-bottom: 0.4rem;
+  }
+  .est-item p { font-size: 13.5px; color: var(--text-muted); line-height: 1.65; }
+  .est-item .eq-math { padding: 0.6rem 0; }
+
+  /* ─── OTHER ─── */
+  .other-section {
+    padding: 4rem 2rem;
+    background: var(--warm-white);
+  }
+  .other-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .other-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 4px;
+  }
+  .other-card h4 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.95rem;
+    color: var(--brown-deep);
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--gold-light);
+  }
+  .other-card ul { list-style: none; padding: 0; }
+  .other-card li {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--border-light);
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    line-height: 1.5;
+  }
+  .other-card li:last-child { border-bottom: none; }
+  .other-card li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+
+  /* ─── NOY SUMMARY ─── */
+  .noy-section {
+    padding: 4rem 2rem;
+    background: var(--cream);
+  }
+  .noy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .noy-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .noy-card-header {
+    padding: 0.8rem 1.2rem;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .noy-card-body { padding: 1.2rem; }
+  .noy-card-body p { font-size: 13.5px; color: var(--text-muted); line-height: 1.65; }
+  .noy-neutral .noy-card-header { background: #e8f0e8; color: var(--sage); }
+  .noy-pos .noy-card-header { background: #f0ece0; color: var(--gold); }
+  .noy-neg .noy-card-header { background: #f5ece8; color: var(--terracotta); }
+  .noy-mixed .noy-card-header { background: #ece8f0; color: var(--brown-mid); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--brown-deep);
+    color: rgba(250,247,242,0.5);
+    padding: 2rem;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  footer strong { color: var(--amber-light); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .rq-section .container { grid-template-columns: 1fr; }
+    .rq-label { position: static; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .other-grid { grid-template-columns: 1fr; }
+    .noy-grid { grid-template-columns: 1fr; }
+    .flow-split { grid-template-columns: 1fr; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .container > * { animation: fadeUp 0.5s ease both; }
+  .problem-card:nth-child(1) { animation-delay: 0.05s; }
+  .problem-card:nth-child(2) { animation-delay: 0.1s; }
+  .problem-card:nth-child(3) { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-badge">Referensi Tesis Magister Ekonomi · UGM 2025</div>
+  <h1><em>Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters:</em> A DSGE Analysis with an Application to the Indonesian Context</h1>
+  <div class="header-meta">
+    <span>Berbasis: Noy & duPont IV (2016)</span>
+    <span>·</span>
+    <span>Model Dua-Wilayah DSGE</span>
+    <span>·</span>
+    <span>Konteks Indonesia</span>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#rq">Pertanyaan Penelitian</a>
+    <a href="#problem">Masalah Utama</a>
+    <a href="#features">Fitur Model</a>
+    <a href="#flowchart">Alur Pemodelan</a>
+    <a href="#equations">Persamaan</a>
+    <a href="#estimation">Estimasi</a>
+    <a href="#other">Lainnya</a>
+    <a href="#noy">Temuan Noy</a>
+  </div>
+</nav>
+
+<!-- RESEARCH QUESTIONS -->
+<section class="rq-section" id="rq">
+  <div class="container">
+    <div class="rq-label">
+      <span>Fokus Utama</span>
+      Pertanyaan Penelitian
+    </div>
+    <div class="rq-cards">
+      <div class="rq-card">
+        <div class="rq-num">1</div>
+        <p>Intervensi kebijakan mana yang <strong>paling efektif</strong> dalam memitigasi penurunan output dan konsumsi pasca bencana alam langka?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-num">2</div>
+        <p>Bagaimana <strong>model makroekonomi dinamis</strong> dapat menangkap struktur ekonomi regional, bencana alam langka, dan kebijakan pemulihan pasca-bencana?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-num">3</div>
+        <p>Bagaimana bencana alam langka mempengaruhi <strong>output, konsumsi, dan kesejahteraan</strong> lintas wilayah terdampak dan tidak terdampak dengan keterkaitan antardaerah?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-num">4</div>
+        <p>Bagaimana <strong>kecepatan pemulihan</strong> pasca-bencana mempengaruhi besaran dan persistensi kerugian makroekonomi?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-title">
+        <small>Motivasi & Kontribusi</small>
+        Masalah Utama yang Ingin Diselesaikan
+      </div>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <h4>🌋 Bencana Langka & Dampak Permanen</h4>
+        <p>Literatur makroekonomi kurang memperhatikan <em>bencana langka</em> (rare disasters) yang berdampak sangat besar. Noy & duPont menunjukkan bahwa wilayah seperti Kobe mengalami penurunan PDB per kapita hingga 12% secara permanen—jauh melampaui prediksi model Solow standar.</p>
+      </div>
+      <div class="problem-card">
+        <h4>🔗 Ketiadaan Keterkaitan Antarwilayah</h4>
+        <p>Model DSGE bencana yang ada umumnya single-region dan mengabaikan <em>spillover antardaerah</em>. Untuk Indonesia, di mana rantai produksi lintas kepulauan sangat penting, ini merupakan celah besar yang menentukan keakuratan analisis kebijakan.</p>
+      </div>
+      <div class="problem-card">
+        <h4>📊 Heterogenitas Pemulihan</h4>
+        <p>Pemulihan tidak seragam: negara miskin, pulau kecil, dan rumah tangga rentan <em>tidak kembali ke lintasan semula</em>. Model yang ada gagal merepresentasikan dinamika ini secara struktural, terutama dalam konteks transisi kapital dan perangkap kemiskinan.</p>
+      </div>
+    </div>
+
+    <div class="lit-gap">
+      <h4>Celah dalam Literatur</h4>
+      <p>Tidak ada model DSGE dua-wilayah yang secara eksplisit memadukan: (1) shock bencana alam dengan ekor distribusi tebal, (2) keterkaitan ekonomi antarwilayah Indonesia, dan (3) heterogenitas dalam respons kebijakan fiskal dan moneter pasca-bencana. Tesis ini hadir untuk mengisi celah tersebut.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title">
+        <small>Arsitektur Teoritis</small>
+        Fitur Model DSGE
+      </div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#f5ede0;">🏝️</div>
+        <div>
+          <h4>Dua-Wilayah dengan Keterkaitan Perdagangan</h4>
+          <p>Model mencakup dua wilayah: wilayah <em>terdampak bencana</em> (R) dan wilayah <em>tidak terdampak</em> (N), dihubungkan melalui arus perdagangan barang, pasar modal, dan tenaga kerja migran. Mencerminkan realitas ketergantungan antarpulau di Indonesia.</p>
+          <div class="tag-list">
+            <span class="tag">Two-Region</span>
+            <span class="tag">Trade Linkage</span>
+            <span class="tag">Capital Flow</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#e8f0e8;">⚡</div>
+        <div>
+          <h4>Shock Bencana Langka (Rare Disaster Shock)</h4>
+          <p>Bencana dimodelkan sebagai shock destruksi kapital mendadak dengan probabilitas kecil tetapi dampak besar, mengikuti distribusi ekor tebal (fat-tail). Ini menangkap karakter gempa bumi, tsunami, dan letusan gunung berapi di Indonesia.</p>
+          <div class="tag-list">
+            <span class="tag">Capital Destruction</span>
+            <span class="tag">Fat-tail</span>
+            <span class="tag">Rare Event</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#f0e8e0;">🏭</div>
+        <div>
+          <h4>Firma dengan Investasi & Kapital Berlapis</h4>
+          <p>Setiap wilayah memiliki firma representatif dengan teknologi produksi Cobb-Douglas. Investasi menghadapi biaya penyesuaian (adjustment cost), sementara kapital pasca-bencana dipulihkan secara bertahap melalui proses rekonstruksi.</p>
+          <div class="tag-list">
+            <span class="tag">Cobb-Douglas</span>
+            <span class="tag">Adjustment Cost</span>
+            <span class="tag">Reconstruction</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#e8eaf0;">👥</div>
+        <div>
+          <h4>Rumah Tangga dengan Preferensi Rekursif</h4>
+          <p>Rumah tangga memaksimalkan utilitas intertemporal atas konsumsi dan rekreasi. Dapat diekstensi ke struktur HANK (Heterogeneous Agent NK) untuk menangkap ketimpangan dampak bencana antara kelompok kaya dan miskin.</p>
+          <div class="tag-list">
+            <span class="tag">Intertemporal Utility</span>
+            <span class="tag">CRRA</span>
+            <span class="tag">HANK Extension</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#f0f5e8;">🏛️</div>
+        <div>
+          <h4>Kebijakan Fiskal Pasca-Bencana</h4>
+          <p>Pemerintah merespons dengan transfer darurat, hibah rekonstruksi, dan pengeluaran publik. Aturan fiskal dapat bersifat <em>countercyclical</em> (mendorong stabilisasi) atau <em>procyclical</em> (memperburuk kontraksi)—keduanya dianalisis dalam simulasi.</p>
+          <div class="tag-list">
+            <span class="tag">Fiscal Rule</span>
+            <span class="tag">Transfer</span>
+            <span class="tag">Reconstruction Grant</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#f5e8f0;">🏦</div>
+        <div>
+          <h4>Kebijakan Moneter & Harga Kaku</h4>
+          <p>Bank sentral mengikuti aturan Taylor yang disesuaikan untuk perekonomian terbuka kecil. Harga kaku (Calvo pricing) menghasilkan kurva Phillips Neo-Keynesian yang memungkinkan analisis trade-off inflasi-output pasca-bencana.</p>
+          <div class="tag-list">
+            <span class="tag">Taylor Rule</span>
+            <span class="tag">Calvo Pricing</span>
+            <span class="tag">NK Phillips Curve</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#e8f5f0;">📈</div>
+        <div>
+          <h4>Dinamika Pemulihan Endogen</h4>
+          <p>Kecepatan pemulihan bukan parameter eksogen melainkan hasil endogen dari keputusan investasi, akses kredit, dan kebijakan pemerintah. Ini memungkinkan analisis bagaimana hambatan finansial memperpanjang kontraksi—temuan kunci Noy (2016).</p>
+          <div class="tag-list">
+            <span class="tag">Endogenous Recovery</span>
+            <span class="tag">Credit Constraint</span>
+            <span class="tag">Persistence</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#f5f0e8;">🌏</div>
+        <div>
+          <h4>Kalibrasi untuk Konteks Indonesia</h4>
+          <p>Parameter dikalibrasi menggunakan data makroekonomi Indonesia (BPS, Bank Indonesia) dan data bencana BNPB/EM-DAT. Wilayah Jawa dan luar Jawa sebagai proxy dua-wilayah mencerminkan ketidakseimbangan struktural nyata.</p>
+          <div class="tag-list">
+            <span class="tag">Indonesia</span>
+            <span class="tag">BPS Data</span>
+            <span class="tag">Calibration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOWCHART -->
+<section class="flow-section" id="flowchart">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title">
+        <small>Metodologi</small>
+        Alur Proses Pemodelan
+      </div>
+    </div>
+
+    <div class="flowchart">
+      <div class="flow-step start">
+        <div class="step-title">Mulai: Identifikasi Pertanyaan Penelitian</div>
+        <div class="step-desc">Dampak bencana langka pada ekonomi dua-wilayah Indonesia</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step highlight">
+        <div class="step-num">Tahap 1</div>
+        <div class="step-title">Konstruksi Model Teoritis</div>
+        <div class="step-desc">Spesifikasi agen (RT, firma, pemerintah) dan hubungan antardaerah. Formulasi kondisi optimasi dan persamaan keseimbangan umum.</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="step-num">Tahap 2</div>
+        <div class="step-title">Log-Linearisasi di Sekitar Steady State</div>
+        <div class="step-desc">Ekspansi Taylor orde pertama pada semua persamaan struktural. Representasi dalam bentuk deviasi dari keseimbangan jangka panjang: \(\hat{x}_t = \ln(x_t) - \ln(\bar{x})\)</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step highlight">
+        <div class="step-num">Tahap 3</div>
+        <div class="step-title">Kalibrasi Parameter</div>
+        <div class="step-desc">Penetapan nilai parameter berdasarkan momen data Indonesia (BPS, BI, BNPB) dan literatur. Uji robustness terhadap variasi parameter kunci.</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step-split-wrapper" style="width:100%">
+        <div class="flow-split-label">Paralel: Solusi & Validasi</div>
+        <div class="flow-split">
+          <div class="flow-step alt">
+            <div class="step-num">3a · Solusi Numerik</div>
+            <div class="step-title">Metode Perturbasi / Proyeksi</div>
+            <div class="step-desc">Dynare untuk solusi orde pertama & kedua. Smolyak method untuk dimensi tinggi jika diperlukan.</div>
+          </div>
+          <div class="flow-step alt">
+            <div class="step-num">3b · Validasi Momen</div>
+            <div class="step-title">Pencocokan Data</div>
+            <div class="step-desc">Perbandingan IRF model dengan bukti empiris. Uji implikasi model terhadap episode bencana historis.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step highlight">
+        <div class="step-num">Tahap 4</div>
+        <div class="step-title">Simulasi Shock Bencana</div>
+        <div class="step-desc">Impulse Response Function (IRF) atas shock destruksi kapital di wilayah terdampak. Analisis spillover ke wilayah tidak terdampak melalui kanal perdagangan dan kapital.</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="step-num">Tahap 5</div>
+        <div class="step-title">Analisis Kebijakan Komparatif</div>
+        <div class="step-desc">Perbandingan skenario kebijakan: tanpa intervensi vs. transfer fiskal vs. rekonstruksi dipercepat vs. asuransi bencana. Ukuran kesejahteraan: equivalent consumption variation.</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="step-num">Tahap 6</div>
+        <div class="step-title">Analisis Sensitivitas & Robustness</div>
+        <div class="step-desc">Variasi intensitas bencana, derajat keterkaitan antarwilayah, dan parameter kebijakan. Identifikasi kondisi di mana dampak bencana menjadi permanen vs. sementara.</div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step end">
+        <div class="step-title">Output: Rekomendasi Kebijakan & Kontribusi Teoritis</div>
+        <div class="step-desc">Implikasi untuk kebijakan fiskal dan manajemen risiko bencana Indonesia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUATIONS -->
+<section class="eq-section" id="equations">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title">
+        <small>Spesifikasi Matematis</small>
+        Daftar Persamaan Model
+      </div>
+    </div>
+
+    <div class="eq-tabs">
+      <button class="eq-tab active" onclick="showTab('rt')">Rumah Tangga</button>
+      <button class="eq-tab" onclick="showTab('firma')">Firma & Produksi</button>
+      <button class="eq-tab" onclick="showTab('kapital')">Kapital & Bencana</button>
+      <button class="eq-tab" onclick="showTab('kebijakan')">Kebijakan</button>
+      <button class="eq-tab" onclick="showTab('keseimbangan')">Keseimbangan</button>
+    </div>
+
+    <!-- RUMAH TANGGA -->
+    <div class="eq-panel active" id="tab-rt">
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. RT-1</span>
+          <span class="eq-name">Fungsi Utilitas Intertemporal</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$\mathcal{U}_t = \mathbb{E}_t \sum_{s=0}^{\infty} \beta^s \left[ \frac{C_{t+s}^{1-\sigma}}{1-\sigma} - \frac{L_{t+s}^{1+\varphi}}{1+\varphi} \right]$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(\beta \in (0,1)\) = faktor diskon; \(C_t\) = konsumsi agregat; \(L_t\) = jam kerja; \(\sigma\) = elastisitas substitusi intertemporal invers; \(\varphi\) = kebalikan elastisitas penawaran tenaga kerja Frisch. Ekspektasi \(\mathbb{E}_t\) bersyarat pada informasi periode \(t\).
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. RT-2</span>
+          <span class="eq-name">Persamaan Euler (Kondisi Optimasi Konsumsi)</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$C_t^{-\sigma} = \beta \mathbb{E}_t \left[ C_{t+1}^{-\sigma} \frac{R_{t+1}}{\Pi_{t+1}} \right]$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(R_{t+1}\) = tingkat bunga nominal bruto; \(\Pi_{t+1} = P_{t+1}/P_t\) = inflasi bruto. Persamaan ini menghubungkan konsumsi antara dua periode dan merupakan tulang punggung dinamika permintaan agregat.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. RT-3</span>
+          <span class="eq-name">Kondisi Optimasi Tenaga Kerja</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$L_t^{\varphi} C_t^{\sigma} = \frac{W_t}{P_t}$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(W_t\) = upah nominal; \(P_t\) = tingkat harga. Kondisi ini menyetarakan disutilitas marginal kerja dengan upah riil—kondisi ekuilibrium pasar tenaga kerja.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. RT-4</span>
+          <span class="eq-name">Kendala Anggaran Rumah Tangga</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$P_t C_t + B_t = R_{t-1} B_{t-1} + W_t L_t + D_t + T_t$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(B_t\) = obligasi nominal; \(D_t\) = dividen dari kepemilikan firma; \(T_t\) = transfer pemerintah (termasuk bantuan bencana). Pasca-bencana, \(T_t\) meningkat sebagai komponen kebijakan fiskal stabilisasi.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FIRMA -->
+    <div class="eq-panel" id="tab-firma">
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. F-1</span>
+          <span class="eq-name">Fungsi Produksi Cobb-Douglas</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$Y_t^r = A_t^r \left(K_t^r\right)^{\alpha} \left(L_t^r\right)^{1-\alpha}$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(Y_t^r\) = output di wilayah \(r \in \{R, N\}\); \(A_t^r\) = total factor productivity; \(K_t^r\) = stok kapital; \(\alpha\) = bagian kapital dalam pendapatan. Superscript \(r\) menunjukkan variabel spesifik wilayah.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. F-2</span>
+          <span class="eq-name">Harga Relatif & Perdagangan Antardaerah</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$Q_t^{RN} = \frac{P_t^R}{P_t^N}, \quad C_t^r = \left[\omega^r \left(C_{H,t}^r\right)^{\frac{\eta-1}{\eta}} + (1-\omega^r)\left(C_{F,t}^r\right)^{\frac{\eta-1}{\eta}}\right]^{\frac{\eta}{\eta-1}}$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(Q_t^{RN}\) = nilai tukar riil antarwilayah; \(\omega^r\) = bobot home bias dalam keranjang konsumsi; \(\eta\) = elastisitas substitusi antara barang domestik dan impor antardaerah; \(C_{H,t}^r\) dan \(C_{F,t}^r\) = konsumsi barang lokal dan impor antarwilayah.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. F-3</span>
+          <span class="eq-name">Kurva Phillips Neo-Keynesian (Harga Kaku Calvo)</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$\pi_t^r = \beta \mathbb{E}_t \pi_{t+1}^r + \frac{(1-\theta)(1-\beta\theta)}{\theta} \hat{mc}_t^r$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(\pi_t^r = \ln \Pi_t^r\) = log inflasi; \(\theta \in (0,1)\) = probabilitas harga tidak berubah (parameter Calvo); \(\hat{mc}_t^r\) = log-deviasi biaya marginal riil dari steady state. Bencana mendorong \(\hat{mc}_t^r\) naik melalui gangguan rantai pasokan.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- KAPITAL & BENCANA -->
+    <div class="eq-panel" id="tab-kapital">
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. K-1</span>
+          <span class="eq-name">Hukum Gerak Kapital dengan Shock Bencana</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$K_{t+1}^r = (1 - \delta - \delta_t^{dis,r}) K_t^r + \left[1 - S\!\left(\frac{I_t^r}{I_{t-1}^r}\right)\right] I_t^r$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(\delta\) = tingkat depresiasi normal; \(\delta_t^{dis,r}\) = tingkat destruksi kapital akibat bencana (= 0 pada periode normal); \(S(\cdot)\) = fungsi biaya penyesuaian investasi dengan \(S(1)=0\), \(S'(1)=0\), \(S''(1)=\kappa > 0\). Bencana mengejutkan \(\delta_t^{dis,r}\) menjadi positif.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. K-2</span>
+          <span class="eq-name">Proses Shock Bencana Langka</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$\delta_t^{dis,R} = \begin{cases} \Delta^{dis} & \text{dengan probabilitas } p^{dis} \ll 1 \\ 0 & \text{dengan probabilitas } 1 - p^{dis} \end{cases}$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(p^{dis}\) = probabilitas kejadian bencana (kalibrasi: frekuensi historis per wilayah di Indonesia); \(\Delta^{dis}\) = fraksi kapital yang dihancurkan bencana. Distribusi \(\Delta^{dis}\) dapat berupa lognormal dengan parameter dikalibrasi dari data kerugian BNPB/EM-DAT.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. K-3</span>
+          <span class="eq-name">Tobins Q dan Keputusan Investasi</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$q_t^r = \mathbb{E}_t \left\{ \beta \frac{\lambda_{t+1}^r}{\lambda_t^r} \left[ r_{t+1}^{k,r} + q_{t+1}^r (1 - \delta) \right] \right\}$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(q_t^r\) = harga bayangan kapital (Tobin's Q); \(\lambda_t^r\) = multiplier Lagrange pada kendala anggaran (utilitas marginal pendapatan); \(r_{t+1}^{k,r}\) = return kapital. Pasca-bencana, kehancuran kapital mendorong \(q_t^r\) naik, merangsang investasi rekonstruksi.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- KEBIJAKAN -->
+    <div class="eq-panel" id="tab-kebijakan">
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. P-1</span>
+          <span class="eq-name">Aturan Taylor Kebijakan Moneter</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$\hat{R}_t = \rho_R \hat{R}_{t-1} + (1-\rho_R)\left[\phi_\pi \hat{\pi}_t + \phi_y \hat{y}_t\right] + \varepsilon_t^R$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(\hat{R}_t\) = log-deviasi suku bunga; \(\rho_R\) = inersia kebijakan moneter; \(\phi_\pi > 1\) = koefisien respons inflasi (Prinsip Taylor); \(\phi_y\) = koefisien respons output gap; \(\varepsilon_t^R\) = shock kebijakan moneter. Pasca-bencana, bank sentral dapat mengakomodasi tekanan inflasi cost-push.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. P-2</span>
+          <span class="eq-name">Kendala Anggaran Pemerintah</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$G_t + T_t + Z_t^{rec} = \tau_t^l W_t L_t + \tau_t^k r_t^k K_t + \frac{B_t^g - R_{t-1} B_{t-1}^g}{P_t}$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(G_t\) = pengeluaran pemerintah rutin; \(Z_t^{rec}\) = belanja rekonstruksi pasca-bencana; \(\tau_t^l, \tau_t^k\) = tarif pajak tenaga kerja dan kapital; \(B_t^g\) = utang pemerintah. Komponen \(Z_t^{rec}\) aktif hanya ketika \(\delta_t^{dis,R} > 0\).
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. P-3</span>
+          <span class="eq-name">Aturan Fiskal Countercyclical Pasca-Bencana</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$Z_t^{rec} = \bar{Z}^{rec} + \psi_z \cdot \delta_t^{dis,R} \cdot K_t^R, \quad T_t = \bar{T} - \psi_T \left(\frac{B_t^g}{\bar{B}^g} - 1\right)$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(\psi_z > 0\) = intensitas respons fiskal rekonstruksi; \(\psi_T > 0\) = koefisien konsolidasi fiskal jangka menengah. Aturan ini memastikan solvabilitas fiskal jangka panjang sambil menyediakan stimulus darurat pasca-bencana.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- KESEIMBANGAN -->
+    <div class="eq-panel" id="tab-keseimbangan">
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. E-1</span>
+          <span class="eq-name">Keseimbangan Pasar Barang Dua-Wilayah</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$Y_t^R = C_t^R + I_t^R + G_t^R + Z_t^{rec} + NX_t^R$$
+          </div>
+          <div class="eq-math">
+            $$Y_t^N = C_t^N + I_t^N + G_t^N + NX_t^N$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(NX_t^r\) = ekspor neto antarwilayah (termasuk arus barang antara wilayah R dan N). Syarat keseimbangan global: \(NX_t^R + NX_t^N = 0\) (pasar barang agregat bersih).
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. E-2</span>
+          <span class="eq-name">Kondisi Paritas Bunga Antarwilayah</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$R_t^R = R_t^N \cdot \mathbb{E}_t\left[\frac{Q_{t+1}^{RN}}{Q_t^{RN}}\right] + \Phi\left(\frac{B_t^{R,ext}}{\bar{B}^{R,ext}}\right)$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> \(\Phi(\cdot)\) = premi risiko yang bergantung pada posisi aset luar negeri antarwilayah; \(B_t^{R,ext}\) = aset bersih wilayah R terhadap wilayah N. Fungsi ini mencegah divergensi posisi utang yang tidak terbatas.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-header">
+          <span class="eq-label">Eq. E-3</span>
+          <span class="eq-name">Ukuran Kesejahteraan: Equivalent Consumption Variation</span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-math">
+            $$\mathcal{W}_0 = \mathbb{E}_0 \sum_{t=0}^{\infty} \beta^t U(C_t, L_t), \quad \text{ECV} = \left[\frac{\mathcal{W}_0^{policy} - \mathcal{W}_0^{baseline}}{\mathcal{W}_0^{baseline}}\right] \times 100\%$$
+          </div>
+          <div class="eq-note">
+            <strong>Notasi:</strong> ECV mengukur berapa persen perubahan konsumsi permanen yang setara dengan perbedaan kesejahteraan antara skenario kebijakan dan baseline. Digunakan untuk membandingkan efektivitas berbagai intervensi kebijakan pasca-bencana.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ESTIMATION -->
+<section class="est-section" id="estimation">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-title">
+        <small>Strategi Empiris</small>
+        Metode Kalibrasi & Estimasi
+      </div>
+    </div>
+
+    <div class="est-timeline">
+
+      <div class="est-item">
+        <div class="est-dot"><span></span></div>
+        <h4>Kalibrasi Parameter Struktural</h4>
+        <p>Parameter struktural (seperti \(\beta, \sigma, \alpha, \delta\)) dikalibrasi dari literature DSGE Indonesia dan Asia Tenggara, serta momen data makro BPS dan Bank Indonesia. Prosedur kalibrasi menargetkan: rasio konsumsi-output, rasio investasi-output, dan volatilitas siklus bisnis Indonesia.</p>
+        <div class="eq-math">
+          $$\hat{\Theta} = \arg\min_{\Theta} \left\| m^{data} - m^{model}(\Theta) \right\|_W^2$$
+        </div>
+      </div>
+
+      <div class="est-item">
+        <div class="est-dot"><span></span></div>
+        <h4>Estimasi Bayesian (Opsional untuk Parameter Siklus Bisnis)</h4>
+        <p>Parameter dinamis (inersia kebijakan, koefisien Taylor, parameter shock) diestimasi menggunakan metode Bayesian dengan prior dari literatur DSGE Asia. Data observasi: PDB, inflasi, suku bunga BI, dan konsumsi riil Indonesia 2000–2023.</p>
+        <div class="eq-math">
+          $$p(\Theta | \mathcal{Y}) \propto \mathcal{L}(\mathcal{Y} | \Theta) \cdot p(\Theta)$$
+        </div>
+      </div>
+
+      <div class="est-item">
+        <div class="est-dot"><span></span></div>
+        <h4>Kalibrasi Parameter Bencana dari Data EM-DAT/BNPB</h4>
+        <p>Probabilitas bencana \(p^{dis}\) dan intensitas kerugian \(\Delta^{dis}\) dikalibrasi dari data historis bencana Indonesia 1980–2023 menggunakan metode Maximum Likelihood untuk distribusi ekor tebal (Pareto atau lognormal).</p>
+        <div class="eq-math">
+          $$\hat{p}^{dis} = \frac{\text{jumlah kejadian bencana besar}}{\text{total periode observasi}}, \quad \hat{\Delta}^{dis} \sim \text{LogNormal}(\mu_\Delta, \sigma_\Delta^2)$$
+        </div>
+      </div>
+
+      <div class="est-item">
+        <div class="est-dot"><span></span></div>
+        <h4>Solusi Model: Perturbasi Orde Pertama & Kedua</h4>
+        <p>Model diselesaikan menggunakan metode perturbasi di sekitar non-stochastic steady state menggunakan Dynare. Orde pertama (linear) untuk IRF baseline; orde kedua untuk menangkap efek presaution dan risky steady state akibat bencana langka.</p>
+        <div class="eq-math">
+          $$\mathbf{x}_t = \bar{\mathbf{x}} + A\hat{\mathbf{x}}_t + B\hat{\boldsymbol{\varepsilon}}_t + \frac{1}{2}\left(\hat{\mathbf{x}}_t \otimes \hat{\mathbf{x}}_t\right)\mathbf{C} + \frac{1}{2}\sigma^2 \mathbf{D}$$
+        </div>
+      </div>
+
+      <div class="est-item">
+        <div class="est-dot"><span></span></div>
+        <h4>Validasi: Perbandingan Respons Empiris dan Model</h4>
+        <p>IRF model dibandingkan dengan estimasi VAR struktural berbasis data bencana-makro Indonesia (mengikuti pendekatan identifikasi Noy 2009). Kecocokan kualitatif respons output, konsumsi, dan investasi pasca-bencana menjadi kriteria validasi utama.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- OTHER -->
+<section class="other-section" id="other">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-title">
+        <small>Dimensi Tambahan</small>
+        Aspek Penting Lainnya
+      </div>
+    </div>
+
+    <div class="other-grid">
+
+      <div class="other-card">
+        <h4>📌 Steady State & Log-Linearisasi</h4>
+        <ul>
+          <li>Steady state dihitung tanpa shock bencana (\(p^{dis}=0\)) sebagai titik ekspansi</li>
+          <li>Risky steady state dengan \(p^{dis}>0\) untuk perbandingan kesejahteraan</li>
+          <li>Semua variabel diekspresikan sebagai log-deviasi dari steady state deterministic</li>
+          <li>Perlu verifikasi Blanchard-Kahn conditions untuk determinacy</li>
+        </ul>
+      </div>
+
+      <div class="other-card">
+        <h4>🔄 Kanal Spillover Antardaerah</h4>
+        <ul>
+          <li><strong>Kanal perdagangan:</strong> gangguan pasokan mendorong impor dari wilayah N naik</li>
+          <li><strong>Kanal kapital:</strong> arus investasi mengalir ke wilayah terdampak pasca-bencana</li>
+          <li><strong>Kanal tenaga kerja:</strong> migrasi tenaga kerja dari R ke N dalam jangka menengah</li>
+          <li><strong>Kanal fiskal:</strong> transfer anggaran nasional ke wilayah terdampak</li>
+        </ul>
+      </div>
+
+      <div class="other-card">
+        <h4>📊 Ukuran & Kriteria Evaluasi</h4>
+        <ul>
+          <li>Impulse Response Function (IRF) terhadap shock bencana</li>
+          <li>Equivalent Consumption Variation (ECV) untuk welfare comparison</li>
+          <li>Output multiplier kebijakan fiskal rekonstruksi</li>
+          <li>Persistensi kontraksi: half-life recovery output</li>
+          <li>Variance Decomposition: kontribusi shock bencana terhadap volatilitas</li>
+        </ul>
+      </div>
+
+      <div class="other-card">
+        <h4>🛠️ Alat & Software</h4>
+        <ul>
+          <li><strong>Dynare 6.x</strong> — solusi dan estimasi DSGE</li>
+          <li><strong>MATLAB/Octave</strong> — kalibrasi dan simulasi numerik</li>
+          <li><strong>R/Stata</strong> — pengolahan data makro dan bencana</li>
+          <li><strong>EM-DAT & BNPB</strong> — database bencana historis Indonesia</li>
+        </ul>
+      </div>
+
+      <div class="other-card">
+        <h4>⚠️ Asumsi & Batasan</h4>
+        <ul>
+          <li>Agen representatif per wilayah (dapat diekstensi ke HANK)</li>
+          <li>Pasar finansial antarwilayah tidak sempurna (premi risiko endogen)</li>
+          <li>Bencana diasumsikan tidak berkorelasi antar periode (i.i.d.)</li>
+          <li>Kebijakan moneter bersifat nasional (single central bank)</li>
+          <li>Abaikan efek umur panjang (OLG) pada akumulasi modal manusia</li>
+        </ul>
+      </div>
+
+      <div class="other-card">
+        <h4>🌿 Ekstensi yang Mungkin</h4>
+        <ul>
+          <li>HANK: heterogenitas rumah tangga (kaya vs. miskin) dan dampak distribusional</li>
+          <li>Tiga atau lebih wilayah (Jawa, Sumatera, Kawasan Timur Indonesia)</li>
+          <li>Perubahan iklim sebagai tren peningkatan probabilitas bencana</li>
+          <li>Asuransi bencana sebagai instrumen kebijakan endogen</li>
+          <li>Efek kapital manusia jangka panjang (mengikuti temuan Caruso & Miller 2015)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NOY SUMMARY -->
+<section class="noy-section" id="noy">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div class="section-title">
+        <small>Ringkasan Noy & duPont IV (2016)</small>
+        Temuan Literatur yang Menginformasikan Model
+      </div>
+    </div>
+
+    <div class="noy-grid">
+
+      <div class="noy-card noy-neutral">
+        <div class="noy-card-header">Tidak Ada Dampak Jangka Panjang</div>
+        <div class="noy-card-body">
+          <p>Data level nasional umumnya tidak menunjukkan dampak permanen. Jaramillo (2009) menemukan efek tidak bertahan lebih dari 5 tahun; Cavallo et al. (2013) mengkonfirmasi tidak ada dampak signifikan hingga 10 tahun pasca-bencana. Ini konsisten dengan prediksi model Solow standar: ekonomi kembali ke lintasan steady state.</p>
+        </div>
+      </div>
+
+      <div class="noy-card noy-pos">
+        <div class="noy-card-header">Creative Destruction (Dampak Positif Terbatas)</div>
+        <div class="noy-card-body">
+          <p>Beberapa studi menemukan dampak positif, terutama untuk bencana sedang di negara kaya. Husby et al. (2014) menemukan pertumbuhan populasi pasca-banjir di Belanda karena kebijakan perlindungan. Hornbeck & Keniston (2014) menemukan efek positif dari Great Boston Fire 1872 akibat neighborhood externalities. Penting: sebagian besar disebabkan kebijakan pemerintah, bukan inovasi spontan.</p>
+        </div>
+      </div>
+
+      <div class="noy-card noy-neg">
+        <div class="noy-card-header">Dampak Negatif Permanen</div>
+        <div class="noy-card-body">
+          <p>Di level regional dan negara miskin, bukti dampak permanen semakin kuat. duPont & Noy (2015): GDP per kapita Prefektur Hyogo 12% lebih rendah 20 tahun setelah gempa Kobe 1995. Hsiang & Jina (2014): dampak sangat besar dan persisten dari siklon tropis. Hornbeck (2012): nilai lahan turun permanen 30% di area Dust Bowl 1930-an.</p>
+        </div>
+      </div>
+
+      <div class="noy-card noy-mixed">
+        <div class="noy-card-header">Faktor Penentu Pemulihan</div>
+        <div class="noy-card-body">
+          <p>Pemulihan ditentukan oleh: (1) akses asuransi dan kredit, (2) kapital sosial dan jaringan komunitas (Aldrich 2011), (3) kualitas institusi pemerintahan (Rodrik 1999), (4) pendapatan dan kekayaan awal rumah tangga, (5) intensitas bencana—bencana parah di negara miskin cenderung meninggalkan bekas permanen melalui perangkap kemiskinan (Carter et al. 2007).</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  Dikompilasi untuk referensi tesis: <strong>Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters</strong><br>
+  Magister Ekonomi · Universitas Gadjah Mada · 2025 &nbsp;·&nbsp; Berbasis: Noy & duPont IV, SEF Working Paper 02/2016
+</footer>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.eq-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.eq-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

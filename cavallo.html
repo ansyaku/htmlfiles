@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cavallo et al. (2010) — Bencana Alam Katastrofik & Pertumbuhan Ekonomi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+<style>
+  :root {
+    --cream:       #fdf6ee;
+    --parchment:   #f5e9d4;
+    --warm-tan:    #e8d5b0;
+    --sienna:      #a0522d;
+    --rust:        #b94a2c;
+    --terracotta:  #c9633a;
+    --gold:        #c8973a;
+    --dark-brown:  #3b2514;
+    --mid-brown:   #6b3f20;
+    --text-main:   #2a1a0e;
+    --text-sub:    #5a3a1a;
+    --text-muted:  #8c6845;
+    --border:      #d4b896;
+    --card-bg:     #fdf1e3;
+    --highlight:   #fff3dc;
+    --accent-light:#fdebd0;
+    --green-ok:    #3d6b4f;
+    --green-bg:    #eaf4ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--cream);
+    color: var(--text-main);
+    font-size: 16px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  /* ─── HEADER ─── */
+  .site-header {
+    background: linear-gradient(135deg, #3b2514 0%, #6b3f20 55%, #a0522d 100%);
+    padding: 56px 40px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; position: relative; }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px; padding: 4px 14px; font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #f5d9b0; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace;
+  }
+  .header-badge::before { content: '●'; color: #f0a050; font-size: 8px; }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 700; color: #fff8f0;
+    line-height: 1.3; margin-bottom: 14px;
+  }
+  .header-meta {
+    color: #d4b896; font-size: 0.88rem; font-style: italic;
+    margin-bottom: 22px; font-weight: 300;
+  }
+  .header-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    background: rgba(200,151,58,0.25); border: 1px solid rgba(200,151,58,0.4);
+    color: #f5d9b0; border-radius: 4px; padding: 3px 10px;
+    font-size: 11px; letter-spacing: 0.5px; font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ─── NAV ─── */
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(253,246,238,0.96); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+  }
+  .nav-inner {
+    max-width: 900px; margin: 0 auto;
+    display: flex; gap: 0; overflow-x: auto;
+  }
+  .nav-inner a {
+    display: block; padding: 14px 16px;
+    color: var(--text-sub); text-decoration: none;
+    font-size: 12px; letter-spacing: 0.6px; text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-inner a:hover { color: var(--rust); border-color: var(--rust); }
+
+  /* ─── MAIN ─── */
+  .main { max-width: 900px; margin: 0 auto; padding: 48px 40px 80px; }
+
+  /* ─── SECTIONS ─── */
+  section { margin-bottom: 64px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px; padding-bottom: 14px;
+    border-bottom: 2px solid var(--warm-tan);
+  }
+  .section-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rust), var(--terracotta));
+    color: #fff; font-family: 'Playfair Display', serif;
+    font-size: 15px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; box-shadow: 0 2px 8px rgba(185,74,44,0.3);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700; color: var(--dark-brown);
+  }
+
+  /* ─── PROSE ─── */
+  p { margin-bottom: 14px; color: var(--text-main); font-weight: 300; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ─── RESEARCH QUESTIONS ─── */
+  .rq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .rq-grid { grid-template-columns: 1fr; } }
+  .rq-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 22px;
+    border-left: 4px solid var(--rust);
+    transition: box-shadow 0.2s;
+  }
+  .rq-card:hover { box-shadow: 0 4px 16px rgba(185,74,44,0.12); }
+  .rq-label {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--terracotta); font-family: 'JetBrains Mono', monospace;
+    font-weight: 500; margin-bottom: 8px;
+  }
+  .rq-text { font-size: 0.92rem; color: var(--text-main); font-weight: 400; }
+
+  /* ─── PROBLEM BOX ─── */
+  .problem-banner {
+    background: linear-gradient(135deg, #fdf1e3, #f5e9d4);
+    border: 1px solid var(--warm-tan); border-radius: 12px;
+    padding: 28px 32px; margin-bottom: 24px;
+    position: relative; overflow: hidden;
+  }
+  .problem-banner::after {
+    content: '"'; position: absolute; right: 24px; top: 0;
+    font-family: 'Playfair Display', serif; font-size: 120px;
+    color: rgba(185,74,44,0.08); line-height: 1; pointer-events: none;
+  }
+  .problem-banner strong { color: var(--rust); }
+
+  /* ─── INFO BOX ─── */
+  .info-box {
+    background: var(--highlight); border: 1px solid #e8c97a;
+    border-left: 4px solid var(--gold); border-radius: 8px;
+    padding: 18px 22px; margin: 20px 0;
+  }
+  .info-box-title {
+    font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase;
+    color: var(--gold); font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 8px;
+  }
+
+  .note-box {
+    background: var(--green-bg); border: 1px solid #b4d4be;
+    border-left: 4px solid var(--green-ok); border-radius: 8px;
+    padding: 16px 20px; margin: 20px 0; font-size: 0.9rem;
+  }
+  .note-box-title {
+    font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase;
+    color: var(--green-ok); font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 8px;
+  }
+
+  /* ─── FEATURE CARDS ─── */
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px) { .feature-grid { grid-template-columns: 1fr; } }
+  .feature-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .feature-icon {
+    width: 38px; height: 38px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--rust), var(--terracotta));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .feature-card h4 {
+    font-family: 'Playfair Display', serif; font-size: 0.95rem;
+    font-weight: 600; color: var(--dark-brown);
+  }
+  .feature-card p { font-size: 0.85rem; color: var(--text-sub); margin: 0; }
+
+  /* ─── FLOWCHART ─── */
+  .flowchart { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .flow-step {
+    background: var(--card-bg); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 18px 28px; width: 100%; max-width: 640px;
+    display: flex; gap: 16px; align-items: flex-start;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .flow-step:hover { border-color: var(--rust); box-shadow: 0 3px 12px rgba(185,74,44,0.1); }
+  .flow-step-num {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: var(--rust); color: #fff;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+  }
+  .flow-step-content h4 {
+    font-family: 'Playfair Display', serif; font-size: 1rem;
+    font-weight: 600; color: var(--dark-brown); margin-bottom: 4px;
+  }
+  .flow-step-content p { font-size: 0.87rem; color: var(--text-sub); margin: 0; }
+  .flow-arrow {
+    width: 2px; height: 28px; background: linear-gradient(to bottom, var(--rust), var(--warm-tan));
+    margin: 0 auto; position: relative;
+  }
+  .flow-arrow::after {
+    content: '▼'; position: absolute; bottom: -10px; left: 50%;
+    transform: translateX(-50%); color: var(--rust); font-size: 12px;
+  }
+
+  /* ─── EQUATION BLOCKS ─── */
+  .eq-block {
+    background: #fdf8f2; border: 1px solid var(--warm-tan);
+    border-left: 4px solid var(--sienna); border-radius: 8px;
+    padding: 18px 24px; margin: 20px 0; overflow-x: auto;
+  }
+  .eq-label {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--sienna); font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 10px;
+  }
+  .eq-desc { font-size: 0.875rem; color: var(--text-sub); margin-top: 10px; font-style: italic; }
+
+  /* ─── VAR TABLE ─── */
+  .var-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 12px; }
+  .var-table thead tr { background: var(--parchment); }
+  .var-table th {
+    padding: 10px 14px; text-align: left;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.8px; color: var(--mid-brown); text-transform: uppercase;
+    border-bottom: 2px solid var(--warm-tan);
+  }
+  .var-table td {
+    padding: 9px 14px; border-bottom: 1px solid #edddc8;
+    vertical-align: top; color: var(--text-main);
+  }
+  .var-table tr:hover td { background: var(--highlight); }
+  .var-table td:first-child {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+    color: var(--rust); font-weight: 500; white-space: nowrap;
+  }
+
+  /* ─── ESTIMATION METHODS ─── */
+  .method-list { display: flex; flex-direction: column; gap: 14px; }
+  .method-item {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 18px 22px;
+    display: grid; grid-template-columns: 28px 1fr; gap: 14px; align-items: start;
+  }
+  .method-item-num {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--parchment); border: 1px solid var(--warm-tan);
+    color: var(--rust); font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; display: flex; align-items: center; justify-content: center;
+    margin-top: 2px; flex-shrink: 0;
+  }
+  .method-item h4 {
+    font-family: 'Playfair Display', serif; font-size: 1rem;
+    font-weight: 600; color: var(--dark-brown); margin-bottom: 4px;
+  }
+  .method-item p { font-size: 0.88rem; color: var(--text-sub); margin: 0; }
+
+  /* ─── FINDINGS ─── */
+  .findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 580px) { .findings-grid { grid-template-columns: 1fr; } }
+  .finding-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px;
+  }
+  .finding-card.negative { border-left: 4px solid var(--rust); }
+  .finding-card.positive { border-left: 4px solid var(--green-ok); }
+  .finding-card.neutral  { border-left: 4px solid var(--gold); }
+  .finding-icon { font-size: 24px; margin-bottom: 10px; }
+  .finding-card h4 {
+    font-family: 'Playfair Display', serif; font-size: 0.97rem;
+    font-weight: 600; color: var(--dark-brown); margin-bottom: 8px;
+  }
+  .finding-card p { font-size: 0.87rem; color: var(--text-sub); margin: 0; }
+
+  /* ─── RELEVANCE THESIS ─── */
+  .thesis-rel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 600px) { .thesis-rel-grid { grid-template-columns: 1fr; } }
+  .thesis-rel-item {
+    background: #fdf8f2; border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .thesis-rel-item .rq-label { color: var(--sienna); }
+  .thesis-rel-item p { font-size: 0.87rem; margin-top: 6px; }
+
+  /* ─── CITATION ─── */
+  .citation-box {
+    background: var(--parchment); border: 1px solid var(--warm-tan);
+    border-radius: 8px; padding: 18px 22px; margin-top: 20px;
+  }
+  .citation-box pre {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+    color: var(--text-sub); white-space: pre-wrap; word-break: break-word;
+    line-height: 1.65;
+  }
+
+  /* ─── FOOTER ─── */
+  .site-footer {
+    background: var(--parchment); border-top: 1px solid var(--warm-tan);
+    padding: 28px 40px; text-align: center;
+    font-size: 0.82rem; color: var(--text-muted);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .site-header { padding: 36px 20px 32px; }
+    .main { padding: 32px 20px 60px; }
+    .sticky-nav { padding: 0 16px; }
+    .rq-grid, .findings-grid, .thesis-rel-grid { grid-template-columns: 1fr; }
+    .feature-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-badge">Referensi Tesis DSGE · Bencana Alam Langka</div>
+    <h1 class="header-title">Bencana Alam Katastrofik dan<br>Pertumbuhan Ekonomi</h1>
+    <p class="header-meta">
+      Cavallo, E., Galiani, S., Noy, I., &amp; Pantano, J. (2010).
+      <em>IDB Working Paper Series</em>, No. IDB-WP-183.
+      Inter-American Development Bank.
+    </p>
+    <div class="header-tags">
+      <span class="tag">Synthetic Control</span>
+      <span class="tag">Natural Disasters</span>
+      <span class="tag">GDP Growth</span>
+      <span class="tag">Political Change</span>
+      <span class="tag">Counterfactual Analysis</span>
+      <span class="tag">JEL: O40, O47</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <a href="#masalah">Masalah</a>
+    <a href="#fitur">Fitur Model</a>
+    <a href="#alur">Alur Pemodelan</a>
+    <a href="#persamaan">Persamaan</a>
+    <a href="#estimasi">Estimasi</a>
+    <a href="#temuan">Temuan</a>
+    <a href="#relevansi">Relevansi Tesis</a>
+    <a href="#sitasi">Sitasi</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ MAIN ═══════════════════════════════ -->
+<main class="main">
+
+  <!-- ═══ 1. MASALAH UTAMA ═══ -->
+  <section id="masalah">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <h2 class="section-title">Masalah Utama yang Ingin Diselesaikan</h2>
+    </div>
+
+    <div class="problem-banner">
+      <p><strong>Pertanyaan Inti:</strong> Apakah bencana alam yang besar secara kausal mempengaruhi pertumbuhan ekonomi dalam jangka pendek maupun jangka panjang? Dan seberapa besar efek tersebut?</p>
+    </div>
+
+    <p>Literatur ekonomi tentang dampak bencana alam terhadap makroekonomi masih sangat terbatas. Padahal, peristiwa seperti Tsunami Samudra Hindia 2004, Badai Katrina 2005, dan gempa Haiti-Chile 2010 menegaskan urgensi pemahaman empiris yang kuat tentang dampak ini.</p>
+
+    <div class="rq-grid">
+      <div class="rq-card">
+        <div class="rq-label">Masalah Teori</div>
+        <div class="rq-text">Teori pertumbuhan neo-klasik dan endogen memberikan prediksi yang bertentangan tentang dampak bencana terhadap pertumbuhan. Pertanyaan ini harus dijawab secara empiris.</div>
+      </div>
+      <div class="rq-card">
+        <div class="rq-label">Masalah Identifikasi</div>
+        <div class="rq-text">Estimasi kausal sangat sulit karena endogenitas: negara miskin cenderung mengalami dampak bencana lebih besar, menciptakan bias seleksi yang serius.</div>
+      </div>
+      <div class="rq-card">
+        <div class="rq-label">Masalah Counterfactual</div>
+        <div class="rq-text">Bagaimana mengkonstruksi kondisi "tanpa bencana" (counterfactual) yang valid untuk mengukur dampak kausal secara tepat?</div>
+      </div>
+      <div class="rq-card">
+        <div class="rq-label">Gap Literatur</div>
+        <div class="rq-text">Sebagian besar bukti empiris hanya fokus pada efek jangka pendek. Tidak ada studi yang secara rigorous menetapkan efek jangka panjang bencana terhadap GDP per kapita.</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-title">Relevansi ke Tesis Andre</div>
+      <p>Makalah ini menjawab pertanyaan riset tesis secara langsung: <em>apakah dan seberapa besar bencana alam langka mempengaruhi output dan kesejahteraan?</em> Serta mengidentifikasi peran kebijakan (lewat perubahan institusional pasca-bencana) dalam menentukan persistensi dampak ekonomi.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 2. FITUR MODEL ═══ -->
+  <section id="fitur">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2 class="section-title">Fitur Metodologi & Model</h2>
+    </div>
+
+    <p>Cavallo et al. menggunakan <strong>metode synthetic control</strong> yang dikembangkan oleh Abadie, Diamond, dan Hainmueller (2010) — pendekatan quasi-eksperimental berbasis comparative case study yang pertama kali diterapkan dalam literatur pertumbuhan ekonomi.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔬</div>
+        <h4>Quasi-Eksperimental</h4>
+        <p>Memanfaatkan eksogenitas waktu terjadinya bencana alam besar sebagai "treatment" alami.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧪</div>
+        <h4>Synthetic Control</h4>
+        <p>Membangun kelompok kontrol sintetis dari negara-negara tidak terdampak, dibobot secara optimal.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h4>Factor Model</h4>
+        <p>Mengizinkan efek variabel tak teramati bervariasi terhadap waktu — lebih umum dari fixed-effects biasa.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h4>Exact Inference</h4>
+        <p>Uji inferensi berbasis permutasi (placebo test) yang valid tanpa bergantung pada asimptotik sampel besar.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📏</div>
+        <h4>Threshold Percentile</h4>
+        <p>Mendefinisikan "bencana besar" berdasarkan persentil dunia (P99, P90, P75) dari distribusi korban jiwa.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h4>Cross-Country Panel</h4>
+        <p>Dataset 196 negara, periode 1970–2008, bersumber dari WDI, EM-DAT, Penn World Tables.</p>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <div class="note-box-title">Keunggulan vs. Fixed Effects</div>
+      <p>Model fixed-effects mengasumsikan efek confounders konstan dalam waktu. Synthetic control method lebih fleksibel: membiarkan efek confounders tak teramati <em>bervariasi seiring waktu</em>, sehingga menghasilkan counterfactual yang jauh lebih kredibel.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 3. ALUR PEMODELAN ═══ -->
+  <section id="alur">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2 class="section-title">Alur Proses Pemodelan</h2>
+    </div>
+
+    <div class="flowchart">
+
+      <div class="flow-step">
+        <div class="flow-step-num">1</div>
+        <div class="flow-step-content">
+          <h4>Identifikasi Bencana Besar</h4>
+          <p>Dari database EM-DAT (1970–2000), pilih bencana yang melampaui threshold persentil dunia (P99/P90/P75) berdasarkan jumlah korban jiwa per juta penduduk. Batasi pada bencana sebelum tahun 2000 agar tersedia cukup data pasca-bencana.</p>
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">2</div>
+        <div class="flow-step-content">
+          <h4>Definisi Variabel & Donor Pool</h4>
+          <p>Tentukan: $Y_{it}$ = GDP per kapita PPP riil; $Z_i$ = prediktor (keterbukaan perdagangan, stok kapital, populasi, pendidikan, Polity2, luas wilayah, lintang). Kumpulkan negara-negara tidak terdampak sebagai calon donor pool.</p>
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">3</div>
+        <div class="flow-step-content">
+          <h4>Konstruksi Synthetic Control</h4>
+          <p>Untuk setiap negara terdampak, cari vektor bobot optimal $W^* = (w_2^*, \ldots, w_{J+1}^*)$ yang meminimalkan jarak antara negara terdampak dengan kombinasi linier negara-negara donor, pada periode pra-bencana.</p>
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">4</div>
+        <div class="flow-step-content">
+          <h4>Estimasi Efek Kausal</h4>
+          <p>Hitung selisih antara GDP aktual negara terdampak dengan GDP synthetic control: $\hat{\alpha}_{1t} = Y_{1t} - \sum_{j=2}^{J+1} w_j^* Y_{jt}$ untuk setiap periode pasca-bencana $t > T_0$.</p>
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">5</div>
+        <div class="flow-step-content">
+          <h4>Rata-rata Efek antar Bencana</h4>
+          <p>Agregasikan efek kausal negara-spesifik ke dalam rata-rata efek bencana: $\bar{\alpha}_l = \frac{1}{G}\sum_{g=1}^{G} \hat{\alpha}_{g,T_0+l}$ setelah normalisasi GDP per kapita di tahun bencana = 1.</p>
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">6</div>
+        <div class="flow-step-content">
+          <h4>Inferensi Placebo (Exact Inference)</h4>
+          <p>Terapkan metode synthetic control pada semua negara donor (bukan negara terdampak). Bandingkan distribusi efek placebo dengan efek aktual untuk menghitung p-value lead-spesifik tanpa asumsi distribusional.</p>
+        </div>
+      </div>
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">7</div>
+        <div class="flow-step-content">
+          <h4>Analisis Heterogenitas: Revolusi Politik</h4>
+          <p>Pisahkan sampel menjadi (a) bencana yang diikuti revolusi politik radikal vs. (b) yang tidak. Estimasi ulang efek kausal untuk masing-masing subkelompok guna mengidentifikasi mekanisme transmisi efek ekonomi.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ 4. PERSAMAAN ═══ -->
+  <section id="persamaan">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2 class="section-title">Persamaan-Persamaan Utama</h2>
+    </div>
+
+    <!-- Eq 1 -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan (1) — Potential Outcome Framework</div>
+      $$Y^I_{it} = Y^N_{it} + \alpha_{it}$$
+      <div class="eq-desc">
+        $Y^I_{it}$ = GDP per kapita jika terpapar bencana; $Y^N_{it}$ = GDP per kapita tanpa bencana (counterfactual); $\alpha_{it}$ = efek kausal bencana untuk negara $i$ pada periode $t$.
+      </div>
+    </div>
+
+    <!-- Eq 2 -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan (2) — GDP yang Terobservasi</div>
+      $$Y_{it} = Y^N_{it} + \alpha_{it} D_{it}$$
+      <div class="eq-desc">
+        $D_{it} = 1$ jika negara $i$ terpapar bencana pada periode $t > T_0$; $D_{it} = 0$ sebaliknya. Untuk negara pertama (terdampak): $D_{1t} = 1$ hanya jika $t > T_0$.
+      </div>
+    </div>
+
+    <!-- Eq 3 -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan (3) — Estimand Kausal</div>
+      $$\alpha_{1t} = Y^I_{1t} - Y^N_{1t} = Y_{1t} - Y^N_{1t}, \quad t > T_0$$
+      <div class="eq-desc">
+        Parameter yang ingin diestimasi: beda antara GDP aktual (terobservasi) dan GDP counterfactual (harus dikonstruksi). Karena $Y^N_{1t}$ tidak terobservasi, dibutuhkan synthetic control untuk mengaproksimasinya.
+      </div>
+    </div>
+
+    <!-- Eq 4 -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan (4) — Factor Model untuk Counterfactual</div>
+      $$Y^N_{it} = \delta_t + \theta_t Z_i + \lambda_t \mu_i + \varepsilon_{it}$$
+      <div class="eq-desc">
+        $\delta_t$ = faktor umum dengan factor loading konstan; $Z_i$ = vektor prediktor GDP per kapita yang terobservasi; $\theta_t$ = vektor parameter tak diketahui; $\lambda_t$ = vektor faktor umum tak teramati; $\mu_i$ = vektor factor loading; $\varepsilon_{it}$ = gangguan transitori dengan rata-rata nol.
+      </div>
+    </div>
+
+    <!-- Eq 5-7 -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan (5)–(7) — Kondisi Pencocokan (Matching Conditions)</div>
+      $$\sum_{j=2}^{J+1} w_j^* Y_{j1} = Y_{1,1}, \quad \cdots, \quad \sum_{j=2}^{J+1} w_j^* Y_{j,T_0} = Y_{1,T_0}$$
+      $$\sum_{j=2}^{J+1} w_j^* Z_j = Z_1$$
+      <div class="eq-desc">
+        Bobot optimal $W^* = (w_2^*, \ldots, w_{J+1}^*)$ dipilih agar synthetic control mereproduksi jalur GDP pra-bencana dan nilai prediktor struktural negara terdampak secara akurat.
+      </div>
+    </div>
+
+    <!-- Eq 8 -->
+    <div class="eq-block">
+      <div class="eq-label">Persamaan (8) — Batas Kesalahan Aproksimasi Synthetic Control</div>
+      $$Y^N_{1t} - \sum_{j=2}^{J+1} w_j^* Y_{jt} = \sum_{j=2}^{J+1} w_j^* \left[\sum_{s=1}^{T_0} \lambda_t \left(\sum_{n=1}^{T_0} \lambda_n' \lambda_n\right)^{-1} \lambda_s' \right](\varepsilon_{js} - \varepsilon_{1s}) - \sum_{j=2}^{J+1} w_j^*(\varepsilon_{jt} - \varepsilon_{1t})$$
+      <div class="eq-desc">
+        Menurut Abadie et al. (2010), sisi kanan mendekati nol (dalam ekspektasi) jika jumlah periode pra-bencana besar relatif terhadap skala gangguan $\varepsilon$. Inilah justifikasi teoritis validitas synthetic control estimator.
+      </div>
+    </div>
+
+    <!-- Estimator -->
+    <div class="eq-block">
+      <div class="eq-label">Estimator Efek Kausal</div>
+      $$\hat{\alpha}_{1t} = Y_{1t} - \sum_{j=2}^{J+1} w_j^* Y_{jt}, \quad t \in \{T_0+1, \ldots, T\}$$
+      <div class="eq-desc">
+        Estimasi efek bencana pada setiap lead (tahun pasca-bencana) untuk negara terdampak. Nilai negatif mengindikasikan penurunan GDP per kapita relatif terhadap counterfactual.
+      </div>
+    </div>
+
+    <!-- Optimization -->
+    <div class="eq-block">
+      <div class="eq-label">Optimasi Bobot — Minimisasi Jarak</div>
+      $$W^* = \arg\min_{W} \|X_1 - X_0 W\|_V = \sqrt{(X_1 - X_0 W)' V (X_1 - X_0 W)}$$
+      $$\text{s.t.} \quad w_j \geq 0 \;\; \forall j, \quad \sum_{j=2}^{J+1} w_j = 1$$
+      <div class="eq-desc">
+        $X_1$ = vektor $(k \times 1)$ kombinasi linier outcome pra-bencana dan prediktor untuk negara terdampak; $X_0$ = matriks $(k \times J)$ untuk negara-negara donor; $V$ = matriks semi-definit positif simetris yang dipilih secara data-driven untuk meminimalkan MSPE pada periode pra-intervensi.
+      </div>
+    </div>
+
+    <!-- Average Effect -->
+    <div class="eq-block">
+      <div class="eq-label">Rata-rata Efek antar $G$ Bencana</div>
+      $$\bar{\alpha} = (\bar{\alpha}_{T_0+1}, \ldots, \bar{\alpha}_T) = \frac{1}{G} \sum_{g=1}^{G} (\hat{\alpha}_{g,T_0+1}, \ldots, \hat{\alpha}_{g,T})$$
+      <div class="eq-desc">
+        Rata-rata dihitung setelah normalisasi GDP per kapita di tahun bencana = 1 untuk setiap negara terdampak, agar efek skala (level GDP) tidak bias pooling lintas negara.
+      </div>
+    </div>
+
+    <!-- P-value -->
+    <div class="eq-block">
+      <div class="eq-label">P-value Inferensi Placebo (Lead-Spesifik)</div>
+      $$\text{p-value}_l = \Pr\left(\bar{\alpha}^{PL}_l < \bar{\alpha}_l\right) = \frac{\sum_{np=1}^{N_{PL}} \mathbf{1}\left(\bar{\alpha}^{PL(np)}_l < \bar{\alpha}_l\right)}{N_{PL}}$$
+      $$N_{PL} = \prod_{g=1}^{G} J_g$$
+      <div class="eq-desc">
+        Distribusi eksak dari efek placebo dikonstruksi dengan menerapkan synthetic control ke setiap negara donor seolah-olah mereka yang mengalami bencana. Jumlah kombinasi placebo $N_{PL}$ tumbuh eksponensial dalam $G$ dan $J_g$.
+      </div>
+    </div>
+
+    <!-- Variable Table -->
+    <h3 style="font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--dark-brown); margin:28px 0 12px;">Daftar Variabel dan Notasi</h3>
+    <table class="var-table">
+      <thead>
+        <tr>
+          <th>Simbol</th><th>Deskripsi</th><th>Sumber</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>$Y_{it}$</td><td>GDP per kapita riil (PPP) negara $i$ tahun $t$</td><td>World Bank WDI</td></tr>
+        <tr><td>$Y^N_{it}$</td><td>GDP per kapita counterfactual (tanpa bencana)</td><td>Dikonstruksi</td></tr>
+        <tr><td>$\alpha_{it}$</td><td>Efek kausal bencana terhadap GDP per kapita</td><td>Diestimasi</td></tr>
+        <tr><td>$T_0$</td><td>Jumlah periode sebelum bencana</td><td>—</td></tr>
+        <tr><td>$Z_i$</td><td>Vektor prediktor GDP (keterbukaan dagang, kapital, populasi, pendidikan, Polity2, luas, lintang)</td><td>WDI, PWT, Polity IV</td></tr>
+        <tr><td>$w_j^*$</td><td>Bobot optimal negara donor $j$ dalam synthetic control</td><td>Dioptimasi</td></tr>
+        <tr><td>$\lambda_t$</td><td>Vektor faktor umum tak teramati (time-varying)</td><td>Laten</td></tr>
+        <tr><td>$\mu_i$</td><td>Vektor factor loading negara $i$</td><td>Laten</td></tr>
+        <tr><td>$\varepsilon_{it}$</td><td>Gangguan transitori GDP per kapita, $E[\varepsilon_{it}]=0$</td><td>Residual</td></tr>
+        <tr><td>$V$</td><td>Matriks bobot positif semidefinit dalam optimasi jarak</td><td>Data-driven</td></tr>
+        <tr><td>$G$</td><td>Jumlah bencana dalam kelompok analisis</td><td>—</td></tr>
+        <tr><td>$J$</td><td>Jumlah negara donor potensial</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══ 5. METODE ESTIMASI ═══ -->
+  <section id="estimasi">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <h2 class="section-title">Metode Estimasi</h2>
+    </div>
+
+    <div class="method-list">
+      <div class="method-item">
+        <div class="method-item-num">1</div>
+        <div>
+          <h4>Synthetic Control Method (Abadie-Gardeazabal / ADH)</h4>
+          <p>Inti metode estimasi. Bobot optimal $W^*$ dipilih secara data-driven untuk meminimalkan <em>Mean Squared Prediction Error (MSPE)</em> GDP per kapita pada periode pra-bencana. Secara spesifik, setengah pertama jalur pra-bencana digunakan untuk membentuk sintetic match, dan setengah kedua digunakan sebagai validasi out-of-sample.</p>
+        </div>
+      </div>
+      <div class="method-item">
+        <div class="method-item-num">2</div>
+        <div>
+          <h4>Optimasi Numerik Quadratic Programming</h4>
+          <p>Pemilihan $W^*$ diselesaikan dengan minimasi kuadrat jarak $(X_1 - X_0W)'V(X_1 - X_0W)$ subject to constraint non-negativitas dan penjumlahan bobot = 1. Matrik $V$ dipilih iteratif untuk mengoptimalkan fit pra-intervensi.</p>
+        </div>
+      </div>
+      <div class="method-item">
+        <div class="method-item-num">3</div>
+        <div>
+          <h4>Exact Permutation Inference (Placebo Test)</h4>
+          <p>Untuk setiap bencana $g$, metode synthetic control diterapkan ke seluruh negara donor seolah-olah mereka yang terdampak. Distribusi empiris efek placebo dikonstruksi dari $N_{PL} = \prod_g J_g$ kombinasi. P-value dihitung sebagai proporsi efek placebo yang lebih negatif dari efek aktual.</p>
+        </div>
+      </div>
+      <div class="method-item">
+        <div class="method-item-num">4</div>
+        <div>
+          <h4>Normalisasi dan Agregasi Lintas Bencana</h4>
+          <p>GDP per kapita masing-masing negara dinormalisasi menjadi 1 di tahun bencana sebelum dilakukan rata-rata, untuk menghilangkan efek skala. Rata-rata efek $\bar{\alpha}_l$ kemudian diuji secara statistik menggunakan distribusi placebo yang telah dikonstruksi.</p>
+        </div>
+      </div>
+      <div class="method-item">
+        <div class="method-item-num">5</div>
+        <div>
+          <h4>Analisis Sensitivitas: Threshold Alternatif</h4>
+          <p>Robustness check dengan tiga definisi berbeda bencana besar: P99 (>233 kematian/juta penduduk), P90 (~17 kematian/juta), dan P75 (~7 kematian/juta). Efek diestimasi secara terpisah untuk setiap threshold guna menguji heterogenitas hasil berdasarkan keparahan bencana.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 6. TEMUAN UTAMA ═══ -->
+  <section id="temuan">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <h2 class="section-title">Temuan Utama & Implikasi</h2>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card negative">
+        <div class="finding-icon">📉</div>
+        <h4>Bencana Sangat Besar (P99) Berdampak Negatif</h4>
+        <p>10 tahun pasca-bencana, GDP per kapita rata-rata <strong>10% lebih rendah</strong> dari level tahun bencana, sedangkan counterfactual menunjukkan GDP seharusnya ~18% lebih tinggi. Selisih efektif ≈ 28 poin persentase.</p>
+      </div>
+      <div class="finding-card positive">
+        <div class="finding-icon">📊</div>
+        <h4>Bencana Sedang (P90, P75) Tidak Berdampak Signifikan</h4>
+        <p>Actual dan counterfactual GDP per kapita bergerak berdekatan, bahkan pasca-bencana. Tidak ditemukan efek yang signifikan secara statistik di semua lead (tahun 1–10 pasca bencana).</p>
+      </div>
+      <div class="finding-card negative">
+        <div class="finding-icon">🏛️</div>
+        <h4>Revolusi Politik adalah Mekanisme Kunci</h4>
+        <p>Dari 4 bencana P99, hanya 2 yang diikuti revolusi politik (Iran 1979, Nicaragua 1979). Saat revolusi ini dikendalikan, bahkan bencana P99 <em>tidak menunjukkan efek signifikan</em> terhadap GDP.</p>
+      </div>
+      <div class="finding-card neutral">
+        <div class="finding-icon">🔄</div>
+        <h4>Ketahanan Ekonomi tanpa Disrupsi Institusional</h4>
+        <p>Kasus Honduras (1974) dan Republik Dominika (1979) — bencana P99 tanpa revolusi — menunjukkan tidak ada efek jangka pendek maupun panjang yang signifikan terhadap GDP per kapita.</p>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:24px;">
+      <div class="info-box-title">Implikasi Kebijakan Kunci</div>
+      <p>Dampak ekonomi permanen dari bencana alam dimediasi oleh <strong>kualitas institusi dan stabilitas politik</strong>, bukan semata-mata besarnya kerusakan fisik. Ini mendukung pandangan bahwa ketahanan institusional — bukan hanya rekonstruksi fisik — adalah determinan utama pemulihan ekonomi pasca-bencana.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 7. RELEVANSI TESIS ═══ -->
+  <section id="relevansi">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <h2 class="section-title">Relevansi terhadap Tesis Andre</h2>
+    </div>
+
+    <p style="margin-bottom:20px;">Makalah ini merupakan fondasi empiris langsung untuk tesis berjudul <em>"Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context."</em></p>
+
+    <div class="thesis-rel-grid">
+      <div class="thesis-rel-item">
+        <div class="rq-label">RQ 1 — Intervensi Kebijakan Efektif</div>
+        <p>Cavallo et al. menunjukkan revolusi institusional adalah kanal utama dampak permanen. Ini memotivasi pemodelan mekanisme kebijakan dalam DSGE: rekonstruksi, transfer fiskal, dan perlindungan properti rights sebagai variabel kunci.</p>
+      </div>
+      <div class="thesis-rel-item">
+        <div class="rq-label">RQ 2 — Model Dinamis Makroekonomi</div>
+        <p>Framework synthetic control membuktikan perlunya counterfactual yang credible. Model DSGE Andre mengisi gap ini dengan memberikan counterfactual berbasis struktur ekonomi — bukan statistik murni.</p>
+      </div>
+      <div class="thesis-rel-item">
+        <div class="rq-label">RQ 3 — Dampak Regional antar Wilayah</div>
+        <p>Cavallo et al. analisis level nasional; tesis Andre memperluas ke dimensi regional dengan interregional linkages. Temuan "no effect without political disruption" mengimplikasikan pentingnya pemodelan spillover antar-wilayah dalam Indonesia.</p>
+      </div>
+      <div class="thesis-rel-item">
+        <div class="rq-label">RQ 4 — Kecepatan Pemulihan & Persistensi</div>
+        <p>Hasil Nicaragua (pemulihan sempat terjadi, lalu drop lagi pasca-revolusi) menunjukkan non-linearity dalam recovery dynamics — relevan langsung untuk kalibrasi shock persistence $\rho$ dalam model DSGE Andre.</p>
+      </div>
+    </div>
+
+    <div class="note-box" style="margin-top:20px;">
+      <div class="note-box-title">Catatan Metodologis untuk Thesis</div>
+      <p>Model DSGE Andre dapat menghasilkan IRF (Impulse Response Function) yang interpretasinya analog dengan lead-specific effects $\hat{\alpha}_{1t}$ di Cavallo et al. Ini membuka peluang validasi informal: apakah pola IRF DSGE konsisten dengan magnitud dan persistensi yang ditemukan secara empiris oleh Cavallo et al. untuk bencana P99?</p>
+    </div>
+  </section>
+
+  <!-- ═══ 8. SITASI ═══ -->
+  <section id="sitasi">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <h2 class="section-title">Informasi Bibliografi & Sitasi</h2>
+    </div>
+
+    <div class="citation-box">
+      <div class="eq-label" style="margin-bottom:10px;">APA 7th Edition</div>
+      <pre>Cavallo, E., Galiani, S., Noy, I., & Pantano, J. (2010). Catastrophic natural disasters and economic growth (IDB Working Paper Series No. IDB-WP-183). Inter-American Development Bank. https://hdl.handle.net/10419/89155</pre>
+    </div>
+
+    <div class="citation-box" style="margin-top:14px;">
+      <div class="eq-label" style="margin-bottom:10px;">BibTeX</div>
+      <pre>@techreport{cavallo2010catastrophic,
+  title     = {Catastrophic Natural Disasters and Economic Growth},
+  author    = {Cavallo, Eduardo and Galiani, Sebasti{\'a}n and Noy, Ilan and Pantano, Juan},
+  year      = {2010},
+  institution = {Inter-American Development Bank},
+  type      = {IDB Working Paper Series},
+  number    = {IDB-WP-183},
+  url       = {https://hdl.handle.net/10419/89155}
+}</pre>
+    </div>
+
+    <div style="margin-top:24px;">
+      <p style="font-size:0.88rem; color:var(--text-muted);">
+        <strong>Referensi kunci yang dikutip dalam paper ini:</strong>
+        Abadie, Diamond &amp; Hainmueller (2010) — Synthetic Control Methods;
+        Abadie &amp; Gardeazabal (2003) — Economic Costs of Conflict;
+        Acemoglu, Johnson &amp; Robinson (2005) — Institutions and Long-Run Growth;
+        Raddatz (2007) — External Shocks and Output Instability;
+        Noy (2009) — Macroeconomic Consequences of Disasters.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer class="site-footer">
+  <p>Halaman referensi akademik untuk tesis <em>"Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context"</em></p>
+  <p style="margin-top:6px; opacity:0.7;">Universitas Gadjah Mada · Program Studi Magister Ilmu Ekonomi · Andre · 2024–2025</p>
+</footer>
+
+</body>
+</html>

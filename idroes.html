@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idroes et al. (2023) — Bencana Alam & Pertumbuhan Ekonomi Indonesia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError: false
+  });"></script>
+
+<style>
+  :root {
+    --cream: #faf6ef;
+    --warm-white: #f5f0e8;
+    --ink: #1a1410;
+    --ink-light: #3d3028;
+    --terracotta: #b5461e;
+    --gold: #c8941a;
+    --sage: #4a6741;
+    --slate: #4a5568;
+    --border: #d9cfc0;
+    --shadow: rgba(26,20,16,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  /* TOP BANNER */
+  .banner {
+    background: var(--ink);
+    color: var(--warm-white);
+    padding: 6px 0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--warm-white);
+    border-bottom: 2px solid var(--border);
+    padding: 56px 0 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 320px; height: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(200,148,26,0.04) 20px,
+      rgba(200,148,26,0.04) 21px
+    );
+  }
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+  }
+  .journal-tag {
+    display: inline-block;
+    background: var(--terracotta);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .hero h1 em {
+    color: var(--terracotta);
+    font-style: italic;
+  }
+  .hero .subtitle {
+    font-size: 1rem;
+    color: var(--slate);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--ink-light);
+  }
+  .meta-row span { display: flex; align-items: center; gap: 6px; }
+  .meta-row .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: inline-block;
+  }
+
+  /* THESIS CALLOUT */
+  .thesis-box {
+    max-width: 860px;
+    margin: 32px auto;
+    padding: 0 32px;
+  }
+  .thesis-inner {
+    background: linear-gradient(135deg, #fff8ee, #fdf4e7);
+    border: 1px solid #e8d9b8;
+    border-left: 4px solid var(--gold);
+    border-radius: 4px;
+    padding: 24px 28px;
+  }
+  .thesis-inner h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .thesis-inner p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .rq-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .rq-list li {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    padding-left: 20px;
+    position: relative;
+  }
+  .rq-list li::before {
+    content: 'RQ';
+    position: absolute;
+    left: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--terracotta);
+    top: 3px;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 56px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.2s; }
+  .section:nth-child(5) { animation-delay: 0.25s; }
+  .section:nth-child(6) { animation-delay: 0.3s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--terracotta);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* PROSE */
+  .prose p { margin-bottom: 14px; color: var(--ink-light); }
+  .prose strong { color: var(--ink); font-weight: 600; }
+
+  /* PROBLEM CARDS */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  @media (max-width: 600px) { .problem-grid { grid-template-columns: 1fr; } }
+  .problem-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .problem-card:hover {
+    box-shadow: 0 4px 20px var(--shadow);
+    transform: translateY(-2px);
+  }
+  .problem-card .icon {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .problem-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .problem-card p {
+    font-size: 0.875rem;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  /* FEATURE LIST */
+  .feature-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .feature-table thead tr {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .feature-table thead th {
+    padding: 10px 16px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .feature-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .feature-table tbody tr:hover { background: var(--warm-white); }
+  .feature-table tbody td {
+    padding: 11px 16px;
+    vertical-align: top;
+  }
+  .feature-table tbody td:first-child {
+    font-weight: 600;
+    color: var(--terracotta);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  /* FLOWCHART */
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 8px 0;
+  }
+  .flow-step {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 24px;
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .flow-step:hover {
+    border-color: var(--terracotta);
+    box-shadow: 0 4px 16px var(--shadow);
+  }
+  .flow-step .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .flow-step .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .flow-step .step-desc {
+    font-size: 0.8rem;
+    color: var(--slate);
+  }
+  .flow-step.highlight {
+    background: linear-gradient(135deg, #fdf0e0, #fae8cc);
+    border-color: var(--gold);
+  }
+  .flow-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 36px;
+    color: var(--slate);
+  }
+  .flow-arrow::after {
+    content: '▼';
+    font-size: 14px;
+    color: var(--terracotta);
+    line-height: 36px;
+  }
+  .flow-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 520px;
+  }
+  .flow-step.small { max-width: 100%; font-size: 0.85rem; }
+
+  /* EQUATIONS */
+  .eq-block {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .eq-header {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eq-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    background: var(--terracotta);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+  .eq-label {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    font-weight: 600;
+  }
+  .eq-body {
+    padding: 18px 24px;
+    overflow-x: auto;
+  }
+  .eq-body .katex-display {
+    margin: 0 !important;
+  }
+  .eq-note {
+    padding: 10px 18px 14px;
+    font-size: 0.8rem;
+    color: var(--slate);
+    border-top: 1px dashed var(--border);
+    font-style: italic;
+  }
+
+  /* ESTIMATION METHODS */
+  .method-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .method-grid { grid-template-columns: 1fr; } }
+  .method-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    transition: box-shadow 0.2s;
+  }
+  .method-card:hover { box-shadow: 0 4px 16px var(--shadow); }
+  .method-card .method-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .method-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+  .method-card p {
+    font-size: 0.83rem;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  /* FINDINGS */
+  .finding-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .finding-item:last-child { border-bottom: none; }
+  .finding-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .finding-text h4 {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .finding-text p {
+    font-size: 0.85rem;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  /* RELEVANCE BOX */
+  .relevance-box {
+    background: linear-gradient(135deg, #edf4ec, #ddeedd);
+    border: 1px solid #b8d4b5;
+    border-left: 4px solid var(--sage);
+    border-radius: 4px;
+    padding: 22px 26px;
+  }
+  .relevance-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--sage);
+    margin-bottom: 10px;
+  }
+  .relevance-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .relevance-list li {
+    font-size: 0.875rem;
+    color: var(--ink-light);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .relevance-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--sage);
+    font-weight: 700;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(250,246,239,0.5);
+    padding: 28px 32px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+  footer strong { color: var(--cream); }
+
+  /* DIVIDER */
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: var(--terracotta);
+    margin: 24px 0;
+  }
+
+  /* BADGE ROW */
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+  }
+  .badge.highlight { background: var(--terracotta); color: #fff; border-color: var(--terracotta); }
+</style>
+</head>
+<body>
+
+<div class="banner">Referensi Tesis — Idroes et al. (2023) · Ekonomikalia Journal of Economics Vol. 1, No. 1</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="journal-tag">Artikel Jurnal · 2023</span>
+    <h1>Bencana Alam dan Pertumbuhan Ekonomi <em>di Indonesia</em></h1>
+    <p class="subtitle">Idroes, G.M., Hardi, I., Nasir, M., Gunawan, E., Maulidar, P., & Maulana, A.R.R. (2023)</p>
+    <div class="meta-row">
+      <span><span class="dot"></span>FMOLS · DOLS · CCR · VECM</span>
+      <span><span class="dot"></span>Data 1990–2021</span>
+      <span><span class="dot"></span>DOI: 10.60084/eje.v1i1.55</span>
+    </div>
+    <div class="badge-row" style="margin-top:18px;">
+      <span class="badge highlight">Pertumbuhan Ekonomi</span>
+      <span class="badge">Bencana Alam</span>
+      <span class="badge">Kausalitas Unidireksional</span>
+      <span class="badge">Long-run Cointegration</span>
+      <span class="badge">Indonesia</span>
+    </div>
+  </div>
+</header>
+
+<!-- THESIS CALLOUT -->
+<div class="thesis-box">
+  <div class="thesis-inner">
+    <h3>Relevansi Tesis</h3>
+    <p>"Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context"</p>
+    <ul class="rq-list">
+      <li>Intervensi kebijakan apa yang paling efektif dalam memitigasi penurunan output dan konsumsi pasca bencana langka?</li>
+      <li>Bagaimana model makroekonomi dinamis dapat menangkap struktur ekonomi regional, bencana langka, dan kebijakan pemulihan?</li>
+      <li>Bagaimana bencana langka mempengaruhi output, konsumsi, dan kesejahteraan di wilayah terdampak dan tidak terdampak dengan keterkaitan antarwilayah?</li>
+      <li>Bagaimana kecepatan pemulihan pasca bencana mempengaruhi besaran dan persistensi kerugian makroekonomi?</li>
+    </ul>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- SECTION 1: MASALAH UTAMA -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>Masalah Utama yang Diidentifikasi</h2>
+    </div>
+    <div class="prose">
+      <p>Studi ini mengidentifikasi <strong>kesenjangan empiris</strong> dalam literatur terkait hubungan jangka panjang antara bencana alam dan pertumbuhan ekonomi di Indonesia — khususnya arah kausalitas dan magnitude dampaknya.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <span class="icon">🌊</span>
+        <h4>Kerentanan Geografis Indonesia</h4>
+        <p>Posisi di Pacific Ring of Fire, curah hujan tinggi, dan topografi pegunungan menjadikan Indonesia sangat rentan terhadap gempa bumi, banjir, letusan gunung berapi, dan tanah longsor secara bersamaan.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">📉</span>
+        <h4>Dampak Ganda Bencana</h4>
+        <p>Bencana menghancurkan infrastruktur, mengganggu produksi, dan memutus rantai pasok — namun literatur menunjukkan bahwa rekonstruksi pasca bencana dapat menstimulasi aktivitas ekonomi dalam jangka panjang.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">🔗</span>
+        <h4>Kausalitas yang Tidak Jelas</h4>
+        <p>Belum ada konsensus empiris di Indonesia: apakah bencana menyebabkan perubahan pertumbuhan ekonomi, ataukah tingkat pembangunan ekonomi yang mempengaruhi kerentanan terhadap bencana?</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">🏗️</span>
+        <h4>Efek Rekonstruksi Jangka Panjang</h4>
+        <p>Investasi rekonstruksi pasca bencana skala besar dapat menciptakan efek produktivitas jangka panjang melalui modernisasi infrastruktur dan teknologi baru — fenomena yang belum terukur secara sistematis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: FITUR MODEL -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Fitur Model dan Data</h2>
+    </div>
+    <div class="prose">
+      <p>Model empiris dibangun di atas <strong>fungsi produksi neo-klasik augmented</strong> yang memasukkan bencana alam sebagai variabel eksogen, diestimasi menggunakan data time-series tahunan 1990–2021.</p>
+    </div>
+    <table class="feature-table">
+      <thead>
+        <tr>
+          <th>Variabel</th>
+          <th>Proksi</th>
+          <th>Sumber</th>
+          <th>Satuan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GDP</td>
+          <td>Pertumbuhan Ekonomi</td>
+          <td>World Development Indicators (WDI)</td>
+          <td>Constant 2015 USD</td>
+        </tr>
+        <tr>
+          <td>K</td>
+          <td>Modal (Gross Fixed Capital Formation)</td>
+          <td>World Development Indicators (WDI)</td>
+          <td>Constant 2015 USD</td>
+        </tr>
+        <tr>
+          <td>L</td>
+          <td>Tenaga Kerja (employed + unemployed seeking)</td>
+          <td>World Development Indicators (WDI)</td>
+          <td>Jumlah orang</td>
+        </tr>
+        <tr>
+          <td>ND</td>
+          <td>Bencana Alam (jumlah orang terdampak)</td>
+          <td>OurWorldInData (OWID)</td>
+          <td>Jumlah orang</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.82rem; color: var(--slate); margin-top:10px; font-style:italic;">Seluruh variabel ditransformasi menggunakan logaritma natural untuk mengatasi heteroskedastisitas.</p>
+  </section>
+
+  <!-- SECTION 3: FLOWCHART -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Alur Proses Pemodelan</h2>
+    </div>
+
+    <div class="flowchart">
+
+      <div class="flow-step highlight">
+        <div class="step-num">Tahap 0</div>
+        <div class="step-title">Pengumpulan & Transformasi Data</div>
+        <div class="step-desc">Data tahunan 1990–2021; transformasi ln; plot visualisasi tren GDP, ND, K, L</div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="step-num">Tahap 1</div>
+        <div class="step-title">Uji Stasionaritas (Unit Root)</div>
+        <div class="step-desc">Augmented Dickey-Fuller (ADF) + Phillips-Perron (PP) — level vs. first difference</div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="step-num">Tahap 2</div>
+        <div class="step-title">Pemilihan Panjang Lag Optimal (VAR)</div>
+        <div class="step-desc">Kriteria Akaike Information Criterion (AIC) → memilih lag 2</div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step">
+        <div class="step-num">Tahap 3</div>
+        <div class="step-title">Uji Kointegrasi Johansen</div>
+        <div class="step-desc">Trace test + Max-eigenvalue test — mengonfirmasi 1 persamaan kointegrasi pada $\alpha = 5\%$</div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-split">
+        <div class="flow-step small">
+          <div class="step-num">Tahap 4A</div>
+          <div class="step-title">Estimasi Jangka Panjang</div>
+          <div class="step-desc">FMOLS · DOLS · CCR (+ OLS & RLS sebagai pembanding)</div>
+        </div>
+        <div class="flow-step small">
+          <div class="step-num">Tahap 4B</div>
+          <div class="step-title">Uji Kausalitas VECM</div>
+          <div class="step-desc">Granger causality via VECM — short-run & long-run dynamics</div>
+        </div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-step highlight">
+        <div class="step-num">Tahap 5</div>
+        <div class="step-title">Interpretasi & Rekomendasi Kebijakan</div>
+        <div class="step-desc">Analisis kausalitas, elastisitas long-run, implikasi bagi policymakers</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: EQUATIONS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Persamaan-Persamaan yang Digunakan</h2>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-header">
+        <span class="eq-tag">Persamaan 1</span>
+        <span class="eq-label">Spesifikasi Fungsi GDP</span>
+      </div>
+      <div class="eq-body">
+        $$\text{GDP}_t = f(K_t,\; L_t,\; ND_t)$$
+      </div>
+      <div class="eq-note">GDP sebagai fungsi dari modal $K$, tenaga kerja $L$, dan bencana alam $ND$ pada waktu $t$.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-header">
+        <span class="eq-tag">Persamaan 2</span>
+        <span class="eq-label">Model Ekonometrik Log-Linear (FMOLS/DOLS/CCR)</span>
+      </div>
+      <div class="eq-body">
+        $$\ln GDP_t = \beta_0 + \beta_1 \ln K_t + \beta_2 \ln L_t + \beta_3 \ln ND_t + \varepsilon_t$$
+      </div>
+      <div class="eq-note">$\beta_0$ adalah intersep; $\beta_1, \beta_2, \beta_3$ adalah koefisien elastisitas jangka panjang; $\varepsilon_t$ adalah error term.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-header">
+        <span class="eq-tag">Persamaan 3</span>
+        <span class="eq-label">VECM — Persamaan GDP</span>
+      </div>
+      <div class="eq-body">
+        $$\Delta \ln GDP_t = \beta_0 + \sum_{i=1}^{k}\!\left(\beta_{1i}\Delta \ln GDP_{t-i} + \beta_{2i}\Delta \ln K_{t-i} + \beta_{3i}\Delta \ln L_{t-i} + \beta_{4i}\Delta \ln ND_{t-i}\right) + \lambda_1 ECT_{t-1} + \upsilon_t$$
+      </div>
+      <div class="eq-note">$ECT_{t-1}$ adalah Error Correction Term yang mengukur kecepatan penyesuaian menuju keseimbangan jangka panjang; $\lambda_1$ adalah koefisien penyesuaian.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-header">
+        <span class="eq-tag">Persamaan 4</span>
+        <span class="eq-label">VECM — Persamaan Modal ($K$)</span>
+      </div>
+      <div class="eq-body">
+        $$\Delta \ln K_t = \alpha_0 + \sum_{i=1}^{k}\!\left(\alpha_{1i}\Delta \ln K_{t-i} + \alpha_{2i}\Delta \ln GDP_{t-i} + \alpha_{3i}\Delta \ln L_{t-i} + \alpha_{4i}\Delta \ln ND_{t-i}\right) + \lambda_2 ECT_{t-1} + \upsilon_{2t}$$
+      </div>
+      <div class="eq-note">Menguji kausalitas Granger dari GDP, L, dan ND terhadap modal fisik $K$.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-header">
+        <span class="eq-tag">Persamaan 5</span>
+        <span class="eq-label">VECM — Persamaan Tenaga Kerja ($L$)</span>
+      </div>
+      <div class="eq-body">
+        $$\Delta \ln L_t = \delta_0 + \sum_{i=1}^{k}\!\left(\delta_{1i}\Delta \ln L_{t-i} + \delta_{2i}\Delta \ln GDP_{t-i} + \delta_{3i}\Delta \ln K_{t-i} + \delta_{4i}\Delta \ln ND_{t-i}\right) + \lambda_3 ECT_{t-1} + \upsilon_{3t}$$
+      </div>
+      <div class="eq-note">Menguji kausalitas Granger dari variabel lain terhadap pasar tenaga kerja.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-header">
+        <span class="eq-tag">Persamaan 6</span>
+        <span class="eq-label">VECM — Persamaan Bencana Alam ($ND$)</span>
+      </div>
+      <div class="eq-body">
+        $$\Delta \ln ND_t = \theta_0 + \sum_{i=1}^{k}\!\left(\theta_{1i}\Delta \ln ND_{t-i} + \theta_{2i}\Delta \ln GDP_{t-i} + \theta_{3i}\Delta \ln K_{t-i} + \theta_{4i}\Delta \ln L_{t-i}\right) + \lambda_4 ECT_{t-1} + \upsilon_{4t}$$
+      </div>
+      <div class="eq-note">Menguji apakah pertumbuhan ekonomi, modal, atau tenaga kerja Granger-causes frekuensi/intensitas bencana alam.</div>
+    </div>
+
+  </section>
+
+  <!-- SECTION 5: METODE ESTIMASI -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Metode Estimasi</h2>
+    </div>
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="method-tag">FMOLS</div>
+        <h4>Fully-Modified OLS</h4>
+        <p>Mengoreksi serial korelasi jangka panjang dan masalah endogenitas secara non-parametrik. Menghasilkan estimasi yang konsisten dan efisien untuk model kointegrasi.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-tag">DOLS</div>
+        <h4>Dynamic OLS</h4>
+        <p>Memasukkan lead dan lag dari first-difference regressor untuk mengoreksi endogenitas. Umumnya menghasilkan estimasi yang lebih efisien pada sampel kecil dibanding FMOLS.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-tag">CCR</div>
+        <h4>Canonical Cointegrating Regression</h4>
+        <p>Mentransformasi data menggunakan canonical variates untuk menghilangkan bias jangka panjang. Merupakan alternatif non-parametrik yang robust terhadap misspecification.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-tag">VECM</div>
+        <h4>Vector Error Correction Model</h4>
+        <p>Memodelkan dinamika jangka pendek dan penyesuaian menuju keseimbangan jangka panjang secara simultan. Memungkinkan identifikasi kausalitas Granger multivariat.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;" class="eq-block">
+      <div class="eq-header">
+        <span class="eq-tag">Hasil Kointegrasi</span>
+        <span class="eq-label">Johansen Trace Test (R = 0)</span>
+      </div>
+      <div class="eq-body">
+        $$\text{Trace Statistic} = 48.43 > \text{Critical Value}_{5\%} = 47.86 \quad (p = 0.044)$$
+      </div>
+      <div class="eq-note">Menolak $H_0: r = 0$ (tidak ada kointegrasi) → terdapat 1 persamaan kointegrasi pada tingkat signifikansi 5%.</div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: TEMUAN & RELEVANSI -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Temuan Utama & Relevansi untuk Tesis</h2>
+    </div>
+
+    <div class="finding-item">
+      <div class="finding-icon">📈</div>
+      <div class="finding-text">
+        <h4>Dampak Positif Jangka Panjang Bencana terhadap GDP</h4>
+        <p>FMOLS/DOLS/CCR menemukan elastisitas $\beta_3 \in [0.0062, 0.0124]$ — kenaikan 1% pada jumlah orang terdampak bencana berkorelasi dengan peningkatan GDP sebesar 0.006–0.012% dalam jangka panjang. Ini konsisten dengan hipotesis <em>creative destruction</em> melalui rekonstruksi infrastruktur.</p>
+      </div>
+    </div>
+    <div class="finding-item">
+      <div class="finding-icon">→</div>
+      <div class="finding-text">
+        <h4>Kausalitas Unidireksional: $ND \rightarrow GDP$</h4>
+        <p>VECM Granger causality menunjukkan ND Granger-causes GDP (F = 2.72, p = 0.077) namun tidak sebaliknya. Temuan ini selaras dengan literatur negara berkembang (Pakistan, Filipina, India) namun tidak berlaku di negara maju.</p>
+      </div>
+    </div>
+    <div class="finding-item">
+      <div class="finding-icon">⚡</div>
+      <div class="finding-text">
+        <h4>Kausalitas Bidireksional: $GDP \leftrightarrow K$</h4>
+        <p>Pertumbuhan ekonomi meningkatkan akumulasi modal, yang pada gilirannya mendorong pertumbuhan — mencerminkan mekanisme akselerator-multiplier yang penting untuk dikalibrasi dalam model DSGE regional.</p>
+      </div>
+    </div>
+    <div class="finding-item">
+      <div class="finding-icon">🔄</div>
+      <div class="finding-text">
+        <h4>Error Correction Term yang Signifikan</h4>
+        <p>Koefisien $\lambda_1 = 0.389$ (t = 2.45) menunjukkan deviasi dari keseimbangan jangka panjang terkoreksi sekitar 38.9% per tahun — informasi kritis untuk mengkalibrasi kecepatan mean-reversion dalam model DSGE tesis.</p>
+      </div>
+    </div>
+    <div class="finding-item">
+      <div class="finding-icon">🏛️</div>
+      <div class="finding-text">
+        <h4>Modal dan Tenaga Kerja sebagai Penentu Utama GDP</h4>
+        <p>Elastisitas modal: $\hat{\beta}_1 \approx 0.51$ (FMOLS); elastisitas tenaga kerja: $\hat{\beta}_2 \approx 1.12$ (FMOLS) — keduanya signifikan pada 1%. Nilai ini dapat digunakan sebagai parameter kalibrasi awal untuk fungsi produksi dalam model DSGE dua-wilayah.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="relevance-box">
+      <h3>Kontribusi untuk Tesis DSGE Regional</h3>
+      <ul class="relevance-list">
+        <li>Memvalidasi bahwa bencana alam memiliki dampak makroekonomi yang dapat diukur di Indonesia (justifikasi empiris untuk memasukkan <em>disaster shock</em> dalam DSGE).</li>
+        <li>Nilai elastisitas FMOLS/DOLS/CCR ($\beta_1 \approx 0.51$, $\beta_2 \approx 1.12$) menyediakan benchmark untuk kalibrasi parameter fungsi produksi model.</li>
+        <li>Kecepatan penyesuaian ECT (~39%/tahun) memberikan referensi untuk mengkalibrasi persistence parameter dalam model pemulihan (recovery dynamics).</li>
+        <li>Bukti kausalitas unidireksional $ND \to GDP$ mendukung spesifikasi <em>disaster as exogenous shock</em> (bukan endogenous) dalam kerangka DSGE.</li>
+        <li>Temuan dampak positif jangka panjang mendukung mekanisme rekonstruksi dan peningkatan produktivitas modal dalam model DSGE tesis.</li>
+        <li>Pendekatan time-series nasional ini menjadi <em>baseline komparatif</em> yang penting sebelum membangun model regional dua-wilayah yang lebih kaya heterogenitas.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <strong>Idroes, G.M. et al.</strong> (2023). Natural Disasters and Economic Growth in Indonesia. <em>Ekonomikalia Journal of Economics</em>, 1(1), 33–39. &nbsp;·&nbsp; DOI: 10.60084/eje.v1i1.55
+  <br><br>
+  Halaman referensi dibuat untuk keperluan tesis: <strong>Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis</strong>
+</footer>
+
+</body>
+</html>
