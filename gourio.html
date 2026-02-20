@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gourio (2009) — Risiko Bencana & Siklus Bisnis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError: false
+  });"></script>
+
+<style>
+  :root {
+    --cream: #faf6f0;
+    --parchment: #f2ead8;
+    --warm-brown: #5c3d2e;
+    --deep-brown: #3a2519;
+    --rust: #b5451b;
+    --amber: #d4860c;
+    --sage: #6b7c5e;
+    --slate: #4a5568;
+    --light-border: #ddd0b8;
+    --card-bg: #fffdf8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--deep-brown);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--warm-brown);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 30px,
+      rgba(255,255,255,0.03) 30px,
+      rgba(255,255,255,0.03) 31px
+    );
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: var(--rust);
+    color: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 2px;
+    margin-bottom: 1.2rem;
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    max-width: 820px;
+    margin: 0 auto 1rem;
+  }
+
+  header h1 em {
+    font-style: italic;
+    color: #f5d5aa;
+  }
+
+  .header-meta {
+    color: rgba(255,255,255,0.72);
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+  }
+
+  .header-meta span {
+    margin: 0 0.5rem;
+    color: var(--amber);
+  }
+
+  /* THESIS CONTEXT BANNER */
+  .thesis-banner {
+    background: var(--parchment);
+    border-left: 4px solid var(--amber);
+    padding: 1.2rem 2rem;
+    max-width: 960px;
+    margin: 2rem auto;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.92rem;
+    color: var(--warm-brown);
+  }
+
+  .thesis-banner strong { color: var(--rust); }
+
+  /* LAYOUT */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  /* SECTION */
+  .section {
+    margin-top: 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--light-border);
+  }
+
+  .section-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--light-border);
+    line-height: 1;
+    min-width: 2.5rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--warm-brown);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--light-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--rust);
+    margin-bottom: 0.6rem;
+  }
+
+  .card p {
+    font-size: 0.94rem;
+    color: var(--slate);
+    line-height: 1.7;
+  }
+
+  /* PROBLEM GRID */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  @media (max-width: 640px) {
+    .problem-grid { grid-template-columns: 1fr; }
+  }
+
+  .problem-card {
+    background: var(--card-bg);
+    border: 1px solid var(--light-border);
+    border-top: 3px solid var(--rust);
+    border-radius: 6px;
+    padding: 1.3rem;
+  }
+
+  .problem-card .rq-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--amber);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .problem-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.96rem;
+    color: var(--deep-brown);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .problem-card p {
+    font-size: 0.85rem;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  /* FEATURE TABLE */
+  .feature-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .feature-table th {
+    background: var(--warm-brown);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .feature-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--light-border);
+    color: var(--slate);
+    vertical-align: top;
+  }
+
+  .feature-table tr:nth-child(even) td {
+    background: #fdf8f0;
+  }
+
+  .feature-table tr:last-child td { border-bottom: none; }
+
+  .tag {
+    display: inline-block;
+    background: var(--parchment);
+    color: var(--warm-brown);
+    border: 1px solid var(--light-border);
+    border-radius: 3px;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+    margin-right: 0.3rem;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+  }
+
+  /* FLOWCHART */
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 1rem 0;
+  }
+
+  .flow-step {
+    background: var(--card-bg);
+    border: 1.5px solid var(--light-border);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    max-width: 620px;
+    position: relative;
+  }
+
+  .flow-step.highlight {
+    border-color: var(--rust);
+    background: #fff9f5;
+  }
+
+  .flow-step.decision {
+    background: #f5f9f0;
+    border-color: var(--sage);
+    border-style: dashed;
+  }
+
+  .flow-step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--amber);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .flow-step h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--deep-brown);
+    font-size: 0.97rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .flow-step p {
+    font-size: 0.83rem;
+    color: var(--slate);
+    line-height: 1.55;
+  }
+
+  .flow-arrow {
+    font-size: 1.5rem;
+    color: var(--light-border);
+    padding: 0.25rem 0;
+    line-height: 1;
+  }
+
+  .flow-branch {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 650px;
+    align-items: flex-start;
+  }
+
+  .flow-branch .flow-step {
+    flex: 1;
+  }
+
+  /* EQUATIONS */
+  .eq-block {
+    background: var(--card-bg);
+    border: 1px solid var(--light-border);
+    border-left: 4px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.2rem;
+    overflow-x: auto;
+  }
+
+  .eq-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--amber);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .eq-desc {
+    font-size: 0.86rem;
+    color: var(--slate);
+    margin-top: 0.6rem;
+    line-height: 1.6;
+  }
+
+  /* ESTIMATION */
+  .est-step {
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 1.4rem;
+    align-items: flex-start;
+  }
+
+  .est-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--light-border);
+    line-height: 1;
+    min-width: 2rem;
+    padding-top: 0.1rem;
+  }
+
+  .est-body h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--warm-brown);
+    margin-bottom: 0.35rem;
+  }
+
+  .est-body p {
+    font-size: 0.9rem;
+    color: var(--slate);
+    line-height: 1.65;
+  }
+
+  /* RESULTS TABLE */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .results-grid { grid-template-columns: 1fr; }
+  }
+
+  .result-card {
+    background: var(--card-bg);
+    border: 1px solid var(--light-border);
+    border-top: 3px solid var(--sage);
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .result-card .metric {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--rust);
+  }
+
+  .result-card .metric-label {
+    font-size: 0.8rem;
+    color: var(--slate);
+    margin-top: 0.25rem;
+    line-height: 1.4;
+  }
+
+  /* RELEVANCE BOX */
+  .relevance-box {
+    background: linear-gradient(135deg, #fdf4e7, #f9ede0);
+    border: 1.5px solid var(--amber);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .relevance-box h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--rust);
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .relevance-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .relevance-list li {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--slate);
+    line-height: 1.6;
+    align-items: flex-start;
+  }
+
+  .relevance-list li::before {
+    content: '→';
+    color: var(--amber);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--warm-brown);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.82rem;
+    margin-top: 4rem;
+  }
+
+  footer strong { color: #f5d5aa; }
+
+  /* PROPOSITION BOX */
+  .proposition {
+    background: #fff8f0;
+    border: 1.5px solid var(--rust);
+    border-radius: 8px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .proposition .prop-label {
+    font-weight: 700;
+    color: var(--rust);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .proposition p {
+    font-size: 0.9rem;
+    color: var(--slate);
+    line-height: 1.65;
+  }
+
+  /* Two-column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* TOC */
+  .toc {
+    background: var(--parchment);
+    border: 1px solid var(--light-border);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+    font-size: 0.88rem;
+  }
+
+  .toc-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--warm-brown);
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+  }
+
+  .toc-list a {
+    color: var(--rust);
+    text-decoration: none;
+    font-size: 0.87rem;
+  }
+
+  .toc-list a:hover { text-decoration: underline; }
+
+  /* Inline highlight */
+  mark {
+    background: #fde9c0;
+    color: var(--deep-brown);
+    padding: 0 0.2em;
+    border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Referensi Literatur Tesis</div>
+  <h1><em>Disaster Risk and Business Cycles</em></h1>
+  <div class="header-meta">
+    François Gourio &nbsp;<span>•</span>&nbsp; NBER Working Paper No. 15399 &nbsp;<span>•</span>&nbsp; Oktober 2009
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="thesis-banner">
+    <strong>Relevansi Tesis:</strong> Paper ini menjadi fondasi pemodelan DSGE dengan risiko bencana stokastik yang diterapkan dalam tesis
+    "<em>Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters: A DSGE Analysis with an Application to the Indonesian Context</em>."
+    Kerangka risiko bencana yang berubah seiring waktu ($p_t$) dari Gourio diadaptasi menjadi model dua-wilayah dengan keterkaitan antardaerah untuk konteks bencana alam Indonesia.
+  </div>
+
+  <nav>
+    <div class="toc">
+      <div class="toc-title">Navigasi Cepat</div>
+      <ul class="toc-list">
+        <li><a href="#problem">1. Masalah Utama</a></li>
+        <li><a href="#fitur">2. Fitur Model</a></li>
+        <li><a href="#alur">3. Alur Pemodelan</a></li>
+        <li><a href="#persamaan">4. Persamaan</a></li>
+        <li><a href="#estimasi">5. Metode Estimasi</a></li>
+        <li><a href="#lainlain">6. Hal-Hal Penting Lainnya</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- SECTION 1: MASALAH UTAMA -->
+  <section class="section" id="problem">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-title">Masalah Utama yang Ingin Diselesaikan</div>
+    </div>
+
+    <div class="card">
+      <h3>Pertanyaan Besar</h3>
+      <p>Bagaimana membangun model siklus bisnis yang <mark>konsisten dengan perilaku harga aset yang terobservasi</mark>, sekaligus memahami efek makroekonomi dari guncangan ketidakpastian agregat? Model RBC standar dan DSGE untuk analisis kebijakan moneter gagal mereplikasi tingkat, volatilitas, dan siklikalitas premi risiko — sebuah kelalaian penting mengingat bukti empiris menunjukkan hubungan erat antara premi risiko dan aktivitas ekonomi riil.</p>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="rq-tag">Kesenjangan Literatur 1</div>
+        <h4>Dikotomi Kuantitas–Harga Aset</h4>
+        <p>Model RBC standar berhasil mereplikasi momen kuantitas makro (konsumsi, investasi, output) tetapi gagal menjelaskan premi ekuitas yang tinggi dan volatilitas return saham. Tallarini (2000) menemukan "pemisahan mengejutkan" antara dinamika kuantitas dan penentuan harga aset.</p>
+      </div>
+      <div class="problem-card">
+        <div class="rq-tag">Kesenjangan Literatur 2</div>
+        <h4>Model Bencana Hanya di Endowment Economy</h4>
+        <p>Literatur bencana (Rietz 1988, Barro 2006, Gabaix 2007) terbatas pada endowment economy sehingga tidak dapat menganalisis umpan balik dari premi risiko yang berubah-ubah terhadap aktivitas makro, investasi, dan ketenagakerjaan.</p>
+      </div>
+      <div class="problem-card">
+        <div class="rq-tag">Kesenjangan Literatur 3</div>
+        <h4>Premi Risiko yang Konstan</h4>
+        <p>Model dengan probabilitas bencana konstan menghasilkan premi risiko yang hampir konstan pula, sehingga rasio harga-dividen terlalu mulus dan return tidak cukup volatil untuk cocok dengan data.</p>
+      </div>
+      <div class="problem-card">
+        <div class="rq-tag">Kesenjangan Literatur 4</div>
+        <h4>Tidak Ada Guncangan Ketidakpastian dalam DSGE</h4>
+        <p>Model DSGE skala menengah (Smets-Wouters 2003) memasukkan "preference shocks" yang signifikan secara empiris, namun tanpa mikrofondasi yang jelas. Gourio memberikan fondasi mikro melalui variasi probabilitas bencana.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;">
+      <div class="proposition">
+        <div class="prop-label">Relevansi untuk Tesis Andre</div>
+        <p>Tesis merespons pertanyaan sejenis namun dalam konteks <em>bencana alam fisik</em> (bukan bencana ekonomi/keuangan) dengan struktur <em>dua wilayah</em>: (1) Wilayah terdampak bencana vs. tidak terdampak, (2) keterkaitan ekonomi antardaerah (spillover), dan (3) kebijakan pemulihan pasca-bencana sebagai instrumen intervensi. Guncangan $p_t$ Gourio ditransformasikan menjadi guncangan bencana alam yang mempengaruhi TFP dan stok kapital secara permanen maupun transitori.</p>
+      </div>
+    </div>
+
+    <!-- Research Questions Tesis -->
+    <div class="card" style="margin-top:1rem;">
+      <h3>Pertanyaan Penelitian Tesis (yang dijawab dengan kerangka ini)</h3>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="rq-tag">RQ 1</div>
+        <h4>Efektivitas Kebijakan Intervensi</h4>
+        <p>Intervensi kebijakan mana yang paling efektif dalam memitigasi penurunan output dan konsumsi pasca-bencana alam langka?</p>
+      </div>
+      <div class="problem-card">
+        <div class="rq-tag">RQ 2</div>
+        <h4>Model Struktur Regional</h4>
+        <p>Bagaimana model makroekonomi dinamis dapat menangkap struktur ekonomi regional, bencana langka, dan kebijakan pemulihan pasca-bencana?</p>
+      </div>
+      <div class="problem-card">
+        <div class="rq-tag">RQ 3</div>
+        <h4>Dampak Lintas Wilayah</h4>
+        <p>Bagaimana bencana alam langka mempengaruhi output, konsumsi, dan kesejahteraan di wilayah terdampak dan tidak terdampak melalui keterkaitan ekonomi antardaerah?</p>
+      </div>
+      <div class="problem-card">
+        <div class="rq-tag">RQ 4</div>
+        <h4>Kecepatan Pemulihan</h4>
+        <p>Bagaimana kecepatan pemulihan pasca-bencana mempengaruhi besaran dan persistensi kerugian makroekonomi?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: FITUR MODEL -->
+  <section class="section" id="fitur">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title">Fitur Model Utama</div>
+    </div>
+
+    <table class="feature-table">
+      <thead>
+        <tr>
+          <th style="width:22%">Fitur</th>
+          <th style="width:38%">Deskripsi dalam Gourio (2009)</th>
+          <th style="width:40%">Adaptasi untuk Tesis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Jenis Model</strong></td>
+          <td>Real Business Cycle (RBC) dengan probabilitas bencana stokastik yang berubah seiring waktu</td>
+          <td><span class="tag">Tesis</span> DSGE dua-wilayah: Wilayah bencana (R1) & wilayah tidak terdampak (R2) dengan keterkaitan perdagangan</td>
+        </tr>
+        <tr>
+          <td><strong>Preferensi Agen</strong></td>
+          <td>Epstein-Zin recursive utility yang memisahkan risk aversion ($\gamma$) dari IES ($1/\psi$)</td>
+          <td><span class="tag">Tesis</span> Epstein-Zin dipertahankan; household heterogen dimungkinkan dalam ekstensi HANK</td>
+        </tr>
+        <tr>
+          <td><strong>Guncangan Bencana</strong></td>
+          <td>Probabilitas bencana $p_t$ mengikuti AR(1) dengan nilai rata-rata 1.7% per tahun; bencana menghancurkan $b_k = b_{tfp} = 0.43$ dari kapital dan TFP</td>
+          <td><span class="tag">Tesis</span> Bencana alam (gempa, tsunami, letusan gunung) dengan parameter $b_k$ dan $b_{tfp}$ dikalibrasi ke data Indonesia (BNPB)</td>
+        </tr>
+        <tr>
+          <td><strong>Akumulasi Kapital</strong></td>
+          <td>$K_{t+1} = \phi(I_t/K_t)K_t \cdot (1-x_{t+1}b_k)$; dengan adjustment cost $\phi(\cdot)$</td>
+          <td><span class="tag">Tesis</span> Kapital spesifik-wilayah; rekonstruksi kapital pasca-bencana sebagai kebijakan stimulus</td>
+        </tr>
+        <tr>
+          <td><strong>TFP</strong></td>
+          <td>$\log z_{t+1} = \log z_t + \mu + \varepsilon_{t+1} + x_{t+1}\log(1-b_{tfp})$</td>
+          <td><span class="tag">Tesis</span> TFP bisa pulih secara stokastik (recovery shock) atau permanen — relevan untuk RQ 4</td>
+        </tr>
+        <tr>
+          <td><strong>Metode Solusi</strong></td>
+          <td>Policy function iteration non-linear; 120 titik grid untuk $k$, 9 titik untuk $p$</td>
+          <td><span class="tag">Tesis</span> Smolyak method untuk model multi-dimensi (2 wilayah × multi state variable)</td>
+        </tr>
+        <tr>
+          <td><strong>Harga Aset</strong></td>
+          <td>Equity premium, yield curve, return prediktabilitas; SDF dari Epstein-Zin</td>
+          <td><span class="tag">Tesis</span> Fokus pada momen kuantitas (output, konsumsi, investasi, kesejahteraan); harga aset sebagai sekunder</td>
+        </tr>
+        <tr>
+          <td><strong>Teorema Separasi</strong></td>
+          <td>Jika $p$ konstan dan $b_k = b_{tfp}$: dinamika kuantitas tidak terpengaruh risiko bencana (Proposisi 1)</td>
+          <td><span class="tag">Tesis</span> Teorema ini <em>runtuh</em> ketika ada keterkaitan antardaerah — spillover menciptakan dinamika transisi bahkan di wilayah tidak terdampak</td>
+        </tr>
+        <tr>
+          <td><strong>Kalibrasi Bencana</strong></td>
+          <td>Data Barro (2006): probabilitas 1.7%/tahun, ukuran risk-adjusted 43%</td>
+          <td><span class="tag">Tesis</span> Data BNPB Indonesia, BPS, World Bank PDNA untuk kalibrasi $b_k$, $b_{tfp}$, dan frekuensi bencana regional</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 3: ALUR PEMODELAN -->
+  <section class="section" id="alur">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title">Alur Proses Pemodelan</div>
+    </div>
+
+    <div class="flowchart">
+
+      <div class="flow-step highlight">
+        <div class="flow-step-num">Tahap 1 — Fondasi Model</div>
+        <h4>Spesifikasi Ekonomi Representatif</h4>
+        <p>Satu konsumen representatif, satu perusahaan representatif, teknologi Cobb-Douglas. Tentukan state variables: kapital $K_t$, TFP $z_t$, probabilitas bencana $p_t$.</p>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">Tahap 2 — Proses Stokastik</div>
+        <h4>Kalibrasi Tiga Guncangan Independen</h4>
+        <p>
+          <strong>(a)</strong> TFP normal: $\varepsilon_t \sim \mathcal{N}(0, \sigma^2)$ &nbsp;|&nbsp;
+          <strong>(b)</strong> Probabilitas bencana: $\log p_t \sim \text{AR}(1)$ &nbsp;|&nbsp;
+          <strong>(c)</strong> Realisasi bencana: $x_t \sim \text{Bernoulli}(p_t)$
+        </p>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step highlight">
+        <div class="flow-step-num">Tahap 3 — Formulasi Bellman</div>
+        <h4>Transformasi Homogenitas & Rescaling</h4>
+        <p>Tulis ulang masalah Social Planner: $W(K,z,p) = z^{(1-\gamma)} g(k,p)$ di mana $k=K/z$. Ini mereduksi state space menjadi dua dimensi: $(k, p)$.</p>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step decision">
+        <div class="flow-step-num">Tahap 4 — Verifikasi Teorema Separasi</div>
+        <h4>Cek Kondisi: Apakah $b_k = b_{tfp}$?</h4>
+        <p>Jika ya → Proposisi 1 berlaku: dinamika kuantitas identik dengan model tanpa bencana (hanya $\beta$ berubah). Guncangan $p_t$ setara dengan preference shock (Proposisi 2). Ini menjustifikasi solusi log-linearisasi dua langkah.</p>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-branch">
+        <div class="flow-step">
+          <div class="flow-step-num">Jalur A — Solusi Numerik Penuh</div>
+          <h4>Policy Function Iteration Non-linear</h4>
+          <p>Grid 120 titik untuk $k$, 9 titik untuk $p$ (Rouwenhorst), 5 titik untuk $\varepsilon$. Digunakan untuk model benchmark Gourio.</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">Jalur B — Solusi Dua Langkah</div>
+          <h4>Log-linearisasi + Harga Aset Terpisah</h4>
+          <p>Solusi kuantitas via linearisasi standar, kemudian hitung harga aset dari recursion SDF secara terpisah. Efisien untuk model skala menengah.</p>
+        </div>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">Tahap 5 — Simulasi & Impulse Response</div>
+        <h4>Analisis Dinamika Model</h4>
+        <p>
+          <strong>(a)</strong> IRF guncangan TFP: verifikasi near-observational equivalence &nbsp;|&nbsp;
+          <strong>(b)</strong> IRF peningkatan $p_t$: kolaps investasi, resesi &nbsp;|&nbsp;
+          <strong>(c)</strong> Realisasi bencana: penurunan mendadak semua variabel sebesar $b_k$.
+        </p>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step">
+        <div class="flow-step-num">Tahap 6 — Kalibrasi & Validasi</div>
+        <h4>Pencocokan Momen & Uji Empiris</h4>
+        <p>Cocokkan momen kuantitas (Tabel 2-3) dan momen return aset (Tabel 4-7). Inferensi $\hat{p}_t$ dari rasio P/D yang terobservasi, kemudian feed ke model untuk evaluasi empiris.</p>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="flow-step highlight">
+        <div class="flow-step-num">Tahap 7 — Analisis Kebijakan</div>
+        <h4>Simulasi Counterfactual</h4>
+        <p>Bandingkan respons dengan dan tanpa intervensi kebijakan (transfer fiskal, rekonstruksi kapital, subsidi). Hitung welfare loss dalam ekuivalen konsumsi.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: PERSAMAAN -->
+  <section class="section" id="persamaan">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title">Daftar Persamaan Utama</div>
+    </div>
+
+    <!-- Preferensi -->
+    <div class="eq-block">
+      <div class="eq-label">Fungsi Utilitas Epstein-Zin (Recursive)</div>
+      $$V_t = \left[ u(C_t, N_t)^{1-\frac{1}{\psi}} + \beta \left( \mathbb{E}_t \left[ V_{t+1}^{1-\gamma} \right] \right)^{\frac{1-1/\psi}{1-\gamma}} \right]^{\frac{1}{1-1/\psi}}$$
+      <div class="eq-desc">
+        di mana $u(C,N) = C^\alpha (1-N)^{1-\alpha}$, $\psi$ = elastisitas substitusi antarwaktu (IES), $\gamma$ = koefisien risk aversion terhadap guncangan statis, $\beta$ = faktor diskon. Pemisahan $\psi$ dan $\gamma$ adalah kunci: respons terhadap peningkatan $p_t$ bergantung pada IES, bukan risk aversion.
+      </div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Fungsi Produksi (Cobb-Douglas)</div>
+      $$Y_t = K_t^\theta (z_t N_t)^{1-\theta}$$
+      <div class="eq-desc">$\theta$ = pangsa kapital, $z_t$ = TFP, $N_t$ = jam kerja. Parameter benchmark: $\theta = 0.34$.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Akumulasi Kapital dengan Bencana dan Adjustment Costs</div>
+      $$K_{t+1} = \begin{cases} \left[(1-\delta)K_t + \phi\!\left(\tfrac{I_t}{K_t}\right) K_t \right] & \text{jika } x_{t+1} = 0 \text{ (tidak ada bencana)} \\ \left[(1-\delta)K_t + \phi\!\left(\tfrac{I_t}{K_t}\right) K_t \right](1-b_k) & \text{jika } x_{t+1} = 1 \text{ (bencana)} \end{cases}$$
+      <div class="eq-desc">$b_k$ = fraksi kapital yang hancur saat bencana, $\phi(\cdot)$ = fungsi konkaf yang menangkap adjustment costs, $x_{t+1} \sim \text{Bernoulli}(p_t)$. Dalam model benchmark: $b_k = 0.43$, $\phi(i) = i$ (tanpa adjustment cost).</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Dinamika TFP dengan Bencana Permanen</div>
+      $$\log z_{t+1} = \log z_t + \mu + \varepsilon_{t+1} + x_{t+1} \log(1 - b_{tfp})$$
+      <div class="eq-desc">$\mu$ = drift TFP, $\varepsilon_{t+1} \sim \mathcal{N}(0, \sigma^2)$ = guncangan normal, $b_{tfp}$ = penurunan TFP permanen saat bencana. Dalam benchmark: $\sigma = 0.01$, $b_{tfp} = 0.43$.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Proses Probabilitas Bencana (AR-1 dalam Log)</div>
+      $$\log p_{t+1} = \rho_p \log p_t + (1-\rho_p)\log \bar{p} + \sigma_p \varepsilon^p_{t+1}$$
+      <div class="eq-desc">$\rho_p = 0.96$ (persistensi tinggi), $\bar{p} = 0.017/4$ per kuartal (rata-rata probabilitas), standar deviasi tak bersyarat $\sigma_p\sqrt{1/(1-\rho_p^2)} = 1.5$. Variasi $p_t$ adalah sumber time-varying risk premia.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Bellman Equation (Setelah Rescaling: $g(k,p) = W(K,z,p)/z^{1-\gamma}$)</div>
+      $$g(k,p) = \max_{c,i,N} \left\{ u(c,N)^{1-1/\psi} + \tilde\beta(p) \cdot e^{(1-\gamma)\mu} \left[ \mathbb{E}_{p',\varepsilon',x'} e^{(1-\gamma)\varepsilon'} g(k',p')^{\frac{1-1/\psi}{1-\gamma}} \right]^{\frac{1-\gamma}{1-1/\psi}} \right\}^{\frac{1}{1-1/\psi}}$$
+      <div class="eq-desc">di mana $\tilde\beta(p) \equiv \beta\left[1-p+p(1-b_{tfp})^{1-\gamma}\right]^{1/(1-\gamma)}$ adalah <em>faktor diskon efektif yang bergantung pada probabilitas bencana</em> — inilah inti dari Proposisi 2.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Stochastic Discount Factor (SDF) — Epstein-Zin</div>
+      $$M_{t,t+1} = \beta \left(\frac{C_{t+1}}{C_t}\right)^{(1-\gamma)(1-1/\psi)-1} \left(\frac{1-N_{t+1}}{1-N_t}\right)^{(1-\gamma)(1-\alpha)(1-1/\psi)} \left(\frac{V_{t+1}}{\mathbb{E}_t[V_{t+1}^{1-\gamma}]^{1/(1-\gamma)}}\right)^{-(1-\gamma)}$$
+      <div class="eq-desc">SDF menentukan semua harga aset dalam model. Kunci: SDF bergantung pada $V_{t+1}$ (continuation utility), bukan hanya $C_{t+1}$ — ini yang menghasilkan equity premium besar bahkan dengan risk aversion moderat.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Proposisi 1 — Faktor Diskon Efektif (Constant $p$)</div>
+      $$\beta^* = \beta \left[1 - p + p(1-b_k)^{1-\gamma}\right]^{\frac{1}{1-\gamma}}$$
+      <div class="eq-desc">Jika $b_k = b_{tfp}$ dan $p$ konstan, maka model dengan bencana <em>secara kuantitatif ekuivalen</em> dengan model tanpa bencana (p=0) tetapi dengan faktor diskon $\beta^*$. Harga aset tetap berbeda.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Return Ekuitas (Investment Return Formula)</div>
+      $$R^e_{t,t+1} = (1 - x_{t+1}b_k) \cdot \phi'\!\left(\frac{I_t}{K_t}\right) \cdot \left[\frac{1-\delta + \phi\!\left(\frac{I_{t+1}}{K_{t+1}}\right)/\phi'\!\left(\frac{I_{t+1}}{K_{t+1}}\right) + \theta Y_{t+1}/K_{t+1} - I_{t+1}/K_{t+1}}{\phi'\!\left(\frac{I_{t+1}}{K_{t+1}}\right)}\right]$$
+      <div class="eq-desc">Term $(1-x_{t+1}b_k)$ menangkap penurunan nilai ekuitas saat bencana. Ini menciptakan korelasi negatif antara return saham dan konsumsi, menghasilkan equity premium yang besar.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Harga Obligasi Pemerintah (n-period, dengan risiko gagal bayar)</div>
+      $$P_n(k,p) = \mathbb{E}_{x',p',\varepsilon'}\left[M_{t,t+1} \cdot \bigl(1 - x_{t+1}q(1-r)\bigr) \cdot P_{n-1}(k',p')\right]$$
+      <div class="eq-desc">$q$ = probabilitas gagal bayar kondisional bencana (0.6), $r$ = recovery rate. Obligasi pemerintah tidak bebas risiko: saat bencana, nilai turun sebesar $q(1-r)$. Ini menghasilkan term premium negatif.</div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Inferensi $\hat{p}_t$ dari Harga Aset (Uji Empiris)</div>
+      $$\frac{P_t}{D_t} = \Phi\!\left(k_t, p_t; \boldsymbol{\theta}\right) \implies \hat{p}_t = \Phi^{-1}\!\left(\frac{P_t^{\text{data}}}{D_t^{\text{data}}}, k_t^{\text{data}}; \hat{\boldsymbol{\theta}}\right)$$
+      <div class="eq-desc">Rasio harga-dividen adalah fungsi dari $(k_t, p_t)$. Dengan mengukur $k_t$ dari data BEA (kapital/TFP), $p_t$ dapat dibalik dari data CRSP. Series $\hat{p}_t$ ini kemudian diumpankan ke model untuk evaluasi in-sample.</div>
+    </div>
+
+  </section>
+
+  <!-- SECTION 5: METODE ESTIMASI -->
+  <section class="section" id="estimasi">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-title">Metode Estimasi & Kalibrasi</div>
+    </div>
+
+    <div class="est-step">
+      <div class="est-num">1</div>
+      <div class="est-body">
+        <h4>Kalibrasi Parametrik (Pencocokan Momen Selektif)</h4>
+        <p>Sebagian besar parameter dikalibrasi dari literatur siklus bisnis (Cooley & Prescott 1995): $\theta = 0.34$, $\delta = 0.02$ per kuartal, $\beta = 0.993$. Parameter bencana ($b_k, b_{tfp} = 0.43$, $\bar{p} = 0.017$/tahun) dari Barro (2006). IES = 2 dikalibrasi agar model konsisten dengan arah respons yang benar terhadap guncangan $p_t$. Risk aversion $\gamma = 6$ dikalibrasi agar model menghasilkan equity premium yang cukup besar.</p>
+      </div>
+    </div>
+
+    <div class="est-step">
+      <div class="est-num">2</div>
+      <div class="est-body">
+        <h4>Solusi Numerik: Modified Policy Function Iteration</h4>
+        <p>Algoritma: (1) Diskretisasi state space dengan grid untuk $k$ (120 titik), $p$ (9 titik via Rouwenhorst 1995), $\varepsilon$ (5 titik Gauss-Hermite). (2) Iterasi kebijakan yang dimodifikasi (*modified policy iteration*, lebih cepat dari value iteration). (3) Interpolasi linear di tahap awal, beralih ke spline interpolation untuk presisi. (4) Konvergensi dicek pada norma $\sup|g^{n+1}(k,p) - g^n(k,p)|$.</p>
+      </div>
+    </div>
+
+    <div class="est-step">
+      <div class="est-num">3</div>
+      <div class="est-body">
+        <h4>Simulasi Monte Carlo untuk Momen Statistik</h4>
+        <p>1.000 simulasi dengan panjang 400 periode (kuartal) dimulai dari steady-state non-stokastik; 200 periode awal dibuang (burn-in). Momen dihitung dari rata-rata lintas simulasi. Semua seri didetrend dengan HP-filter ($\lambda = 1600$) sebelum penghitungan momen, konsisten dengan literatur RBC.</p>
+      </div>
+    </div>
+
+    <div class="est-step">
+      <div class="est-num">4</div>
+      <div class="est-body">
+        <h4>Inferensi Struktural dari Harga Aset ($\hat{p}_t$)</h4>
+        <p>Uji empiris: (a) Ukur $k_t = K_t/z_t$ dari data BEA (kapital, TFP = output/tenaga kerja$^{2/3}$/kapital$^{1/3}$); (b) Inversi fungsi model $P/D = \Phi(k_t, p_t)$ untuk mendapatkan $\hat{p}_t$ dari data CRSP 1948q1–2008q4; (c) Feed $\hat{p}_t$ ke model untuk menghasilkan series kuantitas prediksi; (d) Hitung ukuran fit: $\text{Fit} = \text{Cov}(\text{model}, \text{data}) / \text{Var}(\text{data})$.</p>
+      </div>
+    </div>
+
+    <div class="est-step">
+      <div class="est-num">5</div>
+      <div class="est-body">
+        <h4>Uji Robustness & Sensitivitas</h4>
+        <p>Gourio menguji: (a) $b_k = 0, b_{tfp} = 0.43$ (hanya TFP disaster); (b) $b_k = 0.43, b_{tfp} = 0$ (hanya capital disaster); (c) Multi-period disasters (bencana kecil 20% dengan probabilitas persistensi 50%); (d) Variasi IES dan risk aversion. Untuk tesis: sensitivitas terhadap kekuatan keterkaitan antardaerah dan kecepatan pemulihan.</p>
+      </div>
+    </div>
+
+    <!-- Key results -->
+    <div style="margin-top:1.5rem;">
+      <div class="card"><h3>Hasil Kuantitatif Utama</h3></div>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="metric">~5%</div>
+          <div class="metric-label">Equity premium tahunan (levered equity) yang dihasilkan model dengan risk aversion efektif konsumsi 1.8</div>
+        </div>
+        <div class="result-card">
+          <div class="metric">~96%</div>
+          <div class="metric-label">Fit investasi selama resesi dengan lag 2 kuartal (RBC+p vs. RBC 47.6%)</div>
+        </div>
+        <div class="result-card">
+          <div class="metric">1.7%</div>
+          <div class="metric-label">Probabilitas bencana per tahun rata-rata; tertinggi di 2008Q4 (krisis keuangan)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: LAIN-LAIN -->
+  <section class="section" id="lainlain">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-title">Hal-Hal Penting Lainnya</div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <h3>Dua Proposisi Analitis Sentral</h3>
+        <p><strong>Proposisi 1 (Constant $p$):</strong> Jika $b_k = b_{tfp}$ dan $p$ konstan, maka kuantitas model setara dengan model RBC standar dengan $\beta^*$ berbeda. Harga aset tetap berbeda. Ini adalah "teorema separasi" à la Tallarini (2000).</p>
+        <br>
+        <p><strong>Proposisi 2 (Time-varying $p$):</strong> Guncangan pada $p_t$ secara observasional ekuivalen dengan <em>preference shock</em>. Ini memberikan mikrofondasi untuk "preference shocks" dalam DSGE à la Smets-Wouters.</p>
+      </div>
+
+      <div class="card">
+        <h3>Masalah Kogerakan (Comovement Puzzle)</h3>
+        <p>Ketika $p_t$ naik, model memprediksi: investasi turun, konsumsi naik (substitution effect > wealth effect dengan IES > 1), output dan jam kerja turun. Ini mengimplikasikan korelasi negatif antara konsumsi dan investasi jangka pendek — yang <em>tidak konsisten</em> dengan data. Gourio mengemukakan solusi potensial: sticky prices + ZLB, learning mechanism, atau non-standard preferences (Jaimovich-Rebelo).</p>
+      </div>
+
+      <div class="card">
+        <h3>Capital vs. TFP Disaster</h3>
+        <p>Pemilihan jenis bencana krusial: <strong>Capital disaster</strong> ($b_{tfp} = 0$): investasi merespons seperti Ramsey-Cass-Koopmans; ada recovery endogen; equity premium rendah. <strong>TFP disaster</strong> ($b_k = 0$): investasi jatuh ke nol (irreversibility); tidak ada recovery otomatis; peningkatan $p_t$ justru mendorong tabungan berhati-hati → investasi naik (terbalik!). <strong>Benchmark</strong> ($b_k = b_{tfp}$): kasus parsimoni yang memungkinkan proposisi analitis.</p>
+      </div>
+
+      <div class="card">
+        <h3>Relevansi untuk Model Regional Tesis</h3>
+        <p>Ketika model diperluas ke dua wilayah, "teorema separasi" Gourio <em>runtuh</em>: wilayah tidak terdampak merasakan efek melalui keterkaitan perdagangan dan pasar tenaga kerja bahkan saat $p$ konstan, karena perubahan kapital dan TFP di wilayah terdampak mengubah harga relatif. Ini membuat IRF cross-regional menjadi pertanyaan empiris yang penting untuk tesis.</p>
+      </div>
+
+      <div class="card">
+        <h3>Implikasi Kebijakan</h3>
+        <p>Meskipun Gourio tidak menganalisis kebijakan secara eksplisit, kerangkanya mengimplikasikan: (1) Asuransi terhadap risiko bencana dapat meningkatkan kesejahteraan dengan mengurangi premi risiko rate-of-return; (2) Kebijakan yang mempercepat recovery TFP lebih efektif daripada yang hanya merekonstruksi kapital; (3) Kebijakan moneter akomodatif (penurunan suku bunga) dapat mencegah "comovement puzzle" dalam model NK extended.</p>
+      </div>
+
+      <div class="card">
+        <h3>Keterkaitan dengan Literatur Tesis Lainnya</h3>
+        <p>Gourio menjembatani: <strong>Barro (2006)</strong> — kalibrasi bencana historis; <strong>Tallarini (2000)</strong> — separasi kuantitas-aset; <strong>Smets-Wouters (2003)</strong> — preference shocks dalam DSGE; <strong>Bloom (2008)</strong> — mekanisme uncertainty shock berbeda (fokus real options); <strong>Bansal-Yaron (2004)</strong> — long-run risk; <strong>Jermann (1998)</strong> — production economy asset pricing.</p>
+      </div>
+    </div>
+
+    <!-- Keterbatasan -->
+    <div class="card" style="margin-top:1.2rem;">
+      <h3>Keterbatasan Model & Implikasi untuk Tesis</h3>
+      <p style="margin-bottom:0.75rem;">Gourio mengakui beberapa keterbatasan yang justru membuka ruang kontribusi untuk tesis:</p>
+      <table class="feature-table">
+        <thead>
+          <tr>
+            <th>Keterbatasan Gourio (2009)</th>
+            <th>Kontribusi Tesis yang Menjawab</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ekonomi tertutup satu wilayah</td>
+            <td>Model dua wilayah dengan keterkaitan perdagangan dan pasar faktor antardaerah</td>
+          </tr>
+          <tr>
+            <td>Probabilitas bencana sulit diobservasi</td>
+            <td>Menggunakan data BNPB dan sejarah bencana alam Indonesia untuk kalibrasi langsung</td>
+          </tr>
+          <tr>
+            <td>Tidak ada analisis kebijakan eksplisit</td>
+            <td>Simulasi counterfactual berbagai instrumen kebijakan pemulihan (RQ 1)</td>
+          </tr>
+          <tr>
+            <td>Bencana sebagai guncangan keuangan/ekonomi</td>
+            <td>Bencana alam fisik (gempa bumi, banjir, letusan gunung berapi) dengan mekanisme transmisi berbeda</td>
+          </tr>
+          <tr>
+            <td>Tidak ada dinamika pemulihan eksogen</td>
+            <td>Recovery dynamics eksplisit sebagai pertanyaan riset utama (RQ 4)</td>
+          </tr>
+          <tr>
+            <td>Comovement puzzle belum terpecahkan</td>
+            <td>Struktur dua wilayah mungkin menghasilkan comovement positif melalui spillover demand</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="relevance-box">
+      <h3>Kontribusi Paper ini untuk Tesis Andre</h3>
+      <ul class="relevance-list">
+        <li><strong>Kerangka teori:</strong> Model Gourio adalah template langsung untuk DSGE bencana; tesis mengembangkan ke multi-region dengan keterkaitan antardaerah — sesuatu yang Gourio sendiri menyebut sebagai "interesting extension."</li>
+        <li><strong>Metode solusi:</strong> Proposisi 2 (ekuivalensi preference shock) dapat menyederhanakan solusi model dua-wilayah — jalur Solusi B dalam alur pemodelan tesis.</li>
+        <li><strong>Kalibrasi:</strong> Parameter $b_k$, $b_{tfp}$, dan distribusi probabilitas bencana menjadi titik awal kalibrasi, disesuaikan ke data Indonesia melalui BNPB dan World Bank PDNA reports.</li>
+        <li><strong>Benchmarking:</strong> Momen kuantitas Gourio (Tabel 2-3) dan momen return (Tabel 4-7) digunakan sebagai pembanding untuk menilai apakah model regional tesis sudah reasonable.</li>
+        <li><strong>Gap identifikasi:</strong> Keterbatasan model satu-wilayah Gourio secara eksplisit menjustifikasi kontribusi tesis — paper ini menjadi "motivation" utama penelitian.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <strong>Referensi:</strong> Gourio, F. (2009). "Disasters Risk and Business Cycles." NBER Working Paper No. 15399. &nbsp;|&nbsp;
+  Halaman ini dibuat sebagai referensi literatur untuk tesis
+  "<em>Regional Economic Linkages, Recovery Dynamics, and the Macroeconomic Effects of Rare Natural Disasters</em>" — UGM, 2024–2025.
+</footer>
+
+</body>
+</html>

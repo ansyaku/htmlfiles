@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mukherjee & Hastak (2018) — Ringkasan Akademik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]
+  });"></script>
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #F5F0E8;
+    --sand: #E8DFD0;
+    --tan: #C9B99A;
+    --brown: #8B6F47;
+    --dark-brown: #4A3728;
+    --rust: #B85C38;
+    --deep-rust: #8C3F22;
+    --slate: #3D4A5C;
+    --ink: #1E2530;
+    --gold: #C49A3C;
+    --light-gold: #E8C97A;
+
+    --section-gap: 4rem;
+    --card-radius: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15.5px;
+    line-height: 1.75;
+  }
+
+  /* === HEADER === */
+  header {
+    background: var(--dark-brown);
+    color: var(--cream);
+    padding: 3.5rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(196,154,60,0.12);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 10%;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(184,92,56,0.1);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .header-tag {
+    display: inline-block;
+    background: var(--rust);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 2px;
+    margin-bottom: 1.4rem;
+  }
+  header h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.35;
+    color: #fff;
+    max-width: 780px;
+    margin-bottom: 1.2rem;
+  }
+  .header-meta {
+    font-size: 0.85rem;
+    color: var(--tan);
+    font-weight: 400;
+  }
+  .header-meta strong { color: var(--light-gold); }
+
+  /* === RELEVANCE BANNER === */
+  .relevance-banner {
+    background: var(--warm-white);
+    border-left: 4px solid var(--rust);
+    max-width: 900px;
+    margin: 2.5rem auto 0;
+    padding: 1.2rem 1.8rem;
+    border-radius: 0 var(--card-radius) var(--card-radius) 0;
+    font-size: 0.88rem;
+    color: var(--dark-brown);
+  }
+  .relevance-banner strong { color: var(--rust); }
+
+  /* === MAIN LAYOUT === */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* === SECTION TITLES === */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+    margin-top: var(--section-gap);
+  }
+  .section-number {
+    background: var(--dark-brown);
+    color: var(--light-gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+    border-bottom: 2px solid var(--sand);
+    padding-bottom: 0.5rem;
+    flex: 1;
+  }
+
+  /* === CARDS === */
+  .card {
+    background: #fff;
+    border: 1px solid var(--sand);
+    border-radius: var(--card-radius);
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 4px 20px rgba(74,55,40,0.08); }
+  .card-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--rust);
+    margin-bottom: 0.7rem;
+  }
+  .card p {
+    font-size: 0.91rem;
+    color: var(--slate);
+    line-height: 1.7;
+  }
+
+  /* === PROBLEM GRID === */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 600px) { .problem-grid { grid-template-columns: 1fr; } }
+
+  .problem-card {
+    background: #fff;
+    border: 1px solid var(--sand);
+    border-top: 3px solid var(--rust);
+    border-radius: var(--card-radius);
+    padding: 1.4rem 1.6rem;
+  }
+  .problem-card .icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+  }
+  .problem-card h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+    margin-bottom: 0.5rem;
+  }
+  .problem-card p { font-size: 0.87rem; color: var(--slate); }
+
+  /* === FLOWCHART === */
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .flow-step {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    border: 1.5px solid var(--sand);
+    border-radius: var(--card-radius);
+    padding: 1.1rem 1.6rem;
+    text-align: center;
+    position: relative;
+  }
+  .flow-step.highlight {
+    background: var(--dark-brown);
+    border-color: var(--dark-brown);
+    color: #fff;
+  }
+  .flow-step.highlight .step-label { color: var(--light-gold); }
+  .flow-step.highlight .step-text { color: var(--cream); }
+  .flow-step.accent {
+    background: var(--warm-white);
+    border-color: var(--rust);
+    border-width: 2px;
+  }
+  .step-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .step-text {
+    font-size: 0.9rem;
+    color: var(--dark-brown);
+    font-weight: 500;
+  }
+  .flow-arrow {
+    width: 2px;
+    height: 28px;
+    background: var(--tan);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .flow-arrow::after {
+    content: '▼';
+    font-size: 0.6rem;
+    color: var(--tan);
+    margin-bottom: -4px;
+  }
+  .flow-branch {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+  .flow-branch .flow-step { max-width: 48%; }
+
+  /* === EQUATIONS === */
+  .equation-block {
+    background: var(--warm-white);
+    border: 1px solid var(--sand);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 var(--card-radius) var(--card-radius) 0;
+    padding: 1.4rem 1.8rem;
+    margin-bottom: 1.2rem;
+    overflow-x: auto;
+  }
+  .eq-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--brown);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+  .eq-desc {
+    font-size: 0.84rem;
+    color: var(--slate);
+    margin-top: 0.8rem;
+    line-height: 1.6;
+  }
+  .katex-display { margin: 0.5rem 0; }
+
+  /* === FEATURES LIST === */
+  .feature-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  @media (max-width: 600px) { .feature-list { grid-template-columns: 1fr; } }
+  .feature-list li {
+    background: #fff;
+    border: 1px solid var(--sand);
+    border-radius: var(--card-radius);
+    padding: 1rem 1.2rem;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    font-size: 0.88rem;
+    color: var(--slate);
+  }
+  .feature-list li .fi {
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+  .feature-list li strong {
+    display: block;
+    color: var(--dark-brown);
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    font-size: 0.87rem;
+  }
+
+  /* === RESULTS TABLE === */
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+  }
+  .results-table th {
+    background: var(--dark-brown);
+    color: var(--light-gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.7rem 1rem;
+    text-align: left;
+  }
+  .results-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--sand);
+    color: var(--slate);
+    vertical-align: top;
+  }
+  .results-table tr:last-child td { border-bottom: none; }
+  .results-table tr:nth-child(even) td { background: var(--warm-white); }
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    margin-left: 0.4rem;
+  }
+  .badge-neg { background: #FDECEA; color: #B85C38; }
+  .badge-pos { background: #EAF5EA; color: #3A7D44; }
+  .badge-rand { background: #EEF2FF; color: #3D4A5C; }
+
+  /* === LIMITATIONS === */
+  .limit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  @media (max-width:600px) { .limit-grid { grid-template-columns: 1fr; } }
+  .limit-card {
+    background: #fff;
+    border: 1px solid var(--sand);
+    border-radius: var(--card-radius);
+    padding: 1.1rem 1.3rem;
+    font-size: 0.87rem;
+    color: var(--slate);
+  }
+  .limit-card strong {
+    display: block;
+    color: var(--rust);
+    margin-bottom: 0.3rem;
+    font-size: 0.87rem;
+  }
+
+  /* === RELEVANCE TO THESIS === */
+  .thesis-box {
+    background: var(--dark-brown);
+    color: var(--cream);
+    border-radius: var(--card-radius);
+    padding: 2rem 2.2rem;
+    margin-top: var(--section-gap);
+  }
+  .thesis-box h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.1rem;
+    color: var(--light-gold);
+    margin-bottom: 1.2rem;
+  }
+  .thesis-points {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .thesis-point {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--sand);
+  }
+  .thesis-point .num {
+    background: var(--rust);
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+  .thesis-point strong { color: #fff; }
+
+  /* === FOOTER === */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    color: var(--brown);
+    border-top: 1px solid var(--sand);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-tag">Ringkasan Artikel Ilmiah</div>
+    <h1>Pendekatan Metodologi Baru untuk Mengestimasi Dampak Bencana Alam terhadap Pertumbuhan Ekonomi Negara/Kawasan</h1>
+    <div class="header-meta">
+      <strong>Mukherjee, S. & Hastak, M.</strong> &nbsp;·&nbsp;
+      International Journal of Disaster Risk Science (2018) &nbsp;·&nbsp;
+      Vol. 9, hal. 74–85 &nbsp;·&nbsp;
+      <strong>DOI:</strong> 10.1007/s13753-017-0156-3
+    </div>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:2rem auto 0;padding:0 2rem;">
+  <div class="relevance-banner">
+    <strong>Relevansi Tesis Andre:</strong> Makalah ini memberikan fondasi empiris untuk mengkuantifikasi dampak bencana alam terhadap pertumbuhan ekonomi menggunakan panel data — sebuah komplementer penting bagi pendekatan DSGE multi-region yang sedang dikembangkan. Temuan tentang efek lag, heterogenitas antar-daerah, dan mekanisme pemulihan dapat menginformasikan kalibrasi parameter dan struktur recovery shock dalam model DSGE Anda.
+  </div>
+</div>
+
+<main>
+
+  <!-- SECTION 1: PROBLEM -->
+  <div class="section-label" style="margin-top:2.5rem;">
+    <span class="section-number">01</span>
+    <h2 class="section-title">Problem Utama yang Diselesaikan</h2>
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="icon">📉</div>
+      <h3>Inkonsistensi Literatur</h3>
+      <p>Literatur yang ada memberikan hasil yang kontradiktif — ada yang menemukan dampak positif, negatif, atau bahkan tidak signifikan dari bencana terhadap pertumbuhan ekonomi.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">🌐</div>
+      <h3>Heterogenitas Tak Teramati</h3>
+      <p>Model konvensional (fixed effects) gagal menangkap variasi parameter antar-negara yang disebabkan oleh faktor-faktor yang tidak dapat diobservasi secara langsung.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">⏱️</div>
+      <h3>Efek Temporal Bencana</h3>
+      <p>Dampak bencana bersifat dinamis — efek jangka pendek berbeda signifikan dari efek jangka panjang, dan model statis tidak mampu menangkap pola ini.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">📊</div>
+      <h3>Keterbatasan Data Bencana</h3>
+      <p>Data bencana dicatat ex-post (setelah kejadian), berpotensi mengandung bias pengukuran dan tidak mencakup atribut fisik bencana secara langsung.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem; border-top:3px solid var(--gold);">
+    <div class="card-title">Pertanyaan Penelitian Utama</div>
+    <p>Faktor risiko apa — baik yang berkaitan dengan intensitas bencana maupun karakteristik ekonomi suatu negara — yang secara signifikan memengaruhi pertumbuhan ekonomi di tingkat negara/kawasan, dan bagaimana efek tersebut bervariasi antar-negara serta antar-waktu?</p>
+  </div>
+
+  <!-- SECTION 2: MODEL FEATURES -->
+  <div class="section-label">
+    <span class="section-number">02</span>
+    <h2 class="section-title">Fitur Model</h2>
+  </div>
+
+  <ul class="feature-list">
+    <li>
+      <span class="fi">🔀</span>
+      <div><strong>Random Parameter (Mixed) Model</strong>Koefisien prediktor diizinkan bervariasi antar-negara sesuai distribusi normal, bukan dipaksakan tetap (fixed) untuk semua observasi.</div>
+    </li>
+    <li>
+      <span class="fi">📐</span>
+      <div><strong>Panel Data Longitudinal</strong>Mengkombinasikan dimensi lintas-negara (cross-section) dan dimensi waktu (1970–2010), mencakup 1.131 observasi dari 189 negara/kawasan.</div>
+    </li>
+    <li>
+      <span class="fi">🏛️</span>
+      <div><strong>Fixed Effects + Time Effects</strong>Mengendalikan heterogenitas spesifik-negara yang tidak teramati (lokasi, tata kelola) dan tren waktu global (inflasi, perubahan iklim).</div>
+    </li>
+    <li>
+      <span class="fi">⏳</span>
+      <div><strong>Efek Lag (Lagged Effects)</strong>Variabel dampak bencana dimasukkan dengan lag 3 dan 4 tahun untuk menangkap dinamika pemulihan pasca-bencana jangka menengah.</div>
+    </li>
+    <li>
+      <span class="fi">🌊</span>
+      <div><strong>Indikator Jenis Bencana</strong>Variabel dummy untuk banjir (flood) diidentifikasi sebagai bencana paling berdampak terhadap pertumbuhan ekonomi.</div>
+    </li>
+    <li>
+      <span class="fi">📉</span>
+      <div><strong>Indikator Resesi Global</strong>Periode resesi 1980–1984 dan 2007–2010 dimasukkan sebagai variabel kontrol untuk mengisolasi efek bencana dari siklus ekonomi global.</div>
+    </li>
+    <li>
+      <span class="fi">💹</span>
+      <div><strong>Variabel Kontrol Ekonomi</strong>Keterbukaan perdagangan, konsumsi pemerintah, investasi, populasi, dan GDP per kapita riil sebagai kovariat ekonomi.</div>
+    </li>
+    <li>
+      <span class="fi">🎲</span>
+      <div><strong>Simulasi Maximum Likelihood</strong>Estimasi parameter dilakukan via simulation-based maximum likelihood dengan sampling dari distribusi parameter yang telah ditentukan.</div>
+    </li>
+  </ul>
+
+  <!-- SECTION 3: FLOWCHART -->
+  <div class="section-label">
+    <span class="section-number">03</span>
+    <h2 class="section-title">Alur Proses Pemodelan</h2>
+  </div>
+
+  <div class="flowchart">
+    <div class="flow-step highlight">
+      <div class="step-label">Sumber Data</div>
+      <div class="step-text">Penn World Tables (PWT 7.1) + EM-DAT Database (CRED) — 1970 hingga 2010</div>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-branch">
+      <div class="flow-step">
+        <div class="step-label">Data Ekonomi</div>
+        <div class="step-text">GDP, Populasi, PPP, Keterbukaan Perdagangan, Investasi, Konsumsi Pemerintah</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-label">Data Bencana</div>
+        <div class="step-text">Fatalitas, Terdampak, Tunawisma, Kerugian Ekonomi Langsung, Jenis Bencana</div>
+      </div>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-step">
+      <div class="step-label">Penggabungan Data</div>
+      <div class="step-text">Merge berdasarkan identitas negara/kawasan dan tahun → Dataset panel seimbang</div>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-step">
+      <div class="step-label">Analisis Eksploratori</div>
+      <div class="step-text">Distribusi spasial dampak bencana, statistik deskriptif, identifikasi jenis bencana dominan</div>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-step accent">
+      <div class="step-label">Konstruksi Model</div>
+      <div class="step-text">Spesifikasi pertumbuhan ekonomi sebagai fungsi dari variabel dampak bencana + karakteristik ekonomi + fixed/time effects</div>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-step">
+      <div class="step-label">Seleksi Distribusi Parameter</div>
+      <div class="step-text">Uji berbagai distribusi (normal, triangular, dll.) → pilih distribusi terbaik berdasarkan goodness-of-fit</div>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-step accent">
+      <div class="step-label">Estimasi Random Parameter</div>
+      <div class="step-text">Simulation-based Maximum Likelihood Estimation (SMLE) dengan parameter bervariasi antar-negara</div>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-step">
+      <div class="step-label">Uji Stabilitas Temporal</div>
+      <div class="step-text">Log-likelihood ratio test: subsampel 1970–1989 vs. 1990–2010 → identifikasi efek waktu signifikan</div>
+    </div>
+    <div class="flow-arrow"></div>
+
+    <div class="flow-step highlight">
+      <div class="step-label">Inferensi & Kebijakan</div>
+      <div class="step-text">Interpretasi koefisien, implikasi untuk pengambilan kebijakan mitigasi dan pemulihan pasca-bencana</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: EQUATIONS -->
+  <div class="section-label">
+    <span class="section-number">04</span>
+    <h2 class="section-title">Persamaan yang Digunakan</h2>
+  </div>
+
+  <div class="equation-block">
+    <div class="eq-label">Persamaan 1 — Densitas Model Random Parameter</div>
+    $$\text{Density of } y(i,t) = f\left[y(i,t);\; \beta(i),\; \gamma(i),\; x(i,t)\right]$$
+    <div class="eq-desc">
+      Di mana $\beta(i)$ dan $\gamma(i)$ adalah vektor parameter untuk setiap observasi $i$, dan $x(i,t)$ adalah himpunan kovariat yang diamati pada waktu $t$. Formulasi ini memungkinkan koefisien bervariasi antar-unit (negara/kawasan).
+    </div>
+  </div>
+
+  <div class="equation-block">
+    <div class="eq-label">Persamaan 2 — Model Panel Data Utama</div>
+    $$\text{Growth}_{i,t} = g_i + u_t + d_{it} + \alpha_{i,t}\,\text{Impact}_{i,t} + \beta_{i,t}\,\text{EconFactors}_{i,t} + \varepsilon_{i,t}$$
+    <div class="eq-desc">
+      Komponen model: $g_i$ = fixed effects spesifik-negara; $u_t$ = global time shock; $d_{it}$ = tren waktu spesifik-negara; $\alpha_{i,t}$ = koefisien variabel dampak bencana; $\beta_{i,t}$ = koefisien faktor ekonomi; $\varepsilon_{i,t}$ = error term. Asumsi: $E(\varepsilon_{i,t} \mid \text{Impact}_{i,t}, \text{EconFactors}_{i,t}) = 0$.
+    </div>
+  </div>
+
+  <div class="equation-block">
+    <div class="eq-label">Persamaan 3 — Definisi Variabel Dependen (Pertumbuhan Ekonomi)</div>
+    $$\text{Growth}_{i,t} = \frac{rgdpl2_{i,t} - rgdpl2_{i,t-1}}{rgdpl2_{i,t-1}} \times 100\%$$
+    <div class="eq-desc">
+      $rgdpl2_{i,t}$ adalah GDP riil per kapita (metode Laspeyres, harga konstan 2005 dalam dolar internasional) dari Penn World Table 7.1. Penggunaan GDP riil mengeliminasi efek inflasi antar-waktu, sementara basis per kapita mengeliminasi komponen pertumbuhan yang semata karena pertambahan penduduk.
+    </div>
+  </div>
+
+  <div class="equation-block">
+    <div class="eq-label">Persamaan 4 — Ukuran Goodness-of-Fit ($\rho^2$)</div>
+    $$\rho^2 = 1 - \frac{\text{Log-likelihood at convergence}}{\text{Restricted log-likelihood at constant}}$$
+    <div class="eq-desc">
+      Ukuran pseudo-$R^2$ yang umum digunakan dalam model berbasis maximum likelihood. Nilai $\rho^2 = 0.0482$ dalam model ini mengindikasikan fit yang moderat, sebagaimana lazim dalam model panel data ekonometrik dengan skala global.
+    </div>
+  </div>
+
+  <div class="equation-block">
+    <div class="eq-label">Persamaan 5 — Log-Likelihood Ratio Test (Stabilitas Temporal)</div>
+    $$2\left[LL(\hat{\beta}_{1970-2010}) - LL(\hat{\beta}_{1970-1989}) - LL(\hat{\beta}_{1990-2010})\right] \sim \chi^2_k$$
+    <div class="eq-desc">
+      Statistik uji dibandingkan dengan nilai kritis $\chi^2$ pada $k$ derajat kebebasan. Hasil: statistik uji $= 49.88 > \chi^2_{\text{kritis}, \,df=17}$, sehingga hipotesis nol tentang stabilitas temporal <em>ditolak</em> pada tingkat kepercayaan 99%. Hal ini membenarkan penggunaan variabel dummy periode resesi dalam model.
+    </div>
+  </div>
+
+  <!-- SECTION 5: ESTIMATION -->
+  <div class="section-label">
+    <span class="section-number">05</span>
+    <h2 class="section-title">Metode Estimasi</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Simulation-Based Maximum Likelihood Estimation (SMLE)</div>
+    <p>Model random parameter diestimasi menggunakan pendekatan simulasi. Prosedurnya melibatkan pengambilan sampel (drawing) nilai parameter dari distribusi yang telah ditentukan sebelumnya (dalam penelitian ini: distribusi normal). Proses ini diulang dalam sejumlah besar simulasi, dan log-likelihood dihitung sebagai rata-rata atas seluruh simulasi. Pendekatan ini menghasilkan estimasi yang lebih robust terhadap heterogenitas yang tidak teramati dibandingkan estimasi OLS biasa.</p>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:0.5rem;">
+    <div class="card">
+      <div class="card-title">Asumsi Distribusi Parameter</div>
+      <p>Parameter diasumsikan mengikuti distribusi normal: $\beta_k \sim N(\mu_k, \sigma_k^2)$. Parameter acak dilaporkan sebagai mean ($\mu$) dan standar deviasi ($\sigma$). Asumsi ini dapat diuji dengan berbagai distribusi alternatif untuk menemukan fit terbaik.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Kondisi Identifikasi</div>
+      <p>Model mengasumsikan <em>zero conditional mean</em>: $E(\varepsilon_{i,t} \mid X) = 0$. Fixed effects mengatasi omitted variable bias yang bersifat time-invariant, namun model tetap rentan terhadap bias dari variabel yang berubah seiring waktu namun tidak terobservasi.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 6: RESULTS -->
+  <div class="section-label">
+    <span class="section-number">06</span>
+    <h2 class="section-title">Temuan Utama & Implikasi</h2>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Variabel</th>
+          <th>Estimasi</th>
+          <th>Arah Efek</th>
+          <th>Interpretasi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Total terdampak (ln), efek langsung</td>
+          <td>$-0.135$</td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+          <td>Kenaikan 10% orang terdampak → penurunan pertumbuhan ~0.0135% per kapita pada tahun yang sama</td>
+        </tr>
+        <tr>
+          <td>Total terdampak (ln), lag 3 tahun</td>
+          <td>$+0.158$</td>
+          <td><span class="badge badge-pos">Positif</span></td>
+          <td>Efek pemulihan: 3 tahun pasca-bencana, pertumbuhan meningkat 0.0158% — mencerminkan aliran bantuan & rekonstruksi</td>
+        </tr>
+        <tr>
+          <td>Fatalitas (ln), lag 3 tahun</td>
+          <td>$-0.212$</td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+          <td>Efek bencana berat baru terasa 3 tahun kemudian; 10% kenaikan fatalitas → penurunan 0.0212% pertumbuhan</td>
+        </tr>
+        <tr>
+          <td>Fatalitas (ln), lag 4 tahun</td>
+          <td>$+0.099$ <span class="badge badge-rand">Acak</span></td>
+          <td><span class="badge badge-pos">Positif</span></td>
+          <td>Pemulihan dari bencana berat terjadi lebih lambat; parameter bervariasi antar-negara ($\sigma = 0.149$)</td>
+        </tr>
+        <tr>
+          <td>Indikator tunawisma pasca-bencana</td>
+          <td>$-0.280$ <span class="badge badge-rand">Acak</span></td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+          <td>Kerusakan perumahan & infrastruktur berdampak negatif; efek acak: negara penerima bantuan mungkin justru tumbuh</td>
+        </tr>
+        <tr>
+          <td>Populasi (ln)</td>
+          <td>$+0.617$</td>
+          <td><span class="badge badge-pos">Positif</span></td>
+          <td>Negara berpenduduk lebih besar 10% → pertumbuhan lebih tinggi 0.0617% (ceteris paribus)</td>
+        </tr>
+        <tr>
+          <td>GDP per kapita PPP (riil)</td>
+          <td>$-0.51 \times 10^{-4}$</td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+          <td>Negara lebih kaya mengalami kerugian lebih besar per bencana (lebih banyak aset fisik yang hilang)</td>
+        </tr>
+        <tr>
+          <td>Keterbukaan perdagangan <span class="badge badge-rand">Acak</span></td>
+          <td>$+0.015$</td>
+          <td><span class="badge badge-pos">Positif</span></td>
+          <td>Negara lebih terbuka lebih tangguh; efek bervariasi antar-negara</td>
+        </tr>
+        <tr>
+          <td>Resesi global 1980–1984</td>
+          <td>$-1.769$</td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+          <td>Rata-rata pertumbuhan negara turun 1.769% selama periode resesi ini</td>
+        </tr>
+        <tr>
+          <td>Resesi global 2007–2010</td>
+          <td>$-1.419$</td>
+          <td><span class="badge badge-neg">Negatif</span></td>
+          <td>Great Recession menurunkan pertumbuhan rata-rata sebesar 1.419%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <div class="card-title">Temuan tentang Jenis Bencana</div>
+    <p>Banjir (<em>flood</em>) merupakan jenis bencana yang paling sering terjadi (31.2% dari total kejadian 1970–2010) dan paling berdampak pada pertumbuhan ekonomi — memengaruhi pertumbuhan pada rata-rata 55% dari kasus dalam sampel. Ini menjadikan banjir sebagai prioritas utama dalam perencanaan mitigasi risiko bencana.</p>
+  </div>
+
+  <!-- SECTION 7: LIMITATIONS -->
+  <div class="section-label">
+    <span class="section-number">07</span>
+    <h2 class="section-title">Keterbatasan Penelitian</h2>
+  </div>
+
+  <div class="limit-grid">
+    <div class="limit-card">
+      <strong>Bias Pengukuran Ex-Post</strong>
+      Data EM-DAT dicatat setelah bencana terjadi, sehingga berpotensi meremehkan intensitas dampak yang sebenarnya, terutama untuk bencana di wilayah terpencil.
+    </div>
+    <div class="limit-card">
+      <strong>Omitted Variable Bias</strong>
+      Meskipun random parameter model mengatasi parameter heterogeneity, model tidak kebal terhadap bias dari variabel yang dihilangkan — khususnya variabel yang berubah seiring waktu.
+    </div>
+    <div class="limit-card">
+      <strong>Asumsi Distribusi Parametrik</strong>
+      Asumsi distribusi normal untuk variasi parameter merupakan asumsi kuat, terutama mengingat data bencana cenderung skewed dan multimodal.
+    </div>
+    <div class="limit-card">
+      <strong>Tidak Ada Atribut Fisik Bencana</strong>
+      EM-DAT tidak mencatat intensitas fisik (magnitude gempa, curah hujan) — hanya dampak manusiawi — sehingga proxy yang digunakan mungkin tidak sepenuhnya mencerminkan keparahan bencana.
+    </div>
+    <div class="limit-card">
+      <strong>Hanya Dampak Langsung</strong>
+      Penelitian ini hanya mengkuantifikasi dampak langsung bencana; dampak tidak langsung (gangguan rantai pasokan, pergeseran pola konsumsi) berada di luar cakupan.
+    </div>
+    <div class="limit-card">
+      <strong>Skala Makro — Tanpa Heterogenitas Regional</strong>
+      Analisis dilakukan di tingkat negara, tidak menangkap heterogenitas antar-daerah dalam satu negara yang justru menjadi fokus dalam model DSGE multi-region.
+    </div>
+  </div>
+
+  <!-- THESIS RELEVANCE -->
+  <div class="thesis-box">
+    <h2>⟶ Relevansi untuk Tesis Andre</h2>
+    <div class="thesis-points">
+      <div class="thesis-point">
+        <div class="num">1</div>
+        <div><strong>Validasi Efek Lag Pemulihan:</strong> Temuan tentang efek positif lag 3–4 tahun mendukung spesifikasi AR recovery shock dalam model DSGE Anda, dan memberikan acuan empiris untuk panjang periode pemulihan pasca-bencana jarang (<em>rare disasters</em>).</div>
+      </div>
+      <div class="thesis-point">
+        <div class="num">2</div>
+        <div><strong>Heterogenitas Antar-Kawasan:</strong> Hasil random parameter yang bervariasi antar-negara sejalan dengan motivasi Anda untuk memodelkan heterogenitas antar-region dalam model dua-kawasan (terdampak vs. tidak terdampak), mendukung Research Question ke-3 Anda.</div>
+      </div>
+      <div class="thesis-point">
+        <div class="num">3</div>
+        <div><strong>Kalibrasi Parameter:</strong> Besaran koefisien (misalnya, efek 10% kenaikan fatalitas terhadap GDP) dapat menjadi acuan kalibrasi magnitude disaster shock dalam DSGE — terutama untuk bencana langka dengan intensitas tinggi di konteks Indonesia.</div>
+      </div>
+      <div class="thesis-point">
+        <div class="num">4</div>
+        <div><strong>Mekanisme Pemulihan via Aid:</strong> Dinamika "build back better" yang ditemukan (efek positif lag pasca-bantuan) menginformasikan spesifikasi blok kebijakan dalam model Anda, mendukung Research Question ke-1 tentang efektivitas intervensi kebijakan pasca-bencana.</div>
+      </div>
+      <div class="thesis-point">
+        <div class="num">5</div>
+        <div><strong>Kesenjangan yang Bisa Diisi DSGE:</strong> Keterbatasan utama makalah ini — tidak adanya heterogenitas regional dan tidak menangkap mekanisme transmisi struktural — adalah persis yang coba dijawab oleh pendekatan DSGE multi-region Anda. Ini memperkuat kontribusi tesis Anda.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Ringkasan akademik ini disiapkan sebagai bahan referensi tesis. &nbsp;|&nbsp;
+  Mukherjee & Hastak (2018) &nbsp;·&nbsp; <em>Int. J. Disaster Risk Sci.</em> 9:74–85 &nbsp;|&nbsp;
+  Open Access · CC BY 4.0
+</footer>
+
+</body>
+</html>
