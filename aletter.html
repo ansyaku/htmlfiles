@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pour Nalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --ink-light: #3d2e1a;
+    --translation: #7a6248;
+    --accent: #b5845a;
+    --bg: #faf6f0;
+    --paper: #fffdf9;
+    --line: rgba(181,132,90,0.18);
+    --shadow: rgba(90,60,30,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    font-family: 'EB Garamond', Georgia, serif;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 0% 0%, rgba(210,185,155,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 60% at 100% 100%, rgba(195,210,185,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 80% 10%, rgba(220,200,175,0.2) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .petal {
+    position: fixed;
+    pointer-events: none;
+    opacity: 0;
+    animation: drift linear infinite;
+    z-index: 0;
+  }
+  .petal:nth-child(1) { left: 5%;  animation-duration: 14s; animation-delay: 0s;  font-size: 0.8rem; }
+  .petal:nth-child(2) { left: 20%; animation-duration: 18s; animation-delay: 3s;  font-size: 1.1rem; }
+  .petal:nth-child(3) { left: 40%; animation-duration: 12s; animation-delay: 6s;  font-size: 0.75rem; }
+  .petal:nth-child(4) { left: 60%; animation-duration: 16s; animation-delay: 1s;  font-size: 0.9rem; }
+  .petal:nth-child(5) { left: 75%; animation-duration: 13s; animation-delay: 8s;  font-size: 1.0rem; }
+  .petal:nth-child(6) { left: 90%; animation-duration: 19s; animation-delay: 4s;  font-size: 0.85rem; }
+
+  @keyframes drift {
+    0%   { opacity: 0;   top: -4%;  transform: translateX(0px) rotate(0deg); }
+    8%   { opacity: 0.6; }
+    92%  { opacity: 0.4; }
+    100% { opacity: 0;   top: 104%; transform: translateX(30px) rotate(300deg); }
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 680px;
+    animation: reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .paper {
+    background: var(--paper);
+    border-radius: 2px;
+    box-shadow:
+      0 1px 3px var(--shadow),
+      0 8px 32px rgba(90,60,30,0.09),
+      0 32px 80px rgba(90,60,30,0.07),
+      inset 0 0 0 1px rgba(181,132,90,0.12);
+    padding: 4rem 4.5rem 4.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .paper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      transparent,
+      transparent 31px,
+      rgba(181,132,90,0.055) 31px,
+      rgba(181,132,90,0.055) 32px
+    );
+    background-size: 100% 32px;
+    background-position: 0 72px;
+    pointer-events: none;
+  }
+
+  .paper::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 3.8rem;
+    width: 1px;
+    background: rgba(210,100,100,0.1);
+  }
+
+  .floral-header {
+    text-align: center;
+    font-size: 1.3rem;
+    letter-spacing: 10px;
+    opacity: 0.45;
+    margin-bottom: 2.5rem;
+  }
+
+  .greeting {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 2.2rem;
+  }
+
+  /* Paragraph block: EN/ID on top, FR below */
+  .para {
+    margin-bottom: 2.2rem;
+  }
+
+  .para-en {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.08rem;
+    color: var(--ink);
+    line-height: 1.85;
+    margin-bottom: 0.6rem;
+  }
+
+  .para-fr {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 0.97rem;
+    font-style: italic;
+    color: var(--translation);
+    line-height: 1.8;
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--line);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin: 2rem 0;
+    opacity: 0.22;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .divider span { font-size: 0.55rem; color: var(--accent); letter-spacing: 3px; }
+
+  .signature-block {
+    margin-top: 2.5rem;
+  }
+
+  .sig-en {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1rem;
+    color: var(--ink-light);
+    margin-bottom: 0.2rem;
+  }
+
+  .sig-fr {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--translation);
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--line);
+    margin-bottom: 1rem;
+  }
+
+  .sig-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    color: var(--ink);
+    margin-top: 0.6rem;
+  }
+
+  .floral-footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 1.1rem;
+    letter-spacing: 10px;
+    opacity: 0.35;
+  }
+
+  /* Audio player */
+  .audio-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2.5rem 0 0;
+  }
+
+  .speaker-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(181,132,90,0.4);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    outline: none;
+  }
+
+  .speaker-btn:hover {
+    border-color: var(--accent);
+    background: rgba(181,132,90,0.07);
+    transform: scale(1.05);
+  }
+
+  .speaker-btn.playing {
+    border-color: var(--accent);
+    background: rgba(181,132,90,0.1);
+  }
+
+  .speaker-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--accent);
+    transition: transform 0.2s;
+  }
+
+  /* Ripple when playing */
+  .speaker-btn.playing::before,
+  .speaker-btn.playing::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(181,132,90,0.4);
+    animation: ripple 2s ease-out infinite;
+  }
+  .speaker-btn.playing::after {
+    animation-delay: 1s;
+  }
+
+  @keyframes ripple {
+    0%   { width: 48px; height: 48px; opacity: 0.6; }
+    100% { width: 80px; height: 80px; opacity: 0; }
+  }
+
+  .audio-label {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 0.88rem;
+    color: var(--translation);
+    font-style: italic;
+    letter-spacing: 0.04em;
+  }
+
+  /* Progress bar */
+  .audio-progress-wrap {
+    width: 120px;
+    height: 1px;
+    background: rgba(181,132,90,0.2);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .audio-progress {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 1px;
+    transition: width 0.3s linear;
+  }
+</style>
+</head>
+<body>
+
+<div class="petal">🌸</div>
+<div class="petal">🌷</div>
+<div class="petal">✿</div>
+<div class="petal">🌸</div>
+<div class="petal">❀</div>
+<div class="petal">🌷</div>
+
+<div class="wrapper">
+  <div class="paper">
+
+    <div class="floral-header">🌸 ✦ 🌷 ✦ 🌸</div>
+
+    <div class="greeting">My dearest Nalen,</div>
+
+    <!-- Paragraph 1 -->
+    <div class="para">
+      <div class="para-en">Adek, I know the waters have been turbulent lately. I shook your world — and seeing that I've hurt the person I care the most is a weight I carry every single day. I wish my deepest apologies could mend the heart I've broken, even though I realize that even a thousand words of sorry might never be enough.</div>
+      <div class="para-fr">Adek, je sais que les eaux ont été agitées ces derniers temps. J'ai ébranlé ton monde — et voir que j'ai blessé la personne qui m'est la plus chère est un poids que je porte chaque jour, sans exception. Je voudrais que mes plus profondes excuses puissent réparer le cœur que j'ai brisé, même si je sais bien qu'un millier de « pardon » ne suffira jamais.</div>
+    </div>
+
+    <div class="divider"><span>✦ ✦ ✦</span></div>
+
+    <!-- Paragraph 2 -->
+    <div class="para">
+      <div class="para-en">Nalen, these flowers are just a little anchor to let you know that I'm still and always be here. The very person that you started to chat on WhatsApp on October 5th, 2025 is still here — not in front of or behind you, I'm standing by your side, holding your hand through whatever storm comes our way.</div>
+      <div class="para-fr">Nalen, ces fleurs sont un petit ancre — pour te rappeler que je suis toujours là. La même personne avec qui tu as commencé à écrire sur WhatsApp le 5 octobre 2025 est encore là — non pas devant toi, ni derrière toi, mais à tes côtés, tenant ta main à travers chaque tempête qui vient.</div>
+    </div>
+
+    <div class="divider"><span>✦ ✦ ✦</span></div>
+
+    <!-- Paragraph 3 -->
+    <div class="para">
+      <div class="para-en">Now, adek, please look at these flowers. These flowers were plucked from where they were safe, yet they still choose to bloom. Adek, they are waiting for your smile — the way that I've missed your charming smile and voice. Will you?</div>
+      <div class="para-fr">Maintenant, adek, regarde ces fleurs. Elles ont été cueillies là où elles étaient en sécurité — et pourtant, elles choisissent encore de fleurir. Adek, elles attendent ton sourire — de la même façon que j'ai manqué ton sourire charmant et ta voix. Le veux-tu bien ?</div>
+    </div>
+
+    <div class="divider"><span>✦ ✦ ✦</span></div>
+
+    <!-- Paragraph 4 -->
+    <div class="para">
+      <div class="para-en">De, semester ini kamu pasti sibuk — jaga kesehatan ya, banyak minum. Give your best for this semester, adek. :) Take care, Nalendra.</div>
+      <div class="para-fr">De, ce semestre sera sûrement chargé — prends soin de toi, bois beaucoup d'eau. Donne le meilleur de toi-même ce semestre, adek. :) Prends soin de toi, Nalendra.</div>
+    </div>
+
+    <!-- Signature -->
+    <div class="signature-block">
+      <div class="sig-en">The one who always thinks of you, day and night,</div>
+      <div class="sig-fr">Celui qui pense à toi, jour et nuit,</div>
+      <div class="sig-name">Kakak, A.S.K</div>
+    </div>
+
+    <div class="floral-footer">🌸 ✦ 🌷 ✦ 🌸</div>
+
+    <!-- Audio Player -->
+    <div class="audio-wrap">
+      <button class="speaker-btn" id="speakerBtn" onclick="toggleAudio()" title="Dengarkan suara kakak">
+        <!-- Speaker icon -->
+        <svg id="iconPlay" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <!-- Pause icon (hidden by default) -->
+        <svg id="iconPause" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+      </button>
+      <div class="audio-progress-wrap">
+        <div class="audio-progress" id="audioProgress"></div>
+      </div>
+      <span class="audio-label" id="audioLabel">Dengarkan suara kakak</span>
+    </div>
+
+    <!-- GANTI "suara-kakak.mp4" dengan nama file audio kamu -->
+    <audio id="myAudio" src="suara-kakak.mp4"></audio>
+
+  </div>
+</div>
+
+<script>
+  const audio = document.getElementById('myAudio');
+  const btn = document.getElementById('speakerBtn');
+  const progress = document.getElementById('audioProgress');
+  const label = document.getElementById('audioLabel');
+  const iconPlay = document.getElementById('iconPlay');
+  const iconPause = document.getElementById('iconPause');
+
+  function toggleAudio() {
+    if (audio.paused) {
+      audio.play();
+      btn.classList.add('playing');
+      iconPlay.style.display = 'none';
+      iconPause.style.display = 'block';
+      label.textContent = 'Sedang diputar...';
+    } else {
+      audio.pause();
+      btn.classList.remove('playing');
+      iconPlay.style.display = 'block';
+      iconPause.style.display = 'none';
+      label.textContent = 'Dengarkan suara kakak';
+    }
+  }
+
+  audio.addEventListener('timeupdate', () => {
+    if (audio.duration) {
+      const pct = (audio.currentTime / audio.duration) * 100;
+      progress.style.width = pct + '%';
+    }
+  });
+
+  audio.addEventListener('ended', () => {
+    btn.classList.remove('playing');
+    iconPlay.style.display = 'block';
+    iconPause.style.display = 'none';
+    progress.style.width = '0%';
+    label.textContent = 'Dengarkan suara kakak';
+  });
+</script>
+
+</body>
+</html>
