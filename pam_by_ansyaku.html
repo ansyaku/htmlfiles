@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAM – by ansyaku</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg:        #f8f6f1;
+  --bg2:       #eeeae1;
+  --white:     #ffffff;
+  --border:    #ddd8cc;
+  --ink:       #1c1c2e;
+  --ink2:      #3a3a5c;
+  --muted:     #7a7a8c;
+
+  --sky:       #3b82f6;   /* USD */
+  --sky-lt:    #dbeafe;
+  --sky-mid:   #93c5fd;
+  --amber:     #d97706;   /* Gold */
+  --amber-lt:  #fef3c7;
+  --amber-mid: #fcd34d;
+  --teal:      #0d9488;   /* Deposito */
+  --teal-lt:   #ccfbf1;
+  --teal-mid:  #5eead4;
+
+  --red:       #ef4444;
+  --red-lt:    #fee2e2;
+  --green:     #10b981;
+  --green-lt:  #d1fae5;
+  --purple:    #7c3aed;
+  --purple-lt: #ede9fe;
+
+  --mono:  'IBM Plex Mono', monospace;
+  --serif: 'Playfair Display', serif;
+  --sans:  'IBM Plex Sans', sans-serif;
+
+  --shadow: 0 1px 3px rgba(28,28,46,0.08), 0 1px 2px rgba(28,28,46,0.04);
+  --shadow-md: 0 4px 12px rgba(28,28,46,0.10), 0 2px 4px rgba(28,28,46,0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  min-height: 100vh;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  position: sticky; top: 0; z-index: 100;
+}
+.hdr-inner {
+  max-width: 1360px; margin: 0 auto; padding: 0 2rem;
+  display: flex; align-items: center; gap: 1.2rem; height: 58px;
+}
+.hdr-badge {
+  background: linear-gradient(135deg, var(--sky), var(--purple));
+  color: white; font-family: var(--mono); font-size: 0.58rem;
+  font-weight: 500; letter-spacing: 0.18em; padding: 0.25rem 0.7rem;
+  border-radius: 20px; white-space: nowrap;
+}
+.hdr-title { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; color: var(--ink); }
+.hdr-title span { color: var(--sky); }
+.hdr-by {
+  font-family: var(--mono); font-size: 0.6rem; color: var(--muted);
+  letter-spacing: 0.1em; margin-top: 2px;
+}
+.hdr-right { margin-left: auto; display: flex; align-items: center; gap: 1rem; }
+.live-pill {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--green-lt); color: var(--green);
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 500;
+  letter-spacing: 0.1em; padding: 0.25rem 0.7rem; border-radius: 20px;
+}
+.live-pill .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.7)} }
+.last-upd { font-family: var(--mono); font-size: 0.58rem; color: var(--muted); }
+
+/* ── TABS NAV ────────────────────────────────────────── */
+.tabs-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  max-width: 1360px; margin: 0 auto;
+  padding: 0 2rem;
+  display: flex; gap: 0; overflow-x: auto;
+}
+.tab-btn {
+  padding: 0.75rem 1.4rem;
+  font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
+  color: var(--muted); background: none; border: none;
+  border-bottom: 2.5px solid transparent;
+  cursor: pointer; white-space: nowrap; transition: all 0.15s;
+  display: flex; align-items: center; gap: 0.45rem;
+}
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active { color: var(--sky); border-bottom-color: var(--sky); }
+.tab-icon { font-size: 0.9rem; }
+
+/* ── MAIN ────────────────────────────────────────────── */
+.main { max-width: 1360px; margin: 0 auto; padding: 1.6rem 2rem 4rem; }
+.tab-page { display: none; }
+.tab-page.active { display: block; }
+
+/* ── CONTROL STRIP ───────────────────────────────────── */
+.ctrl {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.85rem 1.4rem;
+  margin-bottom: 1.4rem; box-shadow: var(--shadow);
+  display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center;
+}
+.ctrl-group { display: flex; align-items: center; gap: 0.6rem; }
+.ctrl-group label {
+  font-family: var(--mono); font-size: 0.62rem; color: var(--muted);
+  letter-spacing: 0.1em; white-space: nowrap; text-transform: uppercase;
+}
+.ctrl input[type=number] {
+  width: 90px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.38rem 0.65rem; color: var(--ink);
+  font-family: var(--mono); font-size: 0.82rem;
+}
+.ctrl input[type=number]:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 2px rgba(59,130,246,0.15); }
+.ctrl-divider { width: 1px; height: 26px; background: var(--border); }
+.btn {
+  background: var(--sky); color: white; border: none; border-radius: 7px;
+  padding: 0.5rem 1.3rem; font-family: var(--sans); font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap; letter-spacing: 0.02em;
+}
+.btn:hover { background: #2563eb; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+.ctrl-hint {
+  font-family: var(--mono); font-size: 0.58rem; color: var(--muted);
+  line-height: 1.7; margin-left: auto; text-align: right;
+}
+
+/* ── STATUS ──────────────────────────────────────────── */
+.status { font-family: var(--mono); font-size: 0.66rem; padding: 0.5rem 1rem; border-radius: 7px; margin-bottom: 1.2rem; display: none; line-height: 1.5; }
+.status.loading { background: #eff6ff; color: var(--sky); border: 1px solid #bfdbfe; display: block; }
+.status.error   { background: var(--red-lt); color: var(--red); border: 1px solid #fca5a5; display: block; }
+.status.ok      { background: var(--green-lt); color: var(--green); border: 1px solid #6ee7b7; display: block; }
+
+/* ── ALLOC STRIP ─────────────────────────────────────── */
+.alloc-strip {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1rem; margin-bottom: 1.2rem;
+}
+.ac {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 1.4rem 1.6rem;
+  display: flex; flex-direction: column; gap: 0.3rem;
+  box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
+  position: relative; overflow: hidden;
+}
+.ac:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.ac::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 12px 12px 0 0;
+}
+.ac.usd::before  { background: linear-gradient(90deg, var(--sky), var(--sky-mid)); }
+.ac.gold::before { background: linear-gradient(90deg, var(--amber), var(--amber-mid)); }
+.ac.dep::before  { background: linear-gradient(90deg, var(--teal), var(--teal-mid)); }
+.ac-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-top: 0.1rem; }
+.ac-pct { font-family: var(--serif); font-size: 2.8rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+.ac.usd .ac-pct  { color: var(--sky); }
+.ac.gold .ac-pct { color: var(--amber); }
+.ac.dep .ac-pct  { color: var(--teal); }
+.ac-note { font-size: 0.73rem; color: var(--muted); font-weight: 400; }
+.ac.zero { opacity: 0.4; }
+
+/* ── VERDICT ─────────────────────────────────────────── */
+.verdict {
+  background: var(--ink); color: #e2e8f0;
+  border-radius: 12px; padding: 1.1rem 1.5rem; margin-bottom: 1.2rem;
+  font-size: 0.88rem; line-height: 1.85; font-weight: 300;
+  box-shadow: var(--shadow-md);
+}
+.verdict strong { color: #fbbf24; font-weight: 600; }
+.v-label { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.22em; color: var(--sky-mid); margin-bottom: 0.45rem; }
+
+/* ── GRID LAYOUTS ────────────────────────────────────── */
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1rem; }
+.g2 { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 1rem; }
+
+/* ── PANEL ───────────────────────────────────────────── */
+.panel {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.1rem 1.3rem;
+  box-shadow: var(--shadow);
+}
+.p-title {
+  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 0.85rem; padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 0.4rem;
+}
+
+/* ── STAT CARDS ──────────────────────────────────────── */
+.sc { display: flex; flex-direction: column; gap: 0.2rem; }
+.sc-label { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; }
+.sc-val { font-family: var(--serif); font-size: 1.65rem; font-weight: 700; line-height: 1; }
+.sc-sub { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); margin-top: 0.1rem; }
+.c-sky    { color: var(--sky); }
+.c-amber  { color: var(--amber); }
+.c-teal   { color: var(--teal); }
+.c-green  { color: var(--green); }
+.c-red    { color: var(--red); }
+.c-muted  { color: var(--muted); }
+
+/* ── INDICATOR ROWS ──────────────────────────────────── */
+.ir { display: grid; grid-template-columns: 1fr auto; gap: 0.6rem; padding: 0.48rem 0; border-bottom: 1px solid var(--bg2); align-items: center; }
+.ir:last-child { border-bottom: none; }
+.ir-name { font-size: 0.78rem; color: var(--ink2); }
+.ir-val  { font-family: var(--mono); font-size: 0.74rem; font-weight: 500; }
+.bw { height: 3px; background: var(--bg2); border-radius: 2px; margin-top: 3px; }
+.b  { height: 3px; border-radius: 2px; transition: width 0.8s ease; }
+.b-sky   { background: var(--sky); }
+.b-amber { background: var(--amber); }
+.b-teal  { background: var(--teal); }
+.b-green { background: var(--green); }
+.b-red   { background: var(--red); }
+.b-muted { background: var(--muted); }
+
+/* ── CHIP ────────────────────────────────────────────── */
+.chip-row { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.75rem; }
+.chip {
+  display: flex; align-items: center; gap: 0.3rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 0.18rem 0.6rem;
+  font-family: var(--mono); font-size: 0.6rem; color: var(--ink2);
+}
+.cdot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* ── CHART WRAP ──────────────────────────────────────── */
+.chart-wrap { position: relative; height: 175px; }
+.chart-wrap-tall { position: relative; height: 280px; }
+
+/* ── HISTORY TABLE ───────────────────────────────────── */
+.hist-wrap { overflow-x: auto; }
+.ht { width: 100%; border-collapse: collapse; }
+.ht th { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.1em; color: var(--muted); text-align: right; padding: 0.35rem 0.45rem; border-bottom: 1.5px solid var(--border); white-space: nowrap; background: var(--bg); }
+.ht th:first-child { text-align: left; border-radius: 6px 0 0 0; }
+.ht th:last-child { border-radius: 0 6px 0 0; }
+.ht td { text-align: right; padding: 0.4rem 0.45rem; border-bottom: 1px solid var(--bg2); font-family: var(--mono); font-size: 0.7rem; color: var(--ink); }
+.ht td:first-child { text-align: left; font-family: var(--sans); font-size: 0.73rem; color: var(--muted); }
+.ht tr.cur td { background: #fffbeb; }
+.ht tr:hover td { background: var(--bg); }
+
+/* ── SPINNER ─────────────────────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { display: inline-block; width: 11px; height: 11px; border: 2px solid rgba(59,130,246,0.25); border-top-color: var(--sky); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 0.35rem; }
+
+/* ── FORECAST SECTION ────────────────────────────────── */
+.fc-header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #1a2e44 100%);
+  color: white; border-radius: 12px; padding: 1.4rem 1.8rem;
+  margin-bottom: 1.2rem; display: flex; align-items: flex-start; gap: 1.5rem;
+}
+.fc-header-text h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: white; margin-bottom: 0.3rem; }
+.fc-header-text p { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.6; }
+.fc-method-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.7rem; }
+.fc-pill { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.75); font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; padding: 0.2rem 0.65rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.18); }
+.fc-badge { margin-left: auto; background: rgba(251,191,36,0.2); border: 1px solid rgba(251,191,36,0.4); color: #fbbf24; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; padding: 0.3rem 0.8rem; border-radius: 20px; white-space: nowrap; align-self: flex-start; }
+
+.fc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+
+.fc-table-wrap { overflow-x: auto; }
+.fc-table { width: 100%; border-collapse: collapse; }
+.fc-table th { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.1em; color: var(--muted); text-align: right; padding: 0.35rem 0.5rem; border-bottom: 1.5px solid var(--border); white-space: nowrap; background: var(--bg); }
+.fc-table th:first-child { text-align: left; }
+.fc-table td { text-align: right; padding: 0.42rem 0.5rem; border-bottom: 1px solid var(--bg2); font-family: var(--mono); font-size: 0.72rem; }
+.fc-table td:first-child { text-align: left; color: var(--muted); font-size: 0.7rem; }
+.fc-table tr.fc-now td { background: #eff6ff; font-weight: 600; }
+.fc-table tr:hover td { background: var(--bg); }
+.fc-conf { font-family: var(--mono); font-size: 0.65rem; }
+.ci-band { color: var(--muted); font-size: 0.62rem; }
+.tag-bull { color: var(--green); } .tag-bear { color: var(--red); } .tag-flat { color: var(--muted); }
+
+.disclaimer {
+  background: #fffbeb; border: 1px solid #fde68a;
+  border-radius: 8px; padding: 0.8rem 1.1rem; margin-top: 1rem;
+  font-family: var(--mono); font-size: 0.6rem; color: #92400e; line-height: 1.7;
+}
+
+/* ── CALCULATOR SECTION ──────────────────────────────── */
+.calc-hero {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 1.5px solid #6ee7b7; border-radius: 12px;
+  padding: 1.5rem 1.8rem; margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 1.5rem;
+}
+.calc-hero-text h2 { font-family: var(--serif); font-size: 1.35rem; font-weight: 700; color: #064e3b; margin-bottom: 0.25rem; }
+.calc-hero-text p { font-size: 0.82rem; color: #065f46; line-height: 1.55; }
+.calc-input-row {
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.2rem 1.5rem; margin-bottom: 1.2rem;
+  display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: flex-end;
+  box-shadow: var(--shadow);
+}
+.calc-field { display: flex; flex-direction: column; gap: 0.35rem; }
+.calc-field label { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+.calc-field input, .calc-field select {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 7px; padding: 0.5rem 0.8rem; color: var(--ink);
+  font-family: var(--mono); font-size: 0.85rem; min-width: 160px;
+}
+.calc-field input:focus, .calc-field select:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 2px rgba(13,148,136,0.15); }
+.btn-calc { background: var(--teal); }
+.btn-calc:hover { background: #0f766e; }
+
+.calc-results { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 1rem; }
+.cr {
+  border-radius: 12px; padding: 1.3rem 1.4rem;
+  display: flex; flex-direction: column; gap: 0.4rem;
+  position: relative; overflow: hidden; box-shadow: var(--shadow);
+}
+.cr.usd  { background: var(--sky-lt);   border: 1.5px solid var(--sky-mid); }
+.cr.gold { background: var(--amber-lt); border: 1.5px solid var(--amber-mid); }
+.cr.dep  { background: var(--teal-lt);  border: 1.5px solid var(--teal-mid); }
+.cr-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; }
+.cr.usd  .cr-label { color: #1d4ed8; }
+.cr.gold .cr-label { color: #92400e; }
+.cr.dep  .cr-label { color: #065f46; }
+.cr-alloc { font-family: var(--serif); font-size: 2rem; font-weight: 700; line-height: 1; }
+.cr.usd  .cr-alloc { color: var(--sky); }
+.cr.gold .cr-alloc { color: var(--amber); }
+.cr.dep  .cr-alloc { color: var(--teal); }
+.cr-amount { font-family: var(--mono); font-size: 0.88rem; font-weight: 500; }
+.cr.usd  .cr-amount { color: #1d4ed8; }
+.cr.gold .cr-amount { color: #92400e; }
+.cr.dep  .cr-amount { color: #065f46; }
+.cr-detail { font-size: 0.72rem; line-height: 1.55; }
+.cr.usd  .cr-detail { color: #3b82f6; }
+.cr.gold .cr-detail { color: var(--amber); }
+.cr.dep  .cr-detail { color: var(--teal); }
+.cr-icon { position: absolute; right: 1rem; bottom: 0.8rem; font-size: 2rem; opacity: 0.12; }
+
+.calc-note {
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.1rem 1.4rem; box-shadow: var(--shadow);
+}
+.calc-note .p-title { margin-bottom: 0.7rem; }
+.note-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid var(--bg2); font-size: 0.8rem; }
+.note-row:last-child { border-bottom: none; }
+.note-label { color: var(--ink2); }
+.note-val { font-family: var(--mono); font-size: 0.78rem; font-weight: 500; }
+
+/* ── FOOTER ──────────────────────────────────────────── */
+.footer {
+  text-align: center; padding: 2.5rem 1rem 1rem;
+  font-family: var(--mono); font-size: 0.6rem; color: var(--muted);
+  line-height: 1.8;
+}
+.footer a { color: var(--sky); text-decoration: none; }
+.footer .brand { font-size: 0.75rem; font-weight: 600; color: var(--ink2); letter-spacing: 0.05em; }
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 1000px) { .g4 { grid-template-columns: repeat(2,1fr); } .fc-grid { grid-template-columns: 1fr; } }
+@media (max-width: 760px)  {
+  .alloc-strip, .g2, .g3, .calc-results { grid-template-columns: 1fr; }
+  .main { padding: 1rem 1rem 3rem; }
+  .hdr-inner { padding: 0 1rem; }
+  .tabs-nav { padding: 0 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="hdr-inner">
+    <div class="hdr-badge">PAM v4</div>
+    <div>
+      <div class="hdr-title">Portfolio <span>Allocation</span> Model</div>
+      <div class="hdr-by">idea by @ansyaku</div>
+    </div>
+    <div class="hdr-right">
+      <div class="live-pill"><span class="dot"></span>LIVE</div>
+      <div class="last-upd" id="lastUpd">—</div>
+    </div>
+  </div>
+</header>
+
+<!-- TABS -->
+<div style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="tabs-nav" style="max-width:1360px;margin:0 auto;padding:0 2rem;display:flex;gap:0;overflow-x:auto;">
+    <button class="tab-btn active" onclick="switchTab('allocation',this)"><span class="tab-icon">📊</span>Alokasi</button>
+    <button class="tab-btn" onclick="switchTab('forecast',this)"><span class="tab-icon">🔮</span>Ramalan 12 Minggu</button>
+    <button class="tab-btn" onclick="switchTab('calculator',this)"><span class="tab-icon">🧮</span>Kalkulator</button>
+    <button class="tab-btn" onclick="switchTab('history',this)"><span class="tab-icon">📜</span>Riwayat</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══ TAB: ALOKASI ════════════════════════════════════════ -->
+<div class="tab-page active" id="tab-allocation">
+
+  <div class="ctrl">
+    <div class="ctrl-group">
+      <label>BI RATE %</label>
+      <input type="number" id="biRate" value="5.75" step="0.25" min="1" max="15" onchange="recompute()">
+    </div>
+    <div class="ctrl-divider"></div>
+    <div class="ctrl-group">
+      <label>BATU BARA USD/ton</label>
+      <input type="number" id="coalPrice" value="135" step="1" min="50" max="500" onchange="recompute()">
+    </div>
+    <div class="ctrl-divider"></div>
+    <button class="btn" id="btnUseCache" onclick="loadCache()" style="display:none;background:var(--teal)">⚡ Pakai Data Tersimpan</button>
+    <button class="btn" id="btnFetch" onclick="fetchAPI()">↓ Ambil Data Baru</button>
+    <div class="ctrl-hint" id="ctrlHint">
+      Belum ada data tersimpan · klik Ambil Data Baru<br>
+      8 stream Alpha Vantage · ~40 detik
+    </div>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <div class="alloc-strip" id="allocStrip">
+    <div class="ac usd"><div class="ac-label">USD</div><div class="ac-pct">—</div><div class="ac-note">menunggu data</div></div>
+    <div class="ac gold"><div class="ac-label">Emas / Gold</div><div class="ac-pct">—</div><div class="ac-note">menunggu data</div></div>
+    <div class="ac dep"><div class="ac-label">Deposito IDR</div><div class="ac-pct">—</div><div class="ac-note">menunggu data</div></div>
+  </div>
+
+  <div class="verdict" id="verdict">
+    <div class="v-label">▸ ANALISIS MAKRO</div>
+    <div id="verdictText" style="color:rgba(226,232,240,0.4);font-family:var(--mono);font-size:0.78rem">
+      Tekan Load Data untuk memulai analisis portofolio real-time.
+    </div>
+  </div>
+
+  <div class="g4">
+    <div class="panel sc"><div class="sc-label">Spread BI–Fed</div><div class="sc-val c-muted" id="sc1">—</div><div class="sc-sub" id="sc1b">—</div></div>
+    <div class="panel sc"><div class="sc-label">IDR/USD WoW</div><div class="sc-val c-muted" id="sc2">—</div><div class="sc-sub" id="sc2b">—</div></div>
+    <div class="panel sc"><div class="sc-label">Gold WoW</div><div class="sc-val c-muted" id="sc3">—</div><div class="sc-sub" id="sc3b">—</div></div>
+    <div class="panel sc"><div class="sc-label">S&amp;P500 WoW</div><div class="sc-val c-muted" id="sc4">—</div><div class="sc-sub" id="sc4b">—</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="panel">
+      <div class="p-title">📡 Indikator Live</div>
+      <div id="indTable"><p style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);padding:1rem 0">Menunggu data…</p></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div class="panel">
+        <div class="p-title">◎ Distribusi Alokasi</div>
+        <div class="chart-wrap"><canvas id="donut"></canvas></div>
+        <div class="chip-row" id="scoreRow"></div>
+      </div>
+      <div class="panel">
+        <div class="p-title">🔎 EIDO / IHSG Proxy</div>
+        <div id="eidoPanel"><p style="font-family:var(--mono);font-size:0.7rem;color:var(--muted)">Menunggu…</p></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end tab-allocation -->
+
+<!-- ═══ TAB: FORECAST ═══════════════════════════════════════ -->
+<div class="tab-page" id="tab-forecast">
+
+  <div class="fc-header">
+    <div class="fc-header-text">
+      <h2>🔮 Ramalan 12 Minggu ke Depan</h2>
+      <p>Proyeksi harga emas (USD/oz) dan kurs IDR/USD berbasis tren historis, momentum rata-rata bergerak, dan mean-reversion sederhana. Interval kepercayaan 80% ditampilkan sebagai rentang bawah–atas.</p>
+      <div class="fc-method-pills">
+        <span class="fc-pill">Weighted Moving Average</span>
+        <span class="fc-pill">Momentum Decay</span>
+        <span class="fc-pill">Mean Reversion</span>
+        <span class="fc-pill">Volatility Band</span>
+      </div>
+    </div>
+    <div class="fc-badge">⚠ Bukan Rekomendasi Investasi</div>
+  </div>
+
+  <div id="fcNotReady" style="text-align:center;padding:3rem;font-family:var(--mono);font-size:0.75rem;color:var(--muted)">
+    Muat data terlebih dahulu di tab Alokasi, lalu kembali ke sini.
+  </div>
+
+  <div id="fcContent" style="display:none">
+    <div class="fc-grid">
+      <div class="panel">
+        <div class="p-title">✨ Gold — Proyeksi Harga (USD/oz)</div>
+        <div class="chart-wrap-tall"><canvas id="fcGoldChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="p-title">💱 IDR/USD — Proyeksi Kurs (Rp)</div>
+        <div class="chart-wrap-tall"><canvas id="fcIdrChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="panel">
+        <div class="p-title">📋 Tabel Proyeksi Emas</div>
+        <div class="fc-table-wrap">
+          <table class="fc-table">
+            <thead><tr>
+              <th style="text-align:left">MINGGU</th>
+              <th>HARGA (USD/oz)</th>
+              <th>BATAS BAWAH 80%</th>
+              <th>BATAS ATAS 80%</th>
+              <th>ARAH</th>
+            </tr></thead>
+            <tbody id="fcGoldBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="p-title">📋 Tabel Proyeksi IDR/USD</div>
+        <div class="fc-table-wrap">
+          <table class="fc-table">
+            <thead><tr>
+              <th style="text-align:left">MINGGU</th>
+              <th>KURS (Rp/USD)</th>
+              <th>BATAS BAWAH 80%</th>
+              <th>BATAS ATAS 80%</th>
+              <th>ARAH</th>
+            </tr></thead>
+            <tbody id="fcIdrBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠ <strong>Disclaimer:</strong> Proyeksi ini dihasilkan secara mekanis dari data historis mingguan menggunakan model statistik sederhana (WMA + mean-reversion). Tidak memperhitungkan kebijakan moneter mendatang, peristiwa geopolitik, atau perubahan struktural pasar. <strong>Jangan jadikan sebagai satu-satunya dasar keputusan finansial.</strong> Interval kepercayaan 80% berarti 20% kemungkinan harga berada di luar rentang tersebut.
+    </div>
+  </div>
+
+</div><!-- end tab-forecast -->
+
+<!-- ═══ TAB: KALKULATOR ══════════════════════════════════════ -->
+<div class="tab-page" id="tab-calculator">
+
+  <div class="calc-hero">
+    <div style="font-size:2.5rem">🧮</div>
+    <div class="calc-hero-text">
+      <h2>Kalkulator Investasi Mingguan</h2>
+      <p>Masukkan jumlah yang ingin diinvestasikan minggu ini, dan model akan menghitung berapa yang masuk ke USD, Emas, dan Deposito berdasarkan rekomendasi alokasi terkini.</p>
+    </div>
+  </div>
+
+  <div class="calc-input-row">
+    <div class="calc-field">
+      <label>Jumlah Investasi</label>
+      <input type="number" id="calcAmount" value="5000000" step="100000" min="0" placeholder="contoh: 5000000">
+    </div>
+    <div class="calc-field">
+      <label>Mata Uang Input</label>
+      <select id="calcCurrency">
+        <option value="IDR">IDR – Rupiah</option>
+        <option value="USD">USD – Dolar AS</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label>Harga Emas per gram (Rp)</label>
+      <input type="number" id="goldPriceIdr" value="1650000" step="10000" min="0" placeholder="~1.650.000">
+    </div>
+    <button class="btn btn-calc" onclick="runCalc()">Hitung →</button>
+  </div>
+
+  <div id="calcNotReady" style="text-align:center;padding:2.5rem;font-family:var(--mono);font-size:0.75rem;color:var(--muted)">
+    Muat data terlebih dahulu di tab Alokasi agar alokasi % tersedia.
+  </div>
+
+  <div id="calcResults" style="display:none;">
+    <div class="calc-results" id="calcCards"></div>
+    <div class="calc-note panel">
+      <div class="p-title">💡 Catatan Praktis</div>
+      <div id="calcNotes"></div>
+    </div>
+  </div>
+
+</div><!-- end tab-calculator -->
+
+<!-- ═══ TAB: RIWAYAT ════════════════════════════════════════ -->
+<div class="tab-page" id="tab-history">
+  <div class="panel">
+    <div class="p-title">📜 Riwayat Mingguan (10 Minggu Terakhir)</div>
+    <div class="hist-wrap">
+      <table class="ht">
+        <thead>
+          <tr>
+            <th style="text-align:left">MINGGU</th>
+            <th>USD%</th><th>GOLD%</th><th>DEP%</th>
+            <th>GOLD ($/oz)</th>
+            <th>IDR/USD</th>
+            <th>OIL WTI</th>
+            <th>S&P500</th>
+            <th>EIDO</th>
+            <th>FED%</th>
+            <th>VERDICT</th>
+          </tr>
+        </thead>
+        <tbody id="histBody">
+          <tr><td colspan="11" style="text-align:center;padding:2rem;color:var(--muted);font-family:var(--mono);font-size:0.7rem">Tekan Load Data di tab Alokasi</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-family:var(--mono);font-size:0.54rem;color:var(--muted);margin-top:0.7rem;line-height:1.6">
+      Gold = GLD ETF × 10.54 · S&P500 = SPY ETF × 10 · EIDO = iShares MSCI Indonesia (proxy IHSG, korelasi ~0.85)
+    </p>
+  </div>
+</div><!-- end tab-history -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="brand">PAM — Portfolio Allocation Model</div>
+  idea &amp; design by <a href="#">@ansyaku</a> · data via Alpha Vantage · bukan rekomendasi investasi
+</div>
+
+</div><!-- end .main -->
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  CONFIG
+// ════════════════════════════════════════════════════════════
+const AV_KEY  = 'X74XTY5M7UF7S1VE';
+const AV      = 'https://www.alphavantage.co/query';
+const GLD_MULT = 10.54;
+const SPY_MULT = 10.0;
+
+const FETCHES = [
+  ['gold',  `${AV}?function=TIME_SERIES_WEEKLY&symbol=GLD&apikey=${AV_KEY}`],
+  ['sp500', `${AV}?function=TIME_SERIES_WEEKLY&symbol=SPY&apikey=${AV_KEY}`],
+  ['eido',  `${AV}?function=TIME_SERIES_WEEKLY&symbol=EIDO&apikey=${AV_KEY}`],
+  ['oil',   `${AV}?function=WTI&interval=weekly&apikey=${AV_KEY}`],
+  ['gas',   `${AV}?function=NATURAL_GAS&interval=weekly&apikey=${AV_KEY}`],
+  ['wheat', `${AV}?function=WHEAT&interval=weekly&apikey=${AV_KEY}`],
+  ['idr',   `${AV}?function=FX_WEEKLY&from_symbol=USD&to_symbol=IDR&apikey=${AV_KEY}`],
+  ['fed',   `${AV}?function=FEDERAL_FUNDS_RATE&interval=monthly&apikey=${AV_KEY}`],
+];
+
+let donutChart = null, fcGoldChart = null, fcIdrChart = null;
+let weekSeries = [];
+let latestAlloc = { pU: 0, pG: 0, pD: 0 };
+
+// ════════════════════════════════════════════════════════════
+//  TABS
+// ════════════════════════════════════════════════════════════
+function switchTab(name, el) {
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+  // Wait one frame so the tab is visible before Chart.js measures canvas dimensions
+  requestAnimationFrame(() => {
+    if (name === 'forecast' && weekSeries.length) renderForecast();
+    if (name === 'calculator' && weekSeries.length) showCalcReady();
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+//  CACHE KEYS
+// ════════════════════════════════════════════════════════════
+const CACHE_RAW_KEY  = 'pam_raw_v4';
+const CACHE_META_KEY = 'pam_meta_v4';
+
+// ════════════════════════════════════════════════════════════
+//  AUTO-LOAD ON PAGE OPEN
+//  → Kalau ada cache: tampilkan tombol "Pakai Data Tersimpan"
+//  → Kalau tidak ada cache: langsung fetch dari API
+// ════════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  const meta = getCache();
+  if (meta) {
+    // Ada cache — tunjukkan tombol cache dan info kapan data diambil
+    showCacheButtons(meta.fetchedAt);
+  } else {
+    // Belum ada — langsung fetch
+    setTimeout(fetchAPI, 400);
+  }
+});
+
+function getCache() {
+  try {
+    const raw  = sessionStorage.getItem(CACHE_RAW_KEY);
+    const meta = sessionStorage.getItem(CACHE_META_KEY);
+    if (!raw || !meta) return null;
+    return { raw: JSON.parse(raw), ...JSON.parse(meta) };
+  } catch(e) { return null; }
+}
+
+function saveCache(raw) {
+  try {
+    sessionStorage.setItem(CACHE_RAW_KEY,  JSON.stringify(raw));
+    sessionStorage.setItem(CACHE_META_KEY, JSON.stringify({ fetchedAt: new Date().toISOString() }));
+  } catch(e) { console.warn('Cache write failed:', e); }
+}
+
+function showCacheButtons(fetchedAtISO) {
+  const btnCache = document.getElementById('btnUseCache');
+  const btnFetch = document.getElementById('btnFetch');
+  const hint     = document.getElementById('ctrlHint');
+  const d = new Date(fetchedAtISO);
+  const age = Math.round((Date.now() - d) / 60000); // minutes
+  btnCache.style.display = '';
+  btnFetch.innerHTML = '↺ Perbarui Data';
+  hint.innerHTML = `Data tersimpan dari <strong>${d.toLocaleString('id-ID')}</strong> (${age < 60 ? age + ' menit lalu' : Math.round(age/60) + ' jam lalu'})<br>
+    Klik ⚡ untuk langsung pakai · ↺ untuk tarik ulang dari API`;
+}
+
+// ════════════════════════════════════════════════════════════
+//  LOAD FROM CACHE (no API call)
+// ════════════════════════════════════════════════════════════
+function loadCache() {
+  const cached = getCache();
+  if (!cached) { fetchAPI(); return; }
+
+  setStatus('loading', '⚡ Memuat dari cache…');
+  const biRate = parseFloat(document.getElementById('biRate').value) || 5.75;
+  const coal   = parseFloat(document.getElementById('coalPrice').value) || 135;
+  weekSeries   = buildSeries(cached.raw, biRate, coal);
+
+  if (!weekSeries.length) {
+    setStatus('error', 'Cache tidak valid — tarik ulang data dari API.');
+    return;
+  }
+
+  render(weekSeries);
+  const d = new Date(cached.fetchedAt);
+  document.getElementById('lastUpd').textContent = 'Cache: ' + d.toLocaleString('id-ID');
+  setStatus('ok', `⚡ Dimuat dari cache (${d.toLocaleString('id-ID')}) · ${weekSeries.length} minggu`);
+}
+
+// ════════════════════════════════════════════════════════════
+//  RECOMPUTE dengan input baru (tanpa fetch ulang)
+// ════════════════════════════════════════════════════════════
+function recompute() {
+  const cached = getCache();
+  if (!cached) return;
+  const biRate = parseFloat(document.getElementById('biRate').value) || 5.75;
+  const coal   = parseFloat(document.getElementById('coalPrice').value) || 135;
+  weekSeries   = buildSeries(cached.raw, biRate, coal);
+  if (weekSeries.length) {
+    render(weekSeries);
+    setStatus('ok', `🔄 Rekalkulasi selesai · BI Rate ${biRate}% · Batu bara $${coal}`);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  FETCH FROM API
+// ════════════════════════════════════════════════════════════
+async function fetchAPI() {
+  const btnFetch = document.getElementById('btnFetch');
+  const btnCache = document.getElementById('btnUseCache');
+  btnFetch.disabled = true;
+  btnFetch.innerHTML = '<span class="spin"></span>Mengambil…';
+  if (btnCache) btnCache.disabled = true;
+  setStatus('loading', '<span class="spin"></span>Mengambil data dari Alpha Vantage (8 endpoint, ~40 detik free tier)…');
+
+  const raw = {};
+  let done = 0;
+  for (const [key, url] of FETCHES) {
+    try {
+      const r = await fetch(url);
+      raw[key] = await r.json();
+      if (raw[key]['Note'] || raw[key]['Information'])
+        console.warn(`[${key}] RATE LIMIT`, raw[key]['Note']||raw[key]['Information']);
+    } catch(e) { raw[key] = null; }
+    done++;
+    setStatus('loading', `<span class="spin"></span>Mengambil data… (${done}/${FETCHES.length} — ${key} selesai)`);
+    if (done < FETCHES.length) await sleep(1400);
+  }
+
+  const biRate = parseFloat(document.getElementById('biRate').value) || 5.75;
+  const coal   = parseFloat(document.getElementById('coalPrice').value) || 135;
+  weekSeries   = buildSeries(raw, biRate, coal);
+
+  const dbg = FETCHES.map(([k]) => {
+    const d = raw[k];
+    if (!d) return `${k}:null`;
+    if (d['Note']||d['Information']) return `${k}:⚠`;
+    return `${k}:✓`;
+  }).join(' ');
+
+  btnFetch.disabled = false;
+  if (btnCache) btnCache.disabled = false;
+
+  if (!weekSeries.length) {
+    setStatus('error', `Gagal parse. ${dbg} — Coba lagi dalam 60 detik.`);
+    btnFetch.innerHTML = '↺ Retry';
+    return;
+  }
+
+  // Save raw data to sessionStorage cache
+  saveCache(raw);
+  showCacheButtons(new Date().toISOString());
+
+  render(weekSeries);
+  document.getElementById('lastUpd').textContent = new Date().toLocaleString('id-ID');
+  setStatus('ok', `✓ ${weekSeries.length} minggu dimuat · data disimpan ke cache · ${dbg}`);
+  btnFetch.innerHTML = '↺ Perbarui Data';
+}
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ════════════════════════════════════════════════════════════
+//  PARSERS
+// ════════════════════════════════════════════════════════════
+function parseStock(d, mult=1) {
+  const map = {};
+  if (!d) return map;
+  for (const [date, v] of Object.entries(d['Weekly Time Series']||{})) {
+    const val = parseFloat(v['4. close']||v['1. close']||0)*mult;
+    if (val>0) map[wk(date)] = val;
+  }
+  return map;
+}
+function parseCommodity(d) {
+  const map = {};
+  if (!d||!Array.isArray(d['data'])) return map;
+  for (const item of d['data']) {
+    const val = parseFloat(item.value||0);
+    if (item.date && val>0 && !isNaN(val)) map[wk(item.date)] = val;
+  }
+  return map;
+}
+function parseFX(d) {
+  const map = {};
+  if (!d) return map;
+  for (const [date, v] of Object.entries(d['Time Series FX (Weekly)']||{})) {
+    const val = parseFloat(v['4. close']||0);
+    if (val>0) map[wk(date)] = val;
+  }
+  return map;
+}
+function parseFed(d) {
+  const map = {};
+  if (!d||!Array.isArray(d['data'])) return map;
+  for (const item of d['data']) {
+    const val = parseFloat(item.value||0);
+    if (!item.date||val<=0||isNaN(val)) continue;
+    const [y,m] = item.date.split('-');
+    for (let day=1; day<=28; day+=7) map[wk(`${y}-${m}-${String(day).padStart(2,'0')}`)] = val;
+    map[wk(item.date)] = val;
+  }
+  return map;
+}
+function wk(s) {
+  if (!s||typeof s!=='string') return 'INVALID';
+  const p = s.split('-');
+  if (p.length<3) return s;
+  const d = new Date(+p[0],+p[1]-1,+p[2]);
+  if (isNaN(d)) return s;
+  const tmp = new Date(d);
+  tmp.setDate(tmp.getDate()+4-(tmp.getDay()||7));
+  const jan1 = new Date(tmp.getFullYear(),0,1);
+  const wn = Math.ceil((((tmp-jan1)/86400000)+1)/7);
+  return `${tmp.getFullYear()}-W${String(wn).padStart(2,'0')}`;
+}
+function nearest(map, target) {
+  if (!map||!Object.keys(map).length) return 0;
+  const toN = s => { const p=s.split('-W'); return +p[0]*100+(+(p[1]||0)); };
+  const tN = toN(target);
+  let best=null, bestD=Infinity;
+  for (const k of Object.keys(map)) { const d=Math.abs(toN(k)-tN); if(d<bestD){bestD=d;best=k;} }
+  return best?(map[best]||0):0;
+}
+
+// ════════════════════════════════════════════════════════════
+//  BUILD SERIES
+// ════════════════════════════════════════════════════════════
+function buildSeries(raw, biRate, coal) {
+  const goldMap  = parseStock(raw.gold,  GLD_MULT);
+  const spMap    = parseStock(raw.sp500, SPY_MULT);
+  const eidoMap  = parseStock(raw.eido,  1);
+  const oilMap   = parseCommodity(raw.oil);
+  const gasMap   = parseCommodity(raw.gas);
+  const wheatMap = parseCommodity(raw.wheat);
+  const idrMap   = parseFX(raw.idr);
+  const fedMap   = parseFed(raw.fed);
+
+  const allMaps = [idrMap, goldMap, oilMap, spMap, eidoMap];
+  const anchor  = allMaps.reduce((b,m) => Object.keys(m).length>Object.keys(b).length?m:b, {});
+  const weeks   = Object.keys(anchor).sort().reverse().slice(0,14);
+  if (!weeks.length) return [];
+
+  return weeks.map(wkKey => ({
+    date:  wkKey,
+    gold:  goldMap[wkKey]  || nearest(goldMap,  wkKey),
+    sp500: spMap[wkKey]    || nearest(spMap,    wkKey),
+    eido:  eidoMap[wkKey]  || nearest(eidoMap,  wkKey),
+    oil:   oilMap[wkKey]   || nearest(oilMap,   wkKey),
+    gas:   gasMap[wkKey]   || nearest(gasMap,   wkKey),
+    wheat: wheatMap[wkKey] || nearest(wheatMap, wkKey),
+    idr:   idrMap[wkKey]   || nearest(idrMap,   wkKey),
+    fed:   fedMap[wkKey]   || nearest(fedMap,   wkKey) || 4.5,
+    coal, bi: biRate,
+  })).filter(r => r.gold>0||r.oil>0||r.idr>0);
+}
+
+// ════════════════════════════════════════════════════════════
+//  SCORING
+// ════════════════════════════════════════════════════════════
+function score(row, prev) {
+  let U=0,G=0,D=0;
+  const {oil=0,gas=0,wheat=0,coal=0,gold=0,sp500=0,eido=0,idr=0,fed=0,bi=0} = row;
+  const spread = bi-fed;
+  let gMom=0,iMom=0,sMom=0,eMom=0;
+  if (prev) {
+    if(prev.gold >0) gMom=(gold -prev.gold) /prev.gold *100;
+    if(prev.idr  >0) iMom=(idr  -prev.idr)  /prev.idr  *100;
+    if(prev.sp500>0) sMom=(sp500-prev.sp500)/prev.sp500*100;
+    if(prev.eido >0) eMom=(eido -prev.eido) /prev.eido *100;
+  }
+  const vp = Math.min(40, Math.abs(gMom)*2.5+Math.max(0,iMom)*2.2+Math.max(0,-sMom)*1.8+Math.max(0,-eMom)*1.5+(fed>4.5?4:0));
+  if(vp>=25){G+=22;U+=12;D-=8;}else if(vp>=15){G+=12;U+=8;D+=2;}else if(vp>=8){G+=5;U+=6;D+=9;}else{G+=0;U+=4;D+=16;}
+  if(iMom>2){U+=22;G+=14;D-=14;}else if(iMom>0.8){U+=14;G+=8;D-=5;}else if(iMom>=-0.5){U+=4;G+=2;D+=9;}else if(iMom>=-1.5){D+=17;}else{U+=2;G+=4;D+=11;}
+  if(spread>=2.5){D+=22;}else if(spread>=1.5){D+=16;}else if(spread>=0.5){D+=9;}else if(spread>=0){D+=3;}else{D-=5;U+=5;}
+  const comm=(Math.min(Math.max((oil-60)/40,0),1)+Math.min(Math.max((gas-1.5)/3,0),1)+Math.min(Math.max((wheat-400)/400,0),1)+Math.min(Math.max((coal-80)/120,0),1))/4;
+  G+=Math.round(comm*20); D-=Math.round(comm*8);
+  if(fed>=5){U+=16;}else if(fed>=4){U+=12;}else if(fed>=2.5){U+=7;}else{G+=5;}
+  if(gMom>2){G+=14;}else if(gMom>0.5){G+=7;}else if(gMom<-2){G-=7;}
+  if(bi>=6.5){D+=18;}else if(bi>=5.5){D+=12;}else if(bi>=4.5){D+=6;}else{D+=2;}
+  if(sMom>2){U+=8;G-=4;D+=2;}else if(sMom>0.5){U+=4;G-=2;D+=4;}else if(sMom<-2){G+=12;U+=6;D-=6;}else if(sMom<-1){G+=6;U+=3;D-=2;}
+  if(eMom>2){D+=5;U+=3;}else if(eMom>0.5){D+=2;U+=2;}else if(eMom<-2){G+=8;U+=4;D-=8;}else if(eMom<-1){G+=4;U+=2;D-=4;}
+  U=Math.max(0,U); G=Math.max(0,G); D=Math.max(0,D);
+  const t1=U+G+D||1;
+  if(U<0.08*t1)U=0; if(G<0.08*t1)G=0; if(D<0.08*t1)D=0;
+  const t2=U+G+D||1;
+  const pU=Math.round(U/t2*100), pG=Math.round(G/t2*100), pD=100-pU-pG;
+  return {pU:Math.max(0,pU),pG:Math.max(0,pG),pD:Math.max(0,pD),rU:U,rG:G,rD:D,gMom,iMom,sMom,eMom,spread,comm,vp};
+}
+
+function buildVerdict(cur, res) {
+  const {pU,pG,pD,gMom,iMom,sMom,eMom,spread} = res;
+  const dom = pU>=pG&&pU>=pD?'USD':pG>=pD?'Emas':'Deposito IDR';
+  const parts = [];
+  if(iMom>1.5) parts.push(`IDR melemah <strong>${iMom.toFixed(2)}% WoW</strong> — tekanan FX mendukung aset asing.`);
+  else if(iMom<-1) parts.push(`IDR menguat <strong>${Math.abs(iMom).toFixed(2)}% WoW</strong> — kondisi FX mendukung deposito rupiah.`);
+  else parts.push(`IDR relatif stabil minggu ini (${iMom>0?'+':''}${iMom.toFixed(2)}% WoW).`);
+  if(spread>=1.5) parts.push(`Spread BI–Fed <strong>${spread.toFixed(2)}%</strong> — imbal deposito IDR kompetitif.`);
+  else if(spread<0) parts.push(`Spread BI–Fed <strong>${spread.toFixed(2)}%</strong> (negatif).`);
+  else parts.push(`Spread BI–Fed <strong>${spread.toFixed(2)}%</strong>.`);
+  if(sMom<-2&&eMom<-1) parts.push(`S&P500 (${sMom.toFixed(1)}%) dan EIDO (${eMom.toFixed(1)}%) turun — risk-off global dan domestik.`);
+  else if(sMom>2) parts.push(`S&P500 menguat <strong>+${sMom.toFixed(1)}%</strong> WoW.`);
+  if(gMom>1.5) parts.push(`Momentum emas positif (+${gMom.toFixed(1)}% WoW).`);
+  else if(gMom<-1.5) parts.push(`Momentum emas negatif (${gMom.toFixed(1)}% WoW).`);
+  parts.push(`→ <strong>Rekomendasi: ${dom} dominan — ${pU}% USD · ${pG}% Emas · ${pD}% Deposito.</strong>`);
+  return parts.join(' ');
+}
+
+// ════════════════════════════════════════════════════════════
+//  RENDER MAIN
+// ════════════════════════════════════════════════════════════
+function render(series) {
+  const cur = series[0], prev = series[1]||null;
+  const res = score(cur, prev);
+  latestAlloc = { pU: res.pU, pG: res.pG, pD: res.pD };
+
+  // Alloc strip
+  document.getElementById('allocStrip').innerHTML = [
+    ['usd','USD',res.pU,res.pU===0],
+    ['gold','Emas / Gold',res.pG,res.pG===0],
+    ['dep','Deposito IDR',res.pD,res.pD===0],
+  ].map(([cls,lbl,pct,zero])=>`
+    <div class="ac ${cls}${zero?' zero':''}">
+      <div class="ac-label">${lbl}</div>
+      <div class="ac-pct">${pct}%</div>
+      <div class="ac-note">${zero?'Tidak direkomendasikan':'dari total tabungan'}</div>
+    </div>`).join('');
+
+  // Verdict
+  const vt = document.getElementById('verdictText');
+  vt.innerHTML = buildVerdict(cur, res);
+  vt.removeAttribute('style');
+
+  // Stat cards
+  const iMom = prev&&prev.idr >0?(cur.idr -prev.idr) /prev.idr *100:null;
+  const gMom = prev&&prev.gold>0?(cur.gold-prev.gold)/prev.gold*100:null;
+  const sMom = prev&&prev.sp500>0?(cur.sp500-prev.sp500)/prev.sp500*100:null;
+  const fmt = (v,dp=2)=>v===null?'—':(v>0?'+':'')+v.toFixed(dp)+'%';
+  const col = (v,inv=false)=>v===null?'c-muted':(inv?(v>0.3?'c-red':v<-0.3?'c-green':'c-amber'):(v>0.3?'c-green':v<-0.3?'c-red':'c-amber'));
+  const sp = res.spread;
+  document.getElementById('sc1').className=`sc-val ${sp>1?'c-green':sp<0?'c-red':'c-amber'}`;
+  document.getElementById('sc1').textContent=sp.toFixed(2)+'%';
+  document.getElementById('sc1b').textContent=`BI ${cur.bi}% — Fed ${cur.fed.toFixed(2)}%`;
+  document.getElementById('sc2').className=`sc-val ${col(iMom,true)}`;
+  document.getElementById('sc2').textContent=fmt(iMom);
+  document.getElementById('sc2b').textContent=`IDR/USD: ${cur.idr>0?cur.idr.toLocaleString('id')+' Rp':'—'}`;
+  document.getElementById('sc3').className=`sc-val ${col(gMom)}`;
+  document.getElementById('sc3').textContent=fmt(gMom);
+  document.getElementById('sc3b').textContent=`Gold: $${cur.gold>0?cur.gold.toFixed(0):'—'}/oz`;
+  document.getElementById('sc4').className=`sc-val ${col(sMom)}`;
+  document.getElementById('sc4').textContent=fmt(sMom);
+  document.getElementById('sc4b').textContent=`S&P500 ≈ ${cur.sp500>0?cur.sp500.toFixed(0):'—'}`;
+
+  // Indicators
+  const eMom = prev&&prev.eido>0?(cur.eido-prev.eido)/prev.eido*100:null;
+  const indRows = [
+    {name:'Emas (USD/oz)',     val:cur.gold>0?cur.gold.toFixed(0):'—',   pct:Math.min((cur.gold-1500)/1500,1),    dir:gMom===null?'muted':gMom>0?'green':'red'},
+    {name:'Minyak WTI ($/bbl)',val:cur.oil>0?cur.oil.toFixed(1):'—',    pct:Math.min(cur.oil/120,1),              dir:cur.oil>85?'red':'amber'},
+    {name:'Gas Alam ($/MMBtu)',val:cur.gas>0?cur.gas.toFixed(2):'—',    pct:Math.min(cur.gas/6,1),                dir:cur.gas>3.5?'red':'amber'},
+    {name:'Gandum (USc/bu)',   val:cur.wheat>0?cur.wheat.toFixed(0):'—',pct:Math.min((cur.wheat-400)/400,1),      dir:'amber'},
+    {name:'Batu Bara ($/ton)', val:cur.coal>0?cur.coal.toFixed(0):'—',  pct:Math.min((cur.coal-80)/120,1),        dir:'amber'},
+    {name:'IDR/USD (Rp)',      val:cur.idr>0?cur.idr.toLocaleString('id'):'—',pct:Math.min((cur.idr-14000)/4000,1),dir:iMom===null?'muted':iMom>0?'red':'green'},
+    {name:'S&P 500 (approx)', val:cur.sp500>0?cur.sp500.toFixed(0):'—',pct:Math.min((cur.sp500-3000)/5000,1),    dir:sMom===null?'muted':sMom>0?'green':'red'},
+    {name:'EIDO (proxy IHSG)', val:cur.eido>0?'$'+cur.eido.toFixed(2):'—',pct:Math.min((cur.eido-15)/30,1),      dir:eMom===null?'muted':eMom>0?'green':'red'},
+    {name:'Fed Rate (%)',      val:cur.fed>0?cur.fed.toFixed(2)+'%':'—',pct:Math.min(cur.fed/8,1),               dir:cur.fed>4?'red':'muted'},
+    {name:'BI Rate (%)',       val:cur.bi.toFixed(2)+'%',               pct:Math.min(cur.bi/10,1),               dir:'teal'},
+  ];
+  document.getElementById('indTable').innerHTML = indRows.map(r=>`
+    <div class="ir">
+      <div>
+        <div class="ir-name">${r.name}</div>
+        <div class="bw"><div class="b b-${r.dir}" style="width:${Math.round(Math.max(0,r.pct)*100)}%"></div></div>
+      </div>
+      <div class="ir-val c-${r.dir}">${r.val}</div>
+    </div>`).join('');
+
+  // EIDO panel
+  const eidoChg = eMom!==null?`${eMom>0?'+':''}${eMom.toFixed(2)}%`:'N/A';
+  document.getElementById('eidoPanel').innerHTML = `
+    <div class="ir"><div class="ir-name">EIDO Harga (USD)</div><div class="ir-val c-sky">${cur.eido>0?'$'+cur.eido.toFixed(2):'—'}</div></div>
+    <div class="ir"><div class="ir-name">Perubahan WoW</div><div class="ir-val ${eMom!==null&&eMom>0?'c-green':eMom!==null&&eMom<0?'c-red':'c-muted'}">${eidoChg}</div></div>
+    <div class="ir"><div class="ir-name">Sinyal Domestik</div><div class="ir-val ${eMom!==null&&eMom<-1?'c-red':eMom!==null&&eMom>1?'c-green':'c-amber'}">${eMom!==null&&eMom<-1?'⚠ Risk-Off':eMom!==null&&eMom>1?'✓ Risk-On':'→ Netral'}</div></div>
+    <p style="font-family:var(--mono);font-size:0.54rem;color:var(--muted);margin-top:0.7rem;line-height:1.6">iShares MSCI Indonesia ETF (NYSE: EIDO) · Korelasi historis IHSG ~0.85</p>`;
+
+  // Donut
+  if (donutChart) donutChart.destroy();
+  donutChart = new Chart(document.getElementById('donut').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['USD','Emas','Deposito'],
+      datasets:[{data:[res.pU,res.pG,res.pD],
+        backgroundColor:['rgba(59,130,246,.75)','rgba(217,119,6,.75)','rgba(13,148,136,.65)'],
+        borderColor:['#3b82f6','#d97706','#0d9488'], borderWidth:1.5}]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'62%',
+      plugins:{
+        legend:{labels:{color:'#1c1c2e',font:{family:'IBM Plex Mono',size:10},boxWidth:10}},
+        tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}
+      }
+    }
+  });
+  document.getElementById('scoreRow').innerHTML = [
+    ['#3b82f6','USD',res.rU], ['#d97706','Gold',res.rG], ['#0d9488','Dep',res.rD]
+  ].map(([c,l,v])=>`<div class="chip"><span class="cdot" style="background:${c}"></span>${l} raw: ${v}</div>`).join('');
+
+  // History
+  let html='';
+  series.slice(0,10).forEach((r,i)=>{
+    const pv=series[i+1]||null, s=score(r,pv);
+    const dom=s.pU>=s.pG&&s.pU>=s.pD?'🇺🇸 USD':s.pG>=s.pD?'🥇 Emas':'🏦 Dep';
+    const sm=pv&&pv.sp500>0?((r.sp500-pv.sp500)/pv.sp500*100).toFixed(1):'—';
+    const fc=v=>parseFloat(v)>0?'color:var(--green)':parseFloat(v)<0?'color:var(--red)':'';
+    html+=`<tr class="${i===0?'cur':''}">
+      <td>${r.date}</td>
+      <td style="color:var(--sky)">${s.pU}%</td>
+      <td style="color:var(--amber)">${s.pG}%</td>
+      <td style="color:var(--teal)">${s.pD}%</td>
+      <td>${r.gold>0?r.gold.toFixed(0):'—'}</td>
+      <td>${r.idr>0?r.idr.toLocaleString('id'):'—'}</td>
+      <td>${r.oil>0?r.oil.toFixed(1):'—'}</td>
+      <td style="${fc(sm)}">${sm!=='—'?(parseFloat(sm)>0?'+':'')+sm+'%':'—'}</td>
+      <td>${r.eido>0?'$'+r.eido.toFixed(2):'—'}</td>
+      <td>${r.fed>0?r.fed.toFixed(2)+'%':'—'}</td>
+      <td>${dom}</td>
+    </tr>`;
+  });
+  document.getElementById('histBody').innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════════════
+//  FORECAST ENGINE  (WMA + mean-reversion + volatility band)
+// ════════════════════════════════════════════════════════════
+function forecastSeries(values, nWeeks=12) {
+  // values: array of historical prices, newest first
+  if (values.length < 4) return null;
+
+  const hist = [...values].reverse(); // oldest first
+  const n = hist.length;
+
+  // 1. Weighted moving average (last 6 weeks, linear weights)
+  const window = Math.min(6, n);
+  const weights = Array.from({length:window},(_,i)=>i+1);
+  const wSum = weights.reduce((a,b)=>a+b,0);
+  const wma = weights.reduce((s,w,i)=>s+w*hist[n-window+i],0)/wSum;
+
+  // 2. WoW momentum (last 4 weeks avg)
+  const moms = [];
+  for (let i=n-1; i>=Math.max(1,n-4); i--)
+    moms.push((hist[i]-hist[i-1])/hist[i-1]);
+  const avgMom = moms.reduce((a,b)=>a+b,0)/moms.length;
+
+  // 3. Volatility (std dev of last 8 WoW returns)
+  const allMoms = [];
+  for (let i=1; i<n; i++) allMoms.push((hist[i]-hist[i-1])/hist[i-1]);
+  const recentMoms = allMoms.slice(-8);
+  const meanM = recentMoms.reduce((a,b)=>a+b,0)/recentMoms.length;
+  const vol = Math.sqrt(recentMoms.reduce((s,m)=>s+(m-meanM)**2,0)/recentMoms.length);
+
+  // 4. Long-run mean (last 12 weeks avg)
+  const lrMean = hist.slice(-12).reduce((a,b)=>a+b,0)/Math.min(12,n);
+
+  // 5. Mean reversion strength: pulls toward lrMean
+  const mrSpeed = 0.12;
+
+  // Project 12 weeks
+  const proj = [];
+  let cur = hist[n-1];
+  let mom = avgMom;
+  for (let w=1; w<=nWeeks; w++) {
+    // Decay momentum and add mean reversion
+    mom = mom * 0.85 + (lrMean - cur) / lrMean * mrSpeed;
+    const center = cur * (1 + mom);
+    // Uncertainty grows with sqrt(horizon)
+    const band = vol * cur * Math.sqrt(w) * 1.28; // ~80% CI
+    proj.push({
+      wk: w,
+      center: Math.round(center),
+      low:    Math.round(center - band),
+      high:   Math.round(center + band),
+    });
+    cur = center;
+  }
+  return proj;
+}
+
+function addFutureWeek(baseWeekKey, n) {
+  // baseWeekKey: "2025-W10" → add n weeks
+  const [yr, wn] = baseWeekKey.split('-W').map(Number);
+  const jan4 = new Date(yr, 0, 4);
+  const startOfWeek1 = new Date(jan4);
+  startOfWeek1.setDate(jan4.getDate() - (jan4.getDay()||7) + 1);
+  const target = new Date(startOfWeek1.getTime() + (wn-1+n)*7*86400000);
+  const tmp = new Date(target); tmp.setDate(tmp.getDate()+4-(tmp.getDay()||7));
+  const jan1new = new Date(tmp.getFullYear(),0,1);
+  const wkNum = Math.ceil((((tmp-jan1new)/86400000)+1)/7);
+  return `${tmp.getFullYear()}-W${String(wkNum).padStart(2,'0')}`;
+}
+
+function renderForecast() {
+  if (!weekSeries.length) return;
+
+  const gVals = weekSeries.map(r=>r.gold).filter(v=>v>0);
+  const iVals = weekSeries.map(r=>r.idr).filter(v=>v>0);
+
+  const gProj = forecastSeries(gVals, 12);
+  const iProj = forecastSeries(iVals, 12);
+
+  if (!gProj || !iProj) return;
+
+  // Show content FIRST so canvases get layout dimensions
+  document.getElementById('fcNotReady').style.display = 'none';
+  document.getElementById('fcContent').style.display  = 'block';
+
+  // Populate tables immediately (no canvas needed)
+  const baseWeek = weekSeries[0].date;
+  const gNow = gVals[0] || 0;
+  const iNow = iVals[0] || 0;
+  document.getElementById('fcGoldBody').innerHTML = gProj.map((p,i)=>{
+    const wkLabel = addFutureWeek(baseWeek, p.wk);
+    const dir = p.center > (i===0?gNow:gProj[i-1].center) ? '<span class="tag-bull">▲</span>' : '<span class="tag-bear">▼</span>';
+    return `<tr><td>${wkLabel}</td><td><strong>$${p.center.toLocaleString()}</strong></td><td class="ci-band">$${p.low.toLocaleString()}</td><td class="ci-band">$${p.high.toLocaleString()}</td><td>${dir}</td></tr>`;
+  }).join('');
+  document.getElementById('fcIdrBody').innerHTML = iProj.map((p,i)=>{
+    const wkLabel = addFutureWeek(baseWeek, p.wk);
+    const dir = p.center > (i===0?iNow:iProj[i-1].center) ? '<span class="tag-bear">▲</span>' : '<span class="tag-bull">▼</span>';
+    return `<tr><td>${wkLabel}</td><td><strong>Rp${p.center.toLocaleString('id')}</strong></td><td class="ci-band">Rp${p.low.toLocaleString('id')}</td><td class="ci-band">Rp${p.high.toLocaleString('id')}</td><td>${dir}</td></tr>`;
+  }).join('');
+
+  // Render charts in next frame AFTER content is visible and canvas has dimensions
+  requestAnimationFrame(() => {
+    const histLabels = weekSeries.slice(0,4).reverse().map(r=>r.date);
+    const histGold   = weekSeries.slice(0,4).reverse().map(r=>r.gold);
+    const histIdr    = weekSeries.slice(0,4).reverse().map(r=>r.idr);
+    const allGoldLabels = [...histLabels, ...gProj.map(p => addFutureWeek(baseWeek, p.wk))];
+    const allIdrLabels  = [...histLabels, ...iProj.map(p => addFutureWeek(baseWeek, p.wk))];
+
+    // Destroy old instances cleanly
+    if (fcGoldChart) { fcGoldChart.destroy(); fcGoldChart = null; }
+    if (fcIdrChart)  { fcIdrChart.destroy();  fcIdrChart  = null; }
+
+    // GOLD CHART
+    fcGoldChart = new Chart(document.getElementById('fcGoldChart').getContext('2d'), {
+      data: {
+        labels: allGoldLabels,
+        datasets: [
+          { type:'line', label:'Historical', data:[...histGold,...Array(12).fill(null)], borderColor:'#94a3b8', borderDash:[4,3], pointRadius:3, pointBackgroundColor:'#94a3b8', tension:0.3 },
+          { type:'line', label:'Proyeksi', data:[...Array(4).fill(null),...gProj.map(p=>p.center)], borderColor:'#d97706', borderWidth:2.5, pointRadius:3, pointBackgroundColor:'#d97706', tension:0.35, fill:false },
+          { type:'line', label:'Batas Atas 80%', data:[...Array(4).fill(null),...gProj.map(p=>p.high)], borderColor:'rgba(217,119,6,0.25)', borderDash:[3,3], pointRadius:0, fill:'+1', backgroundColor:'rgba(217,119,6,0.07)', tension:0.35 },
+          { type:'line', label:'Batas Bawah 80%', data:[...Array(4).fill(null),...gProj.map(p=>p.low)], borderColor:'rgba(217,119,6,0.25)', borderDash:[3,3], pointRadius:0, tension:0.35 },
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{labels:{font:{family:'IBM Plex Mono',size:9},boxWidth:10}},
+          tooltip:{callbacks:{label:c=>`${c.dataset.label}: $${c.parsed.y?.toLocaleString()}`}}},
+        scales:{y:{ticks:{font:{family:'IBM Plex Mono',size:9},callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(0,0,0,0.04)'}},
+          x:{ticks:{font:{family:'IBM Plex Mono',size:8},maxRotation:45}}}
+      }
+    });
+
+    // IDR CHART
+    fcIdrChart = new Chart(document.getElementById('fcIdrChart').getContext('2d'), {
+      data: {
+        labels: allIdrLabels,
+        datasets: [
+          { type:'line', label:'Historical', data:[...histIdr,...Array(12).fill(null)], borderColor:'#94a3b8', borderDash:[4,3], pointRadius:3, pointBackgroundColor:'#94a3b8', tension:0.3 },
+          { type:'line', label:'Proyeksi', data:[...Array(4).fill(null),...iProj.map(p=>p.center)], borderColor:'#3b82f6', borderWidth:2.5, pointRadius:3, pointBackgroundColor:'#3b82f6', tension:0.35, fill:false },
+          { type:'line', label:'Batas Atas 80%', data:[...Array(4).fill(null),...iProj.map(p=>p.high)], borderColor:'rgba(59,130,246,0.25)', borderDash:[3,3], pointRadius:0, fill:'+1', backgroundColor:'rgba(59,130,246,0.07)', tension:0.35 },
+          { type:'line', label:'Batas Bawah 80%', data:[...Array(4).fill(null),...iProj.map(p=>p.low)], borderColor:'rgba(59,130,246,0.25)', borderDash:[3,3], pointRadius:0, tension:0.35 },
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{labels:{font:{family:'IBM Plex Mono',size:9},boxWidth:10}},
+          tooltip:{callbacks:{label:c=>`${c.dataset.label}: Rp${c.parsed.y?.toLocaleString('id')}`}}},
+        scales:{y:{ticks:{font:{family:'IBM Plex Mono',size:9},callback:v=>'Rp'+Math.round(v/1000)+'k'},grid:{color:'rgba(0,0,0,0.04)'}},
+          x:{ticks:{font:{family:'IBM Plex Mono',size:8},maxRotation:45}}}
+      }
+    });
+  }); // end requestAnimationFrame
+}
+
+// ════════════════════════════════════════════════════════════
+//  CALCULATOR
+// ════════════════════════════════════════════════════════════
+function showCalcReady() {
+  document.getElementById('calcNotReady').style.display = 'none';
+  document.getElementById('calcResults').style.display  = 'block';
+  runCalc();
+}
+
+function runCalc() {
+  if (!weekSeries.length) { document.getElementById('calcNotReady').style.display='block'; document.getElementById('calcResults').style.display='none'; return; }
+
+  let amount = parseFloat(document.getElementById('calcAmount').value) || 0;
+  const currency = document.getElementById('calcCurrency').value;
+  const goldPriceRp = parseFloat(document.getElementById('goldPriceIdr').value) || 1650000;
+
+  const idr = weekSeries[0]?.idr || 16000;
+
+  // Convert to IDR for uniform calculation
+  let amountIDR = currency === 'USD' ? amount * idr : amount;
+  const {pU, pG, pD} = latestAlloc;
+
+  const usdIDR   = amountIDR * pU / 100;
+  const goldIDR  = amountIDR * pG / 100;
+  const depIDR   = amountIDR * pD / 100;
+
+  const usdUSD   = usdIDR / idr;
+  const goldGram = goldIDR / goldPriceRp;
+  const goldOz   = goldIDR / (weekSeries[0]?.gold || 2000) / idr;
+
+  const fmt    = v => v.toLocaleString('id', {maximumFractionDigits:0});
+  const fmtUSD = v => v.toLocaleString('en', {minimumFractionDigits:2, maximumFractionDigits:2});
+  const fmtG   = v => v.toLocaleString('id', {minimumFractionDigits:2, maximumFractionDigits:2});
+
+  document.getElementById('calcCards').innerHTML = `
+    <div class="cr usd">
+      <div class="cr-label">USD</div>
+      <div class="cr-alloc">${pU}%</div>
+      <div class="cr-amount">Rp ${fmt(usdIDR)}</div>
+      <div class="cr-detail">≈ USD ${fmtUSD(usdUSD)}<br>pada kurs Rp ${fmt(idr)}/USD</div>
+      <div class="cr-icon">💵</div>
+    </div>
+    <div class="cr gold">
+      <div class="cr-label">Emas / Gold</div>
+      <div class="cr-alloc">${pG}%</div>
+      <div class="cr-amount">Rp ${fmt(goldIDR)}</div>
+      <div class="cr-detail">≈ ${fmtG(goldGram)} gram emas<br>≈ ${fmtG(goldOz*31.1)} gram (oz basis)</div>
+      <div class="cr-icon">🥇</div>
+    </div>
+    <div class="cr dep">
+      <div class="cr-label">Deposito IDR</div>
+      <div class="cr-alloc">${pD}%</div>
+      <div class="cr-amount">Rp ${fmt(depIDR)}</div>
+      <div class="cr-detail">Deposit di bank IDR<br>BI Rate acuan: ${weekSeries[0].bi}% p.a.</div>
+      <div class="cr-icon">🏦</div>
+    </div>`;
+
+  document.getElementById('calcResults').style.display = 'block';
+
+  const depMonthly = depIDR * (weekSeries[0].bi/100) / 12;
+  document.getElementById('calcNotes').innerHTML = `
+    <div class="note-row"><div class="note-label">Total investasi (IDR)</div><div class="note-val">Rp ${fmt(amountIDR)}</div></div>
+    <div class="note-row"><div class="note-label">Kurs IDR/USD saat ini</div><div class="note-val">Rp ${fmt(idr)}</div></div>
+    <div class="note-row"><div class="note-label">Harga emas per gram</div><div class="note-val">Rp ${fmt(goldPriceRp)}</div></div>
+    <div class="note-row"><div class="note-label">Estimasi bunga deposito / bulan</div><div class="note-val" style="color:var(--teal)">Rp ${fmt(depMonthly)}</div></div>
+    <div class="note-row"><div class="note-label">Alokasi yang digunakan</div><div class="note-val">${pU}% USD · ${pG}% Emas · ${pD}% Dep</div></div>
+    <div class="note-row" style="border:none;color:var(--muted);font-size:0.7rem;padding-top:0.6rem">
+      <div style="line-height:1.6">Gram emas dihitung dari harga per gram yang kamu masukkan. Pastikan menggunakan harga pasar terkini dari toko emas/Antam. Kalkulator ini untuk estimasi, bukan transaksi aktual.</div>
+    </div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+//  UTILS
+// ════════════════════════════════════════════════════════════
+function setStatus(type, msg) {
+  const el = document.getElementById('status');
+  el.className = 'status ' + type;
+  el.innerHTML = msg;
+}
+</script>
+</body>
+</html>
