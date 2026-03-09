@@ -1426,7 +1426,11 @@ function renderForecast() {
   // Model comparison: week 4 vs week 12
   const renderCompare = (proj, now, isCurr) => {
     const f = v => isCurr ? `Rp${Math.round(v).toLocaleString('id')}` : `$${Math.round(v).toLocaleString()}`;
-    const pct = v => { const p=((v-now)/now*100).toFixed(1); return `<span style="color:${isCurr?(v>now?'var(--red)':'var(--green)'):(v>now?'var(--green)':'var(--red)');font-size:0.58rem">${v>now?'+':''}${p}%</span>`; };
+    const pct = v => {
+      const p = ((v-now)/now*100).toFixed(1);
+      const clr = isCurr ? (v>now ? 'var(--red)' : 'var(--green)') : (v>now ? 'var(--green)' : 'var(--red)');
+      return '<span style="color:' + clr + ';font-size:0.58rem">' + (v>now?'+':'') + p + '%</span>';
+    };
     const w4=proj[3], w12=proj[11];
     return [['① WMA','#1d4ed8',w4.wma,w12.wma],['② ARIMA','#065f46',w4.arima,w12.arima],['③ ETS','#5b21b6',w4.ets,w12.ets],['Ensemble','#1c1c2e',w4.center,w12.center]]
       .map((r,i)=>`<div style="display:grid;grid-template-columns:85px 1fr 1fr;gap:.3rem;padding:.4rem 0;border-bottom:1px solid var(--bg2);align-items:center;${i===3?'border-top:2px solid var(--border);margin-top:.3rem;padding-top:.5rem':''}">
