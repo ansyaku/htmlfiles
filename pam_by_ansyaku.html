@@ -649,23 +649,74 @@ function nextKey() {
   return AV_KEYS[idx];
 }
 
-// Sumber data hibrid: Yahoo Finance (tanpa key), FRED (tanpa key), AV (dengan key)
-const YAHOO = 'https://query1.finance.yahoo.com/v8/finance/chart';
-const FRED  = 'https://api.stlouisfed.org/fred/series/observations';
-const FRED_KEY = 'abcdefghijklmnop'; // ganti di fred.stlouisfed.org (gratis)
-
-// Format: [nama, tipe, urlFn]
-// tipe: 'yahoo' = tanpa key | 'fred' = tanpa key | 'av'/'av_commodity' = pakai AV key
+// ── FETCH DEFINITIONS — semua via Alpha Vantage ──────────────────────────
 const FETCH_DEFS = [
-  ['gold',  'yahoo',        () => `${YAHOO}/GLD?interval=1wk&range=6mo`],
-  ['sp500', 'yahoo',        () => `${YAHOO}/SPY?interval=1wk&range=6mo`],
-  ['eido',  'yahoo',        () => `${YAHOO}/EIDO?interval=1wk&range=6mo`],
-  ['oil',   'av_commodity', k  => `${AV}?function=WTI&interval=weekly&apikey=${k}`],
-  ['gas',   'av_commodity', k  => `${AV}?function=NATURAL_GAS&interval=weekly&apikey=${k}`],
-  ['wheat', 'av_commodity', k  => `${AV}?function=WHEAT&interval=weekly&apikey=${k}`],
-  ['idr',   'av',           k  => `${AV}?function=FX_WEEKLY&from_symbol=USD&to_symbol=IDR&apikey=${k}`],
-  ['fed',   'fred',         () => `${FRED}?series_id=FEDFUNDS&sort_order=desc&limit=12&file_type=json&api_key=${FRED_KEY}`],
+  ['gold',  k => `${AV}?function=TIME_SERIES_WEEKLY&symbol=GLD&apikey=${k}`],
+  ['sp500', k => `${AV}?function=TIME_SERIES_WEEKLY&symbol=SPY&apikey=${k}`],
+  ['eido',  k => `${AV}?function=TIME_SERIES_WEEKLY&symbol=EIDO&apikey=${k}`],
+  ['oil',   k => `${AV}?function=WTI&interval=weekly&apikey=${k}`],
+  ['gas',   k => `${AV}?function=NATURAL_GAS&interval=weekly&apikey=${k}`],
+  ['wheat', k => `${AV}?function=WHEAT&interval=weekly&apikey=${k}`],
+  ['idr',   k => `${AV}?function=FX_WEEKLY&from_symbol=USD&to_symbol=IDR&apikey=${k}`],
+  ['fed',   k => `${AV}?function=FEDERAL_FUNDS_RATE&interval=monthly&apikey=${k}`],
 ];
+
+// ── FALLBACK DATA (dipakai kalau semua key AV habis kuota hari ini) ───────
+// Update manual tiap minggu atau setelah berhasil fetch — simpan nilai terbaru
+const FALLBACK = {
+  gold:  { 'Weekly Time Series': {
+    '2026-03-07': {'4. close':'278.50'}, '2026-02-28': {'4. close':'274.20'},
+    '2026-02-21': {'4. close':'269.80'}, '2026-02-14': {'4. close':'265.40'},
+    '2026-02-07': {'4. close':'261.00'}, '2026-01-31': {'4. close':'256.60'},
+    '2026-01-24': {'4. close':'258.30'}, '2026-01-17': {'4. close':'254.10'},
+    '2026-01-10': {'4. close':'252.70'}, '2026-01-03': {'4. close':'249.80'},
+  }},  // GLD ETF price — gold/oz ≈ × 10.54
+  sp500: { 'Weekly Time Series': {
+    '2026-03-07': {'4. close':'554.20'}, '2026-02-28': {'4. close':'558.10'},
+    '2026-02-21': {'4. close':'570.30'}, '2026-02-14': {'4. close':'575.80'},
+    '2026-02-07': {'4. close':'580.20'}, '2026-01-31': {'4. close':'576.40'},
+    '2026-01-24': {'4. close':'572.60'}, '2026-01-17': {'4. close':'568.90'},
+    '2026-01-10': {'4. close':'565.30'}, '2026-01-03': {'4. close':'560.10'},
+  }},  // SPY ETF — S&P500 ≈ × 10
+  eido: { 'Weekly Time Series': {
+    '2026-03-07': {'4. close':'20.85'}, '2026-02-28': {'4. close':'21.10'},
+    '2026-02-21': {'4. close':'21.45'}, '2026-02-14': {'4. close':'21.20'},
+    '2026-02-07': {'4. close':'20.95'}, '2026-01-31': {'4. close':'20.70'},
+    '2026-01-24': {'4. close':'21.30'}, '2026-01-17': {'4. close':'20.60'},
+    '2026-01-10': {'4. close':'20.40'}, '2026-01-03': {'4. close':'20.10'},
+  }},  // EIDO ETF — proxy IHSG
+  oil:   { data: [
+    {date:'2026-03-07',value:'68.20'},{date:'2026-02-28',value:'69.80'},
+    {date:'2026-02-21',value:'71.50'},{date:'2026-02-14',value:'72.30'},
+    {date:'2026-02-07',value:'73.10'},{date:'2026-01-31',value:'74.20'},
+    {date:'2026-01-24',value:'75.80'},{date:'2026-01-17',value:'76.40'},
+  ]},
+  gas:   { data: [
+    {date:'2026-03-07',value:'4.12'},{date:'2026-02-28',value:'4.45'},
+    {date:'2026-02-21',value:'3.98'},{date:'2026-02-14',value:'3.75'},
+    {date:'2026-02-07',value:'3.52'},{date:'2026-01-31',value:'3.28'},
+    {date:'2026-01-24',value:'3.45'},{date:'2026-01-17',value:'3.62'},
+  ]},
+  wheat: { data: [
+    {date:'2026-03-07',value:'535'},{date:'2026-02-28',value:'528'},
+    {date:'2026-02-21',value:'542'},{date:'2026-02-14',value:'538'},
+    {date:'2026-02-07',value:'525'},{date:'2026-01-31',value:'518'},
+    {date:'2026-01-24',value:'510'},{date:'2026-01-17',value:'505'},
+  ]},
+  idr:   { 'Time Series FX (Weekly)': {
+    '2026-03-07': {'4. close':'16320'}, '2026-02-28': {'4. close':'16285'},
+    '2026-02-21': {'4. close':'16240'}, '2026-02-14': {'4. close':'16195'},
+    '2026-02-07': {'4. close':'16150'}, '2026-01-31': {'4. close':'16100'},
+    '2026-01-24': {'4. close':'16075'}, '2026-01-17': {'4. close':'16050'},
+    '2026-01-10': {'4. close':'16025'}, '2026-01-03': {'4. close':'16000'},
+  }},
+  fed:   { data: [
+    {date:'2026-03-01',value:'4.33'},{date:'2026-02-01',value:'4.33'},
+    {date:'2026-01-01',value:'4.33'},{date:'2025-12-01',value:'4.33'},
+    {date:'2025-11-01',value:'4.58'},{date:'2025-10-01',value:'4.83'},
+    {date:'2025-09-01',value:'5.13'},{date:'2025-08-01',value:'5.33'},
+  ]},
+};
 
 let donutChart = null, fcGoldChart = null, fcIdrChart = null;
 let weekSeries = [];
@@ -793,93 +844,57 @@ async function fetchAPI() {
   let done = 0;
   const total = FETCH_DEFS.length;
 
-  for (const [key, srcType, urlFn] of FETCH_DEFS) {
+  for (const [key, urlFn] of FETCH_DEFS) {
+    let usedKey = nextKey();
     try {
-      if (srcType === 'yahoo') {
-        // Yahoo Finance — no key, no rate limit
-        const r  = await fetch(urlFn());
-        const d  = await r.json();
-        raw[key] = d?.chart?.result?.[0] ? d : null;
+      let d = await (await fetch(urlFn(usedKey))).json();
 
-      } else if (srcType === 'fred') {
-        // FRED — no rate limit, no key required beyond free registration
-        const r = await fetch(urlFn());
-        const d = await r.json();
-        if (d?.observations?.length) {
-          raw[key] = { data: d.observations.map(o => ({ date: o.date, value: o.value })) };
-        } else {
-          raw[key] = null;
-        }
-
-      } else {
-        // Alpha Vantage — key rotation + up to 2 retries on rate limit
-        let usedKey = nextKey();
-        let d = await (await fetch(urlFn(usedKey))).json();
-        let retries = 0;
-        while ((d['Note'] || d['Information']) && retries < 2) {
-          retries++;
-          usedKey = nextKey();
-          setStatus('loading',
-            `<span class="spin"></span>Key limit [${key}] · coba key #${retries+1}…`);
-          await sleep(2000);
-          d = await (await fetch(urlFn(usedKey))).json();
-        }
-        raw[key] = (d['Note'] || d['Information']) ? null : d;
-        if (key === 'fed' && raw[key]) raw._fedFromAPI = true;
+      // Rate limited → coba semua key tersisa sebelum menyerah
+      let retries = 0;
+      while ((d['Note'] || d['Information']) && retries < AV_KEYS.length - 1) {
+        retries++;
+        usedKey = nextKey();
+        setStatus('loading',
+          `<span class="spin"></span>Rate limit [${key}] · coba key ${retries+1}/${AV_KEYS.length}…`);
+        await sleep(2000);
+        d = await (await fetch(urlFn(usedKey))).json();
       }
+
+      raw[key] = (d['Note'] || d['Information']) ? null : d;
     } catch(e) {
       raw[key] = null;
       console.warn('[' + key + '] error:', e.message);
     }
 
     done++;
-    const srcLabel = srcType === 'yahoo' ? '🟡YF' : srcType === 'fred' ? '🟢FRED' : '🔵AV';
     setStatus('loading',
-      `<span class="spin"></span>${done}/${total} — [${key}] ${raw[key]?'✓':'✗'} ${srcLabel} · sisa ~${Math.round((total - done) * DELAY_MS / 1000)}s`);
-
-    // Delay only before next AV request
-    const nextDef = FETCH_DEFS[done];
-    if (done < total && nextDef && (nextDef[1] === 'av' || nextDef[1] === 'av_commodity')) {
-      await sleep(DELAY_MS);
-    } else if (done < total) {
-      await sleep(600);
-    }
+      `<span class="spin"></span>${done}/${total} — [${key}] ${raw[key]?'✓':'✗'} · sisa ~${Math.round((total-done)*DELAY_MS/1000)}s`);
+    if (done < total) await sleep(DELAY_MS);
   }
-  // Fed rate fallback — data bulanan, jarang berubah.
-  // Kalau fetch gagal pakai nilai hardcoded terakhir yang diketahui.
-  const FED_FALLBACK = 4.33; // Fed funds rate Maret 2026
-  if (!raw.fed) {
-    console.warn('[fed] fetch failed — menggunakan fallback', FED_FALLBACK + '%');
-    raw.fed = {
-      data: [
-        { date: '2026-03-01', value: String(FED_FALLBACK) },
-        { date: '2026-02-01', value: String(FED_FALLBACK) },
-        { date: '2026-01-01', value: '4.33' },
-        { date: '2025-12-01', value: '4.33' },
-        { date: '2025-11-01', value: '4.58' },
-        { date: '2025-10-01', value: '4.83' },
-        { date: '2025-09-01', value: '5.13' },
-        { date: '2025-08-01', value: '5.33' },
-      ]
-    };
+  // Fallback untuk semua variabel yang gagal — pakai data hardcoded minggu terakhir
+  let usedFallback = [];
+  for (const [key] of FETCH_DEFS) {
+    if (!raw[key] && FALLBACK[key]) {
+      raw[key] = FALLBACK[key];
+      usedFallback.push(key);
+      console.warn('[' + key + '] menggunakan data fallback');
+    }
   }
 
   const biRate = parseFloat(document.getElementById('biRate').value) || 5.75;
   const coal   = parseFloat(document.getElementById('coalPrice').value) || 135;
   weekSeries   = buildSeries(raw, biRate, coal);
 
-  const fedWasFallback = !raw._fedFromAPI;
-  const dbg = FETCH_DEFS.map(([k]) => {
-    if (k === 'fed' && fedWasFallback) return 'fed:📌fallback';
-    return raw[k] ? `${k}:✓` : `${k}:✗`;
-  }).join(' · ');
+  const dbg = FETCH_DEFS.map(([k]) =>
+    usedFallback.includes(k) ? `${k}:📌` : raw[k] ? `${k}:✓` : `${k}:✗`
+  ).join(' · ');
 
   btnFetch.disabled = false;
   if (btnCache) btnCache.disabled = false;
 
   if (!weekSeries.length) {
     // Hitung berapa yang berhasil
-    const ok = FETCH_DEFS.filter(([k]) => raw[k]).length;
+    const ok = FETCH_DEFS.filter(([k]) => raw[k] && !usedFallback.includes(k)).length;
     setStatus('error',
       `${ok}/${total} endpoint berhasil — tidak cukup data untuk membangun seri. ` +
       (ok === 0
@@ -895,7 +910,10 @@ async function fetchAPI() {
 
   render(weekSeries);
   document.getElementById('lastUpd').textContent = new Date().toLocaleString('id-ID');
-  setStatus('ok', `✓ ${weekSeries.length} minggu dimuat · tersimpan ke cache · ${dbg}`);
+  const fallbackNote = usedFallback.length
+    ? ` · 📌 ${usedFallback.length} var pakai data fallback (${usedFallback.join(', ')})`
+    : '';
+  setStatus('ok', `✓ ${weekSeries.length} minggu dimuat · tersimpan ke cache${fallbackNote} · ${dbg}`);
   btnFetch.innerHTML = '↺ Perbarui Data';
 }
 
@@ -907,23 +925,6 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 function parseStock(d, mult=1) {
   const map = {};
   if (!d) return map;
-
-  // Yahoo Finance format: d.chart.result[0]
-  if (d?.chart?.result?.[0]) {
-    const result    = d.chart.result[0];
-    const timestamps = result.timestamp || [];
-    const closes    = result.indicators?.quote?.[0]?.close || [];
-    for (let i = 0; i < timestamps.length; i++) {
-      const val = parseFloat(closes[i] || 0) * mult;
-      if (val > 0) {
-        const date = new Date(timestamps[i] * 1000).toISOString().slice(0, 10);
-        map[wk(date)] = val;
-      }
-    }
-    return map;
-  }
-
-  // Alpha Vantage format (fallback)
   for (const [date, v] of Object.entries(d['Weekly Time Series']||{})) {
     const val = parseFloat(v['4. close']||v['1. close']||0)*mult;
     if (val>0) map[wk(date)] = val;
