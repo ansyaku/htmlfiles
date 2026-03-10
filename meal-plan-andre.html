@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meal Plan Andre — Program dr. Noviani</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sage:#6b8f71; --sage-light:#e8f0e9; --sage-dark:#3d5c42;
+  --cream:#faf7f2; --warm:#f2ece0; --sand:#e0d5c0;
+  --terra:#c4714a; --terra-light:#f5e6de;
+  --gold:#b8913a; --gold-light:#faf0d8;
+  --ink:#2a2218; --muted:#7a6e5e;
+  --radius:16px; --shadow:0 4px 24px rgba(42,34,24,0.09);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,var(--sage-dark) 0%,var(--sage) 55%,#8aaa8f 100%);padding:40px 24px 52px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(255,255,255,0.08) 0%,transparent 60%);}
+.hero-inner{position:relative;z-index:1;}
+.hero-tag{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.9);font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;padding:6px 18px;border-radius:50px;margin-bottom:14px;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,48px);font-weight:600;color:#fff;line-height:1.1;margin-bottom:7px;}
+.hero h1 em{font-style:italic;color:rgba(255,255,255,0.8);}
+.hero-sub{color:rgba(255,255,255,0.72);font-size:13px;font-weight:300;}
+.hero-stats{display:flex;justify-content:center;gap:12px;margin-top:22px;flex-wrap:wrap;}
+.stat{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:11px;padding:9px 15px;color:#fff;text-align:center;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:block;}
+.stat-lbl{font-size:10px;letter-spacing:1px;opacity:0.75;margin-top:2px;}
+
+/* NAV */
+.nav-wrap{background:#fff;border-bottom:1px solid var(--sand);position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(42,34,24,0.06);}
+.nav{display:flex;max-width:1000px;margin:0 auto;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-btn{flex:1;min-width:100px;padding:14px 10px;border:none;background:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--muted);border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
+.nav-btn:hover{color:var(--sage-dark);}
+.nav-btn.active{color:var(--sage-dark);border-bottom-color:var(--sage);font-weight:600;}
+
+/* MAIN */
+main{max-width:1000px;margin:0 auto;padding:0 16px 60px;}
+.section{display:none;padding-top:28px;}
+.section.active{display:block;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--sage-dark);margin-bottom:3px;}
+.sec-sub{color:var(--muted);font-size:13px;margin-bottom:20px;font-weight:300;}
+
+/* ===== KALENDER SECTION ===== */
+.cal-section { display: flex; flex-direction: column; gap: 20px; }
+
+/* Kalender */
+.calendar{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(107,143,113,0.12);}
+.cal-header{background:var(--sage-dark);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;}
+.cal-header h3{font-family:'Cormorant Garamond',serif;color:#fff;font-size:18px;font-weight:600;}
+.cal-nav{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:7px;width:28px;height:28px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.cal-nav:hover{background:rgba(255,255,255,0.28);}
+.cal-grid{padding:12px;}
+.days-hdr{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:5px;}
+.day-name{text-align:center;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;padding:3px 0;}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;color:var(--ink);position:relative;user-select:none;}
+.day:hover{background:var(--sage-light);color:var(--sage-dark);}
+.day.empty,.day.dim{pointer-events:none;}
+.day.dim{opacity:.28;}
+.day.today{background:var(--sage-light);color:var(--sage-dark);font-weight:700;}
+.day.selected{background:var(--sage-dark)!important;color:#fff!important;font-weight:700;box-shadow:0 3px 12px rgba(61,92,66,.3);}
+.day.has-dot::after{content:'';position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--sage);}
+.day.selected::after{background:rgba(255,255,255,.5);}
+.day.has-check::before{content:'✓';position:absolute;top:1px;right:3px;font-size:8px;color:var(--sage);font-weight:700;}
+.day.selected.has-check::before{color:rgba(255,255,255,.8);}
+.day.sun{color:var(--terra);}
+.day.selected.sun{color:#fff;}
+.cal-legend{padding:0 12px 10px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:14px;}
+.ldot{width:6px;height:6px;border-radius:50%;background:var(--sage);display:inline-block;margin-right:4px;}
+
+/* DETAIL PANEL — full width di bawah kalender */
+.detail-outer{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(107,143,113,0.12);}
+.detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;text-align:center;color:var(--muted);padding:40px;}
+.detail-empty .ei{font-size:40px;margin-bottom:10px;opacity:.35;}
+.detail-empty p{font-size:14px;font-weight:300;line-height:1.7;}
+
+/* Detail 2-kolom: kiri=info+checklist, kanan=maps+rute */
+.detail-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+@media(max-width:680px){.detail-inner{grid-template-columns:1fr;}}
+
+.detail-left{border-right:1px solid var(--sand);}
+.detail-head{background:linear-gradient(135deg,var(--sage-dark),var(--sage));padding:18px 20px;}
+.detail-date{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;}
+.detail-dow{color:rgba(255,255,255,.72);font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+
+.detail-body{padding:16px 18px;}
+
+/* MENU */
+.meal-block{margin-bottom:14px;}
+.meal-block:last-child{margin-bottom:0;}
+.meal-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.meal-label::after{content:'';flex:1;height:1px;background:var(--sand);}
+.chips{display:flex;flex-wrap:wrap;gap:5px;}
+.chip{font-size:12px;font-weight:500;padding:4px 11px;border-radius:50px;background:var(--sage-light);color:var(--sage-dark);}
+.chip.g{background:var(--gold-light);color:#7a5e1a;}
+.chip.t{background:var(--terra-light);color:#8a3d20;}
+.chip.n{background:var(--warm);color:var(--muted);}
+
+/* CHECKLIST */
+.checklist-section{padding:0 18px 16px;}
+.checklist-title{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.checklist-title::after{content:'';flex:1;height:1px;background:var(--sand);}
+.checklist{display:flex;flex-direction:column;gap:7px;}
+.check-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;background:var(--warm);cursor:pointer;transition:all .15s;user-select:none;}
+.check-item:hover{background:var(--sage-light);}
+.check-item.done{background:var(--sage-light);}
+.check-box{width:18px;height:18px;border-radius:5px;border:2px solid var(--sage);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.check-item.done .check-box{background:var(--sage-dark);border-color:var(--sage-dark);}
+.check-box svg{display:none;width:10px;height:10px;}
+.check-item.done .check-box svg{display:block;}
+.check-label{font-size:13px;font-weight:500;color:var(--ink);}
+.check-item.done .check-label{color:var(--muted);text-decoration:line-through;}
+
+/* NOTES */
+.notes-section{padding:0 18px 16px;}
+.notes-title{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+.notes-title::after{content:'';flex:1;height:1px;background:var(--sand);}
+.notes-textarea{width:100%;border:1.5px solid var(--sand);border-radius:10px;padding:10px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--warm);resize:vertical;min-height:80px;outline:none;transition:border-color .2s;}
+.notes-textarea:focus{border-color:var(--sage);background:#fff;}
+.notes-save{margin-top:7px;background:var(--sage-dark);color:#fff;border:none;border-radius:9px;padding:7px 18px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s;letter-spacing:.3px;}
+.notes-save:hover{background:var(--sage);}
+.notes-saved{display:inline-block;margin-left:8px;font-size:11px;color:var(--sage);opacity:0;transition:opacity .3s;}
+
+/* KANAN — MAPS + RUTE */
+.detail-right{display:flex;flex-direction:column;}
+.maps-wrap{position:relative;background:#e8f0e9;overflow:hidden;}
+.maps-wrap iframe{width:100%;height:260px;border:none;display:block;}
+.maps-placeholder{height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:var(--sage-light);color:var(--sage-dark);}
+.maps-placeholder .mp-icon{font-size:36px;}
+.maps-placeholder p{font-size:13px;font-weight:500;text-align:center;padding:0 20px;}
+
+.rute-info{padding:16px 18px;flex:1;}
+.rute-title{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.rute-title::after{content:'';flex:1;height:1px;background:var(--sand);}
+.rute-name{font-weight:700;font-size:14px;color:var(--ink);margin-bottom:5px;}
+.rute-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px;}
+.rute-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.rtag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;}
+.rtag.d{background:#e8f2ec;color:var(--sage-dark);}
+.rtag.ty{background:var(--warm);color:var(--muted);}
+.rtag.sp{background:var(--terra-light);color:#8a3d20;}
+.rest-day{display:flex;align-items:center;justify-content:center;height:260px;flex-direction:column;gap:10px;background:var(--warm);color:var(--muted);}
+.rest-day .ri{font-size:36px;}
+.rest-day p{font-size:13px;font-weight:500;}
+
+/* ===== RUTE OLAHRAGA PAGE ===== */
+.route-list{display:flex;flex-direction:column;gap:12px;}
+.route-card{background:#fff;border-radius:14px;box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(107,143,113,0.1);}
+.route-card-header{display:flex;gap:14px;padding:16px 18px;align-items:flex-start;cursor:pointer;}
+.route-day-badge{background:var(--sage-dark);color:#fff;font-weight:700;font-size:11px;letter-spacing:1px;padding:8px 10px;border-radius:9px;min-width:50px;text-align:center;flex-shrink:0;}
+.route-day-badge.w{background:var(--terra);}
+.ri2{flex:1;}
+.rname{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:3px;}
+.rdesc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:7px;}
+.rtags2{display:flex;gap:5px;flex-wrap:wrap;}
+.route-map{height:220px;overflow:hidden;}
+.route-map iframe{width:100%;height:100%;border:none;display:block;}
+
+/* ===== PANDUAN ===== */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px;margin-bottom:16px;}
+.rule-card{background:#fff;border-radius:13px;padding:15px;border-left:4px solid var(--sage);box-shadow:var(--shadow);}
+.rule-card.g{border-left-color:var(--gold);}
+.rule-card.t{border-left-color:var(--terra);}
+.ri3{font-size:20px;margin-bottom:6px;}
+.rt{font-weight:700;font-size:11px;color:var(--sage-dark);margin-bottom:5px;letter-spacing:.5px;text-transform:uppercase;}
+.rule-card.g .rt{color:var(--gold);}
+.rule-card.t .rt{color:var(--terra);}
+.rb{font-size:13px;color:var(--muted);line-height:1.6;}
+.pbox{background:var(--sage-light);border-radius:13px;padding:15px 18px;margin-bottom:11px;border:1px solid rgba(107,143,113,0.2);}
+.pbox h4{font-size:11px;font-weight:700;color:var(--sage-dark);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;}
+.plist{display:flex;flex-wrap:wrap;gap:7px;}
+.pitem{background:#fff;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:500;color:var(--sage-dark);border:1px solid rgba(107,143,113,0.2);}
+
+footer{text-align:center;padding:26px 20px;color:var(--muted);font-size:12px;border-top:1px solid var(--sand);margin-top:36px;}
+footer strong{color:var(--sage-dark);}
+
+@keyframes pop{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.anim{animation:pop .22s ease both;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Program Gizi Klinik · dr. Noviani, Sp.GK</div>
+    <h1>Meal Plan & <em>Rute Olahraga</em></h1>
+    <p class="hero-sub">Andreas Syaloom K · 32 th · 174 cm / 88 kg · Mulai 10 Maret 2026</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-val">4×</span><span class="stat-lbl">Waktu Makan</span></div>
+      <div class="stat"><span class="stat-val">5×</span><span class="stat-lbl">Olahraga/Minggu</span></div>
+      <div class="stat"><span class="stat-val">2.5L</span><span class="stat-lbl">Air Putih/Hari</span></div>
+      <div class="stat"><span class="stat-val">23.00</span><span class="stat-lbl">Tidur Maks.</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-wrap">
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showTab('kalender',this)">📅 Kalender & Menu</button>
+    <button class="nav-btn" onclick="showTab('olahraga',this)">🏃 Rute Olahraga</button>
+    <button class="nav-btn" onclick="showTab('panduan',this)">📋 Panduan Dokter</button>
+  </nav>
+</div>
+
+<main>
+
+<!-- ===== KALENDER ===== -->
+<div id="kalender" class="section active">
+  <h2 class="sec-title">Kalender Menu Harian</h2>
+  <p class="sec-sub">Klik tanggal → menu, checklist & rute olahraga muncul di bawah</p>
+
+  <div class="cal-section">
+    <!-- KALENDER -->
+    <div class="calendar">
+      <div class="cal-header">
+        <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+        <h3 id="cal-title"></h3>
+        <button class="cal-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="cal-grid">
+        <div class="days-hdr">
+          <div class="day-name">Min</div><div class="day-name">Sen</div>
+          <div class="day-name">Sel</div><div class="day-name">Rab</div>
+          <div class="day-name">Kam</div><div class="day-name">Jum</div>
+          <div class="day-name">Sab</div>
+        </div>
+        <div class="days" id="cal-days"></div>
+      </div>
+      <div class="cal-legend">
+        <span><span class="ldot"></span>Ada menu</span>
+        <span style="color:var(--sage-dark);font-weight:600;">✓ Sudah dicek</span>
+      </div>
+    </div>
+
+    <!-- DETAIL PANEL -->
+    <div id="detail-wrap">
+      <div class="detail-outer">
+        <div class="detail-empty">
+          <div class="ei">📅</div>
+          <p>Klik tanggal di kalender<br>untuk melihat menu, checklist,<br>catatan & peta rute olahraga</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RUTE OLAHRAGA ===== -->
+<div id="olahraga" class="section">
+  <h2 class="sec-title">Rute Olahraga Mingguan</h2>
+  <p class="sec-sub">5×/minggu · cardio konstan 30 menit · area UGM & Yogyakarta</p>
+  <div class="route-list" id="route-list-full"></div>
+</div>
+
+<!-- ===== PANDUAN ===== -->
+<div id="panduan" class="section">
+  <h2 class="sec-title">Panduan dari Dokter</h2>
+  <p class="sec-sub">Instruksi resmi dr. Noviani, Sp.GK — 10 Maret 2026</p>
+  <div class="rules-grid">
+    <div class="rule-card"><div class="ri3">🥣</div><div class="rt">Porsi Makan Harian</div><div class="rb"><b>09.00</b> Buah 2 porsi<br><b>13.00</b> Nasi 10 sdm · Sayur 7–10 sdm · Hewani 6 ptg · Nabati 1 porsi<br><b>15.00</b> Nabati 2 porsi · Buah 1 porsi<br><b>20.00</b> Sama dengan makan siang</div></div>
+    <div class="rule-card g"><div class="ri3">🐟</div><div class="rt">Protein Hewani</div><div class="rb">Ayam tanpa kulit, ikan tawar/laut, telur. Kuning telur maks. <b>3 butir/minggu</b>. 1 porsi = 1 putih+kuning atau 2 putih. <b>Ikanmu: kembung, lele, nila, patin.</b></div></div>
+    <div class="rule-card"><div class="ri3">🌿</div><div class="rt">Protein Nabati</div><div class="rb">Tahu, tempe, kacang. Utama: hazelnut, mete, macadamia, pistachio, almond. 1 porsi = 1 sdm kacang = 2 sdm bumbu kacang.</div></div>
+    <div class="rule-card t"><div class="ri3">🚫</div><div class="rt">Yang Dihindari</div><div class="rb">Tepung & gula · Saos & kecap · Kuah dari beli · Bacem · Minyak maks. <b>4 porsi/hari</b>.</div></div>
+    <div class="rule-card"><div class="ri3">💧</div><div class="rt">Hidrasi & Tidur</div><div class="rb">Air putih min. <b>2,5 liter/hari</b>. Tidur maks. pk 23.00, min <b>7 jam</b>. Kontrol ulang <b>2 minggu</b> lagi.</div></div>
+    <div class="rule-card g"><div class="ri3">🏃</div><div class="rt">Olahraga</div><div class="rb"><b>5×/minggu</b>, jalan santai/cardio. Kecepatan konstan, <b>30 menit/sesi</b>.</div></div>
+  </div>
+  <div class="pbox"><h4>🍎 Rotasi Buah Harian</h4><div class="plist"><div class="pitem">🍉 Semangka</div><div class="pitem">🍈 Pepaya</div><div class="pitem">🐉 Buah Naga</div><div class="pitem">🍊 Jeruk</div><div class="pitem">🍐 Pear</div><div class="pitem">🍈 Jambu Kristal</div></div></div>
+  <div class="pbox"><h4>🥜 Snack Sore pk 15.00</h4><div class="plist"><div class="pitem">🥜 Kacang Almond</div><div class="pitem">🥜 Kacang Mede</div><div class="pitem">+ Buah sama seperti pagi</div></div></div>
+</div>
+
+</main>
+
+<footer>
+  Program gizi oleh <strong>dr. Noviani, Sp.GK</strong> · Spesialis Gizi Klinik · 10 Maret 2026 · Kontrol 2 minggu lagi · Semangat Andre! 💪
+</footer>
+
+<script>
+// ===== DATA =====
+const ikanList = ['🐟 Kembung','🐠 Lele','🐡 Nila','🐟 Patin'];
+const buahList = ['🍉 Semangka','🍈 Pepaya','🐉 Buah Naga','🍊 Jeruk','🍐 Pear','🍈 Jambu Kristal'];
+const ikanDow  = {0:3,1:0,2:1,3:2,4:3,5:0,6:2};
+const buahDow  = {0:0,1:0,2:1,3:2,4:3,5:4,6:5};
+
+const ROUTES = {
+  1:{name:'Loop Fakultas Teknik & RS Sardjito',desc:'Kawasan Barat Kampus UGM. Rute berputar melewati Fakultas Teknik dan area RS Sardjito — jalur lebar dan teduh.',tags:['🏃 Jogging','⏱ 30 menit'],mapQ:'Fakultas+Teknik+UGM+Yogyakarta',mapUrl:'https://www.google.com/maps/embed/v1/search?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBWY&q=Fakultas+Teknik+UGM+Yogyakarta&zoom=15'},
+  2:{name:'Persemaian Klebengan Kehutanan UGM',desc:'Kawasan Timur Kampus via Jl. Agro. Area hijau Fakultas Kehutanan — suasana asri dan teduh.',tags:['🌿 Alam/Hijau','⏱ 30 menit'],mapUrl:'https://www.google.com/maps/embed/v1/search?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBWY&q=Fakultas+Kehutanan+UGM+Yogyakarta&zoom=15'},
+  3:{name:'Eksplorasi Perumahan Pogung',desc:'Sekitar rumah — rute bebas di kawasan Pogung. Langsung dari depan rumah, variasikan jalur tiap minggu.',tags:['🏘️ Sekitar Rumah','⏱ 30 menit'],mapUrl:'https://www.google.com/maps/embed/v1/search?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBWY&q=Pogung+Sleman+Yogyakarta&zoom=15'},
+  4:{name:'Sekolah Vokasi UGM / TILC',desc:'Area sekitar Sekolah Vokasi UGM dan TILC. Jalur familiar dan aman untuk pertengahan minggu.',tags:['🏫 Area Kampus','⏱ 30 menit'],mapUrl:'https://www.google.com/maps/embed/v1/search?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBWY&q=Sekolah+Vokasi+UGM+Yogyakarta&zoom=15'},
+  5:{name:'Selokan Mataram → Arah Jl. Magelang',desc:'Menyusuri Selokan Mataram ke arah Barat. Jalur lurus panjang — ideal untuk kecepatan konstan dan latihan ritme.',tags:['🌊 Selokan Mataram','⏱ 30 menit'],mapUrl:'https://www.google.com/maps/embed/v1/search?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBWY&q=Selokan+Mataram+Sleman+Yogyakarta&zoom=14'},
+  6:{name:'Long Run ke Malioboro ±4,4 km',desc:'Sesi long run spesial! Lari dari area UGM ke Malioboro, lalu pulang naik Grab. Nikmati Jogja pagi hari.',tags:['⭐ Long Run','📍 ±4,4 km','🛵 Pulang Grab'],sp:true,mapUrl:'https://www.google.com/maps/embed/v1/directions?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBWY&origin=UGM+Yogyakarta&destination=Malioboro+Yogyakarta&mode=walking'},
+  0:{name:'Wisdom Park UGM — Jogging Track & Sunmor',desc:'Jogging track resmi Wisdom Park. Ada Sunmor hari Minggu — sekalian cuci mata setelah olahraga!',tags:['🌅 Sunmor','🏟️ Jogging Track','⏱ 30 menit'],mapUrl:'https://www.google.com/maps/embed/v1/search?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFmBWY&q=Wisdom+Park+UGM+Yogyakarta&zoom=16'},
+};
+
+// Hari tanpa olahraga (misal tidak ada — dokter 5x/minggu, kita set Minggu & Sabtu sebagai rest alternatif jika mau)
+// Tapi dokter bilang 5x jadi kita tetap kasih semua, rest bisa user pilih sendiri
+
+const CHECKLIST_ITEMS = [
+  {id:'sarapan', label:'🌅 Sarapan buah pk 09.00'},
+  {id:'makan_siang', label:'☀️ Makan siang pk 13.00'},
+  {id:'snack', label:'🌤️ Snack sore pk 15.00'},
+  {id:'makan_malam', label:'🌙 Makan malam pk 20.00'},
+  {id:'olahraga', label:'🏃 Olahraga 30 menit'},
+  {id:'air', label:'💧 Minum air 2,5 liter'},
+  {id:'tidur', label:'🌙 Tidur sebelum pk 23.00'},
+];
+
+const HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const START = new Date(2026,2,10);
+
+let curY=2026, curM=2, selDate=null;
+
+// ===== STORAGE =====
+function dKey(date){ return `mp_${date.getFullYear()}_${date.getMonth()}_${date.getDate()}`; }
+function saveCheck(date,id,val){
+  const k=dKey(date); let d=JSON.parse(localStorage.getItem(k)||'{}');
+  if(!d.checks) d.checks={};
+  d.checks[id]=val; localStorage.setItem(k,JSON.stringify(d));
+}
+function getChecks(date){
+  const k=dKey(date); let d=JSON.parse(localStorage.getItem(k)||'{}');
+  return d.checks||{};
+}
+function isAllDone(date){
+  const c=getChecks(date);
+  return CHECKLIST_ITEMS.every(i=>c[i.id]);
+}
+function saveNote(date,text){
+  const k=dKey(date); let d=JSON.parse(localStorage.getItem(k)||'{}');
+  d.note=text; localStorage.setItem(k,JSON.stringify(d));
+}
+function getNote(date){
+  const k=dKey(date); let d=JSON.parse(localStorage.getItem(k)||'{}');
+  return d.note||'';
+}
+
+// ===== KALENDER =====
+function isValid(y,m,d){ return new Date(y,m,d)>=START; }
+
+function renderCal(){
+  document.getElementById('cal-title').textContent=BULAN[curM]+' '+curY;
+  const el=document.getElementById('cal-days');
+  el.innerHTML='';
+  const first=new Date(curY,curM,1).getDay();
+  const dim=new Date(curY,curM+1,0).getDate();
+  const now=new Date();
+
+  for(let i=0;i<first;i++){const d=document.createElement('div');d.className='day empty';el.appendChild(d);}
+
+  for(let d=1;d<=dim;d++){
+    const date=new Date(curY,curM,d);
+    const dow=date.getDay();
+    const el2=document.createElement('div');
+    el2.className='day';
+    el2.textContent=d;
+    if(dow===0) el2.classList.add('sun');
+    if(d===now.getDate()&&curM===now.getMonth()&&curY===now.getFullYear()) el2.classList.add('today');
+
+    if(isValid(curY,curM,d)){
+      el2.classList.add('has-dot');
+      if(isAllDone(date)) el2.classList.add('has-check');
+      el2.addEventListener('click',()=>selectDate(curY,curM,d));
+    } else {
+      el2.classList.add('dim');
+    }
+    if(selDate&&selDate.getDate()===d&&selDate.getMonth()===curM&&selDate.getFullYear()===curY)
+      el2.classList.add('selected');
+    el.appendChild(el2);
+  }
+}
+
+function changeMonth(dir){
+  curM+=dir;
+  if(curM>11){curM=0;curY++;}
+  if(curM<0){curM=11;curY--;}
+  renderCal();
+}
+
+function selectDate(y,m,d){
+  selDate=new Date(y,m,d);
+  renderCal();
+  renderDetail(selDate);
+  document.getElementById('detail-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ===== DETAIL =====
+function renderDetail(date){
+  const dow=date.getDay();
+  const ikan=ikanList[ikanDow[dow]];
+  const buah=buahList[buahDow[dow]];
+  const route=ROUTES[dow];
+  const dateStr=date.getDate()+' '+BULAN[date.getMonth()]+' '+date.getFullYear();
+  const checks=getChecks(date);
+  const note=getNote(date);
+
+  // Map embed — pakai OpenStreetMap via iframe sebagai fallback (Google Maps API key diperlukan untuk produksi)
+  const osmCoords = {
+    0: [-7.7689, 110.3754], // Wisdom Park
+    1: [-7.7726, 110.3699], // Fakultas Teknik UGM
+    2: [-7.7700, 110.3830], // Kehutanan UGM
+    3: [-7.7655, 110.3700], // Pogung
+    4: [-7.7810, 110.3720], // Sekolah Vokasi
+    5: [-7.7600, 110.3580], // Selokan Mataram
+    6: [-7.7925, 110.3655], // Malioboro area
+  };
+  const [lat,lng] = osmCoords[dow];
+  const osmUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.012}%2C${lat-0.008}%2C${lng+0.012}%2C${lat+0.008}&layer=mapnik&marker=${lat}%2C${lng}`;
+
+  const checklistHTML = CHECKLIST_ITEMS.map(item=>{
+    const done=!!checks[item.id];
+    return `
+    <div class="check-item${done?' done':''}" onclick="toggleCheck('${item.id}',${date.getFullYear()},${date.getMonth()},${date.getDate()})" data-id="${item.id}">
+      <div class="check-box">
+        <svg viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="check-label">${item.label}</span>
+    </div>`;
+  }).join('');
+
+  const tagHTML = (route.tags||[]).map(t=>`<span class="rtag ${route.sp?'sp':'ty'}">${t}</span>`).join('');
+
+  document.getElementById('detail-wrap').innerHTML = `
+  <div class="detail-outer anim">
+    <div class="detail-inner">
+      <!-- KIRI -->
+      <div class="detail-left">
+        <div class="detail-head">
+          <div class="detail-date">${HARI[dow]}, ${dateStr}</div>
+          <div class="detail-dow">${HARI[dow].toUpperCase()}</div>
+        </div>
+        <div class="detail-body">
+          <div class="meal-block">
+            <div class="meal-label">🌅 Sarapan · 09.00</div>
+            <div class="chips">
+              <span class="chip">${buah}</span>
+              <span class="chip n">2 porsi buah</span>
+            </div>
+          </div>
+          <div class="meal-block">
+            <div class="meal-label">☀️ Makan Siang · 13.00</div>
+            <div class="chips">
+              <span class="chip n">🍚 Nasi 10 sdm</span>
+              <span class="chip">🥬 Sayur 7–10 sdm</span>
+              <span class="chip g">${ikan} · 6 potong</span>
+              <span class="chip n">Tempe/Tahu · 1 porsi</span>
+            </div>
+          </div>
+          <div class="meal-block">
+            <div class="meal-label">🌤️ Snack Sore · 15.00</div>
+            <div class="chips">
+              <span class="chip t">🥜 Almond + Mede · 2 porsi</span>
+              <span class="chip">${buah} · 1 porsi</span>
+            </div>
+          </div>
+          <div class="meal-block">
+            <div class="meal-label">🌙 Makan Malam · 20.00</div>
+            <div class="chips">
+              <span class="chip n">🍚 Nasi 10 sdm</span>
+              <span class="chip">🥬 Sayur 7–10 sdm</span>
+              <span class="chip g">${ikan} · 6 potong</span>
+              <span class="chip n">Tempe/Tahu · 1 porsi</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="checklist-section">
+          <div class="checklist-title">✅ Checklist Hari Ini</div>
+          <div class="checklist">${checklistHTML}</div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-title">📝 Catatan Hari Ini</div>
+          <textarea class="notes-textarea" id="notes-ta" placeholder="Tulis catatan untuk hari ini... (berat badan, perasaan, kendala, dll)">${note}</textarea>
+          <div>
+            <button class="notes-save" onclick="saveNoteNow(${date.getFullYear()},${date.getMonth()},${date.getDate()})">Simpan Catatan</button>
+            <span class="notes-saved" id="saved-label">✓ Tersimpan</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KANAN — PETA + RUTE -->
+      <div class="detail-right">
+        <div class="maps-wrap">
+          <iframe src="${osmUrl}" title="Peta Rute Olahraga" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="rute-info">
+          <div class="rute-title">🏃 Rute Olahraga Hari Ini</div>
+          <div class="rute-name">${route.name}</div>
+          <div class="rute-desc">${route.desc}</div>
+          <div class="rute-tags">${tagHTML}</div>
+          <div style="margin-top:12px;">
+            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(route.name+' Yogyakarta')}" 
+               target="_blank" 
+               style="display:inline-flex;align-items:center;gap:6px;background:var(--sage-dark);color:#fff;text-decoration:none;font-size:12px;font-weight:600;padding:8px 16px;border-radius:9px;transition:background .15s;"
+               onmouseover="this.style.background='var(--sage)'" onmouseout="this.style.background='var(--sage-dark)'">
+              🗺️ Buka di Google Maps
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>`;
+}
+
+function toggleCheck(id,y,m,d){
+  const date=new Date(y,m,d);
+  const checks=getChecks(date);
+  checks[id]=!checks[id];
+  saveCheck(date,id,checks[id]);
+  // Update UI tanpa re-render semua
+  const item=document.querySelector(`.check-item[data-id="${id}"]`);
+  if(item){
+    item.classList.toggle('done',checks[id]);
+  }
+  renderCal(); // update tanda centang di kalender
+}
+
+function saveNoteNow(y,m,d){
+  const date=new Date(y,m,d);
+  const text=document.getElementById('notes-ta').value;
+  saveNote(date,text);
+  const lbl=document.getElementById('saved-label');
+  lbl.style.opacity='1';
+  setTimeout(()=>lbl.style.opacity='0',1800);
+}
+
+// ===== RUTE PAGE (full list dengan map) =====
+function buildRoutePage(){
+  const dayOrder=[1,2,3,4,5,6,0];
+  const dayLabel={0:'MIN',1:'SEN',2:'SEL',3:'RAB',4:'KAM',5:'JUM',6:'SAB'};
+  const osmCoords={0:[-7.7689,110.3754],1:[-7.7726,110.3699],2:[-7.7700,110.3830],3:[-7.7655,110.3700],4:[-7.7810,110.3720],5:[-7.7600,110.3580],6:[-7.7925,110.3655]};
+  const wrap=document.getElementById('route-list-full');
+  wrap.innerHTML=dayOrder.map(dow=>{
+    const r=ROUTES[dow];
+    const [lat,lng]=osmCoords[dow];
+    const osmUrl=`https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.012}%2C${lat-0.008}%2C${lng+0.012}%2C${lat+0.008}&layer=mapnik&marker=${lat}%2C${lng}`;
+    const tags=(r.tags||[]).map(t=>`<span class="rtag ${r.sp?'sp':'ty'}">${t}</span>`).join('');
+    const isWeekend=(dow===0||dow===6);
+    return `
+    <div class="route-card">
+      <div class="route-card-header">
+        <div class="route-day-badge${isWeekend?' w':''}">${dayLabel[dow]}</div>
+        <div class="ri2">
+          <div class="rname">${r.name}</div>
+          <div class="rdesc">${r.desc}</div>
+          <div class="rtags2">${tags}</div>
+        </div>
+      </div>
+      <div class="route-map">
+        <iframe src="${osmUrl}" title="${r.name}" loading="lazy"></iframe>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showTab(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ===== INIT =====
+renderCal();
+buildRoutePage();
+const now=new Date();
+if(isValid(now.getFullYear(),now.getMonth(),now.getDate())){
+  selectDate(now.getFullYear(),now.getMonth(),now.getDate());
+}
+</script>
+</body>
+</html>
