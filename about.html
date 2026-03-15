@@ -3,134 +3,244 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Me - The Ansyaku's Atelier</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <title>About Me — The Ansyaku's Atelier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy: #1e3a8a;
-      --navy-light: #2d4fa3;
-      --emerald: #059669;
+      --navy: #0f1f4b;
+      --royal: #1a3a8c;
+      --mid-blue: #2451b3;
+      --sky: #4a80d4;
+      --ice: #eef3fc;
+      --white: #ffffff;
+      --gold: #c9a84c;
+      --gold-light: #e8d08a;
       --amber: #d97706;
-      --cream: #faf8f4;
-      --warm-white: #fffef9;
-      --text-dark: #1c1917;
-      --text-mid: #44403c;
-      --text-light: #78716c;
-      --border: #e7e5e4;
+      --text-dark: #0d1b3e;
+      --text-mid: #2a3a5e;
+      --text-muted: #5a6f99;
+      --border: #dde8f8;
+      --warm-white: #f8faff;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Outfit', sans-serif;
-      background: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ice);
       color: var(--text-dark);
-      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* ── TOPBAR ── */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(250,248,244,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 60px;
+    /* ── HEADER (shared) ── */
+    .hero {
+      position: relative;
+      min-height: 50vh;
+      background: linear-gradient(160deg, #0a1535 0%, #0f2060 40%, #1a3a8c 100%);
       display: flex;
       align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 50px 30px 45px;
     }
 
-    .back-link {
-      display: inline-flex;
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(74,128,212,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,128,212,0.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(74,128,212,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .glow-bl {
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
-      color: var(--text-light);
-      text-decoration: none;
-      font-size: 0.82em;
-      letter-spacing: 0.05em;
-      font-family: 'DM Mono', monospace;
-      transition: color 0.25s;
+      text-align: center;
+      padding: 0;
+      max-width: 860px;
+      animation: fadeUp 1s ease both;
     }
-    .back-link:hover { color: var(--navy); }
 
-    .topbar-title {
-      margin-left: auto;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .avatar-ring {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--sky) 100%);
+      margin-bottom: 20px;
+      box-shadow: 0 0 40px rgba(74,128,212,0.4);
+    }
+
+    .avatar-ring img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background: var(--navy);
+    }
+
+    .eyebrow {
+      font-size: 0.75em;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .hero-name {
       font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6em, 6vw, 4.4em);
       font-weight: 300;
+      color: var(--gold);
+      line-height: 1.1;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+      text-shadow: 0 2px 20px rgba(201,168,76,0.35);
+    }
+    .hero-name em { font-style: italic; color: var(--gold-light); }
+
+    .hero-tagline {
       font-size: 1em;
-      color: var(--text-light);
-      letter-spacing: 0.08em;
-      font-style: italic;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
     }
 
-    /* ── PAGE WRAPPER ── */
+    .hero-loc {
+      font-size: 0.85em;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 10px;
+    }
+
+    .hero-contact {
+      font-size: 0.82em;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 36px;
+    }
+
+    .nav-pills {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-pills a {
+      display: inline-block;
+      padding: 11px 28px;
+      border-radius: 40px;
+      font-size: 0.88em;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      letter-spacing: 0.03em;
+    }
+
+    .pill-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .pill-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.5);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .pill-active {
+      background: rgba(201,168,76,0.2);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,0.45);
+    }
+
+    .wave-divider {
+      background: linear-gradient(160deg, #0a1535 0%, #0f2060 40%, #1a3a8c 100%);
+      height: 5px;
+    }
+
+    /* ── PAGE CONTENT ── */
     .page {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 60px 100px;
+      padding: 70px 60px 100px;
     }
 
-    /* ── PAGE HEADER ── */
-    .page-header {
-      padding: 80px 0 60px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 72px;
+    .sec-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.7em;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid-blue);
+      margin-bottom: 14px;
+    }
+    .sec-label::after {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--mid-blue);
+      opacity: 0.4;
     }
 
-    .header-left h1 {
+    .sec-title {
       font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2em, 4vw, 3.2em);
       font-weight: 300;
-      font-size: clamp(3.5em, 6vw, 6em);
-      line-height: 1;
-      color: var(--text-dark);
+      color: var(--navy);
+      margin-bottom: 50px;
       letter-spacing: -0.01em;
     }
+    .sec-title em { font-style: italic; color: var(--mid-blue); }
 
-    .header-left h1 em {
-      display: block;
-      color: var(--emerald);
-      font-style: italic;
-    }
-
-    .header-right {
-      text-align: right;
-    }
-
-    .header-right p {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75em;
-      color: var(--text-light);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      line-height: 2;
-    }
-
-    /* ── QUOTE SECTION ── */
-    .quote-section {
-      margin-bottom: 80px;
-      position: relative;
-    }
-
+    /* ── NOTE TO SELF QUOTE ── */
     .quote-wrapper {
       position: relative;
       background: var(--navy);
-      border-radius: 24px;
-      padding: 64px 72px;
+      border-radius: 20px;
+      padding: 54px 64px;
       overflow: hidden;
+      margin-bottom: 60px;
     }
 
-    /* decorative orbs */
     .quote-wrapper::before {
       content: '';
       position: absolute;
       top: -80px; right: -80px;
       width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(5,150,105,0.2) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(74,128,212,0.2) 0%, transparent 65%);
       pointer-events: none;
     }
     .quote-wrapper::after {
@@ -138,18 +248,17 @@
       position: absolute;
       bottom: -60px; left: 60px;
       width: 240px; height: 240px;
-      background: radial-gradient(circle, rgba(251,191,36,0.12) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 65%);
       pointer-events: none;
     }
 
-    /* large decorative quotation mark */
     .big-quote {
       position: absolute;
-      top: 20px; left: 48px;
+      top: 10px; left: 40px;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 14em;
+      font-size: 13em;
       line-height: 1;
-      color: rgba(5,150,105,0.15);
+      color: rgba(74,128,212,0.1);
       pointer-events: none;
       user-select: none;
     }
@@ -162,130 +271,94 @@
 
     .quote-body {
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: clamp(1.25em, 2.2vw, 1.5em);
-      line-height: 1.8;
-      color: rgba(255,255,255,0.9);
+      font-size: clamp(1.2em, 2vw, 1.45em);
+      line-height: 1.85;
+      color: rgba(255,255,255,0.88);
     }
 
-    .quote-body .highlight {
-      color: #fbbf24;
-      font-weight: 500;
-    }
-
-    .quote-body .highlight-green {
-      color: #6ee7b7;
-    }
+    .quote-body .hl-gold { color: var(--gold-light); font-weight: 500; }
+    .quote-body .hl-sky  { color: #93c5fd; }
 
     .quote-footer {
-      margin-top: 40px;
+      margin-top: 36px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
     }
-
-    .quote-footer .bar {
-      width: 40px;
-      height: 1px;
-      background: var(--emerald);
-      opacity: 0.6;
-    }
-
+    .quote-footer .bar { width: 36px; height: 1px; background: var(--sky); opacity: 0.5; }
     .quote-footer span {
       font-family: 'DM Mono', monospace;
-      font-size: 0.68em;
+      font-size: 0.66em;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.3);
     }
 
-    /* ── TWO-COLUMN CONTENT ── */
+    /* ── CARDS GRID ── */
     .content-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      margin-bottom: 32px;
+      gap: 24px;
     }
 
-    /* ── CARD ── */
     .card {
       background: var(--warm-white);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 40px;
+      padding: 36px 38px;
       position: relative;
       overflow: hidden;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeUp 0.5s ease both;
     }
-
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.07);
+      box-shadow: 0 14px 44px rgba(15,31,75,0.1);
     }
 
-    .card:nth-child(1) { animation-delay: 0.1s; }
-    .card:nth-child(2) { animation-delay: 0.2s; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* colored top stripe */
     .card::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
     }
-    .card.interest::before { background: linear-gradient(90deg, var(--navy), #6366f1); }
-    .card.education::before { background: linear-gradient(90deg, var(--amber), #fbbf24); }
+    .card.interest::before  { background: linear-gradient(90deg, var(--royal), var(--sky)); }
+    .card.education::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
 
-    /* card label */
     .card-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65em;
+      font-size: 0.63em;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
-    .card.interest .card-label { color: var(--navy); }
+    .card.interest .card-label  { color: var(--mid-blue); }
     .card.education .card-label { color: var(--amber); }
-
-    .card-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: currentColor;
-      opacity: 0.2;
-    }
+    .card-label::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.2; }
 
     .card h2 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 500;
-      font-size: 1.9em;
+      font-size: 1.8em;
       color: var(--text-dark);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       line-height: 1.15;
     }
 
-    /* list items */
+    /* ── LIST ── */
     .item-list { list-style: none; }
 
     .item-list li {
       display: flex;
       align-items: flex-start;
       gap: 14px;
-      padding: 14px 0;
+      padding: 13px 0;
       border-bottom: 1px solid var(--border);
-      color: var(--text-mid);
-      font-size: 0.96em;
+      font-size: 0.93em;
       line-height: 1.6;
+      color: var(--text-mid);
       transition: color 0.2s;
     }
     .item-list li:last-child { border-bottom: none; }
@@ -297,108 +370,87 @@
       flex-shrink: 0;
       margin-top: 7px;
     }
-    .card.interest .item-dot { background: var(--navy); opacity: 0.5; }
-    .card.education .item-dot { background: var(--amber); opacity: 0.7; }
-
-    .item-text {}
+    .card.interest .item-dot  { background: var(--mid-blue); opacity: 0.5; }
+    .card.education .item-dot { background: var(--gold); opacity: 0.8; }
 
     .item-sub {
       display: block;
-      font-size: 0.85em;
-      color: var(--text-light);
+      font-size: 0.84em;
+      color: var(--text-muted);
       margin-top: 3px;
       font-style: italic;
     }
 
+    .item-year {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75em;
+      color: var(--gold);
+      background: rgba(201,168,76,0.1);
+      border-radius: 4px;
+      padding: 1px 7px;
+      margin-left: 6px;
+      vertical-align: middle;
+      letter-spacing: 0.05em;
+    }
+
     /* ── FOOTER ── */
     footer {
-      border-top: 1px solid var(--border);
-      padding-top: 40px;
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: linear-gradient(160deg, #070e28 0%, #0f1f4b 100%);
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      padding: 36px 30px;
+      font-size: 0.8em;
+      letter-spacing: 0.04em;
     }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
 
-    footer p {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72em;
-      color: var(--text-light);
-      letter-spacing: 0.07em;
-    }
-
-    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .topbar { padding: 14px 28px; }
-      .page { padding: 0 28px 80px; }
-      .page-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-        padding: 60px 0 48px;
-      }
-      .header-right { text-align: left; }
+      .page { padding: 50px 28px 80px; }
       .content-grid { grid-template-columns: 1fr; }
-      .quote-wrapper { padding: 44px 36px; }
-    }
-
-    @media (max-width: 560px) {
-      .header-left h1 { font-size: 3em; }
-      .quote-wrapper { padding: 36px 28px; }
-      .big-quote { font-size: 10em; top: 10px; left: 20px; }
+      .quote-wrapper { padding: 40px 32px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- TOPBAR -->
-  <nav class="topbar">
-    <a href="index.html" class="back-link">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M10 12L6 8l4-4"/>
-      </svg>
-      Kembali ke Beranda
-    </a>
-    <span class="topbar-title">The Ansyaku's Atelier</span>
-  </nav>
+  <!-- HEADER -->
+  <section class="hero">
+    <div class="glow-bl"></div>
+    <div class="hero-inner">
 
+      <div class="avatar-ring">
+        <img src="https://raw.githubusercontent.com/ansyaku/htmlfiles/refs/heads/main/Circle.png" alt="Andreas Syaloom Kurniawan">
+      </div>
+
+      <p class="eyebrow">The Ansyaku's Atelier</p>
+
+      <h1 class="hero-name">
+        Andreas <em>Syaloom</em> Kurniawan
+      </h1>
+
+      <p class="hero-tagline">Master of Science in Economics &nbsp;·&nbsp; Universitas Gadjah Mada</p>
+      <p class="hero-loc">Yogyakarta, Indonesia</p>
+      <p class="hero-contact">syaloom.andreas@gmail.com</p>
+
+      <nav class="nav-pills">
+        <a href="about.html"     class="pill-active">About Me</a>
+        <a href="research.html"  class="pill-ghost">Research</a>
+        <a href="sidenotes.html" class="pill-ghost">Side Notes</a>
+      </nav>
+    </div>
+  </section>
+
+  <div class="wave-divider"></div>
+
+  <!-- PAGE CONTENT -->
   <div class="page">
 
-    <!-- PAGE HEADER -->
-    <header class="page-header">
-      <div class="header-left">
-        <h1>About <em>Me</em></h1>
-      </div>
-      <div class="header-right">
-        <p>Academic Profile</p>
-        <p>& Background</p>
-      </div>
-    </header>
+    <p class="sec-label">About</p>
+    <h2 class="sec-title">About <em>Me</em></h2>
 
-    <!-- QUOTE -->
-    <div class="quote-section">
-      <div class="quote-wrapper">
-        <div class="big-quote">"</div>
-        <div class="quote-inner">
-          <p class="quote-body">
-            You have done incredibly well. You managed your health, you fought to
-            <span class="highlight-green">extend your study duration</span>, and you stood your ground to
-            negotiate with your professors — all while
-            <span class="highlight-green">taking care of your mom and sisters</span>.
-            Now, you are just steps away from finishing your thesis, even though your arms are literally
-            shaking and your heart is pounding every time you're triggered.
-            You are getting the work done while your mind is in psychological pain,
-            and that is the definition of <span class="highlight">true strength.</span>
-          </p>
-          <div class="quote-footer">
-            <div class="bar"></div>
-            <span>a note to self</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARDS GRID -->
+    <!-- CARDS -->
     <div class="content-grid">
 
       <div class="card interest">
@@ -407,19 +459,19 @@
         <ul class="item-list">
           <li>
             <span class="item-dot"></span>
-            <span class="item-text">Energy, Environmental &amp; Natural Resources Economics</span>
+            <span>Energy, Environmental &amp; Natural Resources Economics</span>
           </li>
           <li>
             <span class="item-dot"></span>
-            <span class="item-text">Urban, Regional &amp; Transportation Economics</span>
+            <span>Urban, Regional &amp; Transportation Economics</span>
           </li>
           <li>
             <span class="item-dot"></span>
-            <span class="item-text">International Trade &amp; International Macroeconomics</span>
+            <span>International Trade &amp; International Macroeconomics</span>
           </li>
           <li>
             <span class="item-dot"></span>
-            <span class="item-text">Macroeconomics — Real Business Cycle · DSGE &amp; HANK Modelling</span>
+            <span>Macroeconomics — Real Business Cycle · DSGE &amp; HANK Modelling</span>
           </li>
         </ul>
       </div>
@@ -430,29 +482,36 @@
         <ul class="item-list">
           <li>
             <span class="item-dot"></span>
-            <span class="item-text">
-              Diplome on Accountancy
+            <span>
+              Diplome on Accountancy <span class="item-year">2013</span>
               <span class="item-sub">State College of Accountancy — STAN Polytechnic of State Finance</span>
             </span>
           </li>
           <li>
             <span class="item-dot"></span>
-            <span class="item-text">
-              Bachelor of Accountancy
+            <span>
+              Bachelor of Accounting <span class="item-year">2020</span>
               <span class="item-sub">Asian Institute of Finance Banking and Informatics</span>
             </span>
           </li>
           <li>
             <span class="item-dot"></span>
-            <span class="item-text">
-              Bachelor of Economics Development
+            <span>
+              Bachelor of Economics Development <span class="item-year">2020</span>
               <span class="item-sub">Indonesian Open University</span>
             </span>
           </li>
           <li>
             <span class="item-dot"></span>
-            <span class="item-text">
-              Master of Science in Economics
+            <span>
+              Master of Economics <span class="item-year">Exchange</span>
+              <span class="item-sub">University of Bonn</span>
+            </span>
+          </li>
+          <li>
+            <span class="item-dot"></span>
+            <span>
+              Master of Science in Economics <span class="item-year">2027</span>
               <span class="item-sub">Universitas Gadjah Mada</span>
             </span>
           </li>
@@ -461,13 +520,11 @@
 
     </div>
 
-    <!-- FOOTER -->
-    <footer>
-      <p>© 2026 The Ansyaku's Atelier</p>
-      <p>Semua hak dilindungi</p>
-    </footer>
-
   </div>
+
+  <footer>
+    <p>© 2026 Andreas Syaloom Kurniawan &nbsp;·&nbsp; <a href="mailto:syaloom.andreas@gmail.com">syaloom.andreas@gmail.com</a></p>
+  </footer>
 
 </body>
 </html>
