@@ -3,325 +3,438 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Research and Haikus - The Ansyaku's Atelier</title>
+  <title>Research — The Ansyaku's Atelier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --navy: #0f1f4b;
+      --royal: #1a3a8c;
+      --mid-blue: #2451b3;
+      --sky: #4a80d4;
+      --pale-blue: #dde8f8;
+      --ice: #eef3fc;
+      --white: #ffffff;
+      --gold: #c9a84c;
+      --gold-light: #e8d08a;
+      --text-dark: #0d1b3e;
+      --text-muted: #5a6f99;
     }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1e3a8a 0%, #059669 50%, #fbbf24 100%);
-      min-height: 100vh;
-      padding: 20px;
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--ice);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER (same as index) ── */
+    .hero {
+      position: relative;
+      min-height: 50vh;
+      background: linear-gradient(160deg, #0a1535 0%, #0f2060 40%, #1a3a8c 100%);
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 50px 30px 45px;
     }
 
-    .container {
-      background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      padding: 60px;
-      width: 92%;
-      max-width: 1400px;
-      min-height: 85vh;
-      backdrop-filter: blur(10px);
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(74,128,212,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,128,212,0.07) 1px, transparent 1px);
+      background-size: 60px 60px;
     }
 
-    h1 {
-      color: #1e3a8a;
-      font-size: 2.8em;
-      margin-bottom: 15px;
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(74,128,212,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .glow-bl {
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      background: linear-gradient(135deg, #1e3a8a 0%, #059669 50%, #fbbf24 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      padding: 0;
+      max-width: 860px;
+      animation: fadeUp 1s ease both;
     }
 
-    .intro {
-      text-align: center;
-      color: #374151;
-      margin-bottom: 50px;
-      font-size: 1.05em;
-      line-height: 1.8;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .intro em {
-      color: #059669;
-      font-style: italic;
+    .avatar-ring {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--sky) 100%);
+      margin-bottom: 20px;
+      box-shadow: 0 0 40px rgba(74,128,212,0.4);
     }
 
-    .intro a {
-      color: #1e3a8a;
-      text-decoration: none;
+    .avatar-ring img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background: var(--navy);
+    }
+
+    .eyebrow {
+      font-size: 0.75em;
       font-weight: 500;
-      transition: color 0.3s ease;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
     }
 
-    .intro a:hover {
-      color: #059669;
-      text-decoration: underline;
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6em, 6vw, 4.4em);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1.1;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+      text-shadow: 0 2px 20px rgba(201,168,76,0.35);
     }
 
-    .back-link {
+    .hero-name em { font-style: italic; color: var(--gold-light); }
+
+    .hero-tagline {
+      font-size: 1em;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-loc {
+      font-size: 0.85em;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 10px;
+    }
+
+    .hero-contact {
+      font-size: 0.82em;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 36px;
+    }
+
+    .nav-pills {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-pills a {
       display: inline-block;
-      padding: 10px 20px;
-      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-      color: white;
+      padding: 11px 28px;
+      border-radius: 40px;
+      font-size: 0.88em;
+      font-weight: 500;
       text-decoration: none;
-      border-radius: 8px;
-      margin-bottom: 30px;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+      letter-spacing: 0.03em;
     }
 
-    .back-link:hover {
+    .pill-primary {
+      background: var(--white);
+      color: var(--navy);
+    }
+    .pill-primary:hover {
+      background: var(--gold-light);
+      color: var(--navy);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(107, 114, 128, 0.5);
-      background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+      box-shadow: 0 8px 24px rgba(201,168,76,0.3);
     }
 
+    .pill-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .pill-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.5);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .pill-active {
+      background: rgba(201,168,76,0.2);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,0.45);
+    }
+
+    /* ── DIVIDER ── */
+    .wave-divider {
+      background: linear-gradient(160deg, #0a1535 0%, #0f2060 40%, #1a3a8c 100%);
+      height: 5px;
+    }
+
+    /* ── MAIN ── */
+    main {
+      background: var(--ice);
+      min-height: 60vh;
+    }
+
+    .content-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 70px 40px 80px;
+    }
+
+    .sec-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.7em;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid-blue);
+      margin-bottom: 14px;
+    }
+    .sec-label::after {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--mid-blue);
+      opacity: 0.4;
+    }
+
+    .sec-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2em, 4vw, 2.8em);
+      font-weight: 300;
+      color: var(--navy);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .sec-intro {
+      font-size: 0.95em;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 680px;
+      margin-bottom: 50px;
+    }
+    .sec-intro a {
+      color: var(--mid-blue);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(36,81,179,0.25);
+    }
+    .sec-intro a:hover { color: var(--navy); }
+
+    /* ── RESEARCH GRID ── */
     .research-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      gap: 22px;
     }
 
-    .section {
-      padding: 30px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      border-top: 5px solid #059669;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .res-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 30px 28px 28px 32px;
+      box-shadow: 0 2px 18px rgba(15,31,75,0.07);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .res-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 36px rgba(15,31,75,0.13);
     }
 
-    .section:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    .res-accent {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      border-radius: 16px 0 0 16px;
     }
+    .accent-published { background: #4caf50; }
+    .accent-process   { background: linear-gradient(180deg, var(--royal), var(--sky)); }
+    .accent-ongoing   { background: linear-gradient(180deg, #f59e0b, #fbbf24); }
+    .accent-inactive  { background: #c8d3e8; }
 
-    .section.published {
-      border-top-color: #1e3a8a;
-    }
-
-    .section.publishing {
-      border-top-color: #059669;
-    }
-
-    .section.ongoing {
-      border-top-color: #fbbf24;
-    }
-
-    .section.inactive {
-      border-top-color: #9ca3af;
-    }
-
-    .section h2 {
-      color: #1e3a8a;
-      font-size: 1.6em;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 2px solid #e5e7eb;
-    }
-
-    .section .status-badge {
+    .res-badge {
       display: inline-block;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.85em;
-      font-weight: 600;
-      margin-bottom: 15px;
+      font-size: 0.63em;
+      font-weight: 500;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
     }
+    .badge-published { background: #e8f5e9; color: #2e7d32; }
+    .badge-process   { background: #e3f0ff; color: var(--royal); }
+    .badge-ongoing   { background: #fff8e1; color: #b45309; }
+    .badge-inactive  { background: #edf0f7; color: #6b7280; }
 
-    .published .status-badge {
-      background: #dbeafe;
-      color: #1e3a8a;
-    }
-
-    .publishing .status-badge {
-      background: #d1fae5;
-      color: #059669;
-    }
-
-    .ongoing .status-badge {
-      background: #fef3c7;
-      color: #d97706;
-    }
-
-    .inactive .status-badge {
-      background: #f3f4f6;
-      color: #6b7280;
-    }
-
-    .paper-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .paper-item {
-      color: #374151;
-      font-size: 1.05em;
-      line-height: 1.7;
-      margin-bottom: 15px;
-      padding: 15px;
-      background: #f9fafb;
-      border-radius: 8px;
-      border-left: 3px solid #059669;
-      position: relative;
-      padding-left: 35px;
-    }
-
-    .paper-item::before {
-      content: '•';
-      position: absolute;
-      left: 15px;
-      top: 15px;
-      color: #059669;
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-
-    .paper-item em {
-      display: block;
-      margin-top: 8px;
-      font-size: 0.95em;
-      color: #6b7280;
-    }
-
-    .paper-item strong {
-      color: #1e3a8a;
+    .res-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2em;
       font-weight: 600;
+      color: var(--navy);
+      line-height: 1.5;
+      margin-bottom: 10px;
     }
 
-    .haiku {
-      margin-top: 8px;
-      padding-left: 20px;
+    .res-card-sub {
+      font-size: 0.82em;
+      color: var(--text-muted);
       font-style: italic;
-      color: #059669;
-      line-height: 1.6;
-      font-size: 0.98em;
-      position: relative;
+      line-height: 1.5;
+      margin-bottom: 14px;
     }
 
-    .haiku::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: #059669;
-      font-weight: bold;
+    .res-haiku {
+      font-size: 0.85em;
+      color: var(--sky);
+      font-style: italic;
+      line-height: 1.7;
+      padding-left: 14px;
+      border-left: 2px solid rgba(74,128,212,0.3);
+      margin-top: 12px;
     }
 
     .empty-state {
-      color: #9ca3af;
+      font-size: 0.92em;
+      color: #aab4cc;
       font-style: italic;
-      text-align: center;
-      padding: 30px;
-      font-size: 1.05em;
+      padding: 10px 0;
     }
 
-    @media (max-width: 1200px) {
-      .research-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 30px 25px;
-      }
-
-      h1 {
-        font-size: 2em;
-      }
-
-      .section {
-        padding: 20px;
-      }
-
-      .section h2 {
-        font-size: 1.4em;
-      }
-    }
-
+    /* ── FOOTER ── */
     footer {
+      background: linear-gradient(160deg, #070e28 0%, #0f1f4b 100%);
+      color: rgba(255,255,255,0.35);
       text-align: center;
-      margin-top: 50px;
-      color: #9ca3af;
-      font-size: 0.9em;
+      padding: 36px 30px;
+      font-size: 0.8em;
+      letter-spacing: 0.04em;
+    }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
+
+    @media (max-width: 640px) {
+      .content-wrap { padding: 50px 22px; }
+      .research-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <a href="index.html" class="back-link">← Kembali ke Beranda</a>
-    
-    <h1>My Research and Haikus</h1>
-    
-    <div class="intro">
-      I present some haikus <em>(A haiku abstract distills what is essential)</em> of my papers, I hope you like them. The idea comes from <a href="https://www.francescdilme.com/haikus" target="_blank">Francesc Dilme</a> and <a href="https://sites.google.com/site/heskibarisaac/home/haikus" target="_blank">Heski Bar-Isaac</a> page.
-    </div>
 
-    <div class="research-grid">
-      <div class="section published">
-        <span class="status-badge">Published</span>
-        <h2>Published Papers</h2>
-        <div class="empty-state">
-          No published papers yet
+  <!-- HEADER — same as index -->
+  <section class="hero">
+    <div class="glow-bl"></div>
+    <div class="hero-inner">
+
+      <div class="avatar-ring">
+        <img src="https://raw.githubusercontent.com/ansyaku/htmlfiles/refs/heads/main/Circle.png" alt="Andreas Syaloom Kurniawan">
+      </div>
+
+      <p class="eyebrow">The Ansyaku's Atelier</p>
+
+      <h1 class="hero-name">
+        Andreas <em>Syaloom</em> Kurniawan
+      </h1>
+
+      <p class="hero-tagline">Master of Science in Economics &nbsp;·&nbsp; Universitas Gadjah Mada</p>
+      <p class="hero-loc">Yogyakarta, Indonesia</p>
+      <p class="hero-contact">syaloom.andreas@gmail.com</p>
+
+      <nav class="nav-pills">
+        <a href="about.html"     class="pill-ghost">About Me</a>
+        <a href="research.html"  class="pill-active">Research</a>
+        <a href="sidenotes.html" class="pill-ghost">Side Notes</a>
+      </nav>
+    </div>
+  </section>
+
+  <div class="wave-divider"></div>
+
+  <!-- MAIN -->
+  <main>
+    <div class="content-wrap">
+
+      <p class="sec-label">Research</p>
+      <h2 class="sec-title">My Research &amp; Haikus</h2>
+      <p class="sec-intro">
+        I present haiku abstracts of my papers — <em>a haiku distills what is essential.</em>
+        The idea comes from <a href="https://www.francescdilme.com/haikus" target="_blank">Francesc Dilme</a>
+        and <a href="https://sites.google.com/site/heskibarisaac/home/haikus" target="_blank">Heski Bar-Isaac</a>.
+      </p>
+
+      <div class="research-grid">
+
+        <!-- Published -->
+        <div class="res-card">
+          <div class="res-accent accent-published"></div>
+          <span class="res-badge badge-published">Published</span>
+          <p class="empty-state">No published papers yet.</p>
         </div>
-      </div>
 
-      <div class="section publishing">
-        <span class="status-badge">Publishing Process</span>
-        <h2>In Publishing Process</h2>
-        <ul class="paper-list">
-          <li class="paper-item">
-            <strong>The Commodity Currency Hypothesis and International Commodity Price Pass-Through to Domestic Price: The Case of the Indonesian Rupiah</strong>
-            <div class="haiku">Rupiah is not commodity currency</div>
-          </li>
-        </ul>
-      </div>
+        <!-- In Publishing Process -->
+        <div class="res-card">
+          <div class="res-accent accent-process"></div>
+          <span class="res-badge badge-process">Publishing Process</span>
+          <p class="res-card-title">The Commodity Currency Hypothesis and International Commodity Price Pass-Through to Domestic Price: The Case of the Indonesian Rupiah</p>
+          <div class="res-haiku">Rupiah is not commodity currency</div>
+        </div>
 
-      <div class="section ongoing">
-        <span class="status-badge">Ongoing</span>
-        <h2>Ongoing Research</h2>
-        <ul class="paper-list">
-          <li class="paper-item">
-            Modelling the Macroeconomic Impacts of Natural Disasters and the Effectiveness of Recovery Policies: A Dynamic Stochastic General Equilibrium (DSGE) Approach with Empirical Evidence from Indonesia
-          </li>
-        </ul>
-      </div>
+        <!-- Ongoing -->
+        <div class="res-card">
+          <div class="res-accent accent-ongoing"></div>
+          <span class="res-badge badge-ongoing">Ongoing</span>
+          <p class="res-card-title">Modelling the Macroeconomic Impacts of Natural Disasters and the Effectiveness of Recovery Policies: A Dynamic Stochastic General Equilibrium (DSGE) Approach with Empirical Evidence from Indonesia</p>
+        </div>
 
-      <div class="section inactive">
-        <span class="status-badge">Inactive</span>
-        <h2>Inactive Projects</h2>
-        <ul class="paper-list">
-          <li class="paper-item">
-            Evaluasi Dampak Infrastruktur Jalan Tol pada Ekspansi Area Terbangun dan Polusi Udara di Indonesia: Pendekatan Coarsened Exact Matching (CEM) dan Event Study Two Ways Fixed Effect<br>
-            <em>(Evaluating the Impact of Toll Road Infrastructure on Built-Up Area Expansion and Air Pollution in Indonesia: A Coarsened Exact Matching (CEM) and Event Study Two-Way Fixed Effects Approach)</em>
-          </li>
-        </ul>
+        <!-- Inactive -->
+        <div class="res-card">
+          <div class="res-accent accent-inactive"></div>
+          <span class="res-badge badge-inactive">Inactive</span>
+          <p class="res-card-title">Evaluasi Dampak Infrastruktur Jalan Tol pada Ekspansi Area Terbangun dan Polusi Udara di Indonesia</p>
+          <p class="res-card-sub">Evaluating the Impact of Toll Road Infrastructure on Built-Up Area Expansion and Air Pollution in Indonesia: A Coarsened Exact Matching (CEM) and Event Study Two-Way Fixed Effects Approach</p>
+        </div>
+
       </div>
     </div>
+  </main>
 
-    <footer>
-      © 2026 The Ansyaku's Atelier - Semua hak dilindungi
-    </footer>
-  </div>
+  <footer>
+    <p>© 2026 Andreas Syaloom Kurniawan &nbsp;·&nbsp; <a href="mailto:syaloom.andreas@gmail.com">syaloom.andreas@gmail.com</a></p>
+  </footer>
+
 </body>
 </html>
