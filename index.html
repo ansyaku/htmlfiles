@@ -35,12 +35,13 @@
     /* ── HERO ── */
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: 50vh;
       background: linear-gradient(160deg, #0a1535 0%, #0f2060 40%, #1a3a8c 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      padding: 50px 30px 45px;
     }
 
     /* decorative grid lines */
@@ -81,7 +82,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 60px 30px;
+      padding: 0;
       max-width: 860px;
       animation: fadeUp 1s ease both;
     }
@@ -92,11 +93,11 @@
     }
 
     .avatar-ring {
-      width: 148px; height: 148px;
+      width: 110px; height: 110px;
       border-radius: 50%;
       padding: 3px;
       background: linear-gradient(135deg, var(--gold) 0%, var(--sky) 100%);
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       box-shadow: 0 0 40px rgba(74,128,212,0.4);
     }
 
@@ -122,10 +123,11 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.6em, 6vw, 4.4em);
       font-weight: 300;
-      color: var(--white);
+      color: var(--gold);
       line-height: 1.1;
       margin-bottom: 10px;
       letter-spacing: -0.01em;
+      text-shadow: 0 2px 20px rgba(201,168,76,0.35);
     }
 
     .hero-name em {
@@ -207,21 +209,42 @@
     /* scroll cue */
     .scroll-cue {
       position: absolute;
-      bottom: 30px;
+      bottom: 36px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      opacity: 0.35;
+      gap: 10px;
+      opacity: 0.75;
       animation: bob 2s ease-in-out infinite;
+      cursor: pointer;
+      text-decoration: none;
     }
-    .scroll-cue span { font-size: 0.65em; letter-spacing: 0.15em; text-transform: uppercase; color: white; }
-    .scroll-cue svg { color: white; }
+    .scroll-cue:hover { opacity: 1; }
+    .scroll-cue span {
+      font-size: 0.72em;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      font-weight: 500;
+    }
+    .scroll-cue .cue-icon {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(232,208,138,0.4);
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.05);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .scroll-cue:hover .cue-icon {
+      background: rgba(232,208,138,0.12);
+      border-color: rgba(232,208,138,0.7);
+    }
+    .scroll-cue svg { color: var(--gold-light); }
     @keyframes bob {
       0%,100% { transform: translateX(-50%) translateY(0); }
-      50%      { transform: translateX(-50%) translateY(6px); }
+      50%      { transform: translateX(-50%) translateY(8px); }
     }
 
     /* ── MAIN CONTENT ── */
@@ -480,7 +503,7 @@
       <p class="hero-tagline">Master of Science in Economics &nbsp;·&nbsp; Universitas Gadjah Mada</p>
       <p class="hero-loc">Yogyakarta, Indonesia</p>
       <p class="hero-contact">
-        <a href="/cdn-cgi/l/email-protection#96e5eff7faf9f9fbb8f7f8f2e4f3f7e5d6f1fbf7fffab8f5f9fb"><span class="__cf_email__" data-cfemail="8cfff5ede0e3e3e1a2ede2e8fee9edffccebe1ede5e0a2efe3e1">[email&#160;protected]</span></a>
+        syaloom.andreas@gmail.com
       </p>
 
       <nav class="nav-pills">
@@ -490,18 +513,13 @@
       </nav>
     </div>
 
-    <div class="scroll-cue">
-      <span>Scroll</span>
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M12 5v14M5 12l7 7 7-7"/>
-      </svg>
-    </div>
+    <a class="scroll-cue" href="#main-content" style="display:none"></a>
   </section>
 
   <div class="wave-divider"></div>
 
   <!-- MAIN -->
-  <main>
+  <main id="main-content">
     <div class="content-wrap">
 
       <!-- ABOUT -->
