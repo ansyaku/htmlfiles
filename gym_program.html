@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Program Gym 3x Seminggu — Lemak Perut</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --surface2: #1e2026;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f0ee;
+    --muted: #8a8d96;
+    --faint: #4a4d56;
+    --accent: #d4f060;
+    --accent2: #60d4f0;
+    --accent3: #f0a060;
+    --red: #f06060;
+    --green: #60f0a0;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --r: 12px;
+    --r-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(14,15,17,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 0;
+  }
+  .nav-logo {
+    font-family: var(--font-head);
+    font-weight: 800; font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    padding: 1rem 0;
+    margin-right: 2rem;
+    white-space: nowrap;
+  }
+  .nav-tabs { display: flex; gap: 0; flex: 1; overflow-x: auto; }
+  .nav-tab {
+    padding: 1rem 1.2rem;
+    font-size: 13px; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    font-family: var(--font-body);
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    padding: 5rem 2rem 4rem;
+    max-width: 900px; margin: 0 auto;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(212,240,96,0.1);
+    border: 1px solid rgba(212,240,96,0.25);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px; font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.03em;
+  }
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 520px; margin: 0 auto 2.5rem;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    max-width: 500px; margin: 0 auto;
+  }
+  .hero-stat {
+    background: var(--surface);
+    padding: 1.2rem;
+    text-align: center;
+  }
+  .hero-stat-val {
+    font-family: var(--font-head);
+    font-size: 1.8rem; font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 11px; color: var(--muted);
+    margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  /* SECTION */
+  section { padding: 3rem 2rem; max-width: 900px; margin: 0 auto; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .section-num {
+    font-family: var(--font-head);
+    font-size: 11px; font-weight: 700;
+    color: var(--accent); letter-spacing: 0.1em;
+    opacity: 0.7;
+  }
+  h2 {
+    font-family: var(--font-head);
+    font-size: 1.4rem; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* TIMELINE BAR */
+  .timeline-bar {
+    display: flex; border-radius: var(--r);
+    overflow: hidden; height: 48px;
+    margin-bottom: 1rem;
+  }
+  .tl-seg {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500;
+    transition: flex 0.3s;
+    cursor: default;
+  }
+  .tl-seg span { font-size: 13px; font-weight: 700; }
+  .tl-warmup { flex: 10; background: rgba(96,212,240,0.2); color: var(--accent2); }
+  .tl-weights { flex: 25; background: rgba(212,240,96,0.15); color: var(--accent); }
+  .tl-cardio { flex: 20; background: rgba(240,160,96,0.2); color: var(--accent3); }
+  .tl-cool { flex: 5; background: rgba(240,96,96,0.1); color: var(--red); }
+  .tl-labels { display: flex; font-size: 11px; color: var(--muted); margin-bottom: 2rem; }
+  .tl-labels div { text-align: center; }
+
+  /* DAY CARDS */
+  .day-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+  @media(max-width:680px){ .day-grid { grid-template-columns: 1fr; } }
+  .day-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .day-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-2px);
+  }
+  .day-card.selected { border-color: var(--accent); }
+  .day-card-header {
+    padding: 1rem 1.2rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .day-label {
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .day-name {
+    font-family: var(--font-head);
+    font-size: 1rem; font-weight: 700;
+  }
+  .day-when {
+    font-size: 11px; color: var(--muted); margin-top: 2px;
+  }
+  .day-card-body { padding: 1rem 1.2rem; }
+  .day-pill {
+    display: inline-block;
+    padding: 2px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .pill-a { background: rgba(212,240,96,0.12); color: var(--accent); }
+  .pill-b { background: rgba(96,212,240,0.12); color: var(--accent2); }
+  .pill-c { background: rgba(240,160,96,0.12); color: var(--accent3); }
+  .day-desc { font-size: 13px; color: var(--muted); }
+
+  /* EXERCISE DETAIL PANEL */
+  .detail-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    margin-top: 1.5rem;
+    overflow: hidden;
+  }
+  .detail-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+  .detail-tab {
+    padding: 0.75rem 1.2rem;
+    font-size: 13px; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border-top: none; border-left: none; border-right: none;
+    font-family: var(--font-body);
+  }
+  .detail-tab:hover { color: var(--text); }
+  .detail-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .detail-body { padding: 1.5rem; }
+  .exercise-list { display: flex; flex-direction: column; gap: 0; }
+  .ex-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ex-row:last-child { border-bottom: none; }
+  .ex-idx {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: var(--muted);
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .ex-info { flex: 1; }
+  .ex-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .ex-muscle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .ex-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .ex-tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 20px;
+    border: 1px solid var(--border2); color: var(--muted);
+  }
+  .ex-sets {
+    font-family: var(--font-head);
+    font-size: 13px; font-weight: 700;
+    color: var(--accent); white-space: nowrap;
+  }
+
+  /* KAMUS / GLOSSARY */
+  .gloss-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; }
+  @media(max-width:600px){ .gloss-grid { grid-template-columns: 1fr; } }
+  .gloss-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.2rem;
+    transition: border-color 0.2s;
+  }
+  .gloss-card:hover { border-color: var(--border2); }
+  .gloss-term {
+    font-family: var(--font-head);
+    font-size: 1rem; font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .gloss-def { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .gloss-ex {
+    margin-top: 8px; padding: 8px 10px;
+    background: var(--surface2);
+    border-radius: var(--r-sm);
+    border-left: 2px solid var(--accent);
+    font-size: 12px; color: var(--faint);
+    font-style: italic;
+  }
+  .gloss-ex span { color: var(--muted); font-style: normal; }
+
+  /* TIPS */
+  .tips-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; }
+  @media(max-width:600px){ .tips-grid { grid-template-columns: 1fr; } }
+  .tip-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.2rem 1.4rem;
+  }
+  .tip-icon-row { font-size: 1.4rem; margin-bottom: 8px; }
+  .tip-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .tip-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* MITOS BOX */
+  .myth-box {
+    background: rgba(240,96,96,0.06);
+    border: 1px solid rgba(240,96,96,0.2);
+    border-radius: var(--r);
+    padding: 1.2rem 1.4rem;
+    margin-top: 1.5rem;
+  }
+  .myth-title {
+    font-family: var(--font-head);
+    font-weight: 700; color: var(--red); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .myth-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* PHASE TIMELINE */
+  .phase-track { display: flex; flex-direction: column; gap: 1px; border-radius: var(--r); overflow: hidden; }
+  .phase-row-outer {
+    background: var(--surface);
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-row-outer:last-child { border-bottom: none; }
+  .phase-num {
+    font-family: var(--font-head);
+    font-size: 1.5rem; font-weight: 800;
+    color: var(--accent); opacity: 0.3;
+    width: 32px; flex-shrink: 0;
+  }
+  .phase-info { flex: 1; }
+  .phase-name-big { font-weight: 600; font-size: 14px; }
+  .phase-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .phase-badge {
+    font-size: 11px; padding: 3px 10px; border-radius: 20px;
+    background: rgba(212,240,96,0.1); color: var(--accent);
+    border: 1px solid rgba(212,240,96,0.2);
+    white-space: nowrap;
+  }
+
+  /* ANIMATE */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.4s ease both; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 12px; color: var(--faint);
+    max-width: 900px; margin: 0 auto;
+  }
+  .section-divider {
+    height: 1px; background: var(--border);
+    max-width: 900px; margin: 0 auto;
+  }
+
+  /* HIIT BLOCKS */
+  .hiit-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; }
+  @media(max-width:600px){ .hiit-grid{ grid-template-columns:1fr; } }
+  .hiit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.1rem 1.3rem;
+  }
+  .hiit-num {
+    font-family: var(--font-head);
+    font-size: 2rem; font-weight: 800;
+    color: var(--accent3); opacity: 0.4;
+    line-height: 1;
+  }
+  .hiit-move { font-size: 14px; font-weight: 500; margin-top: 4px; }
+  .hiit-detail { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .hiit-badge {
+    display: inline-block; margin-top: 8px;
+    background: rgba(240,160,96,0.12);
+    color: var(--accent3);
+    font-size: 11px; padding: 2px 9px; border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+  }
+  .check-dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .check-dot svg { display: none; }
+  .check-item.checked .check-dot {
+    background: var(--accent);
+  }
+  .check-item.checked .check-dot svg { display: block; }
+  .check-text { font-size: 13px; color: var(--text); }
+  .check-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">GYM ×3</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="scrollTo('overview')">Overview</button>
+    <button class="nav-tab" onclick="scrollTo('jadwal')">Jadwal</button>
+    <button class="nav-tab" onclick="scrollTo('latihan')">Latihan</button>
+    <button class="nav-tab" onclick="scrollTo('hiit')">HIIT</button>
+    <button class="nav-tab" onclick="scrollTo('kamus')">Kamus Istilah</button>
+    <button class="nav-tab" onclick="scrollTo('tips')">Tips</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero fade-up" id="overview">
+  <div class="hero-tag">⚡ Program 12 Minggu</div>
+  <h1>Gym 3× Seminggu<br><span>Fokus Lemak Perut</span></h1>
+  <p>Program terstruktur untuk membakar lemak, membangun otot, dan memperkuat core — 60 menit per sesi, 3 hari seminggu.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-val">3×</div>
+      <div class="hero-stat-label">per minggu</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">60'</div>
+      <div class="hero-stat-label">per sesi</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">12</div>
+      <div class="hero-stat-label">minggu</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- JADWAL -->
+<section id="jadwal">
+  <div class="section-head">
+    <div class="section-num">01</div>
+    <h2>Jadwal & Struktur Sesi</h2>
+  </div>
+
+  <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem;">Tiap sesi 60 menit terbagi 4 blok. Proporsi ini dirancang supaya kalori terbakar maksimal sekaligus menjaga massa otot.</p>
+
+  <div class="timeline-bar">
+    <div class="tl-seg tl-warmup"><span>10'</span>Warm-up</div>
+    <div class="tl-seg tl-weights"><span>25'</span>Latihan Beban</div>
+    <div class="tl-seg tl-cardio"><span>20'</span>Cardio HIIT</div>
+    <div class="tl-seg tl-cool"><span>5'</span>Cool-down</div>
+  </div>
+
+  <div class="day-grid" id="day-grid">
+
+    <div class="day-card selected" onclick="selectDay('A', this)" id="card-A">
+      <div class="day-card-header">
+        <div class="day-label" style="color:var(--accent)">Hari A</div>
+        <div class="day-name">Upper Body + Core</div>
+        <div class="day-when">Senin / Selasa</div>
+      </div>
+      <div class="day-card-body">
+        <div class="day-pill pill-a">Push & Pull</div>
+        <div class="day-desc">Latihan tubuh bagian atas — dada, punggung, bahu — plus penguatan core.</div>
+      </div>
+    </div>
+
+    <div class="day-card" onclick="selectDay('B', this)" id="card-B">
+      <div class="day-card-header">
+        <div class="day-label" style="color:var(--accent2)">Hari B</div>
+        <div class="day-name">Lower Body + Core</div>
+        <div class="day-when">Rabu / Kamis</div>
+      </div>
+      <div class="day-card-body">
+        <div class="day-pill pill-b">Squat & Hinge</div>
+        <div class="day-desc">Latihan tubuh bagian bawah — kaki, paha, bokong — plus core anti-rotasi.</div>
+      </div>
+    </div>
+
+    <div class="day-card" onclick="selectDay('C', this)" id="card-C">
+      <div class="day-card-header">
+        <div class="day-label" style="color:var(--accent3)">Hari C</div>
+        <div class="day-name">Full Body + Core</div>
+        <div class="day-when">Jumat / Sabtu</div>
+      </div>
+      <div class="day-card-body">
+        <div class="day-pill pill-c">Circuit</div>
+        <div class="day-desc">Gerakan gabungan seluruh tubuh dalam format sirkuit — kalori terbakar paling besar.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PHASE TIMELINE -->
+  <h2 style="font-family:var(--font-head);font-size:1.1rem;margin:2rem 0 1rem;">Progres 12 Minggu</h2>
+  <div class="phase-track" style="border:1px solid var(--border);border-radius:var(--r);">
+    <div class="phase-row-outer">
+      <div class="phase-num">1</div>
+      <div class="phase-info">
+        <div class="phase-name-big">Minggu 1–4 — Adaptasi</div>
+        <div class="phase-desc">Fokus teknik yang benar. Beban ringan–sedang. Tubuh mulai terbiasa.</div>
+      </div>
+      <div class="phase-badge">Fase Dasar</div>
+    </div>
+    <div class="phase-row-outer">
+      <div class="phase-num">2</div>
+      <div class="phase-info">
+        <div class="phase-name-big">Minggu 5–8 — Intensifikasi</div>
+        <div class="phase-desc">Naikkan beban tiap 2 minggu. Tambah 1 set per gerakan utama. HIIT lebih intens.</div>
+      </div>
+      <div class="phase-badge">Fase Naik</div>
+    </div>
+    <div class="phase-row-outer">
+      <div class="phase-num">3</div>
+      <div class="phase-info">
+        <div class="phase-name-big">Minggu 9–12 — Puncak</div>
+        <div class="phase-desc">Volume dan intensitas tertinggi. Perubahan fisik paling terasa di fase ini.</div>
+      </div>
+      <div class="phase-badge">Fase Peak</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- LATIHAN DETAIL -->
+<section id="latihan">
+  <div class="section-head">
+    <div class="section-num">02</div>
+    <h2>Detail Latihan per Hari</h2>
+  </div>
+
+  <div class="detail-panel">
+    <div class="detail-tabs">
+      <button class="detail-tab active" onclick="switchDetailTab('A', this)">Hari A — Upper</button>
+      <button class="detail-tab" onclick="switchDetailTab('B', this)">Hari B — Lower</button>
+      <button class="detail-tab" onclick="switchDetailTab('C', this)">Hari C — Full Body</button>
+      <button class="detail-tab" onclick="switchDetailTab('core', this)">Core Circuit</button>
+    </div>
+
+    <!-- DAY A -->
+    <div class="detail-body" id="dtab-A">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Warm-up 10 menit: arm circles, shoulder rolls, chest opener, inchworm 5×, jumping jack ringan 30 detik.</p>
+      <div class="exercise-list">
+        <div class="ex-row">
+          <div class="ex-idx">1</div>
+          <div class="ex-info">
+            <div class="ex-name">Dumbbell Bench Press <span style="color:var(--muted);font-weight:400;">atau Push-up</span></div>
+            <div class="ex-muscle">Gerakan mendorong ke depan — otot dada, trisep, bahu depan</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Compound</span><span class="ex-tag">Push</span><span class="ex-tag">Dada</span>
+            </div>
+          </div>
+          <div class="ex-sets">4 × 10</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">2</div>
+          <div class="ex-info">
+            <div class="ex-name">Dumbbell Row</div>
+            <div class="ex-muscle">Gerakan menarik ke arah tubuh — punggung tengah, bisep</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Compound</span><span class="ex-tag">Pull</span><span class="ex-tag">Punggung</span>
+            </div>
+          </div>
+          <div class="ex-sets">4 × 10</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">3</div>
+          <div class="ex-info">
+            <div class="ex-name">Overhead Press</div>
+            <div class="ex-muscle">Mendorong ke atas — bahu, trisep, core untuk stabilisasi</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Compound</span><span class="ex-tag">Bahu</span>
+            </div>
+          </div>
+          <div class="ex-sets">3 × 12</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">4</div>
+          <div class="ex-info">
+            <div class="ex-name">Lat Pulldown <span style="color:var(--muted);font-weight:400;">atau Pull-up</span></div>
+            <div class="ex-muscle">Menarik ke bawah — punggung lebar (latissimus dorsi), bisep</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Pull</span><span class="ex-tag">Punggung Lebar</span>
+            </div>
+          </div>
+          <div class="ex-sets">3 × 12</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">5</div>
+          <div class="ex-info">
+            <div class="ex-name">Plank + Dead Bug <span style="color:var(--muted);font-weight:400;">(superset)</span></div>
+            <div class="ex-muscle">Core stabilisasi — menahan posisi, bukan gerakan — ini yang paling efektif</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Core</span><span class="ex-tag">Anti-extension</span>
+            </div>
+          </div>
+          <div class="ex-sets">3 × 30"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY B -->
+    <div class="detail-body" id="dtab-B" style="display:none">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Warm-up 10 menit: hip circles, leg swings, bodyweight squat 10×, glute bridge 10×, lunges ringan.</p>
+      <div class="exercise-list">
+        <div class="ex-row">
+          <div class="ex-idx">1</div>
+          <div class="ex-info">
+            <div class="ex-name">Squat <span style="color:var(--muted);font-weight:400;">(Barbell / Goblet)</span></div>
+            <div class="ex-muscle">Gerakan jongkok — paha depan, bokong, core. Compound terbesar untuk kalori.</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Compound</span><span class="ex-tag">Paha</span><span class="ex-tag">Glutes</span>
+            </div>
+          </div>
+          <div class="ex-sets">4 × 10</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">2</div>
+          <div class="ex-info">
+            <div class="ex-name">Romanian Deadlift (RDL)</div>
+            <div class="ex-muscle">Menunduk ke depan dengan punggung lurus — hamstring, bokong, punggung bawah</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Compound</span><span class="ex-tag">Hinge</span><span class="ex-tag">Hamstring</span>
+            </div>
+          </div>
+          <div class="ex-sets">4 × 10</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">3</div>
+          <div class="ex-info">
+            <div class="ex-name">Walking Lunge</div>
+            <div class="ex-muscle">Melangkah dengan satu kaki ke depan — paha, bokong, keseimbangan</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Unilateral</span><span class="ex-tag">Paha</span>
+            </div>
+          </div>
+          <div class="ex-sets">3 × 12/kaki</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">4</div>
+          <div class="ex-info">
+            <div class="ex-name">Hip Thrust <span style="color:var(--muted);font-weight:400;">/ Glute Bridge</span></div>
+            <div class="ex-muscle">Mendorong pinggul ke atas — isolasi bokong (glutes), penting untuk postur</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Isolasi</span><span class="ex-tag">Glutes</span>
+            </div>
+          </div>
+          <div class="ex-sets">3 × 15</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">5</div>
+          <div class="ex-info">
+            <div class="ex-name">Pallof Press</div>
+            <div class="ex-muscle">Mendorong ke depan melawan tarikan kabel/band — melatih core agar tidak berputar</div>
+            <div class="ex-tags">
+              <span class="ex-tag">Core</span><span class="ex-tag">Anti-rotation</span>
+            </div>
+          </div>
+          <div class="ex-sets">3 × 12/sisi</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY C -->
+    <div class="detail-body" id="dtab-C" style="display:none">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Warm-up 10 menit: world's greatest stretch, T-spine rotation, bear crawl 5m, dynamic lunges. Lakukan 3–4 putaran circuit.</p>
+      <div class="exercise-list">
+        <div class="ex-row">
+          <div class="ex-idx">1</div>
+          <div class="ex-info">
+            <div class="ex-name">Deadlift <span style="color:var(--muted);font-weight:400;">(KB / Barbell)</span></div>
+            <div class="ex-muscle">Mengangkat beban dari lantai — seluruh rantai belakang tubuh. Kalori paling besar.</div>
+            <div class="ex-tags"><span class="ex-tag">Compound</span><span class="ex-tag">Full Posterior Chain</span></div>
+          </div>
+          <div class="ex-sets">4 × 8</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">2</div>
+          <div class="ex-info">
+            <div class="ex-name">Push-up to Row <span style="color:var(--muted);font-weight:400;">(DB)</span></div>
+            <div class="ex-muscle">Push-up lalu tarik dumbbell bergantian — push + pull dalam satu gerakan</div>
+            <div class="ex-tags"><span class="ex-tag">Superset</span><span class="ex-tag">Upper Body</span></div>
+          </div>
+          <div class="ex-sets">3 × 10</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">3</div>
+          <div class="ex-info">
+            <div class="ex-name">Kettlebell / DB Swing</div>
+            <div class="ex-muscle">Mengayun beban ke depan dengan dorongan pinggul — power + cardio metabolik</div>
+            <div class="ex-tags"><span class="ex-tag">Power</span><span class="ex-tag">Metabolik</span></div>
+          </div>
+          <div class="ex-sets">3 × 20</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">4</div>
+          <div class="ex-info">
+            <div class="ex-name">Step-up + Overhead Press</div>
+            <div class="ex-muscle">Naik ke bangku sambil dorong beban ke atas — lower + upper kombinasi</div>
+            <div class="ex-tags"><span class="ex-tag">Kombinasi</span><span class="ex-tag">Unilateral</span></div>
+          </div>
+          <div class="ex-sets">3 × 10/kaki</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-idx">5</div>
+          <div class="ex-info">
+            <div class="ex-name">Mountain Climber</div>
+            <div class="ex-muscle">Posisi push-up, lutut bergantian ke dada cepat — core + cardio sekaligus</div>
+            <div class="ex-tags"><span class="ex-tag">Core</span><span class="ex-tag">Cardio</span></div>
+          </div>
+          <div class="ex-sets">3 × 30"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CORE CIRCUIT -->
+    <div class="detail-body" id="dtab-core" style="display:none">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Diselipkan di akhir latihan beban atau sebagai tambahan. 3 putaran penuh.</p>
+      <div class="exercise-list">
+        <div class="ex-row"><div class="ex-idx">1</div><div class="ex-info"><div class="ex-name">Plank</div><div class="ex-muscle">Tahan posisi lurus seperti papan — melatih otot perut untuk menahan, bukan bergerak</div></div><div class="ex-sets">3 × 45"</div></div>
+        <div class="ex-row"><div class="ex-idx">2</div><div class="ex-info"><div class="ex-name">Dead Bug</div><div class="ex-muscle">Berbaring telentang, lengan & kaki digerakkan bergantian — melatih koordinasi core dan punggung bawah</div></div><div class="ex-sets">3 × 10/sisi</div></div>
+        <div class="ex-row"><div class="ex-idx">3</div><div class="ex-info"><div class="ex-name">Bird Dog</div><div class="ex-muscle">Merangkak lalu luruskan tangan & kaki berlawanan — stabilisasi punggung bawah</div></div><div class="ex-sets">3 × 10/sisi</div></div>
+        <div class="ex-row"><div class="ex-idx">4</div><div class="ex-info"><div class="ex-name">Hanging Leg Raise <span style="color:var(--muted);font-weight:400;">/ Lying Leg Raise</span></div><div class="ex-muscle">Angkat kaki lurus saat bergantung atau berbaring — melatih lower abs + fleksi pinggul</div></div><div class="ex-sets">3 × 12</div></div>
+        <div class="ex-row"><div class="ex-idx">5</div><div class="ex-info"><div class="ex-name">Russian Twist</div><div class="ex-muscle">Duduk condong belakang, putar badan kiri-kanan — melatih oblique (samping perut)</div></div><div class="ex-sets">3 × 20</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- HIIT -->
+<section id="hiit">
+  <div class="section-head">
+    <div class="section-num">03</div>
+    <h2>Protokol HIIT — 20 Menit</h2>
+  </div>
+
+  <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem;"><strong style="color:var(--text)">HIIT = High-Intensity Interval Training.</strong> Kerja keras selama 30 detik, istirahat 30 detik, ulangi. Lebih efektif bakar lemak dibanding cardio biasa karena efek <em style="color:var(--accent)">afterburn</em> — metabolisme tetap tinggi beberapa jam setelah selesai.</p>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem 1.4rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
+    <div style="text-align:center;">
+      <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;color:var(--accent3)">30"</div>
+      <div style="font-size:12px;color:var(--muted)">Kerja keras</div>
+    </div>
+    <div style="font-size:1.5rem;color:var(--faint)">+</div>
+    <div style="text-align:center;">
+      <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;color:var(--muted)">30"</div>
+      <div style="font-size:12px;color:var(--muted)">Istirahat</div>
+    </div>
+    <div style="font-size:1.5rem;color:var(--faint)">×</div>
+    <div style="text-align:center;">
+      <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;color:var(--accent)">4</div>
+      <div style="font-size:12px;color:var(--muted)">Putaran</div>
+    </div>
+    <div style="font-size:1.5rem;color:var(--faint)">=</div>
+    <div style="text-align:center;">
+      <div style="font-family:var(--font-head);font-size:2rem;font-weight:800;color:var(--green)">20'</div>
+      <div style="font-size:12px;color:var(--muted)">Total</div>
+    </div>
+  </div>
+
+  <div class="hiit-grid">
+    <div class="hiit-card">
+      <div class="hiit-num">01</div>
+      <div class="hiit-move">Sprint / Treadmill Incline Walk</div>
+      <div class="hiit-detail">Kecepatan 85–90% dari kemampuan maksimal. Incline 8–12% kalau jalan cepat.</div>
+      <div class="hiit-badge">Hari A & B</div>
+    </div>
+    <div class="hiit-card">
+      <div class="hiit-num">02</div>
+      <div class="hiit-move">Burpee</div>
+      <div class="hiit-detail">Jongkok → tangan ke lantai → loncat kaki ke belakang → push-up → balik → loncat. Full body explosive.</div>
+      <div class="hiit-badge">Semua hari</div>
+    </div>
+    <div class="hiit-card">
+      <div class="hiit-num">03</div>
+      <div class="hiit-move">Jump Squat / Box Jump</div>
+      <div class="hiit-detail">Squat lalu loncat setinggi mungkin. Melatih power kaki sekaligus membakar kalori besar.</div>
+      <div class="hiit-badge">Hari B & C</div>
+    </div>
+    <div class="hiit-card">
+      <div class="hiit-num">04</div>
+      <div class="hiit-move">Battle Rope / Jumping Jack</div>
+      <div class="hiit-detail">Ayunkan tali berat dengan cepat, atau jumping jack intens. Cardio upper body yang tinggi.</div>
+      <div class="hiit-badge">Hari A & C</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1rem;padding:1rem 1.4rem;background:rgba(96,212,240,0.06);border:1px solid rgba(96,212,240,0.15);border-radius:var(--r);">
+    <div style="font-weight:600;font-size:14px;color:var(--accent2);margin-bottom:4px;">Hari C — Steady State sebagai ganti HIIT</div>
+    <div style="font-size:13px;color:var(--muted);">Di hari ketiga, ganti HIIT dengan jalan cepat atau jogging ringan 20 menit intensitas sedang (60–70% max HR). Tubuh perlu variasi intensitas agar tidak overtrain.</div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- KAMUS ISTILAH -->
+<section id="kamus">
+  <div class="section-head">
+    <div class="section-num">04</div>
+    <h2>Kamus Istilah Gym</h2>
+  </div>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem;">Istilah-istilah yang sering muncul di program latihan, dijelaskan dalam bahasa sederhana.</p>
+
+  <div class="gloss-grid">
+
+    <div class="gloss-card">
+      <div class="gloss-term">Compound</div>
+      <div class="gloss-def">Gerakan yang melibatkan lebih dari satu sendi dan banyak kelompok otot sekaligus. Ini gerakan "besar" yang paling efisien — kalori terbakar banyak, waktu efisien.</div>
+      <div class="gloss-ex"><span>Contoh:</span> Squat (sendi pinggul + lutut + pergelangan), Deadlift, Bench Press, Row.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Isolasi</div>
+      <div class="gloss-def">Kebalikan compound — gerakan yang fokus pada satu otot saja, melewati satu sendi. Kurang efisien untuk bakar kalori tapi bagus untuk "finishing" otot tertentu.</div>
+      <div class="gloss-ex"><span>Contoh:</span> Bicep curl (hanya bisep), Leg extension (hanya paha depan), Tricep pushdown.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Core</div>
+      <div class="gloss-def">Bukan cuma otot perut (abs) — core adalah semua otot di sekitar batang tubuh (perut, punggung bawah, pinggul, diafragma). Fungsi utamanya stabilisasi, bukan gerakan.</div>
+      <div class="gloss-ex"><span>Latihan core terbaik:</span> Plank, Dead Bug, Pallof Press — bukan sit-up atau crunch.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Circuit</div>
+      <div class="gloss-def">Format latihan di mana kamu melakukan beberapa gerakan berurutan tanpa istirahat panjang di antaranya, lalu baru istirahat setelah satu "putaran" selesai.</div>
+      <div class="gloss-ex"><span>Contoh:</span> Squat → Push-up → Row → Plank → istirahat 60" → ulangi.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">HIIT</div>
+      <div class="gloss-def">High-Intensity Interval Training. Bergantian antara intensitas sangat tinggi (sprint, burpee) dan istirahat/intensitas rendah. Efektif bakar lemak karena efek <em>afterburn</em> — tubuh terus bakar kalori setelah selesai.</div>
+      <div class="gloss-ex"><span>Protokol umum:</span> 30 detik kerja keras, 30 detik istirahat, 4 putaran = 20 menit.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Superset</div>
+      <div class="gloss-def">Melakukan dua gerakan berbeda langsung berurutan tanpa istirahat di antara keduanya. Menghemat waktu dan membuat latihan lebih intens.</div>
+      <div class="gloss-ex"><span>Contoh:</span> Bench Press → lanjut Dumbbell Row, baru kemudian istirahat.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Set & Rep</div>
+      <div class="gloss-def"><strong style="color:var(--text)">Rep (Repetisi)</strong> = satu kali gerakan penuh. <strong style="color:var(--text)">Set</strong> = sekelompok rep yang dilakukan tanpa berhenti. "3 × 12" artinya 3 set masing-masing 12 rep.</div>
+      <div class="gloss-ex"><span>Contoh:</span> Squat 3×10 = squat 10 kali, istirahat, ulangi 3 kali total.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Progressive Overload</div>
+      <div class="gloss-def">Prinsip paling penting: tubuh hanya berubah kalau diberi tantangan yang terus meningkat. Naikkan beban, tambah rep, atau kurangi waktu istirahat secara bertahap tiap 2 minggu.</div>
+      <div class="gloss-ex"><span>Contoh:</span> Minggu 1 squat 20kg, minggu 3 naik jadi 22.5kg.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Push & Pull</div>
+      <div class="gloss-def">Pengelompokan gerakan berdasarkan arah. <strong style="color:var(--text)">Push</strong> = mendorong (bench press, overhead press, push-up). <strong style="color:var(--text)">Pull</strong> = menarik (row, lat pulldown, pull-up). Idealnya seimbang agar postur tidak bungkuk.</div>
+      <div class="gloss-ex"><span>Hari A</span> mengkombinasikan keduanya untuk keseimbangan otot.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Posterior Chain</div>
+      <div class="gloss-def">Rantai otot di bagian belakang tubuh dari kepala ke tumit — hamstring, bokong (glutes), punggung bawah, punggung atas. Penting untuk postur, mencegah sakit punggung, dan kekuatan keseluruhan.</div>
+      <div class="gloss-ex"><span>Latihan utama:</span> Deadlift, RDL, Hip Thrust, Good Morning.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Hinge</div>
+      <div class="gloss-def">Pola gerakan melipat di pinggul (bukan membungkuk di punggung). Punggung lurus, pinggul didorong ke belakang. Pola dasar untuk semua gerakan deadlift.</div>
+      <div class="gloss-ex"><span>Contoh:</span> Romanian Deadlift, KB Swing, Good Morning.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Warm-up & Cool-down</div>
+      <div class="gloss-def"><strong style="color:var(--text)">Warm-up</strong> (pemanasan): meningkatkan suhu otot, aliran darah, dan range of motion sebelum beban berat. Mencegah cedera. <strong style="color:var(--text)">Cool-down</strong>: menurunkan detak jantung perlahan, stretching ringan, mencegah nyeri esok hari.</div>
+      <div class="gloss-ex">Jangan pernah skip warm-up — risiko cedera naik drastis.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Unilateral</div>
+      <div class="gloss-def">Latihan satu sisi tubuh dalam satu waktu. Berguna untuk mendeteksi dan memperbaiki ketidakseimbangan kekuatan antara kiri dan kanan.</div>
+      <div class="gloss-ex"><span>Contoh:</span> Walking lunge, single-arm DB row, single-leg RDL.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Metabolik / Afterburn</div>
+      <div class="gloss-def">Efek di mana metabolisme tetap tinggi beberapa jam setelah olahraga intens selesai — secara teknis disebut EPOC (Excess Post-exercise Oxygen Consumption). Ini alasan HIIT lebih efektif membakar lemak dibanding jogging biasa.</div>
+      <div class="gloss-ex">HIIT dan latihan beban berat menghasilkan efek afterburn lebih besar dari cardio steady-state.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">TDEE & Defisit Kalori</div>
+      <div class="gloss-def"><strong style="color:var(--text)">TDEE</strong> (Total Daily Energy Expenditure) = total kalori yang kamu bakar sehari. <strong style="color:var(--text)">Defisit kalori</strong> = makan di bawah TDEE. Ini satu-satunya cara lemak perut bisa turun, tidak ada jalan pintas lain.</div>
+      <div class="gloss-ex"><span>Target:</span> defisit 300–500 kkal/hari. Terlalu besar bisa kehilangan otot.</div>
+    </div>
+
+    <div class="gloss-card">
+      <div class="gloss-term">Spot Reduction</div>
+      <div class="gloss-def">Mitos bahwa latihan di area tertentu bisa langsung membakar lemak di area itu. Ini tidak mungkin secara fisiologis. Lemak turun dari seluruh tubuh secara merata sesuai genetika masing-masing.</div>
+      <div class="gloss-ex">1000 crunch sehari tidak akan langsung mengecilkan perut tanpa defisit kalori.</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- TIPS -->
+<section id="tips">
+  <div class="section-head">
+    <div class="section-num">05</div>
+    <h2>Tips Kunci & Nutrisi</h2>
+  </div>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon-row">🥗</div>
+      <div class="tip-title">Defisit kalori adalah kuncinya</div>
+      <div class="tip-body">Kurangi 300–500 kkal/hari dari TDEE-mu. Tanpa ini, lemak perut tidak akan turun meski latihan tiap hari. Hitung TDEE-mu dulu sebagai baseline.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-row">🥩</div>
+      <div class="tip-title">Protein tinggi — 1.6–2.2 g/kg berat badan</div>
+      <div class="tip-body">Protein menjaga massa otot saat defisit kalori, meningkatkan rasa kenyang, dan membantu pemulihan. Sumber: ayam, telur, ikan, tempe, tahu, Greek yogurt.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-row">😴</div>
+      <div class="tip-title">Tidur 7–9 jam — bukan optional</div>
+      <div class="tip-body">Kurang tidur meningkatkan kortisol (hormon stres) yang secara langsung mendorong penumpukan lemak visceral — lemak perut dalam yang berbahaya.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-row">💧</div>
+      <div class="tip-title">Minum 2–3 liter air per hari</div>
+      <div class="tip-body">Dehidrasi ringan sudah cukup menurunkan performa latihan 10–20% dan memperlambat metabolisme. Minum sebelum haus, bukan setelah.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-row">📈</div>
+      <div class="tip-title">Naikkan beban tiap 2 minggu</div>
+      <div class="tip-body">Progressive overload adalah hukum pertumbuhan otot. Tanpa ini, tubuh berhenti beradaptasi dan kalori yang terbakar stagnan. Naikkan 2.5–5 kg atau tambah 1–2 rep.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-row">🚶</div>
+      <div class="tip-title">Aktif di hari non-gym (NEAT)</div>
+      <div class="tip-body">Jalan kaki, naik tangga, berdiri lebih banyak. NEAT (Non-Exercise Activity Thermogenesis) bisa berkontribusi 200–400 kkal/hari tambahan — lebih dari satu sesi gym ringan.</div>
+    </div>
+  </div>
+
+  <div class="myth-box">
+    <div class="myth-title">
+      <span style="font-size:1.1rem">⚠</span>
+      Mitos Spot Reduction — Ini Tidak Nyata
+    </div>
+    <div class="myth-body">
+      Tidak ada latihan yang bisa langsung membakar lemak di area spesifik. Crunch ribuan kali, plank berjam-jam, atau alat getar perut tidak akan langsung mengecilkan perut. Lemak perut turun sebagai bagian dari penurunan lemak tubuh total, yang hanya terjadi lewat <strong style="color:var(--text)">defisit kalori</strong>. Latihan core di program ini berfungsi membangun otot perut yang kuat — hasilnya baru terlihat setelah lapisan lemaknya menipis lewat pola makan yang benar.
+    </div>
+  </div>
+</section>
+
+<footer>
+  Program Gym 3× Seminggu · Fokus Lemak Perut · 12 Minggu<br>
+  <span style="color:var(--faint)">Konsultasikan dengan trainer atau dokter sebelum memulai program baru.</span>
+</footer>
+
+<script>
+  function scrollTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  function selectDay(day, card) {
+    document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    switchDetailTab(day, null);
+  }
+
+  function switchDetailTab(tab, btn) {
+    ['A','B','C','core'].forEach(d => {
+      var el = document.getElementById('dtab-' + d);
+      if(el) el.style.display = 'none';
+    });
+    var target = document.getElementById('dtab-' + tab);
+    if(target) { target.style.display = 'block'; }
+    if(btn) {
+      document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    const sections = ['overview','jadwal','latihan','hiit','kamus','tips'];
+    const tabs = document.querySelectorAll('.nav-tab');
+    let current = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if(el && window.scrollY >= el.offsetTop - 100) current = i;
+    });
+    tabs.forEach((t,i) => t.classList.toggle('active', i === current));
+  });
+</script>
+</body>
+</html>
