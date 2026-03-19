@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writings — The Ansyaku's Atelier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0f1f4b;
+      --royal: #1a3a8c;
+      --mid-blue: #2451b3;
+      --sky: #4a80d4;
+      --pale-blue: #dde8f8;
+      --ice: #eef3fc;
+      --white: #ffffff;
+      --gold: #c9a84c;
+      --gold-light: #e8d08a;
+      --text-dark: #0d1b3e;
+      --text-muted: #5a6f99;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--ice);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+    .hero {
+      position: relative;
+      min-height: 50vh;
+      background: linear-gradient(160deg, #0a1535 0%, #0f2060 40%, #1a3a8c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 50px 30px 45px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(74,128,212,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,128,212,0.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(74,128,212,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .glow-bl {
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0;
+      max-width: 860px;
+      animation: fadeUp 1s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .avatar-ring {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--sky) 100%);
+      margin-bottom: 20px;
+      box-shadow: 0 0 40px rgba(74,128,212,0.4);
+    }
+    .avatar-ring img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background: var(--navy);
+    }
+    .eyebrow {
+      font-size: 0.75em;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6em, 6vw, 4.4em);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1.1;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+      text-shadow: 0 2px 20px rgba(201,168,76,0.35);
+    }
+    .hero-name em { font-style: italic; color: var(--gold-light); }
+    .hero-tagline {
+      font-size: 1em;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+    .hero-loc {
+      font-size: 0.85em;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 10px;
+    }
+    .hero-contact {
+      font-size: 0.82em;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 36px;
+    }
+    .nav-pills {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav-pills a {
+      display: inline-block;
+      padding: 11px 28px;
+      border-radius: 40px;
+      font-size: 0.88em;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      letter-spacing: 0.03em;
+    }
+    .pill-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .pill-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.5);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .pill-active {
+      background: rgba(201,168,76,0.2);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,0.45);
+    }
+    .wave-divider {
+      background: linear-gradient(160deg, #0a1535 0%, #0f2060 40%, #1a3a8c 100%);
+      height: 5px;
+    }
+    main { background: var(--ice); min-height: 60vh; }
+    .content-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 70px 40px 80px;
+    }
+    .sec-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.7em;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid-blue);
+      margin-bottom: 14px;
+    }
+    .sec-label::after {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--mid-blue);
+      opacity: 0.4;
+    }
+    .sec-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2em, 4vw, 2.8em);
+      font-weight: 300;
+      color: var(--navy);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .sec-intro {
+      font-size: 0.95em;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 680px;
+      margin-bottom: 56px;
+    }
+    .writings-section { margin-bottom: 60px; }
+    .writings-section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .writings-section-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1em;
+      flex-shrink: 0;
+    }
+    .icon-magazine { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .icon-book     { background: rgba(36,81,179,0.1); color: var(--royal); }
+    .icon-thesis   { background: rgba(80,160,120,0.12); color: #2d7a5a; }
+    .writings-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55em;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+    }
+    .writings-section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(15,31,75,0.15), transparent);
+    }
+    .writings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .writing-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 24px 28px;
+      box-shadow: 0 2px 14px rgba(15,31,75,0.06);
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 0 24px;
+      align-items: start;
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .writing-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(15,31,75,0.11);
+    }
+    .writing-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+    }
+    .card-magazine::before { background: linear-gradient(180deg, var(--gold), var(--gold-light)); }
+    .card-book::before     { background: linear-gradient(180deg, var(--royal), var(--sky)); }
+    .card-thesis::before   { background: linear-gradient(180deg, #3aaa78, #6dd4a4); }
+    .card-year {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45em;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1;
+      padding-top: 4px;
+      letter-spacing: -0.02em;
+    }
+    .card-body { min-width: 0; }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.13em;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+    .card-venue {
+      font-size: 0.8em;
+      color: var(--text-muted);
+      font-weight: 400;
+      line-height: 1.5;
+    }
+    .card-venue strong { color: var(--mid-blue); font-weight: 500; }
+    .card-link-wrap {
+      display: flex;
+      align-items: flex-start;
+      padding-top: 2px;
+    }
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      background: var(--pale-blue);
+      color: var(--mid-blue);
+      font-size: 0.75em;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .card-link:hover { background: var(--mid-blue); color: var(--white); }
+    .card-link svg {
+      width: 12px; height: 12px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .card-no-link {
+      font-size: 0.75em;
+      color: #c0c8dc;
+      font-style: italic;
+      padding-top: 6px;
+      white-space: nowrap;
+    }
+    footer {
+      background: linear-gradient(160deg, #070e28 0%, #0f1f4b 100%);
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      padding: 36px 30px;
+      font-size: 0.8em;
+      letter-spacing: 0.04em;
+    }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
+    @media (max-width: 640px) {
+      .content-wrap { padding: 50px 22px; }
+      .writing-card {
+        grid-template-columns: 56px 1fr;
+        grid-template-rows: auto auto;
+      }
+      .card-link-wrap { grid-column: 1 / -1; padding-top: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="glow-bl"></div>
+    <div class="hero-inner">
+      <div class="avatar-ring">
+        <img src="https://raw.githubusercontent.com/ansyaku/htmlfiles/refs/heads/main/Circle.png" alt="Andreas Syaloom Kurniawan">
+      </div>
+      <p class="eyebrow">The Ansyaku's Atelier</p>
+      <h1 class="hero-name">Andreas <em>Syaloom</em> Kurniawan</h1>
+      <p class="hero-tagline">Master of Science in Economics &nbsp;·&nbsp; Universitas Gadjah Mada</p>
+      <p class="hero-loc">Yogyakarta, Indonesia</p>
+      <p class="hero-contact">syaloom.andreas@gmail.com</p>
+      <nav class="nav-pills">
+        <a href="about.html"     class="pill-ghost">About Me</a>
+        <a href="research.html"  class="pill-ghost">Research</a>
+        <a href="writings.html"  class="pill-active">Writings</a>
+        <a href="sidenotes.html" class="pill-ghost">Side Notes</a>
+      </nav>
+    </div>
+  </section>
+
+  <div class="wave-divider"></div>
+
+  <main>
+    <div class="content-wrap">
+
+      <p class="sec-label">Writings</p>
+      <h2 class="sec-title">Articles, Book Chapters &amp; Theses</h2>
+      <p class="sec-intro">
+        Works written outside the academic journal pipeline — essays and articles in professional magazines,
+        contributions to edited volumes and institutional books, and undergraduate theses.
+      </p>
+
+      <!-- Articles in Magazines -->
+      <div class="writings-section">
+        <div class="writings-section-header">
+          <div class="writings-section-icon icon-magazine">✦</div>
+          <h3 class="writings-section-title">Articles in Magazines</h3>
+          <div class="writings-section-line"></div>
+        </div>
+        <div class="writings-list">
+
+          <div class="writing-card card-magazine">
+            <div class="card-year">2023</div>
+            <div class="card-body">
+              <p class="card-title">On The Future of Inspectorate General Internal Audit</p>
+              <p class="card-venue">
+                <strong>Inspektorat Jenderal</strong> &nbsp;/&nbsp;
+                Majalah Auditoria (ISSN: 1411–9455) · Edisi Khusus
+              </p>
+            </div>
+            <div class="card-link-wrap">
+              <a class="card-link" href="https://itjen.kemenkeu.go.id/pdf/Auditoria%20Khusus%202023.pdf" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                PDF
+              </a>
+            </div>
+          </div>
+
+          <div class="writing-card card-magazine">
+            <div class="card-year">2022</div>
+            <div class="card-body">
+              <p class="card-title">Itjen Kemenkeu Prancis yang Strategis dan Ramping</p>
+              <p class="card-venue">
+                <strong>Inspektorat Jenderal</strong> &nbsp;/&nbsp;
+                Majalah Auditoria (ISSN: 1411–9455) · Volume 67
+              </p>
+            </div>
+            <div class="card-link-wrap">
+              <a class="card-link" href="https://itjen.kemenkeu.go.id/pdf/Auditoria%20ed%2067.pdf" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                PDF
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Book Chapters -->
+      <div class="writings-section">
+        <div class="writings-section-header">
+          <div class="writings-section-icon icon-book">◈</div>
+          <h3 class="writings-section-title">Book Chapters</h3>
+          <div class="writings-section-line"></div>
+        </div>
+        <div class="writings-list">
+
+          <div class="writing-card card-book">
+            <div class="card-year">2022</div>
+            <div class="card-body">
+              <p class="card-title">Penguatan Keamanan Informasi: Mendorong Kepatuhan, Menjaga Keberlangsungan</p>
+              <p class="card-sub-title" style="font-family:'Cormorant Garamond',serif;font-size:0.9em;color:var(--text-muted);font-style:italic;margin-bottom:6px;">in: <em>Semesta Kisah Pengawasan Tata Kelola TIK Kementerian Keuangan 2017–2021</em></p>
+              <p class="card-venue">
+                <strong>Inspektorat Jenderal</strong>
+              </p>
+            </div>
+            <div class="card-link-wrap">
+              <span class="card-no-link">not available online</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Theses -->
+      <div class="writings-section">
+        <div class="writings-section-header">
+          <div class="writings-section-icon icon-thesis">◉</div>
+          <h3 class="writings-section-title">Theses</h3>
+          <div class="writings-section-line"></div>
+        </div>
+        <div class="writings-list">
+
+          <div class="writing-card card-thesis">
+            <div class="card-year">2021</div>
+            <div class="card-body">
+              <p class="card-title">Analisis Keberlanjutan (Sustainability) Utang Pemerintah Indonesia Periode 2010–2019</p>
+              <p class="card-venue">
+                <strong>Bachelor Thesis (S1 Akuntansi)</strong> &nbsp;/&nbsp;
+                Perbanas Institute, Fakultas Ekonomi dan Bisnis<br>
+                Supervisor: Dr. Wahyudi S.E., M.Ak, CA, ACPA, CPA, CSFA
+              </p>
+            </div>
+            <div class="card-link-wrap">
+              <a class="card-link" href="https://library.perbanas.id/index.php?p=show_detail&id=75412&keywords=andreas+syaloom+kurniawan" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Library
+              </a>
+            </div>
+          </div>
+
+          <div class="writing-card card-thesis">
+            <div class="card-year">2013</div>
+            <div class="card-body">
+              <p class="card-title">Simulasi Akuntansi Penyusutan Sesuai dengan KMK 94/KM.06/2013 di Kantor Pelayanan Pajak Pratama Majalaya</p>
+              <p class="card-venue">
+                <strong>Diploma Thesis (D3 Akuntansi)</strong> &nbsp;/&nbsp;
+                August 2013<br>
+                Supervisor: Amriza Nitra Wardhani
+              </p>
+            </div>
+            <div class="card-link-wrap">
+              <a class="card-link" href="https://doi.org/10.13140/RG.2.2.27833.57443" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                DOI
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 Andreas Syaloom Kurniawan &nbsp;·&nbsp; <a href="mailto:syaloom.andreas@gmail.com">syaloom.andreas@gmail.com</a></p>
+  </footer>
+
+</body>
+</html>
