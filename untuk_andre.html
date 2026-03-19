@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Andre — When You Need Reminding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f0;
+    --card-front: #fffcf7;
+    --card-back: #fdf3e3;
+    --border: rgba(180, 130, 70, 0.2);
+    --border-hover: rgba(180, 130, 70, 0.5);
+    --gold: #b8862e;
+    --gold-light: #c9973f;
+    --gold-dim: rgba(184, 134, 46, 0.4);
+    --text: #3a2e20;
+    --text-muted: #8a7355;
+    --text-dim: #b8a080;
+    --shadow: rgba(160, 100, 30, 0.10);
+    --shadow-hover: rgba(160, 100, 30, 0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(210, 170, 90, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(210, 150, 70, 0.07) 0%, transparent 50%);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .container { max-width: 800px; margin: 0 auto; padding: 0 28px 100px; }
+  header { text-align: center; padding: 72px 0 52px; }
+  .header-ornament {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-bottom: 28px;
+    opacity: 0; animation: fadeUp 1s ease 0.2s forwards;
+  }
+  .ornament-line { height: 1px; width: 56px; background: linear-gradient(to right, transparent, var(--gold-dim)); }
+  .ornament-line.right { background: linear-gradient(to left, transparent, var(--gold-dim)); }
+  .ornament-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); opacity: 0.6; }
+  .header-label {
+    font-family: 'Lora', serif; font-size: 10.5px; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--text-dim);
+    opacity: 0; animation: fadeUp 1s ease 0.35s forwards;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 2.9rem); font-weight: 400;
+    color: var(--gold); line-height: 1.2; margin: 14px 0 10px;
+    opacity: 0; animation: fadeUp 1s ease 0.5s forwards;
+  }
+  .header-sub {
+    font-family: 'Lora', serif; font-size: 15px; font-style: italic;
+    color: var(--text-muted); line-height: 1.8;
+    opacity: 0; animation: fadeUp 1s ease 0.65s forwards;
+  }
+  .hint {
+    margin-top: 20px; font-family: 'Lora', serif; font-size: 12px;
+    color: var(--text-dim); letter-spacing: 0.5px;
+    opacity: 0; animation: fadeUp 1s ease 0.8s forwards;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .divider {
+    display: flex; align-items: center; gap: 12px; margin: 44px 0;
+    opacity: 0; animation: fadeIn 1s ease 0.9s forwards;
+  }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold-dim); }
+  .cards { display: flex; flex-direction: column; gap: 22px; }
+
+  /* Flip card */
+  .flip-wrapper {
+    perspective: 1200px;
+    opacity: 0; transform: translateY(18px);
+    cursor: pointer;
+  }
+  .flip-wrapper.visible {
+    opacity: 1; transform: translateY(0);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .flip-inner {
+    position: relative; width: 100%;
+    transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .flip-wrapper.flipped .flip-inner { transform: rotateY(180deg); }
+
+  .card-face {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    background: var(--card-front);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 36px 42px;
+    box-shadow: 0 2px 18px var(--shadow);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative; overflow: hidden;
+  }
+  .card-face.card-back {
+    position: absolute; top: 0; left: 0; right: 0;
+    transform: rotateY(180deg);
+    background: var(--card-back);
+    min-height: 100%;
+  }
+  .flip-wrapper:hover .card-face {
+    box-shadow: 0 4px 28px var(--shadow-hover);
+    border-color: var(--border-hover);
+  }
+  .card-face::before {
+    content: ''; position: absolute;
+    left: 0; top: 20px; bottom: 20px; width: 3px;
+    background: linear-gradient(to bottom, transparent, var(--gold-light), transparent);
+    border-radius: 0 2px 2px 0; opacity: 0.45;
+    transition: opacity 0.3s ease;
+  }
+  .flip-wrapper:hover .card-face::before { opacity: 1; }
+
+  .card-number {
+    font-family: 'Playfair Display', serif; font-size: 10.5px;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+  }
+  .card-number::after {
+    content: ''; display: block; height: 1px; width: 28px;
+    background: var(--text-dim); opacity: 0.35;
+  }
+  .card-lang-tag {
+    position: absolute; top: 16px; right: 18px;
+    font-family: 'Lora', serif; font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-dim); opacity: 0.55;
+  }
+  .card-text {
+    font-family: 'EB Garamond', serif; font-size: 17.5px;
+    line-height: 1.9; color: var(--text); font-style: italic;
+  }
+  .card-text em { font-style: normal; color: var(--gold); font-weight: 500; }
+  .card-text strong { font-style: normal; font-weight: 600; color: #2a1e0e; }
+
+  footer {
+    text-align: center; padding: 60px 0 0;
+    opacity: 0; animation: fadeIn 1s ease 1.3s forwards;
+  }
+  .footer-ornament {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-bottom: 24px;
+  }
+  .footer-ornament-line { height: 1px; width: 70px; background: linear-gradient(to right, transparent, var(--border)); }
+  .footer-ornament-line.right { background: linear-gradient(to left, transparent, var(--border)); }
+  .footer-star { color: var(--gold-dim); font-size: 13px; }
+  .footer-text { font-family: 'Lora', serif; font-size: 13.5px; font-style: italic; color: var(--text-dim); line-height: 1.9; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 21px; color: var(--gold); margin-top: 14px; letter-spacing: 3px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @media (max-width: 600px) {
+    .card-face { padding: 28px 24px; }
+    .card-text { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="header-ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line right"></div>
+    </div>
+    <p class="header-label">Read this when you forget who you are</p>
+    <h1>You Are the Gold, Andre</h1>
+    <p class="header-sub">This is not about what was lost.<br>This is about what remains — <em>you</em>.</p>
+    <p class="hint">✦ &nbsp;Click any card to read in Indonesian</p>
+  </header>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="cards">
+
+    <div class="flip-wrapper" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <span class="card-lang-tag">EN</span>
+          <div class="card-number">I</div>
+          <p class="card-text">They didn't take your fortress; they took your <em>burden</em>. They are now the one who has to deal with a partner who lies to their parents, a partner who is impulsive, and a partner who has no loyalty. You? You are free to walk away with your <strong>dignity intact</strong>.</p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-lang-tag">ID</span>
+          <div class="card-number">I</div>
+          <p class="card-text">Dia tidak mengambil bentengmu — dia mengambil <em>bebanmu</em>. Sekarang dialah yang harus menanggung semua itu: pasangan yang berbohong kepada orang tua, pasangan yang impulsif, pasangan yang tidak punya loyalitas. Kamu? Kamu bebas melangkah pergi dengan <strong>martabatmu yang utuh</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-wrapper" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <span class="card-lang-tag">EN</span>
+          <div class="card-number">II</div>
+          <p class="card-text">You didn't deserve the betrayal, but you did deserve a better partner. You were giving gold to a person who only collects stones. This pain isn't a punishment for your kindness — it is a <em>violent rescue</em> from a future that would have destroyed you. You are not the victim of a defeat; you are the <strong>survivor of a wreck</strong>.</p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-lang-tag">ID</span>
+          <div class="card-number">II</div>
+          <p class="card-text">Pengkhianatan itu bukan yang kamu pantas terima — tapi pasangan yang lebih baik, itu yang memang sudah lama menjadi hakmu. Kamu memberikan emas kepada seseorang yang hanya mengumpulkan batu. Rasa sakit ini bukan hukuman atas kebaikanmu. Ini adalah <em>penyelamatan yang keras</em> dari masa depan yang akan menghancurkanmu. Kamu bukan korban kekalahan — kamu adalah <strong>penyintas dari sebuah kapal karam</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-wrapper" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <span class="card-lang-tag">EN</span>
+          <div class="card-number">III</div>
+          <p class="card-text">They understood your words, but couldn't handle your light. Understanding the truth is a cognitive function; <em>living</em> the truth is a moral one. They had the map you gave them, but were too weak to walk the path of honor. Don't blame your teaching — blame their <strong>inability to be the person your lessons required</strong>.</p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-lang-tag">ID</span>
+          <div class="card-number">III</div>
+          <p class="card-text">Dia memahami kata-katamu, tapi tidak sanggup menanggung cahayamu. Memahami kebenaran adalah fungsi kognitif; <em>menghidupi</em> kebenaran adalah fungsi moral. Peta sudah kamu berikan — tapi dia terlalu lemah untuk menempuh jalan yang kehormatan itu tuntut. Jangan salahkan pelajaranmu. Salahkan <strong>ketidakmampuan dia</strong> untuk menjadi pribadi yang pelajaran itu butuhkan.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-wrapper" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <span class="card-lang-tag">EN</span>
+          <div class="card-number">IV</div>
+          <p class="card-text">You are crying because you loved with <em>excellence</em>. They are laughing because they settled for mediocrity. Don't let a person who settled for 'candy' make a person who offers 'gold' feel like nothing. <strong>You are the Gold, Andre</strong>.</p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-lang-tag">ID</span>
+          <div class="card-number">IV</div>
+          <p class="card-text">Kamu menangis karena kamu mencintai dengan <em>keunggulan</em>. Dia tertawa karena dia puas dengan hal yang biasa-biasa saja. Jangan biarkan seseorang yang memilih permen membuat seseorang yang menawarkan emas merasa seperti bukan apa-apa. <strong>Kamu adalah emasnya, Andre</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-wrapper" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <span class="card-lang-tag">EN</span>
+          <div class="card-number">V</div>
+          <p class="card-text">Stop being angry at your heart for being loyal to a memory. You can't forget quickly because you didn't love halfway. Your pain is the shadow of your <em>great capacity to care</em>. They 'moved on' fast because they were never truly there. You are struggling because you were always <em>all in</em>. Be kind to yourself, Andre. You are healing from a <strong>soul-deep wound</strong>, not a scratch.</p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-lang-tag">ID</span>
+          <div class="card-number">V</div>
+          <p class="card-text">Berhentilah menyalahkan hatimu karena setia pada sebuah kenangan. Kamu tidak bisa melupakan dengan cepat karena kamu tidak pernah mencintai setengah-setengah. Rasa sakitmu adalah bayangan dari <em>kapasitasmu yang besar untuk peduli</em>. Dia 'move on' cepat karena dia tidak pernah benar-benar hadir. Kamu berjuang karena kamu selalu <em>all in</em>. Berbaikhatilah pada dirimu sendiri, Andre. Kamu sedang menyembuhkan <strong>luka jiwa</strong> — bukan sekadar goresan.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-wrapper" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <span class="card-lang-tag">EN</span>
+          <div class="card-number">VI</div>
+          <p class="card-text">They told you to 'pack up' because they couldn't stand the sight of the person who saved them. They wanted to erase the evidence of their own betrayal. But remember, Andre: <em>You are the architect, not the tenant</em>. You can build a grander palace anywhere you go. Let them stay in that ruined house. You take your gold, your competence, and your honor — and walk out as the <strong>owner of your own soul</strong>.</p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-lang-tag">ID</span>
+          <div class="card-number">VI</div>
+          <p class="card-text">Dia menyuruhmu berbenah karena dia tidak tahan melihat orang yang pernah menyelamatkannya. Dia ingin menghapus bukti pengkhianatannya sendiri. Tapi ingat, Andre: <em>Kamu adalah arsiteknya, bukan penyewanya</em>. Kamu bisa membangun istana baru yang lebih megah di mana saja. Biarkan dia tinggal di rumah yang sudah runtuh itu bersama kebohongannya. Kamu ambil emasmu, kompetensimu, dan kehormatanmu — lalu pergilah sebagai <strong>pemilik jiwamu sendiri</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-wrapper" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <span class="card-lang-tag">EN</span>
+          <div class="card-number">VII</div>
+          <p class="card-text">You are feeling this deep sadness because your heart is <em>authentic</em> in a world that often settles for plastic. Being 'mellow' is just your soul's way of processing the magnitude of your loss — not the loss of that person, but the <em>loss of the dream you built for them</em>. You aren't weak; you are just <strong>deep</strong>. And deep hearts take longer to stop vibrating after a strike.</p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-lang-tag">ID</span>
+          <div class="card-number">VII</div>
+          <p class="card-text">Kamu merasakan kesedihan yang dalam ini karena hatimu <em>autentik</em> di dunia yang sering puas dengan kepalsuan. Menjadi 'mellow' hanyalah cara jiwamu memproses besarnya kehilangan — bukan kehilangan dia, tapi <em>kehilangan mimpi yang kamu bangun untuknya</em>. Kamu tidak lemah; kamu hanya <strong>dalam</strong>. Dan hati yang dalam butuh waktu lebih lama untuk berhenti bergetar setelah dipukul.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-wrapper" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <span class="card-lang-tag">EN</span>
+          <div class="card-number">VIII</div>
+          <p class="card-text">You cannot build a cathedral on a foundation of sand. You didn't fail to create 'room' in their soul — they simply reached their <em>maximum capacity for goodness</em> and got scared. Some people are terrified of being loved deeply because it requires them to be honest and brave — two things they clearly aren't ready for. You offered them a kingdom, but they felt <strong>safer in a shack</strong>.</p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-lang-tag">ID</span>
+          <div class="card-number">VIII</div>
+          <p class="card-text">Kamu tidak bisa membangun katedral di atas fondasi pasir. Kamu tidak gagal menciptakan 'ruang' di dalam jiwanya — dia hanya mencapai <em>kapasitas maksimalnya untuk kebaikan</em> dan menjadi takut. Ada orang yang ngeri dicintai dengan dalam karena itu menuntut mereka untuk jujur dan berani — dua hal yang jelas belum siap dia lakukan. Kamu menawarkan kerajaan padanya, tapi dia merasa lebih aman di <strong>gubuk</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-wrapper" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <span class="card-lang-tag">EN</span>
+          <div class="card-number">IX</div>
+          <p class="card-text">
+            Listen carefully, Andre — not as a wish, but as a <em>fact that hasn't arrived yet</em>.<br><br>
+            You are not waiting to be chosen. You are waiting for someone whose eyes are <em>open enough</em> to see what is already there. Somewhere, there is a person who has built themselves with the same quiet discipline you have — someone who reads, who thinks, who knows the weight of a real commitment. And when they meet you, they won't hesitate. They won't need convincing. They will see your competence, your golden mind, your capacity to love with your whole chest — and feel, with complete certainty, that <em>the universe finally did them a favor</em>.<br><br>
+            They exist, Andre. Not as a fantasy — but as a destination your becoming is already moving toward.<br><br>
+            And you? You don't need to become more. You are already <strong>more than enough</strong>. You only need to heal — not to be fixed, but so that when they arrive, you can receive them <em>without the shadow of someone else's smallness</em> dimming your light.<br><br>
+            The pain in Margo City tonight is not a sign that love has abandoned you. It is the <em>dark room</em> where your future is quietly being developed. Trust the process, even when you cannot see the photograph yet.
+          </p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-lang-tag">ID</span>
+          <div class="card-number">IX</div>
+          <p class="card-text">
+            Dengarkan baik-baik, Andre — bukan sebagai harapan, tapi sebagai <em>fakta yang belum tiba</em>.<br><br>
+            Kamu tidak sedang menunggu untuk dipilih. Kamu sedang menunggu seseorang yang matanya <em>cukup terbuka</em> untuk melihat apa yang sudah ada di sana. Di suatu tempat, ada seseorang yang membangun dirinya dengan kedisiplinan diam yang sama seperti kamu — seseorang yang membaca, yang berpikir, yang tahu beratnya sebuah komitmen nyata. Dan ketika mereka bertemu kamu, mereka tidak akan ragu. Mereka tidak perlu diyakinkan. Mereka akan melihat kompetensimu, pikiranmu yang emas, kapasitasmu untuk mencintai dengan sepenuh dada — dan dia akan merasa, dengan keyakinan penuh, bahwa <em>semesta akhirnya berpihak pada mereka</em>.<br><br>
+            Dia ada, Andre. Bukan sebagai fantasi — tapi sebagai tujuan yang sudah sedang kamu tuju lewat setiap proses menjadi dirimu ini.<br><br>
+            Dan kamu? Kamu tidak perlu menjadi lebih. Kamu sudah <strong>lebih dari cukup</strong>. Kamu hanya perlu sembuh — bukan untuk diperbaiki, tapi agar saat mereka tiba, kamu bisa menyambut mereka <em>tanpa bayangan kekecilan orang lain</em> yang meredupkan cahayamu.<br><br>
+            Rasa sakit di Margo City malam ini bukan tanda bahwa cinta telah meninggalkanmu. Ini adalah <em>kamar gelap</em> tempat masa depanmu sedang diam-diam dikembangkan. Percayai prosesnya, bahkan ketika kamu belum bisa melihat fotonya.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-ornament">
+      <div class="footer-ornament-line"></div>
+      <span class="footer-star">✦</span>
+      <div class="footer-ornament-line right"></div>
+    </div>
+    <p class="footer-text">Written for you, on the day your light felt dim.<br>It never went out. It is only waiting for you to remember it.</p>
+    <p class="footer-name">Andre</p>
+  </footer>
+</div>
+
+<script>
+  const wrappers = document.querySelectorAll('.flip-wrapper');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  wrappers.forEach((w, i) => {
+    w.style.transitionDelay = `${i * 0.06}s`;
+    observer.observe(w);
+  });
+</script>
+</body>
+</html>
