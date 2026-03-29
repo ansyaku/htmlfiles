@@ -221,6 +221,7 @@
     .icon-magazine { background: rgba(201,168,76,0.15); color: var(--gold); }
     .icon-book     { background: rgba(36,81,179,0.1); color: var(--royal); }
     .icon-thesis   { background: rgba(80,160,120,0.12); color: #2d7a5a; }
+    .icon-yapping  { background: rgba(201,168,76,0.1); color: #b8860b; font-size: 1em; }
     .writings-section-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.55em;
@@ -326,6 +327,35 @@
       padding-top: 6px;
       white-space: nowrap;
     }
+    .substack-embed-wrap {
+      border: 1px solid rgba(15,31,75,0.1);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 2px 16px rgba(15,31,75,0.06);
+    }
+    .substack-footer-link {
+      display: flex;
+      justify-content: flex-end;
+      padding: 12px 20px;
+      border-top: 1px solid var(--pale-blue);
+      background: var(--ice);
+    }
+    .substack-open-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 8px;
+      background: var(--pale-blue);
+      color: var(--mid-blue);
+      font-size: 0.78em;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, color 0.2s;
+    }
+    .substack-open-btn:hover { background: var(--mid-blue); color: var(--white); }
     footer {
       background: linear-gradient(160deg, #070e28 0%, #0f1f4b 100%);
       color: rgba(255,255,255,0.35);
@@ -358,7 +388,7 @@
       <h1 class="hero-name">Andreas <em>Syaloom</em> Kurniawan</h1>
       <p class="hero-tagline">Master of Science in Economics &nbsp;·&nbsp; Universitas Gadjah Mada</p>
       <p class="hero-loc">Yogyakarta, Indonesia</p>
-      <p class="hero-contact">syaloom.andreas@gmail.com</p>
+      <p class="hero-contact"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d8aba1b9b4b7b7b5f6b9b6bcaabdb9ab98bfb5b9b1b4f6bbb7b5">[email&#160;protected]</a></p>
       <nav class="nav-pills">
         <a href="about.html"     class="pill-ghost">About Me</a>
         <a href="research.html"  class="pill-ghost">Research</a>
@@ -500,12 +530,41 @@
         </div>
       </div>
 
+      <!-- Yappings — Substack -->
+      <div class="writings-section">
+        <div class="writings-section-header">
+          <div class="writings-section-icon icon-yapping">✍</div>
+          <h3 class="writings-section-title">Yappings</h3>
+          <div class="writings-section-line"></div>
+        </div>
+        <p style="font-size:0.9em;color:var(--text-muted);font-weight:300;margin-bottom:24px;line-height:1.7;">
+          Informal essays, fragments, and running thoughts — published on Substack.
+        </p>
+        <div class="substack-embed-wrap">
+          <iframe
+            src="https://ansyaku.substack.com/embed"
+            width="100%"
+            height="320"
+            style="border:none; background:transparent;"
+            frameborder="0"
+            scrolling="no"
+            title="Yappings — Ansyaku on Substack"
+          ></iframe>
+          <div class="substack-footer-link">
+            <a href="https://substack.com/@ansyaku?utm_campaign=profile&utm_medium=profile-page" target="_blank" class="substack-open-btn">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              Open on Substack
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </main>
 
   <footer>
-    <p>© 2026 Andreas Syaloom Kurniawan &nbsp;·&nbsp; <a href="mailto:syaloom.andreas@gmail.com">syaloom.andreas@gmail.com</a></p>
-  </footer>
-
-</body>
-</html>
+    <p>© 2026 Andreas Syaloom Kur
