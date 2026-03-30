@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APBN Monitor 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f2eb;
+  --paper: #faf8f3;
+  --ink: #1a1a1a;
+  --ink2: #3d3d3d;
+  --muted: #888;
+  --border: #d9d4c7;
+  --accent: #c8381a;
+  --accent2: #1a6bc8;
+  --gold: #b8860b;
+  --green: #1a7a3c;
+  --red: #c8381a;
+  --surface: #fff;
+  --brent-c: #c8381a;
+  --wti-c: #1a6bc8;
+  --icp-c: #1a7a3c;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+body::after {
+  content:''; position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:999; opacity:0.5;
+}
+.container { max-width:1200px; margin:0 auto; padding:0 24px; }
+
+/* MASTHEAD */
+.masthead {
+  border-bottom:3px solid var(--ink); padding:18px 0 14px;
+  background:var(--paper); position:sticky; top:0; z-index:100;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+.masthead-inner { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.brand-title { font-family:'Fraunces',serif; font-size:36px; font-weight:300; letter-spacing:-0.03em; line-height:1; }
+.brand-title em { font-style:italic; color:var(--accent); }
+.brand-sub { font-size:10px; color:var(--muted); margin-top:3px; }
+.status-row { display:flex; align-items:center; gap:10px; justify-content:flex-end; margin-top:6px; flex-wrap:wrap; }
+.live-pill { display:inline-flex; align-items:center; gap:5px; background:var(--ink); color:#fff; padding:3px 10px; border-radius:2px; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; }
+.live-dot { width:5px; height:5px; background:#4ade80; border-radius:50%; animation:blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+#last-updated { font-size:10px; color:var(--muted); }
+#refresh-btn { background:none; border:1px solid var(--border); color:var(--ink2); padding:4px 12px; cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:11px; border-radius:2px; transition:all .15s; }
+#refresh-btn:hover { background:var(--ink); color:#fff; border-color:var(--ink); }
+#refresh-btn:disabled { opacity:.5; cursor:wait; }
+
+main { padding:24px 0 60px; }
+.section-head { font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.section-head::after { content:''; flex:1; height:1px; background:var(--border); }
+.rule-thick { border:none; border-top:2px solid var(--ink); margin:24px 0; }
+
+.data-note { font-size:10px; color:var(--muted); background:var(--paper); border-left:3px solid var(--gold); padding:8px 12px; margin-bottom:18px; line-height:1.7; }
+.data-note strong { color:var(--ink2); }
+
+/* PRICE TRIO */
+.price-trio { display:grid; grid-template-columns:repeat(3,1fr); border:2px solid var(--ink); margin-bottom:24px; background:var(--surface); }
+.price-card { padding:20px; border-right:1px solid var(--ink); }
+.price-card:last-child { border-right:none; }
+.price-card-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.price-type { font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+.price-type.brent { color:var(--brent-c); }
+.price-type.wti   { color:var(--wti-c); }
+.price-type.icp   { color:var(--icp-c); }
+.price-source { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; border:1px solid var(--border); padding:1px 6px; border-radius:2px; }
+.price-num { font-family:'Fraunces',serif; font-size:46px; font-weight:400; letter-spacing:-0.03em; line-height:1; margin-bottom:3px; min-height:52px; display:flex; align-items:center; }
+.price-unit { font-size:11px; color:var(--muted); }
+.price-change { font-size:11px; margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); min-height:22px; }
+.price-change.up   { color:var(--green); }
+.price-change.down { color:var(--red); }
+.price-change.neutral { color:var(--muted); }
+.price-vs { margin-top:12px; padding:10px; background:var(--bg); border:1px solid var(--border); border-radius:2px; }
+.vs-label { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+.track { height:4px; background:var(--border); border-radius:2px; position:relative; margin:4px 0 8px; }
+.track-range { position:absolute; height:100%; background:repeating-linear-gradient(90deg,var(--gold) 0,var(--gold) 3px,transparent 3px,transparent 8px); opacity:0.6; }
+.track-dot { position:absolute; width:10px; height:10px; border-radius:50%; top:-3px; transform:translateX(-50%); border:2px solid var(--surface); transition:left 0.6s ease; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.track-dot.brent { background:var(--brent-c); }
+.track-dot.wti   { background:var(--wti-c); }
+.track-dot.icp   { background:var(--icp-c); }
+.vs-badge { display:inline-block; font-size:9px; padding:2px 7px; border-radius:2px; text-transform:uppercase; letter-spacing:0.06em; font-weight:600; }
+.vs-badge.above  { background:#fde8e8; color:var(--red);   border:1px solid #f9c0c0; }
+.vs-badge.within { background:#e8f5ee; color:var(--green); border:1px solid #b2dfcb; }
+.vs-badge.below  { background:#fde8e8; color:var(--red);   border:1px solid #f9c0c0; }
+.deviasi-box { margin-top:8px; padding:8px 10px; background:var(--surface); border:1px solid var(--border); border-radius:2px; display:flex; justify-content:space-between; gap:6px; }
+.dev-item { display:flex; flex-direction:column; align-items:center; flex:1; }
+.dev-lbl { font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:2px; text-align:center; }
+.dev-val { font-size:13px; font-weight:700; font-family:'Fraunces',serif; line-height:1; }
+.dev-val.up   { color:var(--red); }
+.dev-val.down { color:var(--green); }
+.dev-val.ok   { color:var(--muted); }
+.dev-sep { width:1px; background:var(--border); align-self:stretch; }
+
+/* SKELETON */
+.skel { display:inline-block; background:linear-gradient(90deg,var(--border) 25%,var(--bg) 50%,var(--border) 75%); background-size:300% 100%; animation:sweep 1.4s infinite; border-radius:3px; }
+@keyframes sweep { 0%{background-position:100% 0} 100%{background-position:-100% 0} }
+.err-txt { color:var(--red); font-size:12px; }
+
+/* TWO COL */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+.kurs-card, .spread-card { background:var(--surface); border:2px solid var(--ink); padding:20px; }
+.card-title { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; font-weight:600; color:var(--muted); margin-bottom:16px; }
+.kurs-big { font-family:'Fraunces',serif; font-size:38px; font-weight:400; letter-spacing:-0.02em; color:var(--accent2); line-height:1; margin-bottom:4px; min-height:44px; display:flex; align-items:center; }
+.kurs-sub-txt { font-size:10px; color:var(--muted); margin-bottom:14px; }
+.kurs-rows { display:flex; flex-direction:column; gap:5px; padding-top:12px; border-top:1px solid var(--border); }
+.kurs-row-item { display:flex; justify-content:space-between; align-items:center; font-size:11px; }
+.kurs-row-lbl { color:var(--muted); }
+.kurs-row-val { font-weight:600; }
+.kurs-status { margin-top:10px; padding:6px 10px; font-size:10px; border-radius:2px; text-align:center; font-weight:600; }
+.kurs-status.ok   { background:#e8f5ee; color:var(--green); border:1px solid #b2dfcb; }
+.kurs-status.warn { background:#fde8e8; color:var(--red);   border:1px solid #f9c0c0; }
+.spread-row { display:flex; justify-content:space-between; align-items:baseline; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px; gap:8px; }
+.spread-row:last-child { border-bottom:none; }
+.spread-lbl { color:var(--ink2); }
+.spread-val { font-weight:600; white-space:nowrap; }
+
+/* TABLE */
+.tbl-card { background:var(--surface); border:2px solid var(--ink); margin-bottom:24px; }
+.tbl-hdr { background:var(--ink); color:#fff; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; }
+.tbl-hdr-title { font-family:'Fraunces',serif; font-size:18px; font-weight:300; }
+.tbl-hdr-sub { font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px; }
+table { width:100%; border-collapse:collapse; }
+thead th { font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); padding:8px 16px; border-bottom:1px solid var(--border); text-align:left; background:var(--bg); }
+thead th:not(:first-child) { text-align:right; }
+tbody tr:hover { background:#fafaf7; }
+tbody td { padding:10px 16px; border-bottom:1px solid var(--border); vertical-align:middle; font-size:12px; }
+tbody td:not(:first-child) { text-align:right; }
+tbody tr:last-child td { border-bottom:none; }
+.td-name { font-weight:500; }
+.td-sub { font-size:10px; color:var(--muted); display:block; margin-top:1px; }
+.badge-live { display:inline-block; background:var(--ink); color:#fff; font-size:8px; padding:1px 5px; border-radius:2px; margin-left:6px; letter-spacing:0.06em; text-transform:uppercase; vertical-align:middle; }
+.badge-proj { display:inline-block; background:var(--bg); color:var(--muted); font-size:8px; padding:1px 5px; border-radius:2px; margin-left:6px; border:1px solid var(--border); text-transform:uppercase; letter-spacing:0.06em; vertical-align:middle; }
+tr.hl { background:#fffef5 !important; }
+
+/* FISKAL */
+.fiskal-5 { display:grid; grid-template-columns:repeat(5,1fr); border:2px solid var(--ink); margin-bottom:24px; }
+.f-card { padding:16px; border-right:1px solid var(--ink); background:var(--surface); }
+.f-card:last-child { border-right:none; }
+.f-lbl { font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.f-val { font-family:'Fraunces',serif; font-size:19px; font-weight:400; letter-spacing:-0.01em; line-height:1.3; }
+.f-val.p { color:var(--green); } .f-val.b { color:var(--red); }
+.f-val.pr { color:var(--accent2); } .f-val.d { color:var(--gold); }
+.f-val.pm { color:var(--ink2); }
+.f-unit { font-size:9px; color:var(--muted); margin-top:4px; }
+
+/* POSTUR */
+.postur-two { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+.postur-card { background:var(--surface); border:2px solid var(--ink); overflow:hidden; }
+.postur-head { padding:10px 16px; font-size:11px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; border-bottom:1px solid var(--border); }
+.postur-head.pend { background:#e8f5ee; color:var(--green); }
+.postur-head.bel  { background:#fde8e8; color:var(--red); }
+.postur-row { display:flex; justify-content:space-between; align-items:baseline; padding:9px 16px; border-bottom:1px solid var(--border); font-size:12px; gap:8px; }
+.postur-row:last-child { border-bottom:none; }
+.postur-row.total { background:var(--bg); font-weight:600; }
+.postur-row.sub { padding-left:28px; }
+.pdr-lbl { color:var(--ink2); }
+.pdr-lbl.sub { color:var(--muted); font-size:11px; }
+.pdr-val { font-family:'JetBrains Mono',monospace; white-space:nowrap; font-size:11px; }
+
+footer { border-top:2px solid var(--ink); padding:16px 0; background:var(--paper); }
+.footer-txt { font-size:10px; color:var(--muted); text-align:center; line-height:2; }
+
+@media(max-width:900px){
+  .price-trio { grid-template-columns:1fr; }
+  .price-card { border-right:none; border-bottom:1px solid var(--ink); }
+  .price-card:last-child { border-bottom:none; }
+  .two-col,.postur-two { grid-template-columns:1fr; }
+  .fiskal-5 { grid-template-columns:repeat(3,1fr); }
+}
+@media(max-width:600px){
+  .brand-title { font-size:26px; }
+  .fiskal-5 { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <div class="masthead-inner">
+      <div>
+        <div class="brand-title">APBN <em>Monitor</em></div>
+        <div class="brand-sub">Pemantauan Asumsi Dasar Ekonomi Makro &amp; Postur Fiskal 2025 · Panja Banggar DPR RI</div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--muted);text-align:right;text-transform:uppercase;letter-spacing:0.1em" id="today-date">—</div>
+        <div class="status-row">
+          <span class="live-pill"><span class="live-dot"></span>Live</span>
+          <span id="last-updated">Memuat...</span>
+          <button id="refresh-btn" onclick="fetchAll()">↻ Refresh</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <div class="section-head">Harga Minyak Mentah Dunia vs ICP</div>
+  <div class="data-note">
+    <strong>Brent &amp; WTI:</strong> OilPriceAPI.com (real-time) → fallback EIA jika limit habis &nbsp;·&nbsp;
+    <strong>Kurs IDR:</strong> open.er-api.com (real-time) &nbsp;·&nbsp;
+    <strong>ICP:</strong> SKK Migas/Ditjen Migas (bulanan, tidak ada API publik resmi) &nbsp;·&nbsp;
+    Asumsi APBN ICP: <strong>US$60–80/barel</strong> &nbsp;·&nbsp; Asumsi Kurs: <strong>Rp16.500–16.900/US$</strong>
+  </div>
+
+  <div class="price-trio">
+    <div class="price-card">
+      <div class="price-card-head">
+        <span class="price-type brent">Brent Crude</span>
+        <span class="price-source" id="src-brent">Memuat...</span>
+      </div>
+      <div class="price-num" id="brent-num"><span class="skel" style="width:130px;height:44px;display:inline-block"></span></div>
+      <div class="price-unit">USD / barel</div>
+      <div class="price-change neutral" id="brent-chg">—</div>
+      <div class="price-vs">
+        <div class="vs-label">vs Asumsi APBN (US$60–80/bbl)</div>
+        <div class="track">
+          <div class="track-range" id="brent-range"></div>
+          <div class="track-dot brent" id="brent-dot" style="left:50%"></div>
+        </div>
+        <span class="vs-badge" id="brent-badge">—</span>
+        <div class="deviasi-box">
+          <div class="dev-item"><div class="dev-lbl">vs Tengah (US$70)</div><div class="dev-val" id="brent-dev-mid">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Bawah (US$60)</div><div class="dev-val" id="brent-dev-lo">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Atas (US$80)</div><div class="dev-val" id="brent-dev-hi">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="price-card">
+      <div class="price-card-head">
+        <span class="price-type wti">WTI Crude</span>
+        <span class="price-source" id="src-wti">Memuat...</span>
+      </div>
+      <div class="price-num" id="wti-num"><span class="skel" style="width:130px;height:44px;display:inline-block"></span></div>
+      <div class="price-unit">USD / barel</div>
+      <div class="price-change neutral" id="wti-chg">—</div>
+      <div class="price-vs">
+        <div class="vs-label">vs Asumsi APBN (US$60–80/bbl)</div>
+        <div class="track">
+          <div class="track-range" id="wti-range"></div>
+          <div class="track-dot wti" id="wti-dot" style="left:50%"></div>
+        </div>
+        <span class="vs-badge" id="wti-badge">—</span>
+        <div class="deviasi-box">
+          <div class="dev-item"><div class="dev-lbl">vs Tengah (US$70)</div><div class="dev-val" id="wti-dev-mid">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Bawah (US$60)</div><div class="dev-val" id="wti-dev-lo">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Atas (US$80)</div><div class="dev-val" id="wti-dev-hi">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="price-card">
+      <div class="price-card-head">
+        <span class="price-type icp">ICP Indonesia</span>
+        <span class="price-source">SKK Migas</span>
+      </div>
+      <div class="price-num" id="icp-num"><span class="skel" style="width:130px;height:44px;display:inline-block"></span></div>
+      <div class="price-unit">USD / barel</div>
+      <div class="price-change neutral" id="icp-chg">—</div>
+      <div class="price-vs">
+        <div class="vs-label">vs Asumsi APBN (US$60–80/bbl)</div>
+        <div class="track">
+          <div class="track-range" id="icp-range"></div>
+          <div class="track-dot icp" id="icp-dot" style="left:50%"></div>
+        </div>
+        <span class="vs-badge" id="icp-badge">—</span>
+        <div class="deviasi-box">
+          <div class="dev-item"><div class="dev-lbl">vs Tengah (US$70)</div><div class="dev-val" id="icp-dev-mid">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Bawah (US$60)</div><div class="dev-val" id="icp-dev-lo">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Atas (US$80)</div><div class="dev-val" id="icp-dev-hi">—</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="kurs-card">
+      <div class="card-title">Nilai Tukar Rupiah / US Dollar</div>
+      <div class="kurs-big" id="kurs-big"><span class="skel" style="width:160px;height:36px;display:inline-block"></span></div>
+      <div class="kurs-sub-txt" id="kurs-sub">Memuat dari open.er-api.com...</div>
+      <div class="kurs-rows">
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Batas bawah asumsi APBN</span><span class="kurs-row-val">Rp16.500</span></div>
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Tengah asumsi APBN</span><span class="kurs-row-val">Rp16.700</span></div>
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Batas atas asumsi APBN</span><span class="kurs-row-val">Rp16.900</span></div>
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Selisih vs tengah asumsi</span><span class="kurs-row-val" id="kurs-selisih">—</span></div>
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Deviasi % vs tengah asumsi</span><span class="kurs-row-val" id="kurs-dev-pct">—</span></div>
+      </div>
+      <div class="kurs-status" id="kurs-status">Memuat...</div>
+    </div>
+
+    <div class="spread-card">
+      <div class="card-title">Ringkasan &amp; Perbandingan</div>
+      <div class="spread-row"><span class="spread-lbl">Brent Crude</span><span class="spread-val" id="sum-brent">—</span></div>
+      <div class="spread-row"><span class="spread-lbl">WTI Crude</span><span class="spread-val" id="sum-wti">—</span></div>
+      <div class="spread-row"><span class="spread-lbl">ICP Indonesia (bulanan)</span><span class="spread-val" id="sum-icp">—</span></div>
+      <div class="spread-row"><span class="spread-lbl">Spread Brent − ICP</span><span class="spread-val" id="sum-spread">—</span></div>
+      <div class="spread-row"><span class="spread-lbl">Tengah asumsi ICP APBN</span><span class="spread-val" style="color:var(--gold)">US$ 70,00/bbl</span></div>
+      <div class="spread-row" style="border-bottom:none"><span class="spread-lbl">Kurs terkini</span><span class="spread-val" id="sum-kurs">—</span></div>
+    </div>
+  </div>
+
+  <hr class="rule-thick">
+
+  <div class="section-head">Asumsi Dasar Ekonomi Makro APBN 2025</div>
+  <div class="tbl-card">
+    <div class="tbl-hdr">
+      <div>
+        <div class="tbl-hdr-title">Asumsi Dasar Ekonomi Makro</div>
+        <div class="tbl-hdr-sub">Setelah Penyesuaian di Panja Banggar DPR · APBN 2025</div>
+      </div>
+      <span style="font-size:10px;color:rgba(255,255,255,0.3)">7 INDIKATOR</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36%">Indikator</th>
+          <th>Rentang Asumsi (Panja)</th>
+          <th>Nilai Aktual / Terkini</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="td-name">Pertumbuhan Ekonomi <span class="badge-proj">Proyeksi</span></span><span class="td-sub">% YoY</span></td>
+          <td>5,2% — 5,8%</td><td>—</td><td style="color:var(--muted);font-size:11px">BPS (berkala)</td>
+        </tr>
+        <tr>
+          <td><span class="td-name">Suku Bunga SBN 10 Tahun <span class="badge-proj">Proyeksi</span></span><span class="td-sub">% per tahun</span></td>
+          <td>6,6% — 7,2%</td><td>—</td><td style="color:var(--muted);font-size:11px">DJPPR / Bloomberg</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="td-name">Nilai Tukar Rupiah <span class="badge-live">Live</span></span><span class="td-sub">Rp per US$</span></td>
+          <td>Rp16.500 — Rp16.900</td>
+          <td id="tbl-kurs"><span class="skel" style="width:80px;height:13px;display:inline-block"></span></td>
+          <td id="tbl-kurs-st">—</td>
+        </tr>
+        <tr>
+          <td><span class="td-name">Inflasi <span class="badge-proj">Proyeksi</span></span><span class="td-sub">% YoY</span></td>
+          <td>1,5% — 3,5%</td><td>—</td><td style="color:var(--muted);font-size:11px">BPS (bulanan)</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="td-name">Harga Minyak Mentah (ICP) <span class="badge-live">Live</span></span><span class="td-sub">US$ per barel</span></td>
+          <td>US$60 — US$80</td>
+          <td id="tbl-icp"><span class="skel" style="width:80px;height:13px;display:inline-block"></span></td>
+          <td id="tbl-icp-st">—</td>
+        </tr>
+        <tr>
+          <td><span class="td-name">Lifting Minyak Bumi <span class="badge-proj">SKK Migas</span></span><span class="td-sub">ribu barel per hari (bph)</span></td>
+          <td>605 — 620 rb bph</td><td>—</td><td style="color:var(--muted);font-size:11px">SKK Migas</td>
+        </tr>
+        <tr>
+          <td><span class="td-name">Lifting Gas Bumi <span class="badge-proj">SKK Migas</span></span><span class="td-sub">ribu barel setara minyak/hari</span></td>
+          <td>953 — 1.017 rb bopd</td><td>—</td><td style="color:var(--muted);font-size:11px">SKK Migas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="rule-thick">
+
+  <div class="section-head">Postur Makro Fiskal (% dari PDB)</div>
+  <div class="fiskal-5">
+    <div class="f-card"><div class="f-lbl">Pendapatan Negara</div><div class="f-val p">11,71—<br>12,31%</div><div class="f-unit">dari PDB</div></div>
+    <div class="f-card"><div class="f-lbl">Belanja Negara</div><div class="f-val b">14,19—<br>14,83%</div><div class="f-unit">dari PDB</div></div>
+    <div class="f-card"><div class="f-lbl">Keseimbangan Primer</div><div class="f-val pr">(0,18)—<br>(0,22)%</div><div class="f-unit">dari PDB</div></div>
+    <div class="f-card"><div class="f-lbl">Defisit APBN</div><div class="f-val d">(2,48)—<br>(2,53)%</div><div class="f-unit">dari PDB</div></div>
+    <div class="f-card"><div class="f-lbl">Pembiayaan</div><div class="f-val pm">2,48—<br>2,53%</div><div class="f-unit">dari PDB</div></div>
+  </div>
+
+  <div class="postur-two">
+    <div class="postur-card">
+      <div class="postur-head pend">▲ Pendapatan Negara</div>
+      <div class="postur-row total"><span class="pdr-lbl">Total Pendapatan</span><span class="pdr-val" style="color:var(--green)">11,71—12,31% PDB</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">Perpajakan</span><span class="pdr-val">10,08—10,54%</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">PNBP</span><span class="pdr-val">1,63—1,76%</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">Hibah</span><span class="pdr-val">0,002—0,003%</span></div>
+    </div>
+    <div class="postur-card">
+      <div class="postur-head bel">▼ Belanja Negara</div>
+      <div class="postur-row total"><span class="pdr-lbl">Total Belanja</span><span class="pdr-val" style="color:var(--red)">14,19—14,83% PDB</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">Belanja Pemerintah Pusat</span><span class="pdr-val">11,41—11,94%</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">Transfer ke Daerah (TKD)</span><span class="pdr-val">2,78—2,89%</span></div>
+    </div>
+  </div>
+
+  <div class="section-head">Perbandingan Harga Minyak vs Asumsi APBN 2025</div>
+  <div class="tbl-card">
+    <div class="tbl-hdr">
+      <div>
+        <div class="tbl-hdr-title">Brent · WTI · ICP vs Asumsi APBN</div>
+        <div class="tbl-hdr-sub">Tengah asumsi ICP: US$70/barel · Rentang: US$60–80/barel</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Jenis Minyak</th><th>Batas Bawah</th><th>Batas Atas</th>
+          <th>Harga Terkini</th><th>vs Tengah (US$70)</th><th>Deviasi %</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="td-name" style="color:var(--brent-c)">● Brent Crude</span><span class="td-sub">OilPriceAPI · Real-time</span></td>
+          <td>US$ 60</td><td>US$ 80</td>
+          <td id="cmp-brent-p">—</td><td id="cmp-brent-d">—</td><td id="cmp-brent-pct">—</td><td id="cmp-brent-s">—</td>
+        </tr>
+        <tr>
+          <td><span class="td-name" style="color:var(--wti-c)">● WTI Crude</span><span class="td-sub">OilPriceAPI · Real-time</span></td>
+          <td>US$ 60</td><td>US$ 80</td>
+          <td id="cmp-wti-p">—</td><td id="cmp-wti-d">—</td><td id="cmp-wti-pct">—</td><td id="cmp-wti-s">—</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="td-name" style="color:var(--icp-c)">● ICP Indonesia</span><span class="td-sub">Ditjen Migas / SKK Migas · Bulanan</span></td>
+          <td>US$ 60</td><td>US$ 80</td>
+          <td id="cmp-icp-p">—</td><td id="cmp-icp-d">—</td><td id="cmp-icp-pct">—</td><td id="cmp-icp-s">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p class="footer-txt">
+      <strong>Sumber data:</strong> OilPriceAPI.com (Brent/WTI real-time) · EIA (fallback) · open.er-api.com (Kurs IDR) · SKK Migas/Ditjen Migas (ICP bulanan) · Kemenkeu RI (APBN 2025)<br>
+      Asumsi berdasarkan hasil Panja Banggar DPR RI · Data harga minyak &amp; kurs bersifat indikatif · Auto-refresh setiap 10 menit
+    </p>
+  </div>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────
+// CONFIG
+// ─────────────────────────────────────────────
+const OIL_KEY  = '90c6658e03b6437d108957451e82c13f85c58ef814c8bd85458d3c6303769d08';
+const OIL_BASE = 'https://api.oilpriceapi.com/v1';
+const ER_URL   = 'https://open.er-api.com/v6/latest/USD';
+const EIA_URL  = 'https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=iti5GIXRgU8kaeES3xUCn0jDvpuoIMkFP7Qr6pIG&frequency=weekly&data[0]=value&facets[series][]=RBRTE&facets[series][]=RWTC&sort[0][column]=period&sort[0][direction]=desc&length=4';
+
+// ICP bulanan terakhir resmi SKK Migas (tidak ada API publik)
+const ICP = { price: 74.56, prev: 76.33, period: 'Februari 2025' };
+
+const APBN = { oilLo:60, oilHi:80, oilMid:70, kursLo:16500, kursHi:16900, kursMid:16700 };
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+const f2    = n => (+n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fIDR  = n => 'Rp' + Math.round(n).toLocaleString('id-ID');
+const badge = (v,lo,hi) => v>hi ? {c:'above',t:'▲ Di atas asumsi'} : v<lo ? {c:'below',t:'▼ Di bawah asumsi'} : {c:'within',t:'✓ Dalam rentang'};
+
+function barPct(val, lo, hi) {
+  const ext = (hi - lo) * 0.85;
+  return Math.min(97, Math.max(3, ((val-(lo-ext)) / ((hi+ext)-(lo-ext))) * 100));
+}
+
+function setRangeBar(type) {
+  const lo = barPct(APBN.oilLo, APBN.oilLo, APBN.oilHi);
+  const hi = barPct(APBN.oilHi, APBN.oilLo, APBN.oilHi);
+  document.getElementById(`${type}-range`).style.cssText = `left:${lo}%;width:${hi-lo}%`;
+}
+
+function renderOil(type, price, chgAbs, chgPct, note) {
+  document.getElementById(`${type}-num`).textContent = f2(price);
+
+  const chEl = document.getElementById(`${type}-chg`);
+  if (chgAbs != null) {
+    chEl.className = `price-change ${chgAbs >= 0 ? 'up' : 'down'}`;
+    chEl.textContent = `${chgAbs>=0?'▲':'▼'} ${f2(Math.abs(chgAbs))} (${f2(Math.abs(chgPct))}%) ${note||'vs hari sebelumnya'}`;
+  } else {
+    chEl.className = 'price-change neutral';
+    chEl.textContent = note || '—';
+  }
+
+  const st = badge(price, APBN.oilLo, APBN.oilHi);
+  const b = document.getElementById(`${type}-badge`);
+  b.className = `vs-badge ${st.c}`; b.textContent = st.t;
+  document.getElementById(`${type}-dot`).style.left = barPct(price, APBN.oilLo, APBN.oilHi) + '%';
+  setRangeBar(type);
+
+  // ── Deviasi % vs tengah, batas bawah, batas atas ──
+  function devEl(id, val, ref) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const pct = ((val - ref) / ref) * 100;
+    const sign = pct >= 0 ? '+' : '';
+    el.textContent = `${sign}${f2(pct)}%`;
+    el.className = `dev-val ${pct > 0 ? 'up' : pct < 0 ? 'down' : 'ok'}`;
+  }
+  devEl(`${type}-dev-mid`, price, APBN.oilMid);
+  devEl(`${type}-dev-lo`,  price, APBN.oilLo);
+  devEl(`${type}-dev-hi`,  price, APBN.oilHi);
+
+  document.getElementById(`sum-${type}`).textContent = `US$ ${f2(price)}/bbl`;
+
+  document.getElementById(`cmp-${type}-p`).textContent = `US$ ${f2(price)}`;
+  const diff = price - APBN.oilMid;
+  const diffPct = (diff / APBN.oilMid) * 100;
+  const dEl = document.getElementById(`cmp-${type}-d`);
+  dEl.textContent = (diff>=0?'+':'') + `US$ ${f2(diff)}`;
+  dEl.style.color = diff>0 ? 'var(--red)' : 'var(--green)';
+  const pEl = document.getElementById(`cmp-${type}-pct`);
+  pEl.textContent = (diffPct>=0?'+':'') + `${f2(diffPct)}%`;
+  pEl.style.color = diffPct>0 ? 'var(--red)' : 'var(--green)';
+  pEl.style.fontWeight = '600';
+  document.getElementById(`cmp-${type}-s`).innerHTML = `<span class="vs-badge ${st.c}">${st.t}</span>`;
+}
+
+function renderKurs(idr, src) {
+  document.getElementById('kurs-big').textContent = fIDR(idr);
+  document.getElementById('kurs-sub').textContent = `Sumber: ${src} · ${new Date().toLocaleTimeString('id-ID')}`;
+  document.getElementById('sum-kurs').textContent = `${fIDR(idr)} / US$`;
+
+  const diff = idr - APBN.kursMid;
+  const diffPct = ((idr - APBN.kursMid) / APBN.kursMid) * 100;
+  const sEl = document.getElementById('kurs-selisih');
+  sEl.textContent = (diff>=0?'+':'') + fIDR(diff);
+  sEl.style.color = diff>0 ? 'var(--red)' : 'var(--green)';
+  const pEl = document.getElementById('kurs-dev-pct');
+  if (pEl) {
+    pEl.textContent = (diffPct>=0?'+':'') + f2(diffPct) + '%';
+    pEl.style.color = diffPct>0 ? 'var(--red)' : 'var(--green)';
+    pEl.style.fontWeight = '600';
+  }
+
+  const box = document.getElementById('kurs-status');
+  let tbl;
+  if (idr < APBN.kursLo) {
+    box.className='kurs-status ok'; box.textContent=`✓ Rupiah lebih kuat dari batas bawah (${fIDR(APBN.kursLo)})`;
+    tbl=`<span class="vs-badge within">✓ Di bawah batas bawah (Rupiah kuat)</span>`;
+  } else if (idr > APBN.kursHi) {
+    box.className='kurs-status warn'; box.textContent=`▲ Rupiah lebih lemah dari batas atas (${fIDR(APBN.kursHi)})`;
+    tbl=`<span class="vs-badge above">▲ Di atas batas atas (Rupiah lemah)</span>`;
+  } else {
+    box.className='kurs-status ok'; box.textContent=`✓ Dalam rentang asumsi APBN (${fIDR(APBN.kursLo)}–${fIDR(APBN.kursHi)})`;
+    tbl=`<span class="vs-badge within">✓ Dalam rentang asumsi</span>`;
+  }
+  document.getElementById('tbl-kurs').textContent = fIDR(idr);
+  document.getElementById('tbl-kurs-st').innerHTML = tbl;
+}
+
+// ─────────────────────────────────────────────
+// FETCH FUNCTIONS
+// ─────────────────────────────────────────────
+async function fetchOilPrimary() {
+  const hdr = { 'Authorization': `Token ${OIL_KEY}`, 'Content-Type': 'application/json' };
+  const [rb, rw] = await Promise.all([
+    fetch(`${OIL_BASE}/prices/latest?by_code=BRENT_CRUDE_USD`, { headers: hdr }),
+    fetch(`${OIL_BASE}/prices/latest?by_code=WTI_USD`,         { headers: hdr })
+  ]);
+  if (!rb.ok) throw new Error(`OilPriceAPI Brent: ${rb.status}`);
+  if (!rw.ok) throw new Error(`OilPriceAPI WTI: ${rw.status}`);
+
+  const bd = (await rb.json()).data;
+  const wd = (await rw.json()).data;
+
+  renderOil('brent', bd.price, bd.change ?? null, bd.change_percent ?? null, null);
+  renderOil('wti',   wd.price, wd.change ?? null, wd.change_percent ?? null, null);
+
+  document.getElementById('src-brent').textContent = 'OilPriceAPI ✓';
+  document.getElementById('src-wti').textContent   = 'OilPriceAPI ✓';
+}
+
+async function fetchOilFallback() {
+  console.warn('→ Mencoba EIA fallback...');
+  const res = await fetch(EIA_URL);
+  if (!res.ok) throw new Error(`EIA: ${res.status}`);
+  const rows = (await res.json()).response.data;
+
+  const bRow = rows.find(r => r.series === 'RBRTE');
+  const wRow = rows.find(r => r.series === 'RWTC');
+
+  if (bRow) { renderOil('brent', +bRow.value, null, null, `EIA weekly · ${bRow.period}`); document.getElementById('src-brent').textContent = 'EIA (fallback)'; }
+  if (wRow) { renderOil('wti',   +wRow.value, null, null, `EIA weekly · ${wRow.period}`); document.getElementById('src-wti').textContent   = 'EIA (fallback)'; }
+}
+
+async function fetchOil() {
+  try {
+    await fetchOilPrimary();
+  } catch(e) {
+    console.error('OilPriceAPI gagal:', e.message);
+    try {
+      await fetchOilFallback();
+    } catch(e2) {
+      console.error('EIA juga gagal:', e2.message);
+      ['brent','wti'].forEach(t => {
+        document.getElementById(`${t}-num`).innerHTML = `<span class="err-txt">⚠ ${e2.message}</span>`;
+        document.getElementById(`${t}-chg`).textContent = 'Periksa koneksi atau API key';
+        document.getElementById(`src-${t}`).textContent = 'Error';
+      });
+    }
+  }
+}
+
+async function fetchKurs() {
+  try {
+    const res = await fetch(ER_URL);
+    if (!res.ok || (await res.clone().json()).result !== 'success') throw new Error();
+    const d = await res.json();
+    renderKurs(d.rates.IDR, 'open.er-api.com');
+  } catch {
+    try {
+      const r2 = await fetch('https://api.frankfurter.app/latest?from=USD&to=IDR');
+      const d2 = await r2.json();
+      renderKurs(d2.rates.IDR, 'frankfurter.app (fallback)');
+    } catch(e2) {
+      document.getElementById('kurs-big').innerHTML = `<span class="err-txt">⚠ Gagal memuat</span>`;
+      document.getElementById('kurs-sub').textContent = e2.message;
+    }
+  }
+}
+
+function loadICP() {
+  const chg = ICP.price - ICP.prev;
+  renderOil('icp', ICP.price, chg, (chg/ICP.prev)*100, `Data bulanan · ${ICP.period}`);
+  const st = badge(ICP.price, APBN.oilLo, APBN.oilHi);
+  document.getElementById('tbl-icp').textContent = `US$ ${f2(ICP.price)}/bbl (${ICP.period})`;
+  document.getElementById('tbl-icp-st').innerHTML = `<span class="vs-badge ${st.c}">${st.t}</span>`;
+}
+
+function updateSpread() {
+  const bTxt = document.getElementById('sum-brent').textContent;
+  const iTxt = document.getElementById('sum-icp').textContent;
+  const bm = bTxt.match(/[\d.]+/), im = iTxt.match(/[\d.]+/);
+  if (bm && im) {
+    const sp = +bm[0] - +im[0];
+    const el = document.getElementById('sum-spread');
+    el.textContent = (sp>=0?'+':'') + `US$ ${f2(sp)}/bbl`;
+    el.style.color = Math.abs(sp)>5 ? 'var(--red)' : 'var(--muted)';
+  }
+}
+
+// ─────────────────────────────────────────────
+// MAIN
+// ─────────────────────────────────────────────
+async function fetchAll() {
+  const btn = document.getElementById('refresh-btn');
+  btn.disabled = true; btn.textContent = '↻ Memuat...';
+
+  loadICP();
+  await Promise.all([fetchOil(), fetchKurs()]);
+  setTimeout(updateSpread, 500);
+
+  document.getElementById('last-updated').textContent =
+    'Update: ' + new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  btn.disabled = false; btn.textContent = '↻ Refresh';
+}
+
+document.getElementById('today-date').textContent =
+  new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+fetchAll();
+setInterval(fetchAll, 10 * 60 * 1000);
+</script>
+</body>
+</html>
