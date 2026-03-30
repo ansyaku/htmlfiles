@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APBN Monitor 2025</title>
+<title>APBN Monitor</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -192,7 +192,7 @@ footer { border-top:2px solid var(--ink); padding:16px 0; background:var(--paper
     <div class="masthead-inner">
       <div>
         <div class="brand-title">APBN <em>Monitor</em></div>
-        <div class="brand-sub">Pemantauan Asumsi Dasar Ekonomi Makro &amp; Postur Fiskal 2025 · Panja Banggar DPR RI</div>
+        <div class="brand-sub">Pemantauan Asumsi Dasar Ekonomi Makro &amp; Postur Fiskal · Panja Banggar DPR RI</div>
       </div>
       <div>
         <div style="font-size:10px;color:var(--muted);text-align:right;text-transform:uppercase;letter-spacing:0.1em" id="today-date">—</div>
@@ -322,12 +322,12 @@ footer { border-top:2px solid var(--ink); padding:16px 0; background:var(--paper
 
   <hr class="rule-thick">
 
-  <div class="section-head">Asumsi Dasar Ekonomi Makro APBN 2025</div>
+  <div class="section-head">Asumsi Dasar Ekonomi Makro APBN 2026</div>
   <div class="tbl-card">
     <div class="tbl-hdr">
       <div>
         <div class="tbl-hdr-title">Asumsi Dasar Ekonomi Makro</div>
-        <div class="tbl-hdr-sub">Setelah Penyesuaian di Panja Banggar DPR · APBN 2025</div>
+        <div class="tbl-hdr-sub">Setelah Penyesuaian di Panja Banggar DPR · APBN 2026</div>
       </div>
       <span style="font-size:10px;color:rgba(255,255,255,0.3)">7 INDIKATOR</span>
     </div>
@@ -404,7 +404,7 @@ footer { border-top:2px solid var(--ink); padding:16px 0; background:var(--paper
     </div>
   </div>
 
-  <div class="section-head">Perbandingan Harga Minyak vs Asumsi APBN 2025</div>
+  <div class="section-head">Perbandingan Harga Minyak vs Asumsi APBN 2026</div>
   <div class="tbl-card">
     <div class="tbl-hdr">
       <div>
@@ -445,7 +445,7 @@ footer { border-top:2px solid var(--ink); padding:16px 0; background:var(--paper
 <footer>
   <div class="container">
     <p class="footer-txt">
-      <strong>Sumber data:</strong> OilPriceAPI.com (Brent/WTI real-time) · EIA (fallback) · open.er-api.com (Kurs IDR) · SKK Migas/Ditjen Migas (ICP bulanan) · Kemenkeu RI (APBN 2025)<br>
+      <strong>Sumber data:</strong> OilPriceAPI.com (Brent/WTI real-time) · EIA (fallback) · open.er-api.com (Kurs IDR) · SKK Migas/Ditjen Migas (ICP bulanan) · Kemenkeu RI (APBN 2026)<br>
       Asumsi berdasarkan hasil Panja Banggar DPR RI · Data harga minyak &amp; kurs bersifat indikatif · Auto-refresh setiap 10 menit
     </p>
   </div>
@@ -461,7 +461,7 @@ const ER_URL   = 'https://open.er-api.com/v6/latest/USD';
 const EIA_URL  = 'https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=iti5GIXRgU8kaeES3xUCn0jDvpuoIMkFP7Qr6pIG&frequency=weekly&data[0]=value&facets[series][]=RBRTE&facets[series][]=RWTC&sort[0][column]=period&sort[0][direction]=desc&length=4';
 
 // ICP bulanan terakhir resmi SKK Migas (tidak ada API publik)
-const ICP = { price: 74.56, prev: 76.33, period: 'Februari 2025' };
+const ICP = { price: 74.56, prev: 76.33, period: 'Februari 2026' };
 
 const APBN = { oilLo:60, oilHi:80, oilMid:70, kursLo:16500, kursHi:16900, kursMid:16700 };
 
