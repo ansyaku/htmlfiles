@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor Ekonomi</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f2eb;
+  --paper: #faf8f3;
+  --ink: #1a1a1a;
+  --ink2: #3d3d3d;
+  --muted: #888;
+  --border: #d9d4c7;
+  --accent: #c8381a;
+  --accent2: #1a6bc8;
+  --gold: #b8860b;
+  --green: #1a7a3c;
+  --red: #c8381a;
+  --surface: #fff;
+  --brent-c: #c8381a;
+  --wti-c: #1a6bc8;
+  --icp-c: #1a7a3c;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+body::after {
+  content:''; position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:999; opacity:0.5;
+}
+.container { max-width:1300px; margin:0 auto; padding:0 24px; }
+
+/* ── MASTHEAD ── */
+.masthead {
+  border-bottom:3px solid var(--ink); padding:18px 0 0;
+  background:var(--paper); position:sticky; top:0; z-index:100;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+.masthead-inner { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; padding-bottom:14px; }
+.brand-title { font-family:'Fraunces',serif; font-size:36px; font-weight:300; letter-spacing:-0.03em; line-height:1; }
+.brand-title em { font-style:italic; color:var(--accent); }
+.brand-sub { font-size:10px; color:var(--muted); margin-top:3px; }
+.status-row { display:flex; align-items:center; gap:10px; justify-content:flex-end; margin-top:6px; flex-wrap:wrap; }
+.live-pill { display:inline-flex; align-items:center; gap:5px; background:var(--ink); color:#fff; padding:3px 10px; border-radius:2px; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; }
+.live-dot { width:5px; height:5px; background:#4ade80; border-radius:50%; animation:blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+.last-updated { font-size:10px; color:var(--muted); }
+.refresh-btn { background:none; border:1px solid var(--border); color:var(--ink2); padding:4px 12px; cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:11px; border-radius:2px; transition:all .15s; }
+.refresh-btn:hover { background:var(--ink); color:#fff; border-color:var(--ink); }
+.refresh-btn:disabled { opacity:.5; cursor:wait; }
+
+/* ── TABS ── */
+.tab-bar { display:flex; gap:0; border-top:1px solid var(--border); }
+.tab-btn {
+  padding:10px 24px; font-family:'JetBrains Mono',monospace; font-size:11px;
+  letter-spacing:0.08em; text-transform:uppercase; cursor:pointer;
+  background:none; border:none; border-bottom:3px solid transparent;
+  color:var(--muted); transition:all .15s; margin-bottom:-3px;
+}
+.tab-btn:hover { color:var(--ink2); }
+.tab-btn.active { color:var(--ink); border-bottom:3px solid var(--ink); font-weight:600; }
+
+/* ── TAB PANELS ── */
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+main { padding:24px 0 60px; }
+.section-head { font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.section-head::after { content:''; flex:1; height:1px; background:var(--border); }
+.rule-thick { border:none; border-top:2px solid var(--ink); margin:24px 0; }
+.data-note { font-size:10px; color:var(--muted); background:var(--paper); border-left:3px solid var(--gold); padding:8px 12px; margin-bottom:18px; line-height:1.7; }
+.data-note strong { color:var(--ink2); }
+
+/* ── SKELETON ── */
+.skel { display:inline-block; background:linear-gradient(90deg,var(--border) 25%,var(--bg) 50%,var(--border) 75%); background-size:300% 100%; animation:sweep 1.4s infinite; border-radius:3px; }
+@keyframes sweep { 0%{background-position:100% 0} 100%{background-position:-100% 0} }
+.err-txt { color:var(--red); font-size:11px; }
+
+/* ══════════════════════════════════
+   TAB 1 — APBN
+══════════════════════════════════ */
+.price-trio { display:grid; grid-template-columns:repeat(3,1fr); border:2px solid var(--ink); margin-bottom:24px; background:var(--surface); }
+.price-card { padding:20px; border-right:1px solid var(--ink); }
+.price-card:last-child { border-right:none; }
+.price-card-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.price-type { font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+.price-type.brent { color:var(--brent-c); }
+.price-type.wti   { color:var(--wti-c); }
+.price-type.icp   { color:var(--icp-c); }
+.price-source { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; border:1px solid var(--border); padding:1px 6px; border-radius:2px; }
+.price-num { font-family:'Fraunces',serif; font-size:46px; font-weight:400; letter-spacing:-0.03em; line-height:1; margin-bottom:3px; min-height:52px; display:flex; align-items:center; }
+.price-unit { font-size:11px; color:var(--muted); }
+.price-change { font-size:11px; margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); min-height:22px; }
+.price-change.up   { color:var(--green); }
+.price-change.down { color:var(--red); }
+.price-change.neutral { color:var(--muted); }
+.price-vs { margin-top:12px; padding:10px; background:var(--bg); border:1px solid var(--border); border-radius:2px; }
+.vs-label { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+.track { height:4px; background:var(--border); border-radius:2px; position:relative; margin:4px 0 8px; }
+.track-range { position:absolute; height:100%; background:repeating-linear-gradient(90deg,var(--gold) 0,var(--gold) 3px,transparent 3px,transparent 8px); opacity:0.6; }
+.track-dot { position:absolute; width:10px; height:10px; border-radius:50%; top:-3px; transform:translateX(-50%); border:2px solid var(--surface); transition:left 0.6s ease; box-shadow:0 1px 3px rgba(0,0,0,0.25); }
+.track-dot.brent { background:var(--brent-c); }
+.track-dot.wti   { background:var(--wti-c); }
+.track-dot.icp   { background:var(--icp-c); }
+.vs-badge { display:inline-block; font-size:9px; padding:2px 7px; border-radius:2px; text-transform:uppercase; letter-spacing:0.06em; font-weight:600; }
+.vs-badge.above  { background:#fde8e8; color:var(--red);   border:1px solid #f9c0c0; }
+.vs-badge.within { background:#e8f5ee; color:var(--green); border:1px solid #b2dfcb; }
+.vs-badge.below  { background:#fde8e8; color:var(--red);   border:1px solid #f9c0c0; }
+.deviasi-box { margin-top:8px; padding:8px 10px; background:var(--surface); border:1px solid var(--border); border-radius:2px; display:flex; justify-content:space-between; gap:6px; }
+.dev-item { display:flex; flex-direction:column; align-items:center; flex:1; }
+.dev-lbl { font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:2px; text-align:center; }
+.dev-val { font-size:13px; font-weight:700; font-family:'Fraunces',serif; line-height:1; }
+.dev-val.up   { color:var(--red); }
+.dev-val.down { color:var(--green); }
+.dev-val.ok   { color:var(--muted); }
+.dev-sep { width:1px; background:var(--border); align-self:stretch; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+.kurs-card, .spread-card { background:var(--surface); border:2px solid var(--ink); padding:20px; }
+.card-title { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; font-weight:600; color:var(--muted); margin-bottom:16px; }
+.kurs-big { font-family:'Fraunces',serif; font-size:38px; font-weight:400; letter-spacing:-0.02em; color:var(--accent2); line-height:1; margin-bottom:4px; min-height:44px; display:flex; align-items:center; }
+.kurs-sub-txt { font-size:10px; color:var(--muted); margin-bottom:14px; }
+.kurs-rows { display:flex; flex-direction:column; gap:5px; padding-top:12px; border-top:1px solid var(--border); }
+.kurs-row-item { display:flex; justify-content:space-between; align-items:center; font-size:11px; }
+.kurs-row-lbl { color:var(--muted); }
+.kurs-row-val { font-weight:600; }
+.kurs-status { margin-top:10px; padding:6px 10px; font-size:10px; border-radius:2px; text-align:center; font-weight:600; }
+.kurs-status.ok   { background:#e8f5ee; color:var(--green); border:1px solid #b2dfcb; }
+.kurs-status.warn { background:#fde8e8; color:var(--red);   border:1px solid #f9c0c0; }
+.spread-row { display:flex; justify-content:space-between; align-items:baseline; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px; gap:8px; }
+.spread-row:last-child { border-bottom:none; }
+.spread-lbl { color:var(--ink2); }
+.spread-val { font-weight:600; white-space:nowrap; }
+.tbl-card { background:var(--surface); border:2px solid var(--ink); margin-bottom:24px; }
+.tbl-hdr { background:var(--ink); color:#fff; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; }
+.tbl-hdr-title { font-family:'Fraunces',serif; font-size:18px; font-weight:300; }
+.tbl-hdr-sub { font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px; }
+table { width:100%; border-collapse:collapse; }
+thead th { font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); padding:8px 16px; border-bottom:1px solid var(--border); text-align:left; background:var(--bg); }
+thead th:not(:first-child) { text-align:right; }
+tbody tr:hover { background:#fafaf7; }
+tbody td { padding:10px 16px; border-bottom:1px solid var(--border); vertical-align:middle; font-size:12px; }
+tbody td:not(:first-child) { text-align:right; }
+tbody tr:last-child td { border-bottom:none; }
+.td-name { font-weight:500; }
+.td-sub { font-size:10px; color:var(--muted); display:block; margin-top:1px; }
+.badge-live { display:inline-block; background:var(--ink); color:#fff; font-size:8px; padding:1px 5px; border-radius:2px; margin-left:6px; letter-spacing:0.06em; text-transform:uppercase; vertical-align:middle; }
+.badge-proj { display:inline-block; background:var(--bg); color:var(--muted); font-size:8px; padding:1px 5px; border-radius:2px; margin-left:6px; border:1px solid var(--border); text-transform:uppercase; letter-spacing:0.06em; vertical-align:middle; }
+tr.hl { background:#fffef5 !important; }
+.fiskal-5 { display:grid; grid-template-columns:repeat(5,1fr); border:2px solid var(--ink); margin-bottom:24px; }
+.f-card { padding:16px; border-right:1px solid var(--ink); background:var(--surface); }
+.f-card:last-child { border-right:none; }
+.f-lbl { font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.f-val { font-family:'Fraunces',serif; font-size:19px; font-weight:400; letter-spacing:-0.01em; line-height:1.3; }
+.f-val.p { color:var(--green); } .f-val.b { color:var(--red); }
+.f-val.pr { color:var(--accent2); } .f-val.d { color:var(--gold); }
+.f-val.pm { color:var(--ink2); }
+.f-unit { font-size:9px; color:var(--muted); margin-top:4px; }
+.postur-two { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+.postur-card { background:var(--surface); border:2px solid var(--ink); overflow:hidden; }
+.postur-head { padding:10px 16px; font-size:11px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; border-bottom:1px solid var(--border); }
+.postur-head.pend { background:#e8f5ee; color:var(--green); }
+.postur-head.bel  { background:#fde8e8; color:var(--red); }
+.postur-row { display:flex; justify-content:space-between; align-items:baseline; padding:9px 16px; border-bottom:1px solid var(--border); font-size:12px; gap:8px; }
+.postur-row:last-child { border-bottom:none; }
+.postur-row.total { background:var(--bg); font-weight:600; }
+.postur-row.sub { padding-left:28px; }
+.pdr-lbl { color:var(--ink2); }
+.pdr-lbl.sub { color:var(--muted); font-size:11px; }
+.pdr-val { font-family:'JetBrains Mono',monospace; white-space:nowrap; font-size:11px; }
+
+/* ══════════════════════════════════
+   TAB 2 — SAHAM
+══════════════════════════════════ */
+.idx-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:2px solid var(--ink); margin-bottom:24px; background:var(--surface); }
+.idx-card { padding:18px 16px; border-right:1px solid var(--ink); border-bottom:1px solid var(--ink); position:relative; overflow:hidden; }
+.idx-card:nth-child(4n) { border-right:none; }
+.idx-card:nth-last-child(-n+4) { border-bottom:none; }
+.idx-region { font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+.idx-name { font-size:10px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink2); margin-bottom:2px; }
+.idx-fullname { font-size:9px; color:var(--muted); margin-bottom:10px; }
+.idx-price { font-family:'Fraunces',serif; font-size:32px; font-weight:400; letter-spacing:-0.02em; line-height:1; margin-bottom:4px; min-height:36px; display:flex; align-items:center; }
+.idx-price.up   { color:var(--green); }
+.idx-price.down { color:var(--red); }
+.idx-change { font-size:11px; display:flex; gap:8px; align-items:center; margin-bottom:10px; min-height:16px; flex-wrap:wrap; }
+.chg-abs { font-weight:600; }
+.chg-pct { padding:1px 6px; border-radius:2px; font-size:10px; font-weight:700; letter-spacing:0.04em; }
+.chg-pct.up   { background:#e8f5ee; color:var(--green); border:1px solid #b2dfcb; }
+.chg-pct.down { background:#fde8e8; color:var(--red);   border:1px solid #f9c0c0; }
+.chg-pct.flat { background:var(--bg); color:var(--muted); border:1px solid var(--border); }
+.sparkline-wrap { height:52px; margin-bottom:6px; position:relative; }
+.sparkline-wrap canvas { width:100% !important; height:52px !important; }
+.spark-range { display:flex; justify-content:space-between; font-size:8px; color:var(--muted); }
+.idx-footer { display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); }
+.idx-vol { font-size:9px; color:var(--muted); }
+.idx-time { font-size:9px; color:var(--muted); text-align:right; }
+.badge-region { display:inline-block; font-size:8px; padding:1px 5px; border-radius:2px; margin-left:6px; letter-spacing:0.06em; text-transform:uppercase; vertical-align:middle; border:1px solid var(--border); color:var(--muted); background:var(--bg); }
+.td-up   { color:var(--green); font-weight:600; }
+.td-down { color:var(--red);   font-weight:600; }
+.td-flat { color:var(--muted); }
+
+/* ── FOOTER ── */
+footer { border-top:2px solid var(--ink); padding:16px 0; background:var(--paper); }
+.footer-txt { font-size:10px; color:var(--muted); text-align:center; line-height:2; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .price-trio { grid-template-columns:1fr; }
+  .price-card { border-right:none; border-bottom:1px solid var(--ink); }
+  .price-card:last-child { border-bottom:none; }
+  .two-col,.postur-two { grid-template-columns:1fr; }
+  .fiskal-5 { grid-template-columns:repeat(3,1fr); }
+  .idx-grid { grid-template-columns:repeat(2,1fr); }
+  .idx-card:nth-child(2n) { border-right:none; }
+  .idx-card:nth-child(4n) { border-right:1px solid var(--ink); }
+}
+@media(max-width:600px){
+  .brand-title { font-size:26px; }
+  .fiskal-5 { grid-template-columns:1fr 1fr; }
+  .idx-grid { grid-template-columns:1fr; }
+  .idx-card { border-right:none !important; }
+  .tab-btn { padding:10px 14px; font-size:10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ MASTHEAD ══════════════════ -->
+<header class="masthead">
+  <div class="container">
+    <div class="masthead-inner">
+      <div>
+        <div class="brand-title">Monitor <em>Ekonomi</em></div>
+        <div class="brand-sub">APBN 2025 &amp; Indeks Saham Global · Pemantauan Real-Time · Indonesia</div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--muted);text-align:right;text-transform:uppercase;letter-spacing:0.1em" id="today-date">—</div>
+        <div class="status-row">
+          <span class="live-pill"><span class="live-dot"></span>Live</span>
+          <span class="last-updated" id="last-updated-apbn">APBN: —</span>
+          <span class="last-updated" id="last-updated-saham">Saham: —</span>
+          <button class="refresh-btn" id="refresh-btn" onclick="refreshAll()">↻ Refresh</button>
+        </div>
+      </div>
+    </div>
+    <!-- TAB BAR -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('apbn', this)">📊 Monitor APBN</button>
+      <button class="tab-btn" onclick="switchTab('saham', this)">📈 Indeks Saham Global</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+<!-- ══════════════════════════════════
+     TAB 1 — APBN
+══════════════════════════════════ -->
+<div class="tab-panel active" id="panel-apbn">
+
+  <div class="section-head">Harga Minyak Mentah Dunia vs ICP</div>
+  <div class="data-note">
+    <strong>Brent &amp; WTI:</strong> OilPriceAPI.com (real-time) → fallback EIA jika limit habis &nbsp;·&nbsp;
+    <strong>Kurs IDR:</strong> open.er-api.com (real-time) &nbsp;·&nbsp;
+    <strong>ICP:</strong> SKK Migas/Ditjen Migas (bulanan, tidak ada API publik resmi) &nbsp;·&nbsp;
+    Asumsi APBN ICP: <strong>US$60–80/barel</strong> &nbsp;·&nbsp; Asumsi Kurs: <strong>Rp16.500–16.900/US$</strong>
+  </div>
+
+  <div class="price-trio">
+    <div class="price-card">
+      <div class="price-card-head">
+        <span class="price-type brent">Brent Crude</span>
+        <span class="price-source" id="src-brent">Memuat...</span>
+      </div>
+      <div class="price-num" id="brent-num"><span class="skel" style="width:130px;height:44px;display:inline-block"></span></div>
+      <div class="price-unit">USD / barel</div>
+      <div class="price-change neutral" id="brent-chg">—</div>
+      <div class="price-vs">
+        <div class="vs-label">vs Asumsi APBN (US$60–80/bbl)</div>
+        <div class="track">
+          <div class="track-range" id="brent-range"></div>
+          <div class="track-dot brent" id="brent-dot" style="left:50%"></div>
+        </div>
+        <span class="vs-badge" id="brent-badge">—</span>
+        <div class="deviasi-box">
+          <div class="dev-item"><div class="dev-lbl">vs Tengah (US$70)</div><div class="dev-val" id="brent-dev-mid">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Bawah (US$60)</div><div class="dev-val" id="brent-dev-lo">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Atas (US$80)</div><div class="dev-val" id="brent-dev-hi">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="price-card">
+      <div class="price-card-head">
+        <span class="price-type wti">WTI Crude</span>
+        <span class="price-source" id="src-wti">Memuat...</span>
+      </div>
+      <div class="price-num" id="wti-num"><span class="skel" style="width:130px;height:44px;display:inline-block"></span></div>
+      <div class="price-unit">USD / barel</div>
+      <div class="price-change neutral" id="wti-chg">—</div>
+      <div class="price-vs">
+        <div class="vs-label">vs Asumsi APBN (US$60–80/bbl)</div>
+        <div class="track">
+          <div class="track-range" id="wti-range"></div>
+          <div class="track-dot wti" id="wti-dot" style="left:50%"></div>
+        </div>
+        <span class="vs-badge" id="wti-badge">—</span>
+        <div class="deviasi-box">
+          <div class="dev-item"><div class="dev-lbl">vs Tengah (US$70)</div><div class="dev-val" id="wti-dev-mid">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Bawah (US$60)</div><div class="dev-val" id="wti-dev-lo">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Atas (US$80)</div><div class="dev-val" id="wti-dev-hi">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="price-card">
+      <div class="price-card-head">
+        <span class="price-type icp">ICP Indonesia</span>
+        <span class="price-source">SKK Migas</span>
+      </div>
+      <div class="price-num" id="icp-num"><span class="skel" style="width:130px;height:44px;display:inline-block"></span></div>
+      <div class="price-unit">USD / barel</div>
+      <div class="price-change neutral" id="icp-chg">—</div>
+      <div class="price-vs">
+        <div class="vs-label">vs Asumsi APBN (US$60–80/bbl)</div>
+        <div class="track">
+          <div class="track-range" id="icp-range"></div>
+          <div class="track-dot icp" id="icp-dot" style="left:50%"></div>
+        </div>
+        <span class="vs-badge" id="icp-badge">—</span>
+        <div class="deviasi-box">
+          <div class="dev-item"><div class="dev-lbl">vs Tengah (US$70)</div><div class="dev-val" id="icp-dev-mid">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Bawah (US$60)</div><div class="dev-val" id="icp-dev-lo">—</div></div>
+          <div class="dev-sep"></div>
+          <div class="dev-item"><div class="dev-lbl">vs Batas Atas (US$80)</div><div class="dev-val" id="icp-dev-hi">—</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="kurs-card">
+      <div class="card-title">Nilai Tukar Rupiah / US Dollar</div>
+      <div class="kurs-big" id="kurs-big"><span class="skel" style="width:160px;height:36px;display:inline-block"></span></div>
+      <div class="kurs-sub-txt" id="kurs-sub">Memuat dari open.er-api.com...</div>
+      <div class="kurs-rows">
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Batas bawah asumsi APBN</span><span class="kurs-row-val">Rp16.500</span></div>
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Tengah asumsi APBN</span><span class="kurs-row-val">Rp16.700</span></div>
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Batas atas asumsi APBN</span><span class="kurs-row-val">Rp16.900</span></div>
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Selisih vs tengah asumsi</span><span class="kurs-row-val" id="kurs-selisih">—</span></div>
+        <div class="kurs-row-item"><span class="kurs-row-lbl">Deviasi % vs tengah asumsi</span><span class="kurs-row-val" id="kurs-dev-pct">—</span></div>
+      </div>
+      <div class="kurs-status" id="kurs-status">Memuat...</div>
+    </div>
+    <div class="spread-card">
+      <div class="card-title">Ringkasan &amp; Perbandingan</div>
+      <div class="spread-row"><span class="spread-lbl">Brent Crude</span><span class="spread-val" id="sum-brent">—</span></div>
+      <div class="spread-row"><span class="spread-lbl">WTI Crude</span><span class="spread-val" id="sum-wti">—</span></div>
+      <div class="spread-row"><span class="spread-lbl">ICP Indonesia (bulanan)</span><span class="spread-val" id="sum-icp">—</span></div>
+      <div class="spread-row"><span class="spread-lbl">Spread Brent − ICP</span><span class="spread-val" id="sum-spread">—</span></div>
+      <div class="spread-row"><span class="spread-lbl">Tengah asumsi ICP APBN</span><span class="spread-val" style="color:var(--gold)">US$ 70,00/bbl</span></div>
+      <div class="spread-row" style="border-bottom:none"><span class="spread-lbl">Kurs terkini</span><span class="spread-val" id="sum-kurs">—</span></div>
+    </div>
+  </div>
+
+  <hr class="rule-thick">
+
+  <div class="section-head">Asumsi Dasar Ekonomi Makro APBN 2025</div>
+  <div class="tbl-card">
+    <div class="tbl-hdr">
+      <div>
+        <div class="tbl-hdr-title">Asumsi Dasar Ekonomi Makro</div>
+        <div class="tbl-hdr-sub">Setelah Penyesuaian di Panja Banggar DPR · APBN 2025</div>
+      </div>
+      <span style="font-size:10px;color:rgba(255,255,255,0.3)">7 INDIKATOR</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:36%">Indikator</th>
+          <th>Rentang Asumsi (Panja)</th>
+          <th>Nilai Aktual / Terkini</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="td-name">Pertumbuhan Ekonomi <span class="badge-proj">Proyeksi</span></span><span class="td-sub">% YoY</span></td>
+          <td>5,2% — 5,8%</td><td>—</td><td style="color:var(--muted);font-size:11px">BPS (berkala)</td>
+        </tr>
+        <tr>
+          <td><span class="td-name">Suku Bunga SBN 10 Tahun <span class="badge-proj">Proyeksi</span></span><span class="td-sub">% per tahun</span></td>
+          <td>6,6% — 7,2%</td><td>—</td><td style="color:var(--muted);font-size:11px">DJPPR / Bloomberg</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="td-name">Nilai Tukar Rupiah <span class="badge-live">Live</span></span><span class="td-sub">Rp per US$</span></td>
+          <td>Rp16.500 — Rp16.900</td>
+          <td id="tbl-kurs"><span class="skel" style="width:80px;height:13px;display:inline-block"></span></td>
+          <td id="tbl-kurs-st">—</td>
+        </tr>
+        <tr>
+          <td><span class="td-name">Inflasi <span class="badge-proj">Proyeksi</span></span><span class="td-sub">% YoY</span></td>
+          <td>1,5% — 3,5%</td><td>—</td><td style="color:var(--muted);font-size:11px">BPS (bulanan)</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="td-name">Harga Minyak Mentah (ICP) <span class="badge-live">Live</span></span><span class="td-sub">US$ per barel</span></td>
+          <td>US$60 — US$80</td>
+          <td id="tbl-icp"><span class="skel" style="width:80px;height:13px;display:inline-block"></span></td>
+          <td id="tbl-icp-st">—</td>
+        </tr>
+        <tr>
+          <td><span class="td-name">Lifting Minyak Bumi <span class="badge-proj">SKK Migas</span></span><span class="td-sub">ribu barel per hari (bph)</span></td>
+          <td>605 — 620 rb bph</td><td>—</td><td style="color:var(--muted);font-size:11px">SKK Migas</td>
+        </tr>
+        <tr>
+          <td><span class="td-name">Lifting Gas Bumi <span class="badge-proj">SKK Migas</span></span><span class="td-sub">ribu barel setara minyak/hari</span></td>
+          <td>953 — 1.017 rb bopd</td><td>—</td><td style="color:var(--muted);font-size:11px">SKK Migas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="rule-thick">
+
+  <div class="section-head">Postur Makro Fiskal (% dari PDB)</div>
+  <div class="fiskal-5">
+    <div class="f-card"><div class="f-lbl">Pendapatan Negara</div><div class="f-val p">11,71—<br>12,31%</div><div class="f-unit">dari PDB</div></div>
+    <div class="f-card"><div class="f-lbl">Belanja Negara</div><div class="f-val b">14,19—<br>14,83%</div><div class="f-unit">dari PDB</div></div>
+    <div class="f-card"><div class="f-lbl">Keseimbangan Primer</div><div class="f-val pr">(0,18)—<br>(0,22)%</div><div class="f-unit">dari PDB</div></div>
+    <div class="f-card"><div class="f-lbl">Defisit APBN</div><div class="f-val d">(2,48)—<br>(2,53)%</div><div class="f-unit">dari PDB</div></div>
+    <div class="f-card"><div class="f-lbl">Pembiayaan</div><div class="f-val pm">2,48—<br>2,53%</div><div class="f-unit">dari PDB</div></div>
+  </div>
+
+  <div class="postur-two">
+    <div class="postur-card">
+      <div class="postur-head pend">▲ Pendapatan Negara</div>
+      <div class="postur-row total"><span class="pdr-lbl">Total Pendapatan</span><span class="pdr-val" style="color:var(--green)">11,71—12,31% PDB</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">Perpajakan</span><span class="pdr-val">10,08—10,54%</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">PNBP</span><span class="pdr-val">1,63—1,76%</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">Hibah</span><span class="pdr-val">0,002—0,003%</span></div>
+    </div>
+    <div class="postur-card">
+      <div class="postur-head bel">▼ Belanja Negara</div>
+      <div class="postur-row total"><span class="pdr-lbl">Total Belanja</span><span class="pdr-val" style="color:var(--red)">14,19—14,83% PDB</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">Belanja Pemerintah Pusat</span><span class="pdr-val">11,41—11,94%</span></div>
+      <div class="postur-row sub"><span class="pdr-lbl sub">Transfer ke Daerah (TKD)</span><span class="pdr-val">2,78—2,89%</span></div>
+    </div>
+  </div>
+
+  <div class="section-head">Perbandingan Harga Minyak vs Asumsi APBN 2025</div>
+  <div class="tbl-card">
+    <div class="tbl-hdr">
+      <div>
+        <div class="tbl-hdr-title">Brent · WTI · ICP vs Asumsi APBN</div>
+        <div class="tbl-hdr-sub">Tengah asumsi ICP: US$70/barel · Rentang: US$60–80/barel</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Jenis Minyak</th><th>Batas Bawah</th><th>Batas Atas</th>
+          <th>Harga Terkini</th><th>vs Tengah (US$70)</th><th>Deviasi %</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="td-name" style="color:var(--brent-c)">● Brent Crude</span><span class="td-sub">OilPriceAPI · Real-time</span></td>
+          <td>US$ 60</td><td>US$ 80</td>
+          <td id="cmp-brent-p">—</td><td id="cmp-brent-d">—</td><td id="cmp-brent-pct">—</td><td id="cmp-brent-s">—</td>
+        </tr>
+        <tr>
+          <td><span class="td-name" style="color:var(--wti-c)">● WTI Crude</span><span class="td-sub">OilPriceAPI · Real-time</span></td>
+          <td>US$ 60</td><td>US$ 80</td>
+          <td id="cmp-wti-p">—</td><td id="cmp-wti-d">—</td><td id="cmp-wti-pct">—</td><td id="cmp-wti-s">—</td>
+        </tr>
+        <tr class="hl">
+          <td><span class="td-name" style="color:var(--icp-c)">● ICP Indonesia</span><span class="td-sub">Ditjen Migas / SKK Migas · Bulanan</span></td>
+          <td>US$ 60</td><td>US$ 80</td>
+          <td id="cmp-icp-p">—</td><td id="cmp-icp-d">—</td><td id="cmp-icp-pct">—</td><td id="cmp-icp-s">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /panel-apbn -->
+
+<!-- ══════════════════════════════════
+     TAB 2 — SAHAM
+══════════════════════════════════ -->
+<div class="tab-panel" id="panel-saham">
+
+  <div class="data-note">
+    <strong>Sumber data:</strong> Yahoo Finance via Cloudflare Worker proxy &nbsp;·&nbsp;
+    <strong>Sparkline:</strong> 90 hari terakhir (harian) &nbsp;·&nbsp;
+    Data saham Asia mungkin tertunda saat pasar tutup &nbsp;·&nbsp;
+    <strong>Refresh otomatis:</strong> setiap 10 menit
+  </div>
+
+  <div class="section-head">Amerika Serikat</div>
+  <div class="idx-grid">
+    <div class="idx-card" id="card-GSPC">
+      <div class="idx-region">Amerika Serikat</div>
+      <div class="idx-name">S&amp;P 500</div>
+      <div class="idx-fullname">500 Perusahaan Terbesar AS</div>
+      <div class="idx-price" id="price-GSPC"><span class="skel" style="width:110px;height:32px"></span></div>
+      <div class="idx-change" id="change-GSPC"><span class="skel" style="width:80px;height:14px"></span></div>
+      <div class="sparkline-wrap"><canvas id="spark-GSPC"></canvas></div>
+      <div class="spark-range"><span id="splo-GSPC">—</span><span style="color:var(--gold)">90 hari</span><span id="sphi-GSPC">—</span></div>
+      <div class="idx-footer"><span class="idx-vol" id="vol-GSPC">—</span><span class="idx-time" id="time-GSPC">—</span></div>
+    </div>
+    <div class="idx-card" id="card-DJI">
+      <div class="idx-region">Amerika Serikat</div>
+      <div class="idx-name">DJIA</div>
+      <div class="idx-fullname">Dow Jones Industrial Average</div>
+      <div class="idx-price" id="price-DJI"><span class="skel" style="width:110px;height:32px"></span></div>
+      <div class="idx-change" id="change-DJI"><span class="skel" style="width:80px;height:14px"></span></div>
+      <div class="sparkline-wrap"><canvas id="spark-DJI"></canvas></div>
+      <div class="spark-range"><span id="splo-DJI">—</span><span style="color:var(--gold)">90 hari</span><span id="sphi-DJI">—</span></div>
+      <div class="idx-footer"><span class="idx-vol" id="vol-DJI">—</span><span class="idx-time" id="time-DJI">—</span></div>
+    </div>
+    <div class="idx-card" id="card-IXIC">
+      <div class="idx-region">Amerika Serikat</div>
+      <div class="idx-name">Nasdaq</div>
+      <div class="idx-fullname">Nasdaq Composite (Tech-Heavy)</div>
+      <div class="idx-price" id="price-IXIC"><span class="skel" style="width:110px;height:32px"></span></div>
+      <div class="idx-change" id="change-IXIC"><span class="skel" style="width:80px;height:14px"></span></div>
+      <div class="sparkline-wrap"><canvas id="spark-IXIC"></canvas></div>
+      <div class="spark-range"><span id="splo-IXIC">—</span><span style="color:var(--gold)">90 hari</span><span id="sphi-IXIC">—</span></div>
+      <div class="idx-footer"><span class="idx-vol" id="vol-IXIC">—</span><span class="idx-time" id="time-IXIC">—</span></div>
+    </div>
+    <div class="idx-card" style="background:var(--bg);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;">
+      <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em">Wall Street</div>
+      <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--border);text-align:center;line-height:1.3">The Big<br><em style="color:var(--muted)">Three</em></div>
+      <div style="font-size:9px;color:var(--muted);text-align:center">S&amp;P · DJIA · Nasdaq</div>
+    </div>
+  </div>
+
+  <div class="section-head">Asia Pasifik</div>
+  <div class="idx-grid">
+    <div class="idx-card" id="card-N225">
+      <div class="idx-region">Jepang</div>
+      <div class="idx-name">Nikkei 225</div>
+      <div class="idx-fullname">Tokyo Stock Exchange</div>
+      <div class="idx-price" id="price-N225"><span class="skel" style="width:110px;height:32px"></span></div>
+      <div class="idx-change" id="change-N225"><span class="skel" style="width:80px;height:14px"></span></div>
+      <div class="sparkline-wrap"><canvas id="spark-N225"></canvas></div>
+      <div class="spark-range"><span id="splo-N225">—</span><span style="color:var(--gold)">90 hari</span><span id="sphi-N225">—</span></div>
+      <div class="idx-footer"><span class="idx-vol" id="vol-N225">—</span><span class="idx-time" id="time-N225">—</span></div>
+    </div>
+    <div class="idx-card" id="card-SSEC">
+      <div class="idx-region">China Daratan</div>
+      <div class="idx-name">Shanghai Composite</div>
+      <div class="idx-fullname">SSE Composite Index</div>
+      <div class="idx-price" id="price-SSEC"><span class="skel" style="width:110px;height:32px"></span></div>
+      <div class="idx-change" id="change-SSEC"><span class="skel" style="width:80px;height:14px"></span></div>
+      <div class="sparkline-wrap"><canvas id="spark-SSEC"></canvas></div>
+      <div class="spark-range"><span id="splo-SSEC">—</span><span style="color:var(--gold)">90 hari</span><span id="sphi-SSEC">—</span></div>
+      <div class="idx-footer"><span class="idx-vol" id="vol-SSEC">—</span><span class="idx-time" id="time-SSEC">—</span></div>
+    </div>
+    <div class="idx-card" id="card-JKSE">
+      <div class="idx-region">Indonesia</div>
+      <div class="idx-name">IHSG</div>
+      <div class="idx-fullname">Indeks Harga Saham Gabungan</div>
+      <div class="idx-price" id="price-JKSE"><span class="skel" style="width:110px;height:32px"></span></div>
+      <div class="idx-change" id="change-JKSE"><span class="skel" style="width:80px;height:14px"></span></div>
+      <div class="sparkline-wrap"><canvas id="spark-JKSE"></canvas></div>
+      <div class="spark-range"><span id="splo-JKSE">—</span><span style="color:var(--gold)">90 hari</span><span id="sphi-JKSE">—</span></div>
+      <div class="idx-footer"><span class="idx-vol" id="vol-JKSE">—</span><span class="idx-time" id="time-JKSE">—</span></div>
+    </div>
+    <div class="idx-card" style="background:var(--bg);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;">
+      <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em">Asia Pasifik</div>
+      <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--border);text-align:center;line-height:1.3">Rising<br><em style="color:var(--muted)">Markets</em></div>
+      <div style="font-size:9px;color:var(--muted);text-align:center">JP · CN · ID</div>
+    </div>
+  </div>
+
+  <div class="section-head">Eropa</div>
+  <div class="idx-grid">
+    <div class="idx-card" id="card-FTSE">
+      <div class="idx-region">Inggris Raya</div>
+      <div class="idx-name">FTSE 100</div>
+      <div class="idx-fullname">London Stock Exchange · Top 100</div>
+      <div class="idx-price" id="price-FTSE"><span class="skel" style="width:110px;height:32px"></span></div>
+      <div class="idx-change" id="change-FTSE"><span class="skel" style="width:80px;height:14px"></span></div>
+      <div class="sparkline-wrap"><canvas id="spark-FTSE"></canvas></div>
+      <div class="spark-range"><span id="splo-FTSE">—</span><span style="color:var(--gold)">90 hari</span><span id="sphi-FTSE">—</span></div>
+      <div class="idx-footer"><span class="idx-vol" id="vol-FTSE">—</span><span class="idx-time" id="time-FTSE">—</span></div>
+    </div>
+    <div class="idx-card" style="background:var(--bg);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;">
+      <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em">Eropa</div>
+      <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--border);text-align:center;line-height:1.3">Old<br><em style="color:var(--muted)">World</em></div>
+      <div style="font-size:9px;color:var(--muted);text-align:center">FTSE · London</div>
+    </div>
+    <div class="idx-card" style="background:var(--bg);"></div>
+    <div class="idx-card" style="background:var(--bg);"></div>
+  </div>
+
+  <hr class="rule-thick">
+
+  <div class="section-head">Ringkasan Semua Indeks</div>
+  <div class="tbl-card">
+    <div class="tbl-hdr">
+      <div>
+        <div class="tbl-hdr-title">Global Market Summary</div>
+        <div class="tbl-hdr-sub">Data harga terkini · Perubahan harian · 90 hari trend</div>
+      </div>
+      <span style="font-size:10px;color:rgba(255,255,255,0.3)">7 INDEKS</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28%">Indeks</th>
+          <th>Harga</th>
+          <th>Perubahan</th>
+          <th>% Hari Ini</th>
+          <th>High 90H</th>
+          <th>Low 90H</th>
+          <th>Status Pasar</th>
+        </tr>
+      </thead>
+      <tbody id="summary-tbody">
+        <tr><td colspan="7" style="text-align:center;padding:20px;color:var(--muted)"><span class="skel" style="width:300px;height:14px;display:inline-block"></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /panel-saham -->
+
+</div><!-- /container -->
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-txt">
+      <strong>APBN:</strong> OilPriceAPI.com · EIA (fallback) · open.er-api.com · SKK Migas · Kemenkeu RI &nbsp;·&nbsp;
+      <strong>Saham:</strong> Yahoo Finance via Cloudflare Worker (ihsg.andreas-syaloom-k.workers.dev)<br>
+      Informasi bersifat indikatif · Bukan saran investasi · Auto-refresh setiap 10 menit
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// ══════════════════════════════════════════════
+// TAB SWITCHING
+// ══════════════════════════════════════════════
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function refreshAll() {
+  const btn = document.getElementById('refresh-btn');
+  btn.disabled = true; btn.textContent = '↻ Memuat...';
+  Promise.all([fetchAllAPBN(), fetchAllSaham()]).finally(() => {
+    btn.disabled = false; btn.textContent = '↻ Refresh';
+  });
+}
+
+// ══════════════════════════════════════════════
+// SHARED
+// ══════════════════════════════════════════════
+document.getElementById('today-date').textContent =
+  new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+// ══════════════════════════════════════════════
+// TAB 1 — APBN SCRIPTS
+// ══════════════════════════════════════════════
+const OIL_KEY  = '90c6658e03b6437d108957451e82c13f85c58ef814c8bd85458d3c6303769d08';
+const OIL_BASE = 'https://api.oilpriceapi.com/v1';
+const ER_URL   = 'https://open.er-api.com/v6/latest/USD';
+const EIA_URL  = 'https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=iti5GIXRgU8kaeES3xUCn0jDvpuoIMkFP7Qr6pIG&frequency=weekly&data[0]=value&facets[series][]=RBRTE&facets[series][]=RWTC&sort[0][column]=period&sort[0][direction]=desc&length=4';
+const ICP = { price: 74.56, prev: 76.33, period: 'Februari 2025' };
+const APBN = { oilLo:60, oilHi:80, oilMid:70, kursLo:16500, kursHi:16900, kursMid:16700 };
+
+const f2   = n => (+n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fIDR = n => 'Rp' + Math.round(n).toLocaleString('id-ID');
+const badge = (v,lo,hi) => v>hi ? {c:'above',t:'▲ Di atas asumsi'} : v<lo ? {c:'below',t:'▼ Di bawah asumsi'} : {c:'within',t:'✓ Dalam rentang'};
+
+function barPct(val, lo, hi) {
+  const ext = (hi - lo) * 0.85;
+  return Math.min(97, Math.max(3, ((val-(lo-ext)) / ((hi+ext)-(lo-ext))) * 100));
+}
+function setRangeBar(type) {
+  const lo = barPct(APBN.oilLo, APBN.oilLo, APBN.oilHi);
+  const hi = barPct(APBN.oilHi, APBN.oilLo, APBN.oilHi);
+  document.getElementById(`${type}-range`).style.cssText = `left:${lo}%;width:${hi-lo}%`;
+}
+function renderOil(type, price, chgAbs, chgPct, note) {
+  document.getElementById(`${type}-num`).textContent = f2(price);
+  const chEl = document.getElementById(`${type}-chg`);
+  if (chgAbs != null) {
+    chEl.className = `price-change ${chgAbs >= 0 ? 'up' : 'down'}`;
+    chEl.textContent = `${chgAbs>=0?'▲':'▼'} ${f2(Math.abs(chgAbs))} (${f2(Math.abs(chgPct))}%) ${note||'vs hari sebelumnya'}`;
+  } else {
+    chEl.className = 'price-change neutral';
+    chEl.textContent = note || '—';
+  }
+  const st = badge(price, APBN.oilLo, APBN.oilHi);
+  const b = document.getElementById(`${type}-badge`);
+  b.className = `vs-badge ${st.c}`; b.textContent = st.t;
+  document.getElementById(`${type}-dot`).style.left = barPct(price, APBN.oilLo, APBN.oilHi) + '%';
+  setRangeBar(type);
+  function devEl(id, val, ref) {
+    const el = document.getElementById(id); if (!el) return;
+    const pct = ((val - ref) / ref) * 100; const sign = pct >= 0 ? '+' : '';
+    el.textContent = `${sign}${f2(pct)}%`;
+    el.className = `dev-val ${pct > 0 ? 'up' : pct < 0 ? 'down' : 'ok'}`;
+  }
+  devEl(`${type}-dev-mid`, price, APBN.oilMid);
+  devEl(`${type}-dev-lo`,  price, APBN.oilLo);
+  devEl(`${type}-dev-hi`,  price, APBN.oilHi);
+  document.getElementById(`sum-${type}`).textContent = `US$ ${f2(price)}/bbl`;
+  document.getElementById(`cmp-${type}-p`).textContent = `US$ ${f2(price)}`;
+  const diff = price - APBN.oilMid; const diffPct = (diff / APBN.oilMid) * 100;
+  const dEl = document.getElementById(`cmp-${type}-d`);
+  dEl.textContent = (diff>=0?'+':'') + `US$ ${f2(diff)}`; dEl.style.color = diff>0 ? 'var(--red)' : 'var(--green)';
+  const pEl = document.getElementById(`cmp-${type}-pct`);
+  pEl.textContent = (diffPct>=0?'+':'') + `${f2(diffPct)}%`; pEl.style.color = diffPct>0 ? 'var(--red)' : 'var(--green)'; pEl.style.fontWeight='600';
+  document.getElementById(`cmp-${type}-s`).innerHTML = `<span class="vs-badge ${st.c}">${st.t}</span>`;
+}
+function renderKurs(idr, src) {
+  document.getElementById('kurs-big').textContent = fIDR(idr);
+  document.getElementById('kurs-sub').textContent = `Sumber: ${src} · ${new Date().toLocaleTimeString('id-ID')}`;
+  document.getElementById('sum-kurs').textContent = `${fIDR(idr)} / US$`;
+  const diff = idr - APBN.kursMid; const diffPct = ((idr - APBN.kursMid) / APBN.kursMid) * 100;
+  const sEl = document.getElementById('kurs-selisih');
+  sEl.textContent = (diff>=0?'+':'') + fIDR(diff); sEl.style.color = diff>0 ? 'var(--red)' : 'var(--green)';
+  const pEl = document.getElementById('kurs-dev-pct');
+  if (pEl) { pEl.textContent = (diffPct>=0?'+':'') + f2(diffPct) + '%'; pEl.style.color = diffPct>0 ? 'var(--red)' : 'var(--green)'; pEl.style.fontWeight='600'; }
+  const box = document.getElementById('kurs-status'); let tbl;
+  if (idr < APBN.kursLo) { box.className='kurs-status ok'; box.textContent=`✓ Rupiah lebih kuat dari batas bawah (${fIDR(APBN.kursLo)})`; tbl=`<span class="vs-badge within">✓ Di bawah batas bawah (Rupiah kuat)</span>`; }
+  else if (idr > APBN.kursHi) { box.className='kurs-status warn'; box.textContent=`▲ Rupiah lebih lemah dari batas atas (${fIDR(APBN.kursHi)})`; tbl=`<span class="vs-badge above">▲ Di atas batas atas (Rupiah lemah)</span>`; }
+  else { box.className='kurs-status ok'; box.textContent=`✓ Dalam rentang asumsi APBN (${fIDR(APBN.kursLo)}–${fIDR(APBN.kursHi)})`; tbl=`<span class="vs-badge within">✓ Dalam rentang asumsi</span>`; }
+  document.getElementById('tbl-kurs').textContent = fIDR(idr);
+  document.getElementById('tbl-kurs-st').innerHTML = tbl;
+}
+async function fetchOilPrimary() {
+  const hdr = { 'Authorization': `Token ${OIL_KEY}`, 'Content-Type': 'application/json' };
+  const [rb, rw] = await Promise.all([
+    fetch(`${OIL_BASE}/prices/latest?by_code=BRENT_CRUDE_USD`, { headers: hdr }),
+    fetch(`${OIL_BASE}/prices/latest?by_code=WTI_USD`,         { headers: hdr })
+  ]);
+  if (!rb.ok) throw new Error(`OilPriceAPI Brent: ${rb.status}`);
+  if (!rw.ok) throw new Error(`OilPriceAPI WTI: ${rw.status}`);
+  const bd = (await rb.json()).data; const wd = (await rw.json()).data;
+  renderOil('brent', bd.price, bd.change ?? null, bd.change_percent ?? null, null);
+  renderOil('wti',   wd.price, wd.change ?? null, wd.change_percent ?? null, null);
+  document.getElementById('src-brent').textContent = 'OilPriceAPI ✓';
+  document.getElementById('src-wti').textContent   = 'OilPriceAPI ✓';
+}
+async function fetchOilFallback() {
+  const res = await fetch(EIA_URL); if (!res.ok) throw new Error(`EIA: ${res.status}`);
+  const rows = (await res.json()).response.data;
+  const bRow = rows.find(r => r.series === 'RBRTE'); const wRow = rows.find(r => r.series === 'RWTC');
+  if (bRow) { renderOil('brent', +bRow.value, null, null, `EIA weekly · ${bRow.period}`); document.getElementById('src-brent').textContent = 'EIA (fallback)'; }
+  if (wRow) { renderOil('wti',   +wRow.value, null, null, `EIA weekly · ${wRow.period}`); document.getElementById('src-wti').textContent   = 'EIA (fallback)'; }
+}
+async function fetchOil() {
+  try { await fetchOilPrimary(); }
+  catch(e) {
+    try { await fetchOilFallback(); }
+    catch(e2) {
+      ['brent','wti'].forEach(t => {
+        document.getElementById(`${t}-num`).innerHTML = `<span class="err-txt">⚠ ${e2.message}</span>`;
+        document.getElementById(`${t}-chg`).textContent = 'Periksa koneksi atau API key';
+        document.getElementById(`src-${t}`).textContent = 'Error';
+      });
+    }
+  }
+}
+async function fetchKurs() {
+  try {
+    const res = await fetch(ER_URL);
+    if (!res.ok || (await res.clone().json()).result !== 'success') throw new Error();
+    const d = await res.json(); renderKurs(d.rates.IDR, 'open.er-api.com');
+  } catch {
+    try { const r2 = await fetch('https://api.frankfurter.app/latest?from=USD&to=IDR'); const d2 = await r2.json(); renderKurs(d2.rates.IDR, 'frankfurter.app (fallback)'); }
+    catch(e2) { document.getElementById('kurs-big').innerHTML = `<span class="err-txt">⚠ Gagal memuat</span>`; }
+  }
+}
+function loadICP() {
+  const chg = ICP.price - ICP.prev;
+  renderOil('icp', ICP.price, chg, (chg/ICP.prev)*100, `Data bulanan · ${ICP.period}`);
+  const st = badge(ICP.price, APBN.oilLo, APBN.oilHi);
+  document.getElementById('tbl-icp').textContent = `US$ ${f2(ICP.price)}/bbl (${ICP.period})`;
+  document.getElementById('tbl-icp-st').innerHTML = `<span class="vs-badge ${st.c}">${st.t}</span>`;
+}
+function updateSpread() {
+  const bTxt = document.getElementById('sum-brent').textContent;
+  const iTxt = document.getElementById('sum-icp').textContent;
+  const bm = bTxt.match(/[\d.]+/), im = iTxt.match(/[\d.]+/);
+  if (bm && im) {
+    const sp = +bm[0] - +im[0]; const el = document.getElementById('sum-spread');
+    el.textContent = (sp>=0?'+':'') + `US$ ${f2(sp)}/bbl`; el.style.color = Math.abs(sp)>5 ? 'var(--red)' : 'var(--muted)';
+  }
+}
+async function fetchAllAPBN() {
+  loadICP();
+  await Promise.all([fetchOil(), fetchKurs()]);
+  setTimeout(updateSpread, 500);
+  document.getElementById('last-updated-apbn').textContent =
+    'APBN: ' + new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+
+// ══════════════════════════════════════════════
+// TAB 2 — SAHAM SCRIPTS
+// ══════════════════════════════════════════════
+const PROXY = 'https://ihsg.andreas-syaloom-k.workers.dev';
+const INDICES = [
+  { id:'GSPC', ticker:'^GSPC',     name:'S&P 500',            region:'Amerika Serikat' },
+  { id:'DJI',  ticker:'^DJI',      name:'DJIA',               region:'Amerika Serikat' },
+  { id:'IXIC', ticker:'^IXIC',     name:'Nasdaq',             region:'Amerika Serikat' },
+  { id:'N225', ticker:'^N225',     name:'Nikkei 225',         region:'Jepang' },
+  { id:'SSEC', ticker:'000001.SS', name:'Shanghai Composite', region:'China' },
+  { id:'JKSE', ticker:'^JKSE',     name:'IHSG',               region:'Indonesia' },
+  { id:'FTSE', ticker:'^FTSE',     name:'FTSE 100',           region:'Inggris' },
+];
+const sparkCharts = {};
+const summaryData = {};
+
+function fNum(n, decimals=2) { if (n==null||isNaN(n)) return '—'; return n.toLocaleString('id-ID',{minimumFractionDigits:decimals,maximumFractionDigits:decimals}); }
+function fPct(n) { if (n==null||isNaN(n)) return '—'; return (n>=0?'+':'') + n.toFixed(2) + '%'; }
+function colorClass(n) { return n>0?'up':n<0?'down':'flat'; }
+
+async function fetchQuote(ticker) {
+  const res = await fetch(`${PROXY}?ticker=${encodeURIComponent(ticker)}&type=quote`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  const meta = data?.chart?.result?.[0]?.meta;
+  if (!meta) throw new Error('No data');
+  const prev = meta.chartPreviousClose || meta.previousClose;
+  return { price:meta.regularMarketPrice, prev, change:meta.regularMarketPrice-prev, changePct:((meta.regularMarketPrice-prev)/prev)*100, volume:meta.regularMarketVolume, time:meta.regularMarketTime };
+}
+async function fetchHistory(ticker) {
+  const res = await fetch(`${PROXY}?ticker=${encodeURIComponent(ticker)}&type=history`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  const result = data?.chart?.result?.[0];
+  if (!result) throw new Error('No history');
+  const timestamps = result.timestamp||[];
+  const closes = result.indicators?.quote?.[0]?.close||[];
+  return timestamps.map((t,i)=>({t,v:closes[i]})).filter(p=>p.v!=null);
+}
+function renderCard(id, quote, history) {
+  const cc = colorClass(quote.changePct);
+  const priceEl = document.getElementById(`price-${id}`);
+  if (priceEl) { priceEl.className=`idx-price ${cc}`; priceEl.textContent=fNum(quote.price); }
+  const changeEl = document.getElementById(`change-${id}`);
+  if (changeEl) { const sign=quote.change>=0?'+':''; changeEl.innerHTML=`<span class="chg-abs ${cc}">${sign}${fNum(quote.change)}</span><span class="chg-pct ${cc}">${fPct(quote.changePct)}</span>`; }
+  const volEl = document.getElementById(`vol-${id}`);
+  if (volEl&&quote.volume) { const v=quote.volume; volEl.textContent=v>1e9?`Vol: ${(v/1e9).toFixed(1)}B`:v>1e6?`Vol: ${(v/1e6).toFixed(1)}M`:`Vol: ${(v/1e3).toFixed(0)}K`; }
+  const timeEl = document.getElementById(`time-${id}`);
+  if (timeEl&&quote.time) { const d=new Date(quote.time*1000); timeEl.textContent=d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Jakarta'})+' WIB'; }
+  if (history&&history.length>1) {
+    const vals=history.map(p=>p.v);
+    const minV=Math.min(...vals); const maxV=Math.max(...vals);
+    const loEl=document.getElementById(`splo-${id}`); const hiEl=document.getElementById(`sphi-${id}`);
+    if (loEl) loEl.textContent=fNum(minV,0); if (hiEl) hiEl.textContent=fNum(maxV,0);
+    const canvas=document.getElementById(`spark-${id}`);
+    if (canvas) {
+      if (sparkCharts[id]) sparkCharts[id].destroy();
+      const isUp=quote.changePct>=0;
+      // Buat label tanggal dari timestamps history
+      const dateLabels = history.map(p => {
+        const d = new Date(p.t * 1000);
+        return d.toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'2-digit' });
+      });
+
+      sparkCharts[id]=new Chart(canvas,{
+        type:'line',
+        data:{
+          labels: dateLabels,
+          datasets:[{
+            data:vals,
+            borderColor:isUp?'#1a7a3c':'#c8381a',
+            borderWidth:1.5,
+            backgroundColor:isUp?'rgba(26,122,60,0.08)':'rgba(200,56,26,0.08)',
+            fill:true,
+            pointRadius:0,
+            pointHoverRadius:4,
+            pointHoverBackgroundColor:isUp?'#1a7a3c':'#c8381a',
+            pointHoverBorderColor:'#fff',
+            pointHoverBorderWidth:2,
+            tension:0.3
+          }]
+        },
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+          interaction:{ mode:'index', intersect:false },
+          plugins:{
+            legend:{ display:false },
+            tooltip:{
+              enabled:true,
+              backgroundColor:'#1a1a1a',
+              titleColor:'#888',
+              bodyColor:'#fff',
+              borderColor:'#3d3d3d',
+              borderWidth:1,
+              padding:8,
+              cornerRadius:3,
+              titleFont:{ family:'JetBrains Mono, monospace', size:9 },
+              bodyFont:{ family:'JetBrains Mono, monospace', size:11, weight:'600' },
+              displayColors:false,
+              callbacks:{
+                title: ctx => ctx[0].label,
+                label: ctx => {
+                  const v = ctx.parsed.y;
+                  return v.toLocaleString('id-ID', { minimumFractionDigits:2, maximumFractionDigits:2 });
+                }
+              }
+            }
+          },
+          scales:{
+            x:{ display:false },
+            y:{ display:false, min:minV*0.998, max:maxV*1.002 }
+          },
+          animation:{ duration:600 }
+        }
+      });
+    }
+    summaryData[id]={quote,minV,maxV};
+  }
+}
+function renderSummary() {
+  const tbody=document.getElementById('summary-tbody'); if (!tbody) return;
+  let html='';
+  INDICES.forEach(idx=>{
+    const d=summaryData[idx.id];
+    if (!d) { html+=`<tr><td><span class="td-name">${idx.name}</span><span class="td-sub">${idx.region}</span></td><td colspan="6" style="color:var(--muted);font-size:11px">Memuat...</td></tr>`; return; }
+    const {quote,minV,maxV}=d; const cc=colorClass(quote.changePct);
+    const tdClass=cc==='up'?'td-up':cc==='down'?'td-down':'td-flat';
+    const sign=quote.change>=0?'+':'';
+    const statusTxt=cc==='up'?`<span style="color:var(--green)">▲ Naik</span>`:cc==='down'?`<span style="color:var(--red)">▼ Turun</span>`:`<span style="color:var(--muted)">— Flat</span>`;
+    html+=`<tr><td><span class="td-name">${idx.name}<span class="badge-region">${idx.region}</span></span><span class="td-sub">${idx.ticker||''}</span></td><td>${fNum(quote.price)}</td><td class="${tdClass}">${sign}${fNum(quote.change)}</td><td class="${tdClass}">${fPct(quote.changePct)}</td><td style="color:var(--green)">${fNum(maxV,0)}</td><td style="color:var(--red)">${fNum(minV,0)}</td><td>${statusTxt}</td></tr>`;
+  });
+  tbody.innerHTML=html;
+}
+async function fetchIndex(idx) {
+  try {
+    const [quote,history]=await Promise.all([fetchQuote(idx.ticker),fetchHistory(idx.ticker)]);
+    renderCard(idx.id,quote,history);
+  } catch(e) {
+    const priceEl=document.getElementById(`price-${idx.id}`);
+    if (priceEl) priceEl.innerHTML=`<span class="err-txt">⚠ ${e.message}</span>`;
+    const changeEl=document.getElementById(`change-${idx.id}`);
+    if (changeEl) changeEl.innerHTML=`<span class="err-txt">Gagal memuat</span>`;
+  }
+}
+async function fetchAllSaham() {
+  await Promise.all(INDICES.map(fetchIndex));
+  renderSummary();
+  document.getElementById('last-updated-saham').textContent =
+    'Saham: ' + new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+fetchAllAPBN();
+fetchAllSaham();
+setInterval(()=>{ fetchAllAPBN(); fetchAllSaham(); }, 10*60*1000);
+</script>
+</body>
+</html>
