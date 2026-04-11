@@ -256,9 +256,44 @@
 
     /* ── RESEARCH GRID ── */
     .research-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 22px;
+    }
+
+    .res-bullet-list {
+      list-style: none;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      counter-reset: res-counter;
+    }
+
+    .res-bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 1em;
+      color: var(--text-dark);
+      line-height: 1.6;
+      counter-increment: res-counter;
+    }
+
+    .res-bullet-list li::before {
+      content: counter(res-counter);
+      min-width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--pale-blue);
+      color: var(--royal);
+      font-size: 0.75em;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
     }
 
     .res-card {
@@ -410,44 +445,45 @@
         <div class="res-card">
           <div class="res-accent accent-process"></div>
           <span class="res-badge badge-process">Publishing Process</span>
-          <p class="res-card-title">The Commodity Currency Hypothesis and International Commodity Price Pass-Through to Domestic Price: The Case of the Indonesian Rupiah</p>
-          <div class="res-haiku">Rupiah is not commodity currency</div>
+          <ul class="res-bullet-list">
+            <li>
+              <span>The Commodity Currency Hypothesis and International Commodity Price Pass-Through to Domestic Price: The Case of the Indonesian Rupiah
+                <div class="res-haiku">Rupiah is not commodity currency</div>
+              </span>
+            </li>
+          </ul>
         </div>
 
-        <!-- Ongoing 1 -->
+        <!-- Ongoing -->
         <div class="res-card">
           <div class="res-accent accent-ongoing"></div>
           <span class="res-badge badge-ongoing">Ongoing</span>
-          <p class="res-card-title">Modelling the Macroeconomic Impacts of Natural Disasters and the Effectiveness of Recovery Policies: A Dynamic Stochastic General Equilibrium (DSGE) Approach with Empirical Evidence from Indonesia</p>
+          <ul class="res-bullet-list">
+            <li><span>Modelling the Macroeconomic Impacts of Natural Disasters and the Effectiveness of Recovery Policies: A Dynamic Stochastic General Equilibrium (DSGE) Approach with Empirical Evidence from Indonesia</span></li>
+            <li><span>Detection Gaps and Economic Costs of HIV: A Spatial and Simulation Analysis of Screening Expansion in East Java</span></li>
+            <li><span>Energy Shock Transmission and Trade Vulnerability in Muslim-Majority Economies</span></li>
+          </ul>
         </div>
 
-        <!-- Ongoing 2 -->
-        <div class="res-card">
-          <div class="res-accent accent-ongoing"></div>
-          <span class="res-badge badge-ongoing">Ongoing</span>
-          <p class="res-card-title">Detection Gaps and Economic Costs of HIV: A Spatial and Simulation Analysis of Screening Expansion in East Java</p>
-        </div>
-
-        <!-- Ongoing 3 -->
-        <div class="res-card">
-          <div class="res-accent accent-ongoing"></div>
-          <span class="res-badge badge-ongoing">Ongoing</span>
-          <p class="res-card-title">Energy Shock Transmission and Trade Vulnerability in Muslim-Majority Economies</p>
-        </div>
-
-        <!-- On Preparation (LPS) -->
+        <!-- On Preparation -->
         <div class="res-card">
           <div class="res-accent" style="background: linear-gradient(180deg, #7c3aed, #a78bfa);"></div>
           <span class="res-badge" style="background: #f3f0ff; color: #6d28d9;">On Preparation</span>
-          <p class="res-card-title">LPS</p>
+          <ul class="res-bullet-list">
+            <li><span><a href="https://cfr.lps.go.id/Home/landingpage" target="_blank" style="color:var(--mid-blue); text-decoration:none; border-bottom:1px solid rgba(36,81,179,0.25);">LPS Call for Research 2026</a></span></li>
+            <li><span><a href="https://agroconference.tiikm.com/" target="_blank" style="color:var(--mid-blue); text-decoration:none; border-bottom:1px solid rgba(36,81,179,0.25);">International Conference for Agriculture 2026</a></span></li>
+          </ul>
         </div>
 
         <!-- Inactive -->
         <div class="res-card">
           <div class="res-accent accent-inactive"></div>
           <span class="res-badge badge-inactive">Inactive</span>
-          <p class="res-card-title">Evaluasi Dampak Infrastruktur Jalan Tol pada Ekspansi Area Terbangun dan Polusi Udara di Indonesia</p>
-          <p class="res-card-sub">Evaluating the Impact of Toll Road Infrastructure on Built-Up Area Expansion and Air Pollution in Indonesia: A Coarsened Exact Matching (CEM) and Event Study Two-Way Fixed Effects Approach</p>
+          <ul class="res-bullet-list">
+            <li><span>Evaluasi Dampak Infrastruktur Jalan Tol pada Ekspansi Area Terbangun dan Polusi Udara di Indonesia
+              <span style="display:block; font-size:0.88em; color:var(--text-muted); font-style:italic; margin-top:4px;">Evaluating the Impact of Toll Road Infrastructure on Built-Up Area Expansion and Air Pollution in Indonesia: A Coarsened Exact Matching (CEM) and Event Study Two-Way Fixed Effects Approach</span>
+            </span></li>
+          </ul>
         </div>
 
       </div>
