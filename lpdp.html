@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LPDP – Daftar PTN Bisnis & Ekonomi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f0e8;
+  --surface:#ede8de;
+  --card:#faf7f2;
+  --border:#d6cfc0;
+  --accent:#3d6b9e;
+  --accent2:#2a4f78;
+  --text:#2d2820;
+  --muted:#7a6f60;
+  --row-hover:#eee8dc;
+  --tag-bg:#dce8f5;
+  --tag-text:#2a4f78;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;}
+
+header{
+  background:var(--card);
+  padding:3rem 3rem 2.5rem;
+  border-bottom:2px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+header::after{
+  content:'';position:absolute;right:-80px;top:-80px;
+  width:320px;height:320px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(61,107,158,.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.badge{
+  font-size:.68rem;letter-spacing:.18em;color:var(--accent);
+  text-transform:uppercase;font-weight:500;margin-bottom:.8rem;
+  font-family:'DM Sans',sans-serif;
+}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.7rem,4vw,2.8rem);
+  font-weight:700;line-height:1.2;color:var(--text);
+}
+h1 em{color:var(--accent);font-style:normal;}
+.sub{font-size:.82rem;color:var(--muted);margin-top:.5rem;font-weight:400;}
+
+.controls{
+  padding:1rem 3rem;
+  display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.sw{position:relative;flex:1;min-width:220px;}
+.sw svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);width:15px;height:15px;}
+input{
+  width:100%;padding:.6rem 1rem .6rem 2.3rem;
+  background:var(--card);border:1px solid var(--border);border-radius:6px;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(61,107,158,.12);}
+input::placeholder{color:var(--muted);}
+select{
+  padding:.6rem 1rem;background:var(--card);border:1px solid var(--border);
+  border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;
+  font-size:.82rem;outline:none;cursor:pointer;transition:border-color .2s;
+}
+select:focus{border-color:var(--accent);}
+.stats{
+  margin-left:auto;font-size:.76rem;color:var(--muted);white-space:nowrap;
+}
+.stats strong{color:var(--accent);font-weight:600;}
+
+.tw{overflow-x:auto;padding:1rem 3rem 4rem;}
+table{width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.845rem;}
+thead tr{border-bottom:2px solid var(--accent);}
+th{
+  padding:.75rem 1rem;text-align:left;
+  font-size:.7rem;letter-spacing:.1em;color:var(--accent2);
+  text-transform:uppercase;white-space:nowrap;cursor:pointer;user-select:none;
+  font-weight:600;
+}
+th:hover{color:var(--accent);}
+th.sa::after{content:' ↑';opacity:.6;}
+th.sd::after{content:' ↓';opacity:.6;}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
+tbody tr:hover{background:var(--row-hover);}
+td{padding:.7rem 1rem;vertical-align:middle;line-height:1.45;}
+.nc{color:var(--muted);font-size:.75rem;font-variant-numeric:tabular-nums;}
+.uni{font-weight:500;color:var(--text);}
+.prodi{color:var(--muted);font-size:.8rem;}
+.chip{
+  display:inline-block;font-size:.71rem;padding:.2rem .55rem;
+  border-radius:20px;border:1px solid var(--border);color:var(--muted);
+  white-space:nowrap;background:var(--card);
+}
+.us{border-color:#b8c9e0;color:#2a4f78;background:#edf3fa;}
+.uk{border-color:#c4b8d8;color:#4a2a78;background:#f3eef8;}
+.au{border-color:#d4c498;color:#5a4200;background:#faf5e4;}
+.cn{border-color:#e0b8b8;color:#7a1a1a;background:#faeaea;}
+.sg{border-color:#a8ccb8;color:#0a4a2a;background:#e6f5ee;}
+.nl{border-color:#d4b880;color:#5a3a00;background:#faf0dc;}
+.de{border-color:#b8d0a8;color:#1a3a0a;background:#eaf5e4;}
+.jp{border-color:#e0b8c8;color:#6a1a3a;background:#faeaf0;}
+.kr{border-color:#a8c0d8;color:#0a2a5a;background:#e4eef8;}
+.fr{border-color:#a8b4d4;color:#0a1a5a;background:#e8eaf8;}
+#nr{display:none;text-align:center;padding:4rem 2rem;color:var(--muted);font-size:.85rem;}
+footer{
+  padding:1.5rem 3rem;border-top:1px solid var(--border);
+  background:var(--surface);font-size:.72rem;color:var(--muted);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+}
+@media(max-width:640px){header,.controls,.tw,footer{padding-left:1rem;padding-right:1rem;}.stats{margin-left:0;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="badge">LPDP · Kemenkeu RI · Revisi ke-1 · 22 Januari 2026</div>
+  <h1>Daftar PTN Luar Negeri<br><em>Bisnis &amp; Ekonomi</em></h1>
+  <div class="sub">Program Doktor · 699 program studi · 50+ negara</div>
+</header>
+<div class="controls">
+  <div class="sw">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="q" placeholder="Cari universitas, program studi, negara…" oninput="filter()">
+  </div>
+  <select id="nf" onchange="filter()"><option value="">Semua Negara</option></select>
+  <div class="stats">Menampilkan <strong id="cs">—</strong> / <strong id="ct">—</strong></div>
+</div>
+<div class="tw">
+  <table id="t">
+    <thead><tr>
+      <th onclick="srt(0)" id="h0">No</th>
+      <th onclick="srt(1)" id="h1">Perguruan Tinggi</th>
+      <th onclick="srt(2)" id="h2">Program Studi</th>
+      <th onclick="srt(3)" id="h3">Negara</th>
+    </tr></thead>
+    <tbody id="tb"></tbody>
+  </table>
+  <div id="nr">Tidak ada hasil yang cocok.</div>
+</div>
+<footer>
+  <span>Sumber: lpdp.kemenkeu.go.id</span>
+  <span>Bidang: Bisnis dan Ekonomi · Jenjang: Doktor</span>
+</footer>
+<script>
+const D=[
+[2875,"Aarhus University","PhD in Business Development and","Denmark"],
+[2876,"Aarhus University","PhD in Economics and Business Economics","Denmark"],
+[2877,"Aarhus University","PhD in Management","Denmark"],
+[2878,"Adelaide University","Commerce, Management, Tourism and Services","Australia"],
+[2879,"Adelaide University","Doctor of Philosophy : Accounting","Australia"],
+[2880,"Adelaide University","Doctor of Philosophy : Banking & Finance","Australia"],
+[2881,"Adelaide University","Doctor of Philosophy : Business & Management","Australia"],
+[2882,"Adelaide University","Doctor of Philosophy : Economics & Econometrics","Australia"],
+[2883,"Adelaide University","Economics","Australia"],
+[2884,"Alma Mater Studiorum - University of Bologna","Economics","Italia"],
+[2885,"Alma Mater Studiorum - University of Bologna","Management Mathematics","Italia"],
+[2886,"Alma Mater Studiorum - University of Bologna","Public Governance, Management and Policy","Italia"],
+[2887,"Asian Institute of Technology","Doctor of Business Administration","Thailand"],
+[2888,"Asian Institute of Technology","PhD program at the School of Management","Thailand"],
+[2889,"Auckland University of Technology","Doctor of Philosophy (PhD): Business","Selandia Baru"],
+[2890,"Auckland University of Technology","Doctor of Philosophy (PhD): Hospitality, tourism and events","Selandia Baru"],
+[2891,"Babson College","Doctor of Business Administration","Amerika Serikat"],
+[2892,"Boston University","PhD in Business Administration with concentration in Economics","Amerika Serikat"],
+[2893,"Boston University","PhD in Economics","Amerika Serikat"],
+[2894,"Boston University","PhD in Business Administration & Management","Amerika Serikat"],
+[2895,"Boston University","PhD in Business Economics","Amerika Serikat"],
+[2896,"Boston University","PhD in Mathematical Finance","Amerika Serikat"],
+[2897,"Brown University","Ph.D. program in Economics","Amerika Serikat"],
+[2898,"Brown University","Economics","Amerika Serikat"],
+[2899,"Carnegie Mellon University","Ph.D. Economics and Public Policy","Amerika Serikat"],
+[2900,"Carnegie Mellon University","Ph.D. in Economics","Amerika Serikat"],
+[2901,"Carnegie Mellon University","Ph.D. in Operations Management","Amerika Serikat"],
+[2902,"Carnegie Mellon University","Ph.D. Studies in Information Systems & Management","Amerika Serikat"],
+[2903,"Carnegie Mellon University","Ph.D. in Financial Economics","Amerika Serikat"],
+[2904,"City University of Hong Kong","DBA","Hong Kong"],
+[2905,"City University of Hong Kong","Doctor of Business Administration (DBA)","Hong Kong"],
+[2906,"City University of Hong Kong","PhD Business","Hong Kong"],
+[2907,"City University of Hong Kong","PhD Economics","Hong Kong"],
+[2908,"City University of Hong Kong","PhD in Accountancy","Hong Kong"],
+[2909,"City University of Hong Kong","PhD in Economics and Finance","Hong Kong"],
+[2910,"City University of Hong Kong","PhD Management","Hong Kong"],
+[2911,"Columbia University","Accounting, PhD","Amerika Serikat"],
+[2912,"Columbia University","Finance, PhD","Amerika Serikat"],
+[2913,"Columbia University","Management, PhD","Amerika Serikat"],
+[2914,"Columbia University","PhD Decision, Risk & Operations","Amerika Serikat"],
+[2915,"Copenhagen Business School","PhD in Business and Management","Denmark"],
+[2916,"Cornell University","PhD in Applied Economics & Management","Amerika Serikat"],
+[2917,"Cornell University","PhD in Economics","Amerika Serikat"],
+[2918,"Delft University of Technology","PhD Faculty of Technology, Policy & Management","Belanda"],
+[2919,"Duke University","Ph.D. Business Administration","Amerika Serikat"],
+[2920,"Duke University","Ph.D. Economics","Amerika Serikat"],
+[2921,"Duke University","PhD Operations Management","Amerika Serikat"],
+[2922,"Duke University","Economics","Amerika Serikat"],
+[2923,"Eberhard Karls Universität Tübingen","Economics, business, finance, and econometrics","Jerman"],
+[2924,"École normale supérieure de Lyon","Economics","Prancis"],
+[2925,"EMLYON Business School","Global Doctorate Of Business Administration (GDBA)","Prancis"],
+[2926,"EMLYON Business School","PhD in Management","Prancis"],
+[2927,"EPFL (Ecole Polytechnique Fédérale de Lausanne)","Finance (EDFI)","Swiss"],
+[2928,"EPFL (Ecole Polytechnique Fédérale de Lausanne)","Management of Technology (EDMT)","Swiss"],
+[2929,"Erasmus University Rotterdam","PhD in Business","Belanda"],
+[2930,"Erasmus University Rotterdam","PhD in Economics","Belanda"],
+[2931,"Erasmus University Rotterdam","PhD in Finance","Belanda"],
+[2932,"Erasmus University Rotterdam","PhD in Management","Belanda"],
+[2933,"Erasmus University Rotterdam","PhD in Marketing","Belanda"],
+[2934,"Esade Ramon Llull University","PhD in Management Sciences","Spanyol"],
+[2935,"ESCP Europe","PhD in Management","Prancis"],
+[2936,"ESSEC Business School, Paris","AMC : Accounting and Auditing","Prancis"],
+[2937,"ESSEC Business School, Paris","AMC : Management Control","Prancis"],
+[2938,"ESSEC Business School, Paris","Economics","Prancis"],
+[2939,"ESSEC Business School, Paris","Finance","Prancis"],
+[2940,"ESSEC Business School, Paris","IDO : Data Analytics","Prancis"],
+[2941,"ESSEC Business School, Paris","IDO : Management Information Systems (IS)","Prancis"],
+[2942,"ESSEC Business School, Paris","IDO : Operations","Prancis"],
+[2943,"ESSEC Business School, Paris","Management","Prancis"],
+[2944,"ESSEC Business School, Paris","Marketing","Prancis"],
+[2945,"ESSEC Business School, Paris","PhD Program with concentration","Prancis"],
+[2946,"ETH Zurich","D-MTEC Management, Technology and Economics","Swiss"],
+[2947,"Fudan University","Ph.D. in Applied Economics","Tiongkok"],
+[2948,"Fudan University","Ph.D. in Business Administration","Tiongkok"],
+[2949,"Fudan University","Ph.D. in Economics","Tiongkok"],
+[2950,"Fudan University","Ph.D. in Health Policy and Management","Tiongkok"],
+[2951,"Fudan University","Ph.D. in Management","Tiongkok"],
+[2952,"Georgia Institute of Technology","Economics","Amerika Serikat"],
+[2953,"Georgia Institute of Technology","Management","Amerika Serikat"],
+[2954,"Ghent University","PhD in Business Economics","Belgia"],
+[2955,"Ghent University","PhD in Economics","Belgia"],
+[2956,"Hanyang University","Department Of Applied Economics","Korea Selatan"],
+[2957,"Hanyang University","Department Of Business Administration","Korea Selatan"],
+[2958,"Hanyang University","Department Of Business Informatics","Korea Selatan"],
+[2959,"Hanyang University","Department Of Economics & Finance","Korea Selatan"],
+[2960,"Hanyang University","Department Of Entrepreneurship","Korea Selatan"],
+[2961,"Hanyang University","Department Of Strategic Management","Korea Selatan"],
+[2962,"Harvard University","PhD in Business Economics","Amerika Serikat"],
+[2963,"Harvard University","PhD in Economics","Amerika Serikat"],
+[2964,"Harvard University","PhD in Technology & Operations Management","Amerika Serikat"],
+[2965,"HEC Paris School of Management","PhD in Economics","Prancis"],
+[2966,"HEC Paris School of Management","PhD in Finance","Prancis"],
+[2967,"HEC Paris School of Management","PhD in Management","Prancis"],
+[2968,"HEC Paris School of Management","PhD in Management","Prancis"],
+[2969,"Hiroshima University","Economics","Jepang"],
+[2970,"Hiroshima University","International Economic Development","Jepang"],
+[2971,"Hiroshima University","Management Sciences","Jepang"],
+[2972,"Hong Kong Polytechnic University","DBA","Hong Kong"],
+[2973,"Hong Kong Polytechnic University","PhD in Business","Hong Kong"],
+[2974,"Hong Kong Polytechnic University","PhD in Management","Hong Kong"],
+[2975,"Hong Kong Polytechnic University","PhD Management Information Systems","Hong Kong"],
+[2976,"Hong Kong University of Science and Technology","MPhil in Technology Innovation and Entrepreneurship (TIE)","Hong Kong"],
+[2977,"Hong Kong University of Science and Technology","MPhil+PhD in Economics","Hong Kong"],
+[2978,"Hong Kong University of Science and Technology","PhD in Business","Hong Kong"],
+[2979,"Hong Kong University of Science and Technology","PhD in Economics","Hong Kong"],
+[2980,"Hong Kong University of Science and Technology","PhD in Finance","Hong Kong"],
+[2981,"Hong Kong University of Science and Technology","PhD in Management","Hong Kong"],
+[2982,"Hong Kong University of Science and Technology","PhD in Marketing","Hong Kong"],
+[2983,"HSE University","PhD in Business","Rusia"],
+[2984,"HSE University","PhD in Economics","Rusia"],
+[2985,"Humboldt-Universität zu Berlin","PhD in Economics","Jerman"],
+[2986,"Imperial College London","PhD in Analytics & Operations","Inggris"],
+[2987,"Imperial College London","PhD in Economics & Public Policy","Inggris"],
+[2988,"Imperial College London","PhD in Finance","Inggris"],
+[2989,"Imperial College London","PhD in Management & Entrepreneurship","Inggris"],
+[2990,"INSEAD","PhD in Economics","Prancis"],
+[2991,"INSEAD","PhD in Management","Prancis / Singapura"],
+[2992,"INSEAD","PhD in Management","Prancis"],
+[2993,"Institut Polytechnique de Paris","PhD in Economics","Prancis"],
+[2994,"Institute of Science Tokyo","Industrial Engineering and Economics","Jepang"],
+[2995,"Institute of Science Tokyo","Technology and Innovation Management","Jepang"],
+[2996,"Johannes Kepler University Linz","PhD Program in Economics and Statistics","Austria"],
+[2997,"Johns Hopkins University","Economics, PhD","Amerika Serikat"],
+[2998,"KAIST - Korea Advanced Institute of Science & Technology","Business & Technology Management (BTM)","Korea Selatan"],
+[2999,"KAIST - Korea Advanced Institute of Science & Technology","Management Engineering (ME, MS/PhD)","Korea Selatan"],
+[3000,"KAIST - Korea Advanced Institute of Science & Technology","PhD in Business","Korea Selatan"],
+[3001,"KAIST - Korea Advanced Institute of Science & Technology","PhD in Management Engineering","Korea Selatan"],
+[3002,"KAIST - Korea Advanced Institute of Science & Technology","PhD in Technology Management","Korea Selatan"],
+[3003,"King Abdulaziz University (KAU)","Accounting","Arab Saudi"],
+[3004,"King Abdulaziz University (KAU)","Business Administration","Arab Saudi"],
+[3005,"King Abdulaziz University (KAU)","Information Management (Research Project)","Arab Saudi"],
+[3006,"King's College London","Economics","Inggris"],
+[3007,"King's College London","Management","Inggris"],
+[3008,"King's College London","Public Services Management & Organisation","Inggris"],
+[3009,"KIT, Karlsruhe Institute of Technology","Department of Economics and Management","Jerman"],
+[3010,"Korea University","Department of Business Administration","Korea Selatan"],
+[3011,"Korea University","Department of Economics","Korea Selatan"],
+[3012,"Korea University","Department of Industrial and Management Engineering","Korea Selatan"],
+[3013,"Korea University","PhD in Business Administration","Korea Selatan"],
+[3014,"Korea University","PhD in Economics","Korea Selatan"],
+[3015,"Korea University","PhD in Finance","Korea Selatan"],
+[3016,"KTH Royal Institute of Technology","Industrial Economics and Management","Swedia"],
+[3017,"KTH Royal Institute of Technology","The Built Environment and Society: Management, Economics and Law","Swedia"],
+[3018,"KU Leuven","PhD in Business Economics","Belgia"],
+[3019,"KU Leuven","PhD in Economics","Belgia"],
+[3020,"Kyoto University","Graduate School of Economics","Jepang"],
+[3021,"Kyoto University","PhD in Agricultural Economics","Jepang"],
+[3022,"Kyoto University","PhD in Economics","Jepang"],
+[3023,"Kyushu University","Department of Business and Technology Management","Jepang"],
+[3024,"Kyushu University","Department of Economic Systems","Jepang"],
+[3025,"Kyushu University","Economic Engineering","Jepang"],
+[3026,"Leiden University","Tax Law and Economics","Belanda"],
+[3027,"Lomonosov Moscow State University","PhD in Economics","Rusia"],
+[3028,"London Business School","Accounting PhD Programme","Inggris"],
+[3029,"London Business School","Economics PhD Programme","Inggris"],
+[3030,"London Business School","Finance PhD Programme","Inggris"],
+[3031,"London Business School","Management Science and Operations PhD Programme","Inggris"],
+[3032,"London Business School","Marketing PhD Programme","Inggris"],
+[3033,"London Business School","PhD in Finance","Inggris"],
+[3034,"London Business School","PhD in Management Science and Operations","Inggris"],
+[3035,"London Business School","PhD in Strategy and Entrepreneurship","Inggris"],
+[3036,"London Business School","Strategy and Entrepreneurship PhD Programme","Inggris"],
+[3037,"London School of Economics and Political Science (LSE)","MPhil/PhD Economic Geography","Inggris"],
+[3038,"London School of Economics and Political Science (LSE)","MPhil/PhD Economic History","Inggris"],
+[3039,"London School of Economics and Political Science (LSE)","MPhil/PhD Environmental Economics","Inggris"],
+[3040,"London School of Economics and Political Science (LSE)","MPhil/PhD Management (Information Systems and Innovation)","Inggris"],
+[3041,"London School of Economics and Political Science (LSE)","MRes/PhD Accounting (Accounting, Organisations and Institutions)","Inggris"],
+[3042,"London School of Economics and Political Science (LSE)","MRes/PhD Accounting (Economics of Accounting)","Inggris"],
+[3043,"London School of Economics and Political Science (LSE)","MRes/PhD Economics","Inggris"],
+[3044,"London School of Economics and Political Science (LSE)","MRes/PhD Economics and Management","Inggris"],
+[3045,"London School of Economics and Political Science (LSE)","MRes/PhD Finance","Inggris"],
+[3046,"London School of Economics and Political Science (LSE)","MRes/PhD Management (Employment Relations and Human Resources)","Inggris"],
+[3047,"London School of Economics and Political Science (LSE)","MRes/PhD Management (Marketing)","Inggris"],
+[3048,"London School of Economics and Political Science (LSE)","MRes/PhD Management (Organisational Behaviour)","Inggris"],
+[3049,"London School of Economics and Political Science (LSE)","PhD in Accounting","Inggris"],
+[3050,"London School of Economics and Political Science (LSE)","PhD in Economics","Inggris"],
+[3051,"London School of Economics and Political Science (LSE)","PhD in Finance","Inggris"],
+[3052,"London School of Economics and Political Science (LSE)","PhD in Management","Inggris"],
+[3053,"Ludwig-Maximilians-Universität München","PhD in Business","Jerman"],
+[3054,"Ludwig-Maximilians-Universität München","PhD in Economics","Jerman"],
+[3055,"Lund University","Business Administration","Swedia"],
+[3056,"Lund University","Business Law","Swedia"],
+[3057,"Lund University","Economics","Swedia"],
+[3058,"Lund University","Industrial Management and Logistics","Swedia"],
+[3059,"Maastricht University","PhD in Business","Belanda"],
+[3060,"Maastricht University","PhD in Economics","Belanda"],
+[3061,"Massachusetts Institute of Technology (MIT)","PhD in Business Economics / Management Science","Amerika Serikat"],
+[3062,"Massachusetts Institute of Technology (MIT)","PhD in Economics","Amerika Serikat"],
+[3063,"Massachusetts Institute of Technology (MIT)","PhD in Logistics & Supply Chain","Amerika Serikat"],
+[3064,"Massachusetts Institute of Technology (MIT)","PhD Economics and Statistics","Amerika Serikat"],
+[3065,"Massachusetts Institute of Technology (MIT)","PhD Management","Amerika Serikat"],
+[3066,"McGill University","PhD in Economics","Kanada"],
+[3067,"McGill University","PhD in Management","Kanada"],
+[3068,"McMaster University","Business Administration","Kanada"],
+[3069,"McMaster University","Economics","Kanada"],
+[3070,"Monash University","Doctor of Philosophy (Business and Economics)","Australia"],
+[3071,"Monash University","PhD in Business and Economics","Australia"],
+[3072,"Monash University","PhD in Development Economics and Sustainability","Australia"],
+[3073,"Monash University","PhD in Financial Studies","Australia"],
+[3074,"Monash University","PhD in Health Economics","Australia"],
+[3075,"Nanjing University","Accounting","Tiongkok"],
+[3076,"Nanjing University","Administration","Tiongkok"],
+[3077,"Nanjing University","Educational Economy and Management","Tiongkok"],
+[3078,"Nanjing University","Enterprise Management","Tiongkok"],
+[3079,"Nanjing University","Finance","Tiongkok"],
+[3080,"Nanjing University","Human Resource Management","Tiongkok"],
+[3081,"Nanjing University","Industrial Economics","Tiongkok"],
+[3082,"Nanjing University","International Trade","Tiongkok"],
+[3083,"Nanjing University","Land Resource Management","Tiongkok"],
+[3084,"Nanjing University","Science of Economic Law","Tiongkok"],
+[3085,"Nanjing University","Social Risk and Public Crisis Management","Tiongkok"],
+[3086,"Nanjing University","Technical Economics and Management","Tiongkok"],
+[3087,"Nanjing University","Western Economics","Tiongkok"],
+[3088,"Nanjing University","World Economics","Tiongkok"],
+[3089,"Nanyang Technological University, Singapore (NTU)","Doctor of Philosophy | Business","Singapura"],
+[3090,"Nanyang Technological University, Singapore (NTU)","Doctor of Philosophy | Economics","Singapura"],
+[3091,"Nanyang Technological University, Singapore (NTU)","PhD in Business","Singapura"],
+[3092,"Nanyang Technological University, Singapore (NTU)","PhD in Economics","Singapura"],
+[3093,"Nanyang Technological University, Singapore (NTU)","PhD in Finance","Singapura"],
+[3094,"Naresuan University","PhD in Business Administration","Thailand"],
+[3095,"National Cheng Kung University","Business Administration","Taiwan"],
+[3096,"National Cheng Kung University","Economics","Taiwan"],
+[3097,"National Taiwan University (NTU)","PhD in Business Administration","Taiwan"],
+[3098,"National Taiwan University (NTU)","PhD in Economics","Taiwan"],
+[3099,"National Tsing Hua University","Economics","Taiwan"],
+[3100,"National Tsing Hua University","Quantitative Finance","Taiwan"],
+[3101,"National University of Singapore (NUS)","PhD in Business Administration","Singapura"],
+[3102,"National University of Singapore (NUS)","PhD in Economics","Singapura"],
+[3103,"National University of Singapore (NUS)","PhD in Finance","Singapura"],
+[3104,"National University of Singapore (NUS)","PhD in Management - Accounting","Singapura"],
+[3105,"National University of Singapore (NUS)","PhD in Management - Analytics and Operations","Singapura"],
+[3106,"National University of Singapore (NUS)","PhD in Management - Finance","Singapura"],
+[3107,"National University of Singapore (NUS)","PhD in Management - Management and Organisation","Singapura"],
+[3108,"National University of Singapore (NUS)","PhD in Management - Real Estate","Singapura"],
+[3109,"National University of Singapore (NUS)","PhD in Management - Strategy and Policy","Singapura"],
+[3110,"National University of Singapore (NUS)","PhD in Marketing","Singapura"],
+[3111,"National University of Singapore (NUS)","PhD in Operations Research and Analytics","Singapura"],
+[3112,"National Yang Ming Chiao Tung University","Business and Management","Taiwan"],
+[3113,"National Yang Ming Chiao Tung University","Industrial Engineering and Management","Taiwan"],
+[3114,"National Yang Ming Chiao Tung University","Management of Technology","Taiwan"],
+[3115,"National Yang Ming Chiao Tung University","Management Science","Taiwan"],
+[3116,"National Yang Ming Chiao Tung University","Transportation and Logistics Management","Taiwan"],
+[3117,"New York University (NYU)","Accounting (PhD)","Amerika Serikat"],
+[3118,"New York University (NYU)","Finance (PhD)","Amerika Serikat"],
+[3119,"New York University (NYU)","Management and Organizational Behavior (PhD)","Amerika Serikat"],
+[3120,"New York University (NYU)","PhD in Economics","Amerika Serikat"],
+[3121,"New York University (NYU)","PhD in Operations Management (NYU Stern)","Amerika Serikat"],
+[3122,"New York University (NYU)","PhD Management/Stern","Amerika Serikat"],
+[3123,"Northwestern University","Accounting Information and Management","Amerika Serikat"],
+[3124,"Northwestern University","Economics","Amerika Serikat"],
+[3125,"Northwestern University","Finance","Amerika Serikat"],
+[3126,"Northwestern University","Financial Economics","Amerika Serikat"],
+[3127,"Northwestern University","Management and Organization","Amerika Serikat"],
+[3128,"Northwestern University","Management, Organization and Sociology","Amerika Serikat"],
+[3129,"Northwestern University","Managerial Economics and Strategy","Amerika Serikat"],
+[3130,"Northwestern University","Marketing","Amerika Serikat"],
+[3131,"Northwestern University","Operations Management","Amerika Serikat"],
+[3132,"Northwestern University","PhD in Economics","Amerika Serikat"],
+[3133,"Northwestern University","PhD in Industrial Engineering & Management Sciences","Amerika Serikat"],
+[3134,"Northwestern University","PhD in Managerial Economics & Strategy","Amerika Serikat"],
+[3135,"Northwestern University","PhD in Operations Management","Amerika Serikat"],
+[3136,"Osaka University","Business and Management","Jepang"],
+[3137,"Osaka University","Economics","Jepang"],
+[3138,"Paris School of Economics","PhD in Economics","Prancis"],
+[3139,"Peking University","Ph.D. in Applied Economics","Tiongkok"],
+[3140,"Peking University","Ph.D. in Business Administration","Tiongkok"],
+[3141,"Peking University","Ph.D. in Economics","Tiongkok"],
+[3142,"Peking University","Ph.D. in Economics (Health Economics)","Tiongkok"],
+[3143,"Peking University","Ph.D. in Environmental Economics","Tiongkok"],
+[3144,"Peking University","Ph.D. in Health Policy and Management","Tiongkok"],
+[3145,"Peking University","Ph.D. in Management","Tiongkok"],
+[3146,"Peking University","PhD in Organization & Management","Tiongkok"],
+[3147,"Pennsylvania State University","Ph.D. in Business Administration","Amerika Serikat"],
+[3148,"Pennsylvania State University","Ph.D. in Energy, Environmental, and Food Economics (EEFE)","Amerika Serikat"],
+[3149,"Politecnico di Milano","Management Engineering","Italia"],
+[3150,"Princeton University","Ph.D. in Economics","Amerika Serikat"],
+[3151,"Purdue University","Economics","Amerika Serikat"],
+[3152,"Purdue University","Management – PhD","Amerika Serikat"],
+[3153,"Renmin University of China","Ph.D. in Agricultural Economics","Tiongkok"],
+[3154,"Renmin University of China","Ph.D. in Applied Economics","Tiongkok"],
+[3155,"Renmin University of China","Ph.D. in Business Administration","Tiongkok"],
+[3156,"Renmin University of China","Ph.D. in Economics","Tiongkok"],
+[3157,"Reykjavík University","Department of Business and Economics","Islandia"],
+[3158,"Rheinische Friedrich-Wilhelms-Universität Bonn","Bonn Graduate School of Economics","Jerman"],
+[3159,"Rheinische Friedrich-Wilhelms-Universität Bonn","Doctor of Economics (Dr. rer. pol.)","Jerman"],
+[3160,"Rheinische Friedrich-Wilhelms-Universität Bonn","PhD in Economics","Jerman"],
+[3161,"Ruprecht-Karls-Universitaet Heidelberg","Economics and Social Sciences","Jerman"],
+[3162,"RWTH Aachen University","Business and Economics","Jerman"],
+[3163,"Sapienza University of Rome","Business Administration","Italia"],
+[3164,"Sapienza University of Rome","Economics","Italia"],
+[3165,"Sapienza University of Rome","Industrial And Management Engineering","Italia"],
+[3166,"Sapienza University of Rome","Management, Banking And Commodity Sciences","Italia"],
+[3167,"Seoul National University","PhD in Business","Korea Selatan"],
+[3168,"Seoul National University","PhD in Economics","Korea Selatan"],
+[3169,"Seoul National University","PhD in Finance","Korea Selatan"],
+[3170,"Seoul National University","PhD in Management","Korea Selatan"],
+[3171,"Shanghai Jiao Tong University","Ph.D. in Business Administration","Tiongkok"],
+[3172,"Shanghai Jiao Tong University","Ph.D. in Economics","Tiongkok"],
+[3173,"Shanghai Jiao Tong University","Ph.D. in Industrial Engineering : Supply Chain Management","Tiongkok"],
+[3174,"Shanghai Jiao Tong University","Ph.D. in Management Science and Engineering","Tiongkok"],
+[3175,"Shanghai Jiao Tong University","Ph.D. in Social Medicine and Health Management : Health Economics","Tiongkok"],
+[3176,"Shanghai University of Finance and Economics","Ph.D. in Applied Economics : Energy Economics","Tiongkok"],
+[3177,"Shanghai University of Finance and Economics","Ph.D. in Economics : Econometrics; Energy Economics","Tiongkok"],
+[3178,"Singapore Management University","PhD in Business","Singapura"],
+[3179,"Singapore Management University","PhD in Economics","Singapura"],
+[3180,"Singapore Management University","PhD in Finance","Singapura"],
+[3181,"Stanford University","PhD in Business Administration","Amerika Serikat"],
+[3182,"Stanford University","PhD in Economics","Amerika Serikat"],
+[3183,"Stanford University","PhD in Management Science & Engineering (MS&E)","Amerika Serikat"],
+[3184,"Stockholm University","Economics","Swedia"],
+[3185,"Stockholm University","Finance","Swedia"],
+[3186,"Sungkyunkwan University (SKKU)","Business","Korea Selatan"],
+[3187,"Sungkyunkwan University (SKKU)","Crisis, Disaster and Risk Management","Korea Selatan"],
+[3188,"Sungkyunkwan University (SKKU)","Economics","Korea Selatan"],
+[3189,"Sungkyunkwan University (SKKU)","International Trade","Korea Selatan"],
+[3190,"Sungkyunkwan University (SKKU)","PhD in Business","Korea Selatan"],
+[3191,"Sungkyunkwan University (SKKU)","PhD in Economics","Korea Selatan"],
+[3192,"Sungkyunkwan University (SKKU)","Quantitative Applied Economics","Korea Selatan"],
+[3193,"Sungkyunkwan University (SKKU)","Systems Management Engineering (Industrial Engineering)","Korea Selatan"],
+[3194,"Technical University of Munich","PhD in Economics","Jerman"],
+[3195,"Tecnológico de Monterrey","PhD in Administrative Sciences (Business)","Meksiko"],
+[3196,"The Australian National University","Doctor of Philosophy (Business and Economics)","Australia"],
+[3197,"The Australian National University","PhD in Business","Australia"],
+[3198,"The Australian National University","PhD in Commerce/Accounting","Australia"],
+[3199,"The Australian National University","PhD in Economics","Australia"],
+[3200,"The Australian National University","PhD in Finance","Australia"],
+[3201,"The Chinese University of Hong Kong","PhD in Accountancy","Hong Kong"],
+[3202,"The Chinese University of Hong Kong","PhD in Business Administration","Hong Kong"],
+[3203,"The Chinese University of Hong Kong","PhD in Business Administration","Hong Kong"],
+[3204,"The Chinese University of Hong Kong","PhD in Decisions, Operations and Technology","Hong Kong"],
+[3205,"The Chinese University of Hong Kong","PhD in Economics","Hong Kong"],
+[3206,"The Chinese University of Hong Kong","PhD in Economics","Hong Kong"],
+[3207,"The Chinese University of Hong Kong","PhD in Finance","Hong Kong"],
+[3208,"The Chinese University of Hong Kong","PhD in Finance","Hong Kong"],
+[3209,"The Chinese University of Hong Kong","PhD in Management","Hong Kong"],
+[3210,"The Chinese University of Hong Kong","PhD in Marketing","Hong Kong"],
+[3211,"The University of Auckland","Management & International Business","Selandia Baru"],
+[3212,"The University of Auckland","PhD in Accounting","Selandia Baru"],
+[3213,"The University of Auckland","PhD in Economics","Selandia Baru"],
+[3214,"The University of Auckland","PhD in Finance","Selandia Baru"],
+[3215,"The University of Edinburgh","Accounting PhD","Inggris"],
+[3216,"The University of Edinburgh","Accounting PhD with Integrated Study","Inggris"],
+[3217,"The University of Edinburgh","Business Economics PhD","Inggris"],
+[3218,"The University of Edinburgh","Economic and Social History PhD","Inggris"],
+[3219,"The University of Edinburgh","Economics PhD with Integrated Study","Inggris"],
+[3220,"The University of Edinburgh","Finance PhD","Inggris"],
+[3221,"The University of Edinburgh","Finance PhD with Integrated Study","Inggris"],
+[3222,"The University of Edinburgh","Management PhD","Inggris"],
+[3223,"The University of Edinburgh","Management PhD with Integrated Study","Inggris"],
+[3224,"The University of Edinburgh","Management Science and Analytics PhD","Inggris"],
+[3225,"The University of Hong Kong","PhD in Business","Hong Kong"],
+[3226,"The University of Hong Kong","PhD in Economics","Hong Kong"],
+[3227,"The University of Hong Kong","PhD in Finance","Hong Kong"],
+[3228,"The University of Hong Kong","PhD in Management","Hong Kong"],
+[3229,"The University of Manchester","Accounting and Finance","Inggris"],
+[3230,"The University of Manchester","Arts and Cultural Management","Inggris"],
+[3231,"The University of Manchester","Arts Management and Cultural Policy","Inggris"],
+[3232,"The University of Manchester","Business and Management","Inggris"],
+[3233,"The University of Manchester","Development Policy and Management","Inggris"],
+[3234,"The University of Manchester","Economics","Inggris"],
+[3235,"The University of Manchester","Fashion Management and Marketing","Inggris"],
+[3236,"The University of Manchester","Management of Projects","Inggris"],
+[3237,"The University of Manchester","PhD in Accounting","Inggris"],
+[3238,"The University of Manchester","PhD in Business","Inggris"],
+[3239,"The University of Manchester","PhD in Economics","Inggris"],
+[3240,"The University of Manchester","PhD in Management","Inggris"],
+[3241,"The University of Manchester","Reliability Engineering & Asset Management","Inggris"],
+[3242,"The University of Melbourne","Accounting (PhD)","Australia"],
+[3243,"The University of Melbourne","Actuarial studies (PhD)","Australia"],
+[3244,"The University of Melbourne","Business administration and analytics (PhD)","Australia"],
+[3245,"The University of Melbourne","Decision, risk and financial sciences (PhD)","Australia"],
+[3246,"The University of Melbourne","Doctoral Program in Accounting","Australia"],
+[3247,"The University of Melbourne","Doctoral Program in Business Administration and Analytics","Australia"],
+[3248,"The University of Melbourne","Doctoral Program in Economics","Australia"],
+[3249,"The University of Melbourne","Doctoral Program in Finance","Australia"],
+[3250,"The University of Melbourne","Doctoral Program in Management","Australia"],
+[3251,"The University of Melbourne","Doctoral Program in Marketing","Australia"],
+[3252,"The University of Melbourne","Economics (PhD)","Australia"],
+[3253,"The University of Melbourne","Finance (PhD)","Australia"],
+[3254,"The University of Melbourne","Management (PhD)","Australia"],
+[3255,"The University of Melbourne","Marketing (PhD)","Australia"],
+[3256,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy - Accounting","Australia"],
+[3257,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy - Actuarial Studies","Australia"],
+[3258,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy - Banking & Finance","Australia"],
+[3259,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy - Business Law & Taxation","Australia"],
+[3260,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy - Economics","Australia"],
+[3261,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy - Environmental Management","Australia"],
+[3262,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy - Marketing","Australia"],
+[3263,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy - Organisation and Management","Australia"],
+[3264,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy (Economics & Management)","Australia"],
+[3265,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy (PhD) Accounting","Australia"],
+[3266,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy (PhD) Banking & Finance","Australia"],
+[3267,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy (PhD) Economics","Australia"],
+[3268,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy (PhD) Information Systems and Technology Management","Australia"],
+[3269,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy (PhD) Management","Australia"],
+[3270,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy (PhD) Marketing","Australia"],
+[3271,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy (PhD) Risk and Actuarial Studies","Australia"],
+[3272,"The University of New South Wales (UNSW Australia)","Doctor of Philosophy (PhD) Taxation & Business Law","Australia"],
+[3273,"The University of Nottingham","Agricultural Systems Management PhD","Inggris"],
+[3274,"The University of Nottingham","Business Administration MBA","Inggris"],
+[3275,"The University of Nottingham","Business PhD","Inggris"],
+[3276,"The University of Nottingham","Economics PhD","Inggris"],
+[3277,"The University of Queensland","Doctor of Philosophy - Economics","Australia"],
+[3278,"The University of Queensland","Doctor of Philosophy - Management and commerce","Australia"],
+[3279,"The University of Sheffield","Accounting and Financial Management","Inggris"],
+[3280,"The University of Sheffield","Management School","Inggris"],
+[3281,"The University of Sheffield","School of Economics","Inggris"],
+[3282,"The University of Sydney","Doctor of Economics","Australia"],
+[3283,"The University of Sydney","Doctor of Philosophy (Business)","Australia"],
+[3284,"The University of Tokyo","PhD in Agricultural Economics","Jepang"],
+[3285,"The University of Tokyo","PhD in Economics","Jepang"],
+[3286,"The University of Tokyo","PhD in Management","Jepang"],
+[3287,"The University of Tokyo","PhD in Technology Management","Jepang"],
+[3288,"The University of Warwick","Business and Management MRes/PhD","Inggris"],
+[3289,"The University of Warwick","Doctor of Business Administration DBA","Inggris"],
+[3290,"The University of Warwick","Doctor of Business Administration","Inggris"],
+[3291,"The University of Warwick","Economics MRes/PhD","Inggris"],
+[3292,"The University of Warwick","Finance and Economics MRes/PhD","Inggris"],
+[3293,"The University of Warwick","MRes/PhD Business & Management","Inggris"],
+[3294,"The University of Warwick","MRes/PhD Finance & Economics","Inggris"],
+[3295,"The University of Western Australia","Doctor of Philosophy (Agriculture) (Agricultural Economics)","Australia"],
+[3296,"The University of Western Australia","Doctor of Philosophy (Economics & Commerce)","Australia"],
+[3297,"Tilburg University","PhD in Business","Belanda"],
+[3298,"Tilburg University","PhD in Economics","Belanda"],
+[3299,"Tilburg University","PhD in Finance","Belanda"],
+[3300,"Tilburg University","PhD in Marketing","Belanda"],
+[3301,"Tohoku University","Accountancy (Accounting School)","Jepang"],
+[3302,"Tohoku University","Economics and Management","Jepang"],
+[3303,"Tohoku University","Management Science and Technology","Jepang"],
+[3304,"Trinity College Dublin","PhD in Economics","Irlandia"],
+[3305,"Tsinghua University","Ph.D. in Economics","Tiongkok"],
+[3306,"Tsinghua University","Ph.D. in Finance","Tiongkok"],
+[3307,"Tsinghua University","Ph.D. in Management","Tiongkok"],
+[3308,"Tsinghua University","Ph.D. in Management Science and Engineering : Supply Chain Management","Tiongkok"],
+[3309,"UCL (University College London)","Finance and Technology MPhil/PhD","Inggris"],
+[3310,"UCL (University College London)","PhD in Economics","Inggris"],
+[3311,"UCL (University College London)","PhD in Finance","Inggris"],
+[3312,"UCL (University College London)","PhD in Management","Inggris"],
+[3313,"Ulsan National Institute of Science and Technology","Department of Management Engineering","Korea Selatan"],
+[3314,"Università degli Studi di Padova (UNIPD)","Economics and Management","Italia"],
+[3315,"Università degli Studi di Padova (UNIPD)","Management Engineering and Real Estate Economics","Italia"],
+[3316,"Università degli Studi di Padova (UNIPD)","Scientific, Technological and Social Methods enabling Circular Economy","Italia"],
+[3317,"Università Commerciale Luigi Bocconi","PhD in Business Administration and Management","Italia"],
+[3318,"Università Commerciale Luigi Bocconi","PhD in Economics and Finance","Italia"],
+[3319,"Universitat Autònoma de Barcelona","Applied Economics","Spanyol"],
+[3320,"Universitat Autònoma de Barcelona","Economic Analysis","Spanyol"],
+[3321,"Universitat Autònoma de Barcelona","Economics, Management and Organization (Business Economics)","Spanyol"],
+[3322,"Universitat Autònoma de Barcelona","Entrepreneurship and Management","Spanyol"],
+[3323,"Universitat Autònoma de Barcelona","Tourism","Spanyol"],
+[3324,"Universitat de Barcelona","Business","Spanyol"],
+[3325,"Universitat de Barcelona","Economics","Spanyol"],
+[3326,"Universität Innsbruck","Economics and Statistics","Austria"],
+[3327,"Universität Innsbruck","Management","Austria"],
+[3328,"Universitat Pompeu Fabra","PhD in Economics, Finance and Management","Spanyol"],
+[3329,"Université Catholique de Louvain","PhD in Economics and Management","Belgia"],
+[3330,"Université Libre de Bruxelles","Economics and Management","Belgia"],
+[3331,"Université Paris 1 Panthéon-Sorbonne","PhD in Economics","Prancis"],
+[3332,"Université Paris-Saclay","PhD – Law, Economics, Management (DEM)","Prancis"],
+[3333,"Université PSL (Paris Sciences & Lettres)","Economics","Prancis"],
+[3334,"Université PSL (Paris Sciences & Lettres)","PhD Economics","Prancis"],
+[3335,"Université PSL (Paris Sciences & Lettres)","PhD Finance","Prancis"],
+[3336,"Université PSL (Paris Sciences & Lettres)","PhD Management","Prancis"],
+[3337,"Université Toulouse 1 Capitole","PhD in Economics","Prancis"],
+[3338,"University College Cork","Doctor of Business Administration","Irlandia"],
+[3339,"University College Dublin","Business","Irlandia"],
+[3340,"University College Dublin","Business & Management","Irlandia"],
+[3341,"University College Dublin","Economics","Irlandia"],
+[3342,"University College Dublin","Finance, Economics & Accounting","Irlandia"],
+[3343,"University College Dublin","Management Information Systems","Irlandia"],
+[3344,"University Complutense Madrid","Business Administration and Management","Spanyol"],
+[3345,"University Complutense Madrid","Economics","Spanyol"],
+[3346,"University of Alberta","Doctor of Philosophy (Economics)","Kanada"],
+[3347,"University of Alberta","PhD in Business","Kanada"],
+[3348,"University of Amsterdam","PhD in Business","Belanda"],
+[3349,"University of Amsterdam","PhD in Economics","Belanda"],
+[3350,"University of Amsterdam","PhD in Finance","Belanda"],
+[3351,"University of Basel","Actuarial Science","Swiss"],
+[3352,"University of Basel","Business and Economics","Swiss"],
+[3353,"University of Birmingham","Accounting PhD","Inggris"],
+[3354,"University of Birmingham","Economics PhD","Inggris"],
+[3355,"University of Birmingham","Finance PhD","Inggris"],
+[3356,"University of Birmingham","Management Mathematics PhD","Inggris"],
+[3357,"University of Birmingham","Management PhD","Inggris"],
+[3358,"University of Birmingham","Marketing PhD","Inggris"],
+[3359,"University of Birmingham","Strategy and International Business PhD","Inggris"],
+[3360,"University of Bristol","Accounting and Finance","Inggris"],
+[3361,"University of Bristol","Economics","Inggris"],
+[3362,"University of Bristol","Innovation and Entrepreneurship","Inggris"],
+[3363,"University of Bristol","Management","Inggris"],
+[3364,"University of British Columbia","Doctor of Philosophy in Business Administration in Accounting (PhD)","Kanada"],
+[3365,"University of British Columbia","Doctor of Philosophy in Business Administration in Finance (PhD)","Kanada"],
+[3366,"University of British Columbia","Doctor of Philosophy in Business Administration in Management Information Systems (PhD)","Kanada"],
+[3367,"University of British Columbia","Doctor of Philosophy in Business Administration in Management Science (PhD)","Kanada"],
+[3368,"University of British Columbia","Doctor of Philosophy in Business Administration in Marketing and Behavioural Science (PhD)","Kanada"],
+[3369,"University of British Columbia","Doctor of Philosophy in Business Administration in Organizational Behaviour (PhD)","Kanada"],
+[3370,"University of British Columbia","Doctor of Philosophy in Business Administration in Strategy and Business Economics (PhD)","Kanada"],
+[3371,"University of British Columbia","Doctor of Philosophy in Business Administration in Transportation and Logistics (PhD)","Kanada"],
+[3372,"University of British Columbia","Doctor of Philosophy in Business Administration in Urban Land Economics (PhD)","Kanada"],
+[3373,"University of California, Berkeley (UCB)","Full-time MBA / Graduate Degrees at Haas School of Business","Amerika Serikat"],
+[3374,"University of California, Berkeley (UCB)","Graduate Program (PhD) in Agricultural & Resource Economics (ARE)","Amerika Serikat"],
+[3375,"University of California, Berkeley (UCB)","PhD in Business & Public Policy (BPP)","Amerika Serikat"],
+[3376,"University of California, Berkeley (UCB)","PhD in Business Administration","Amerika Serikat"],
+[3377,"University of California, Berkeley (UCB)","PhD in Management of Organizations (MORS)","Amerika Serikat"],
+[3378,"University of California, Davis","Economics","Amerika Serikat"],
+[3379,"University of California, Los Angeles (UCLA)","Ph.D. in Accounting","Amerika Serikat"],
+[3380,"University of California, Los Angeles (UCLA)","Ph.D. in Decisions, Operations & Technology Management (DOTM)","Amerika Serikat"],
+[3381,"University of California, Los Angeles (UCLA)","Ph.D. in Economics","Amerika Serikat"],
+[3382,"University of California, Los Angeles (UCLA)","Ph.D. in Finance","Amerika Serikat"],
+[3383,"University of California, Los Angeles (UCLA)","PhD Area: Strategy / Innovation / Entrepreneurship","Amerika Serikat"],
+[3384,"University of California, Los Angeles (UCLA)","PhD in Business Administration (UCLA Anderson)","Amerika Serikat"],
+[3385,"University of California, San Diego (UCSD)","Ph.D. in Economics","Amerika Serikat"],
+[3386,"University of California, San Diego (UCSD)","Ph.D. in Management","Amerika Serikat"],
+[3387,"University of Cambridge","Accounting PhD","Inggris"],
+[3388,"University of Cambridge","Business Economics PhD","Inggris"],
+[3389,"University of Cambridge","Finance PhD","Inggris"],
+[3390,"University of Cambridge","Marketing PhD","Inggris"],
+[3391,"University of Cambridge","Operations and Technology Management PhD","Inggris"],
+[3392,"University of Cambridge","PhD in Land Economy","Inggris"],
+[3393,"University of Cambridge","Strategic Management PhD","Inggris"],
+[3394,"University of Chicago","Economics","Amerika Serikat"],
+[3395,"University of Chicago","PhD in Behavioral Science","Amerika Serikat"],
+[3396,"University of Chicago","PhD in Business","Amerika Serikat"],
+[3397,"University of Chicago","PhD in Economics (Booth School of Business)","Amerika Serikat"],
+[3398,"University of Chicago","PhD in Operations Management","Amerika Serikat"],
+[3399,"University of Chicago","PhD in Science of Science and Innovation","Amerika Serikat"],
+[3400,"University of Galway","Accountancy and Finance (Structured PhD)","Irlandia"],
+[3401,"University of Galway","Business, Public Policy and Law (Structured PhD)","Irlandia"],
+[3402,"University of Galway","Marketing (Structured PhD)","Irlandia"],
+[3403,"University of Glasgow","Aerospace Engineering & Management","Inggris"],
+[3404,"University of Glasgow","Archives, Records, & Information Management","Inggris"],
+[3405,"University of Glasgow","Behavioural Science","Inggris"],
+[3406,"University of Glasgow","Biotechnology & Management","Inggris"],
+[3407,"University of Glasgow","Business Analytics","Inggris"],
+[3408,"University of Glasgow","Civil Engineering & Management","Inggris"],
+[3409,"University of Glasgow","Corporate Finance & Banking","Inggris"],
+[3410,"University of Glasgow","Data Analytics for Economics & Finance","Inggris"],
+[3411,"University of Glasgow","Economic Development","Inggris"],
+[3412,"University of Glasgow","Economics","Inggris"],
+[3413,"University of Glasgow","Economics, International Banking & Finance","Inggris"],
+[3414,"University of Glasgow","Electronics & Electrical Engineering & Management","Inggris"],
+[3415,"University of Glasgow","Finance & Management","Inggris"],
+[3416,"University of Glasgow","Financial Economics","Inggris"],
+[3417,"University of Glasgow","Financial Engineering","Inggris"],
+[3418,"University of Glasgow","Financial Risk Management","Inggris"],
+[3419,"University of Glasgow","Financial Technology","Inggris"],
+[3420,"University of Glasgow","Geomatics & Management","Inggris"],
+[3421,"University of Glasgow","Global Economy","Inggris"],
+[3422,"University of Glasgow","Health Economics & Health Technology Assessment","Inggris"],
+[3423,"University of Glasgow","Health Services Management","Inggris"],
+[3424,"University of Glasgow","International Accounting & Financial Management","Inggris"],
+[3425,"University of Glasgow","International Business","Inggris"],
+[3426,"University of Glasgow","International Finance","Inggris"],
+[3427,"University of Glasgow","International Financial Analysis","Inggris"],
+[3428,"University of Glasgow","Management","Inggris"],
+[3429,"University of Glasgow","Management with Enterprise & Business Growth","Inggris"],
+[3430,"University of Glasgow","MBA (Master of Business Administration)","Inggris"],
+[3431,"University of Glasgow","PhD in Accounting","Inggris"],
+[3432,"University of Glasgow","PhD in Accounting & Finance","Inggris"],
+[3433,"University of Glasgow","PhD in Economics","Inggris"],
+[3434,"University of Glasgow","PhD in Finance","Inggris"],
+[3435,"University of Glasgow","PhD in Quantitative Finance","Inggris"],
+[3436,"University of Glasgow","Sustainability & Corporate Governance","Inggris"],
+[3437,"University of Groningen","Economics, Econometrics & Finance","Belanda"],
+[3438,"University of Groningen","Global Economics & Management","Belanda"],
+[3439,"University of Groningen","Marketing","Belanda"],
+[3440,"University of Groningen","Operations Management and Operations Research","Belanda"],
+[3441,"University of Groningen","PhD in Business","Belanda"],
+[3442,"University of Groningen","PhD in Economics","Belanda"],
+[3443,"University of Groningen","Sustainable Economy","Belanda"],
+[3444,"University of Helsinki","Doctoral Programme in Economics","Finlandia"],
+[3445,"University of Iceland","PhD in Business Administration","Islandia"],
+[3446,"University of Iceland","PhD in Economics","Islandia"],
+[3447,"University of Illinois at Urbana-Champaign","Ph.D. in Agricultural and Applied Economics","Amerika Serikat"],
+[3448,"University of Illinois at Urbana-Champaign","Ph.D. in Business Administration","Amerika Serikat"],
+[3449,"University of Illinois at Urbana-Champaign","Ph.D. in Economics","Amerika Serikat"],
+[3450,"University of Illinois at Urbana-Champaign","PhD in Finance","Amerika Serikat"],
+[3451,"University of Leeds","PhD Accounting and Finance","Inggris"],
+[3452,"University of Leeds","PhD Economics","Inggris"],
+[3453,"University of Leeds","PhD International Business","Inggris"],
+[3454,"University of Leeds","PhD Management and Organisations","Inggris"],
+[3455,"University of Luxembourg","Economics and Management Sciences","Luksemburg"],
+[3456,"University of Luxembourg","Finance","Luksemburg"],
+[3457,"University of Mannheim","Dr. rer. pol Accounting","Jerman"],
+[3458,"University of Mannheim","Dr. rer. pol Finance","Jerman"],
+[3459,"University of Mannheim","Dr. rer. pol. Economics","Jerman"],
+[3460,"University of Michigan-Ann Arbor","Business Administration","Amerika Serikat"],
+[3461,"University of Michigan-Ann Arbor","Business and Economics","Amerika Serikat"],
+[3462,"University of Michigan-Ann Arbor","Economics","Amerika Serikat"],
+[3463,"University of Michigan-Ann Arbor","Ph.D. in Business Administration","Amerika Serikat"],
+[3464,"University of Michigan-Ann Arbor","PhD in Accounting","Amerika Serikat"],
+[3465,"University of Michigan-Ann Arbor","PhD in Business and Economics","Amerika Serikat"],
+[3466,"University of Michigan-Ann Arbor","PhD in Finance","Amerika Serikat"],
+[3467,"University of Michigan-Ann Arbor","PhD in Management and Organizations","Amerika Serikat"],
+[3468,"University of Michigan-Ann Arbor","PhD in Marketing","Amerika Serikat"],
+[3469,"University of Michigan-Ann Arbor","PhD in Strategy","Amerika Serikat"],
+[3470,"University of Michigan-Ann Arbor","PhD in Technology and Operations","Amerika Serikat"],
+[3471,"University of Michigan-Ann Arbor","Public Policy and Economics","Amerika Serikat"],
+[3472,"University of Minnesota","Ph.D. in Applied Economics","Amerika Serikat"],
+[3473,"University of Minnesota","Ph.D. in Business Administration","Amerika Serikat"],
+[3474,"University of Minnesota","Ph.D. in Economics","Amerika Serikat"],
+[3475,"University of Montpellier","Montpellier School of Economics and Management","Prancis"],
+[3476,"University of Naples - Federico II","Economics","Italia"],
+[3477,"University of Naples - Federico II","Management","Italia"],
+[3478,"University of North Carolina, Chapel","Economics","Amerika Serikat"],
+[3479,"University of Otago","Doctor of Business Administration","Selandia Baru"],
+[3480,"University of Otago","Doctor of Commerce","Selandia Baru"],
+[3481,"University of Otago","Doctor of Philosophy (PhD) : Commerce","Selandia Baru"],
+[3482,"University of Oulu","Economics and Business Administration","Finlandia"],
+[3483,"University of Oxford","DPhil Economics","Inggris"],
+[3484,"University of Oxford","DPhil Finance","Inggris"],
+[3485,"University of Oxford","DPhil Management","Inggris"],
+[3486,"University of Pennsylvania","Applied Economics, PhD","Amerika Serikat"],
+[3487,"University of Pennsylvania","Marketing","Amerika Serikat"],
+[3488,"University of Pennsylvania","PhD in Accounting","Amerika Serikat"],
+[3489,"University of Pennsylvania","PhD in Finance","Amerika Serikat"],
+[3490,"University of Pennsylvania","School of Arts & Sciences : Ph.D. in Economics","Amerika Serikat"],
+[3491,"University of Pennsylvania","The Wharton School - Ph.D. Program","Amerika Serikat"],
+[3492,"University of Pisa","Business Administration and Management","Italia"],
+[3493,"University of Science and Technology of China","Business Administration","Tiongkok"],
+[3494,"University of Science and Technology of China","Management Science and Engineering","Tiongkok"],
+[3495,"University of Science and Technology of China","Ph.D. in Public Economics","Tiongkok"],
+[3496,"University of Southampton","Business studies","Inggris"],
+[3497,"University of Southampton","Economics","Inggris"],
+[3498,"University of Southern California","Economics (PhD)","Amerika Serikat"],
+[3499,"University of Southern California","Ph.D. in Business Administration","Amerika Serikat"],
+[3500,"University of Southern California","Ph.D. in Economics","Amerika Serikat"],
+[3501,"University of Southern California","Ph.D. in Health Policy and Management","Amerika Serikat"],
+[3502,"University of Southern Denmark (SDU)","Business and Social Sciences","Denmark"],
+[3503,"University of Texas at Austin","Ph.D. in Business Administration","Amerika Serikat"],
+[3504,"University of Texas at Austin","Ph.D. in Economics","Amerika Serikat"],
+[3505,"University of Toronto","Economics","Kanada"],
+[3506,"University of Toulouse","PhD in Economics","Prancis"],
+[3507,"University of Toulouse","PhD in Management","Prancis"],
+[3508,"University of Valencia","Accounting and Corporate Finances","Spanyol"],
+[3509,"University of Valencia","Business Management","Spanyol"],
+[3510,"University of Valencia","Industrial Economics","Spanyol"],
+[3511,"University of Valencia","International Economics and Tourism","Spanyol"],
+[3512,"University of Valencia","Marketing","Spanyol"],
+[3513,"University of Valencia","Quantitative Finance and Economy","Spanyol"],
+[3514,"University of Vienna","Business Administration - Business Analytics, Logistics and Operations Research","Austria"],
+[3515,"University of Vienna","Business Administration - Finance","Austria"],
+[3516,"University of Vienna","Business Administration - Management, PhD","Austria"],
+[3517,"University of Vienna","Economics","Austria"],
+[3518,"University of Washington","Business Administration - PhD","Amerika Serikat"],
+[3519,"University of Washington","Economics (PhD)","Amerika Serikat"],
+[3520,"University of Washington","Ph.D. in Business Administration","Amerika Serikat"],
+[3521,"University of Wisconsin-Madison","PhD Program in accounting","Amerika Serikat"],
+[3522,"University of Wisconsin-Madison","PhD Program in finance","Amerika Serikat"],
+[3523,"University of Wisconsin-Madison","PhD Program in finance and economics","Amerika Serikat"],
+[3524,"University of Wisconsin-Madison","PhD Program in insurance economics","Amerika Serikat"],
+[3525,"University of Zurich","Graduate School of Business","Swiss"],
+[3526,"University of Zurich","Marlene Porsche Graduate School of Neuroeconomics","Swiss"],
+[3527,"University of Zurich","Zurich Graduate School of Economics","Swiss"],
+[3528,"Victoria University of Wellington","Accounting","Selandia Baru"],
+[3529,"Victoria University of Wellington","Actuarial Science","Selandia Baru"],
+[3530,"Victoria University of Wellington","Business Administration","Selandia Baru"],
+[3531,"Victoria University of Wellington","Business Analysis","Selandia Baru"],
+[3532,"Victoria University of Wellington","Economics","Selandia Baru"],
+[3533,"Victoria University of Wellington","Finance","Selandia Baru"],
+[3534,"Victoria University of Wellington","Global Business","Selandia Baru"],
+[3535,"Victoria University of Wellington","Human Resource Management and Employment Relations","Selandia Baru"],
+[3536,"Victoria University of Wellington","International Business","Selandia Baru"],
+[3537,"Victoria University of Wellington","International Trade","Selandia Baru"],
+[3538,"Victoria University of Wellington","Management","Selandia Baru"],
+[3539,"Victoria University of Wellington","Marketing","Selandia Baru"],
+[3540,"Victoria University of Wellington","Philosophy, Politics and Economics","Selandia Baru"],
+[3541,"Victoria University of Wellington","Project Management","Selandia Baru"],
+[3542,"Victoria University of Wellington","Public Management","Selandia Baru"],
+[3543,"Victoria University of Wellington","Tourism Management","Selandia Baru"],
+[3544,"Waseda University","PhD in Business","Jepang"],
+[3545,"Waseda University","PhD in Commerce","Jepang"],
+[3546,"Waseda University","PhD in Finance","Jepang"],
+[3547,"Washington University in St. Louis","Doctor of Philosophy (PhD) in Business","Amerika Serikat"],
+[3548,"Washington University in St. Louis","Economics, PhD","Amerika Serikat"],
+[3549,"Washington University in St. Louis","MBA Program","Amerika Serikat"],
+[3550,"Wuhan University","Doctor of E-Commerce","Tiongkok"],
+[3551,"Wuhan University","Ph.D. in Economics","Tiongkok"],
+[3552,"Wuhan University","Ph.D. in Environmental Economics : Energy Economics","Tiongkok"],
+[3553,"Wuhan University","Ph.D. in Social Medicine and Health Management : Health Economics","Tiongkok"],
+[3554,"Xiamen University","Ph.D. in Economics","Tiongkok"],
+[3555,"Xiamen University","Ph.D. in Public Economics : Health Economics; Energy Economics","Tiongkok"],
+[3556,"Xiamen University","Ph.D. in Quantitative Economics : Econometrics","Tiongkok"],
+[3557,"Yale University","Ph.D. in Economics","Amerika Serikat"],
+[3558,"Yale University","Ph.D. in Health Policy and Management","Amerika Serikat"],
+[3559,"Yale University","Ph.D. in Management","Amerika Serikat"],
+[3560,"Yonsei University","AI Digital Management","Korea Selatan"],
+[3561,"Yonsei University","Ph.D. in International Studies (International Political Economy)","Korea Selatan"],
+[3562,"Yonsei University","PhD in Business Administration","Korea Selatan"],
+[3563,"Yonsei University","PhD in Economics","Korea Selatan"],
+[3564,"Yonsei University","PhD in Finance","Korea Selatan"],
+[3565,"Yonsei University","PhD in Management","Korea Selatan"],
+[3566,"Zhejiang University","Accounting","Tiongkok"],
+[3567,"Zhejiang University","Enterprise Management","Tiongkok"],
+[3568,"Zhejiang University","Entrepreneurship Management","Tiongkok"],
+[3569,"Zhejiang University","Management Science and Engineering","Tiongkok"],
+[3570,"Zhejiang University","Ph.D. in Business Administration","Tiongkok"],
+[3571,"Zhejiang University","Ph.D. in Economics","Tiongkok"],
+[3572,"Zhejiang University","Ph.D. in Energy Economics and Management : Energy Economics","Tiongkok"],
+[3573,"Zhejiang University","Ph.D. in Finance","Tiongkok"]
+];
+const NC={"Amerika Serikat":"us","Inggris":"uk","Australia":"au","Tiongkok":"cn","Singapura":"sg","Belanda":"nl","Jerman":"de","Jepang":"jp","Korea Selatan":"kr","Prancis":"fr"};
+const neg=[...new Set(D.map(d=>d[3]))].sort();
+const sel=document.getElementById('nf');
+neg.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
+document.getElementById('ct').textContent=D.length;
+let FD=[...D],SS={col:-1,asc:true};
+function render(rows){
+  const tb=document.getElementById('tb');tb.innerHTML='';
+  rows.forEach(r=>{
+    const[no,uni,prodi,n]=r;const c=NC[n]||'';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="nc">${no}</td><td><span class="uni">${uni}</span></td><td><span class="prodi">${prodi}</span></td><td><span class="chip ${c}">${n}</span></td>`;
+    tb.appendChild(tr);
+  });
+  document.getElementById('cs').textContent=rows.length;
+  document.getElementById('nr').style.display=rows.length===0?'block':'none';
+}
+function filter(){
+  const q=document.getElementById('q').value.toLowerCase();
+  const n=document.getElementById('nf').value;
+  FD=D.filter(r=>(!q||r.some(v=>String(v).toLowerCase().includes(q)))&&(!n||r[3]===n));
+  if(SS.col>=0)applySort();else render(FD);
+}
+function applySort(){
+  FD.sort((a,b)=>{let va=SS.col===0?a[0]:String(a[SS.col]).toLowerCase(),vb=SS.col===0?b[0]:String(b[SS.col]).toLowerCase();return SS.asc?(va>vb?1:va<vb?-1:0):(va<vb?1:va>vb?-1:0);});render(FD);
+}
+function srt(col){
+  document.querySelectorAll('th').forEach(th=>th.classList.remove('sa','sd'));
+  if(SS.col===col)SS.asc=!SS.asc;else{SS.col=col;SS.asc=true;}
+  document.getElementById('h'+col).classList.add(SS.asc?'sa':'sd');
+  applySort();
+}
+render(D);
+</script>
+</body>
+</html>
