@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Map · Ekonometrika Time Series</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f5f3ee;--bg2:#edeae3;--bg3:#e5e1d8;--border:#d4cfc4;
+  --text:#2d2a24;--text2:#5a5650;--text3:#9a958c;
+  --purple-bg:#ede9fb;--purple-brd:#9b8ff4;--purple-txt:#3d2fa8;
+  --coral-bg:#fde8e4;--coral-brd:#f07060;--coral-txt:#8b2214;
+  --teal-bg:#d6f5ea;--teal-brd:#2db87d;--teal-txt:#0a5c3a;
+  --blue-bg:#daeeff;--blue-brd:#5599e8;--blue-txt:#0c3d82;
+  --amber-bg:#fef3d0;--amber-brd:#e0a800;--amber-txt:#6b4400;
+  --green-bg:#d8f5e4;--green-brd:#2aaa6a;--green-txt:#0a4a28;
+  --gray-bg:#edeae3;--gray-brd:#b0a898;--gray-txt:#3a362e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;min-height:100vh}
+header{padding:22px 40px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;background:#faf8f4}
+header h1{font-size:16px;font-weight:600}
+header p{font-size:11px;color:var(--text3);margin-top:3px;font-family:'IBM Plex Mono',monospace}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+.leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.map-wrap{padding:32px 40px;overflow-x:auto}
+svg{display:block;overflow:visible}
+.nd{cursor:pointer}.nd:hover rect{filter:brightness(.92)}
+#panel{position:fixed;right:0;top:0;bottom:0;width:300px;background:#faf8f4;border-left:1px solid var(--border);padding:22px 18px;transform:translateX(100%);transition:transform .25s;z-index:200;overflow-y:auto}
+#panel.open{transform:translateX(0)}
+#panel h2{font-size:13px;font-weight:600;margin-bottom:8px}
+#panel p{font-size:12px;color:var(--text2);line-height:1.65}
+#panel .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:12px}
+#panel .tag{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:500;cursor:pointer;border-width:1px;border-style:solid}
+#panel-close{position:absolute;top:12px;right:12px;background:none;border:1px solid var(--border);color:var(--text2);border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+#panel-close:hover{background:var(--bg3)}
+.goals-section{padding:48px 40px 60px;border-top:2px solid var(--border);background:#faf8f4}
+.goals-section h2{font-size:16px;font-weight:600;margin-bottom:32px}
+.goal-card{margin-bottom:34px;padding:22px 26px;border-radius:10px;border:1px solid var(--border);background:var(--bg);scroll-margin-top:20px;transition:outline .3s}
+.goal-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.goal-badge{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;padding:3px 10px;border-radius:12px;flex-shrink:0;border-width:1px;border-style:solid}
+.goal-card h3{font-size:13px;font-weight:600}
+.goal-card p{font-size:12.5px;color:var(--text2);line-height:1.72;margin-bottom:10px}
+.goal-card p:last-child{margin-bottom:0}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Grand Map · Ekonometrika Time Series</h1>
+    <p>data nonstasioner I(1) · dua cabang · T-1 s.d. T-14 · klik node atau label T untuk detail</p>
+  </div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:var(--purple-brd)"></div>Step universal</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--coral-brd)"></div>Cabang A · difference</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--teal-brd)"></div>Cabang B · level (ARDL)</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--blue-brd)"></div>Cabang B · level (Johansen)</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--amber-brd)"></div>Tujuan lanjutan</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--green-brd)"></div>Output / diagnostik</div>
+  </div>
+</header>
+<div class="map-wrap">
+<svg width="960" height="1700" viewBox="0 0 960 1700">
+<defs>
+<marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#b0a898" stroke-width="1.5" stroke-linecap="round"/></marker>
+<marker id="ac" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#f07060" stroke-width="1.5" stroke-linecap="round"/></marker>
+<marker id="at" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#2db87d" stroke-width="1.5" stroke-linecap="round"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#5599e8" stroke-width="1.5" stroke-linecap="round"/></marker>
+<marker id="aa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#e0a800" stroke-width="1.5" stroke-linecap="round"/></marker>
+<marker id="agr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#2aaa6a" stroke-width="1.5" stroke-linecap="round"/></marker>
+</defs>
+
+<!-- START -->
+<g class="nd" onclick="showPanel('start')">
+  <rect x="320" y="20" width="320" height="54" rx="27" fill="#edeae3" stroke="#b0a898" stroke-width="1.2"/>
+  <text x="480" y="43" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="13" font-weight="600" fill="#3a362e">Data nonstasioner I(1)</text>
+  <text x="480" y="60" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="9" fill="#9a958c">titik masuk · semua tujuan dimulai di sini</text>
+</g>
+<line x1="480" y1="74" x2="480" y2="106" stroke="#b0a898" stroke-width="1.3" marker-end="url(#ag)"/>
+
+<!-- STEP 1 -->
+<g class="nd" onclick="showPanel('s1')">
+  <rect x="310" y="108" width="340" height="64" rx="8" fill="#ede9fb" stroke="#9b8ff4" stroke-width="1.2"/>
+  <text x="480" y="133" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="12" font-weight="600" fill="#3d2fa8">Step 1 · Plot visual data</text>
+  <text x="480" y="153" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" fill="#3d2fa8">time plot · ACF · PACF · identifikasi tren &amp; outlier</text>
+</g>
+<g onclick="goToGoal('T1')" style="cursor:pointer"><rect x="312" y="111" width="42" height="13" rx="6" fill="#9b8ff4"/><text x="333" y="117.5" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7.5" font-weight="500" fill="white">T1–T14</text></g>
+<line x1="480" y1="172" x2="480" y2="204" stroke="#9b8ff4" stroke-width="1.3" marker-end="url(#ag)"/>
+
+<!-- STEP 2 -->
+<g class="nd" onclick="showPanel('s2')">
+  <rect x="280" y="206" width="400" height="64" rx="8" fill="#ede9fb" stroke="#9b8ff4" stroke-width="1.2"/>
+  <text x="480" y="231" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="12" font-weight="600" fill="#3d2fa8">Step 2 · Uji stasioneritas</text>
+  <text x="480" y="251" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" fill="#3d2fa8">ADF · PP · KPSS → konfirmasi I(1), pastikan bukan I(2)</text>
+</g>
+<g onclick="goToGoal('T1')" style="cursor:pointer"><rect x="282" y="209" width="42" height="13" rx="6" fill="#9b8ff4"/><text x="303" y="215.5" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7.5" font-weight="500" fill="white">T1–T14</text></g>
+
+<!-- split arrows -->
+<path d="M280 238 L120 238 L120 322" fill="none" stroke="#f07060" stroke-width="1.5" marker-end="url(#ac)"/>
+<rect x="58" y="262" width="124" height="18" rx="9" fill="#fde8e4" stroke="#f07060" stroke-width="0.8"/>
+<text x="120" y="271" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="8.5" fill="#8b2214">tidak kointegrasi</text>
+<path d="M680 238 L840 238 L840 322" fill="none" stroke="#2db87d" stroke-width="1.5" marker-end="url(#at)"/>
+<rect x="778" y="262" width="124" height="18" rx="9" fill="#d6f5ea" stroke="#2db87d" stroke-width="0.8"/>
+<text x="840" y="271" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="8.5" fill="#0a5c3a">ada kointegrasi</text>
+<rect x="406" y="294" width="148" height="16" rx="8" fill="#edeae3" stroke="#d4cfc4" stroke-width="0.6"/>
+<text x="480" y="302" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="8" fill="#9a958c">dua cabang terpisah</text>
+
+<!-- ═══ CABANG A ═══ -->
+<rect x="18" y="312" width="204" height="17" rx="4" fill="#f07060"/>
+<text x="120" y="320.5" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="8.5" font-weight="600" fill="white">Cabang A · difference dulu</text>
+
+<!-- A1 -->
+<g class="nd" onclick="showPanel('a1')">
+  <rect x="18" y="332" width="204" height="64" rx="8" fill="#fde8e4" stroke="#f07060" stroke-width="1.2"/>
+  <text x="120" y="357" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="11" font-weight="600" fill="#8b2214">Step A1 · First difference</text>
+  <text x="120" y="377" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#8b2214">ΔYt = Yt − Yt−1 → I(0)</text>
+</g>
+<g onclick="goToGoal('T1')" style="cursor:pointer"><rect x="20" y="335" width="18" height="12" rx="6" fill="#f07060"/><text x="29" y="341" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T1</text></g>
+<g onclick="goToGoal('T4')" style="cursor:pointer"><rect x="40" y="335" width="18" height="12" rx="6" fill="#f07060"/><text x="49" y="341" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T4</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="60" y="335" width="18" height="12" rx="6" fill="#f07060"/><text x="69" y="341" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6</text></g>
+<g onclick="goToGoal('T7')" style="cursor:pointer"><rect x="80" y="335" width="18" height="12" rx="6" fill="#f07060"/><text x="89" y="341" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T7</text></g>
+<g onclick="goToGoal('T8')" style="cursor:pointer"><rect x="100" y="335" width="18" height="12" rx="6" fill="#f07060"/><text x="109" y="341" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T8</text></g>
+<g onclick="goToGoal('T9')" style="cursor:pointer"><rect x="120" y="335" width="18" height="12" rx="6" fill="#f07060"/><text x="129" y="341" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T9</text></g>
+<line x1="120" y1="396" x2="120" y2="424" stroke="#f07060" stroke-width="1.3" marker-end="url(#ac)"/>
+
+<!-- A2 -->
+<g class="nd" onclick="showPanel('a2')">
+  <rect x="18" y="426" width="204" height="64" rx="8" fill="#fde8e4" stroke="#f07060" stroke-width="1.2"/>
+  <text x="120" y="451" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="11" font-weight="600" fill="#8b2214">Step A2 · Konfirmasi I(0)</text>
+  <text x="120" y="471" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#8b2214">ADF/PP pada ΔY → tolak H₀</text>
+</g>
+<g onclick="goToGoal('T1')" style="cursor:pointer"><rect x="20" y="429" width="18" height="12" rx="6" fill="#f07060"/><text x="29" y="435" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T1</text></g>
+<g onclick="goToGoal('T4')" style="cursor:pointer"><rect x="40" y="429" width="18" height="12" rx="6" fill="#f07060"/><text x="49" y="435" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T4</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="60" y="429" width="30" height="12" rx="6" fill="#f07060"/><text x="75" y="435" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6–T9</text></g>
+<line x1="120" y1="490" x2="120" y2="518" stroke="#f07060" stroke-width="1.3" marker-end="url(#ac)"/>
+
+<!-- A3 -->
+<g class="nd" onclick="showPanel('a3')">
+  <rect x="18" y="520" width="204" height="64" rx="8" fill="#fde8e4" stroke="#f07060" stroke-width="1.2"/>
+  <text x="120" y="545" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="11" font-weight="600" fill="#8b2214">Step A3 · Seleksi lag</text>
+  <text x="120" y="565" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#8b2214">AIC · BIC · HQ criteria</text>
+</g>
+<g onclick="goToGoal('T4')" style="cursor:pointer"><rect x="20" y="523" width="18" height="12" rx="6" fill="#f07060"/><text x="29" y="529" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T4</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="40" y="523" width="18" height="12" rx="6" fill="#f07060"/><text x="49" y="529" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6</text></g>
+<g onclick="goToGoal('T7')" style="cursor:pointer"><rect x="60" y="523" width="18" height="12" rx="6" fill="#f07060"/><text x="69" y="529" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T7</text></g>
+<g onclick="goToGoal('T9')" style="cursor:pointer"><rect x="80" y="523" width="18" height="12" rx="6" fill="#f07060"/><text x="89" y="529" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T9</text></g>
+<line x1="120" y1="584" x2="120" y2="612" stroke="#f07060" stroke-width="1.3" marker-end="url(#ac)"/>
+
+<!-- A4 HUB -->
+<g class="nd" onclick="showPanel('a4')">
+  <rect x="18" y="614" width="204" height="64" rx="8" fill="#fde8e4" stroke="#f07060" stroke-width="2"/>
+  <text x="120" y="639" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="11" font-weight="600" fill="#8b2214">Step A4 · Estimasi VAR(ΔY)</text>
+  <text x="120" y="659" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#8b2214">VAR in differences · OLS per eq.</text>
+</g>
+<g onclick="goToGoal('T4')" style="cursor:pointer"><rect x="20" y="617" width="18" height="12" rx="6" fill="#f07060"/><text x="29" y="623" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T4</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="40" y="617" width="18" height="12" rx="6" fill="#f07060"/><text x="49" y="623" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6</text></g>
+<g onclick="goToGoal('T7')" style="cursor:pointer"><rect x="60" y="617" width="18" height="12" rx="6" fill="#f07060"/><text x="69" y="623" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T7</text></g>
+<g onclick="goToGoal('T9')" style="cursor:pointer"><rect x="80" y="617" width="18" height="12" rx="6" fill="#f07060"/><text x="89" y="623" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T9</text></g>
+
+<!-- FAN-OUT dari A4: output ke bawah, residual ke kanan -->
+<!-- A5a: output kiri bawah -->
+<path d="M60 678 L60 726" fill="none" stroke="#f07060" stroke-width="1.2" marker-end="url(#ac)"/>
+<!-- A5b/c: output tengah bawah -->
+<path d="M120 678 L120 726" fill="none" stroke="#f07060" stroke-width="1.2" marker-end="url(#ac)"/>
+<!-- A5d: output kanan bawah -->
+<path d="M180 678 L180 726" fill="none" stroke="#f07060" stroke-width="1.2" marker-end="url(#ac)"/>
+<!-- A6: residual ke kanan -->
+<path d="M222 638 L268 638 L268 726" fill="none" stroke="#f07060" stroke-width="1.1" stroke-dasharray="5 3" marker-end="url(#ac)"/>
+<!-- A7: residual ke lebih kanan -->
+<path d="M222 654 L360 654 L360 726" fill="none" stroke="#f07060" stroke-width="1.1" stroke-dasharray="5 3" marker-end="url(#ac)"/>
+<!-- label output/residual -->
+<text x="60" y="716" text-anchor="middle" font-family="IBM Plex Mono" font-size="7.5" fill="#9a958c">output</text>
+<text x="120" y="716" text-anchor="middle" font-family="IBM Plex Mono" font-size="7.5" fill="#9a958c">output</text>
+<text x="180" y="716" text-anchor="middle" font-family="IBM Plex Mono" font-size="7.5" fill="#9a958c">output</text>
+<text x="268" y="716" text-anchor="middle" font-family="IBM Plex Mono" font-size="7.5" fill="#9a958c">residual</text>
+<text x="360" y="716" text-anchor="middle" font-family="IBM Plex Mono" font-size="7.5" fill="#9a958c">residual</text>
+
+<!-- A5a Granger -->
+<g class="nd" onclick="showPanel('a5a')">
+  <rect x="18" y="728" width="84" height="56" rx="8" fill="#fde8e4" stroke="#f07060" stroke-width="1"/>
+  <text x="60" y="750" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" font-weight="600" fill="#8b2214">A5a · Granger</text>
+  <text x="60" y="767" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="8.5" fill="#8b2214">causality</text>
+</g>
+<g onclick="goToGoal('T4')" style="cursor:pointer"><rect x="20" y="731" width="18" height="12" rx="6" fill="#f07060"/><text x="29" y="737" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T4</text></g>
+
+<!-- A5b IRF & FEVD -->
+<g class="nd" onclick="showPanel('a5bc')">
+  <rect x="78" y="728" width="84" height="56" rx="8" fill="#fde8e4" stroke="#f07060" stroke-width="1"/>
+  <text x="120" y="750" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" font-weight="600" fill="#8b2214">A5b · IRF</text>
+  <text x="120" y="767" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="8.5" fill="#8b2214">&amp; FEVD</text>
+</g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="80" y="731" width="18" height="12" rx="6" fill="#f07060"/><text x="89" y="737" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6</text></g>
+<g onclick="goToGoal('T7')" style="cursor:pointer"><rect x="100" y="731" width="18" height="12" rx="6" fill="#f07060"/><text x="109" y="737" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T7</text></g>
+
+<!-- A5d Forecast -->
+<g class="nd" onclick="showPanel('a5d')">
+  <rect x="138" y="728" width="84" height="56" rx="8" fill="#fde8e4" stroke="#f07060" stroke-width="1"/>
+  <text x="180" y="750" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" font-weight="600" fill="#8b2214">A5d · Forecast</text>
+  <text x="180" y="767" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="8.5" fill="#8b2214">ARIMA · VAR</text>
+</g>
+<g onclick="goToGoal('T9')" style="cursor:pointer"><rect x="140" y="731" width="18" height="12" rx="6" fill="#f07060"/><text x="149" y="737" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T9</text></g>
+
+<!-- A6 GARCH -->
+<g class="nd" onclick="showPanel('a6')">
+  <rect x="230" y="728" width="106" height="56" rx="8" fill="#fde8e4" stroke="#f07060" stroke-width="1"/>
+  <text x="283" y="748" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" font-weight="600" fill="#8b2214">A6 · ARCH test</text>
+  <text x="283" y="766" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="8.5" fill="#8b2214">→ GARCH jika ada</text>
+</g>
+<g onclick="goToGoal('T8')" style="cursor:pointer"><rect x="232" y="731" width="18" height="12" rx="6" fill="#f07060"/><text x="241" y="737" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T8</text></g>
+<g onclick="goToGoal('T13')" style="cursor:pointer"><rect x="252" y="731" width="20" height="12" rx="6" fill="#f07060"/><text x="262" y="737" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T13</text></g>
+
+<!-- A7 Structural break -->
+<g class="nd" onclick="showPanel('a7')">
+  <rect x="346" y="728" width="106" height="56" rx="8" fill="#fde8e4" stroke="#f07060" stroke-width="1"/>
+  <text x="399" y="748" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" font-weight="600" fill="#8b2214">A7 · Struct. break</text>
+  <text x="399" y="766" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="8.5" fill="#8b2214">Chow · Bai-Perron</text>
+</g>
+<g onclick="goToGoal('T10')" style="cursor:pointer"><rect x="348" y="731" width="20" height="12" rx="6" fill="#f07060"/><text x="358" y="737" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T10</text></g>
+
+<!-- ═══ CABANG B ═══ -->
+<rect x="730" y="312" width="216" height="17" rx="4" fill="#2db87d"/>
+<text x="838" y="320.5" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="8.5" font-weight="600" fill="white">Cabang B · level I(1) langsung</text>
+
+<!-- B1 -->
+<g class="nd" onclick="showPanel('b1')">
+  <rect x="730" y="332" width="216" height="64" rx="8" fill="#d6f5ea" stroke="#2db87d" stroke-width="1.2"/>
+  <text x="838" y="357" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="11" font-weight="600" fill="#0a5c3a">Step B1 · Uji kointegrasi</text>
+  <text x="838" y="377" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#0a5c3a">EG · ARDL pre · Johansen pre</text>
+</g>
+<g onclick="goToGoal('T2')" style="cursor:pointer"><rect x="732" y="335" width="18" height="12" rx="6" fill="#2db87d"/><text x="741" y="341" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T2</text></g>
+<g onclick="goToGoal('T3')" style="cursor:pointer"><rect x="752" y="335" width="18" height="12" rx="6" fill="#2db87d"/><text x="761" y="341" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T3</text></g>
+<g onclick="goToGoal('T5')" style="cursor:pointer"><rect x="772" y="335" width="30" height="12" rx="6" fill="#2db87d"/><text x="787" y="341" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T5–T14</text></g>
+<line x1="838" y1="396" x2="838" y2="424" stroke="#2db87d" stroke-width="1.3" marker-end="url(#at)"/>
+
+<!-- B2 -->
+<g class="nd" onclick="showPanel('b2')">
+  <rect x="730" y="426" width="216" height="64" rx="8" fill="#d6f5ea" stroke="#2db87d" stroke-width="1.2"/>
+  <text x="838" y="451" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="11" font-weight="600" fill="#0a5c3a">Step B2 · Pilih metode</text>
+  <text x="838" y="471" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#0a5c3a">campuran → ARDL · semua I(1) → Johansen</text>
+</g>
+<g onclick="goToGoal('T2')" style="cursor:pointer"><rect x="732" y="429" width="18" height="12" rx="6" fill="#2db87d"/><text x="741" y="435" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T2</text></g>
+<g onclick="goToGoal('T3')" style="cursor:pointer"><rect x="752" y="429" width="18" height="12" rx="6" fill="#2db87d"/><text x="761" y="435" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T3</text></g>
+<g onclick="goToGoal('T5')" style="cursor:pointer"><rect x="772" y="429" width="30" height="12" rx="6" fill="#2db87d"/><text x="787" y="435" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T5–T14</text></g>
+
+<!-- sub-split -->
+<path d="M796 490 L772 490 L772 526" fill="none" stroke="#2db87d" stroke-width="1.2" marker-end="url(#at)"/>
+<text x="758" y="508" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#0a5c3a">ARDL</text>
+<path d="M880 490 L904 490 L904 526" fill="none" stroke="#5599e8" stroke-width="1.2" marker-end="url(#ab)"/>
+<text x="920" y="508" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#0c3d82">Johansen</text>
+
+<!-- ARDL col cx=772 -->
+<!-- B3a -->
+<g class="nd" onclick="showPanel('b3a')">
+  <rect x="714" y="528" width="116" height="60" rx="8" fill="#d6f5ea" stroke="#2db87d" stroke-width="1.2"/>
+  <text x="772" y="550" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#0a5c3a">B3a · Lag ARDL</text>
+  <text x="772" y="568" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0a5c3a">AIC · SBC · auto</text>
+</g>
+<g onclick="goToGoal('T3')" style="cursor:pointer"><rect x="716" y="531" width="18" height="12" rx="6" fill="#2db87d"/><text x="725" y="537" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T3</text></g>
+<g onclick="goToGoal('T5')" style="cursor:pointer"><rect x="736" y="531" width="18" height="12" rx="6" fill="#2db87d"/><text x="745" y="537" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T5</text></g>
+<g onclick="goToGoal('T11')" style="cursor:pointer"><rect x="756" y="531" width="30" height="12" rx="6" fill="#2db87d"/><text x="771" y="537" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T11–14</text></g>
+<line x1="772" y1="588" x2="772" y2="616" stroke="#2db87d" stroke-width="1.3" marker-end="url(#at)"/>
+
+<!-- B4a -->
+<g class="nd" onclick="showPanel('b4a')">
+  <rect x="714" y="618" width="116" height="60" rx="8" fill="#d6f5ea" stroke="#2db87d" stroke-width="1.2"/>
+  <text x="772" y="640" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#0a5c3a">B4a · Bounds test</text>
+  <text x="772" y="658" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0a5c3a">F-stat vs bounds</text>
+</g>
+<g onclick="goToGoal('T2')" style="cursor:pointer"><rect x="716" y="621" width="18" height="12" rx="6" fill="#2db87d"/><text x="725" y="627" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T2</text></g>
+<g onclick="goToGoal('T3')" style="cursor:pointer"><rect x="736" y="621" width="18" height="12" rx="6" fill="#2db87d"/><text x="745" y="627" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T3</text></g>
+<g onclick="goToGoal('T5')" style="cursor:pointer"><rect x="756" y="621" width="30" height="12" rx="6" fill="#2db87d"/><text x="771" y="627" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T5–T14</text></g>
+<line x1="772" y1="678" x2="772" y2="706" stroke="#2db87d" stroke-width="1.3" marker-end="url(#at)"/>
+
+<!-- B5a ECM -->
+<g class="nd" onclick="showPanel('b5a')">
+  <rect x="714" y="708" width="116" height="60" rx="8" fill="#d6f5ea" stroke="#2db87d" stroke-width="2"/>
+  <text x="772" y="730" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#0a5c3a">B5a · ECM (ARDL)</text>
+  <text x="772" y="748" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0a5c3a">ECT · koef. SR &amp; LR</text>
+</g>
+<g onclick="goToGoal('T3')" style="cursor:pointer"><rect x="716" y="711" width="18" height="12" rx="6" fill="#2db87d"/><text x="725" y="717" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T3</text></g>
+<g onclick="goToGoal('T5')" style="cursor:pointer"><rect x="736" y="711" width="18" height="12" rx="6" fill="#2db87d"/><text x="745" y="717" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T5</text></g>
+<g onclick="goToGoal('T11')" style="cursor:pointer"><rect x="756" y="711" width="30" height="12" rx="6" fill="#2db87d"/><text x="771" y="717" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T11–14</text></g>
+<line x1="772" y1="768" x2="772" y2="796" stroke="#2db87d" stroke-width="1.3" marker-end="url(#at)"/>
+
+<!-- B6a -->
+<g class="nd" onclick="showPanel('b6a')">
+  <rect x="714" y="798" width="116" height="60" rx="8" fill="#d8f5e4" stroke="#2aaa6a" stroke-width="1.2"/>
+  <text x="772" y="820" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#0a4a28">B6a · Koef. LR &amp; SR</text>
+  <text x="772" y="838" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0a4a28">elastisitas · pass-through</text>
+</g>
+<g onclick="goToGoal('T5')" style="cursor:pointer"><rect x="716" y="801" width="18" height="12" rx="6" fill="#2aaa6a"/><text x="725" y="807" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T5</text></g>
+<g onclick="goToGoal('T14')" style="cursor:pointer"><rect x="736" y="801" width="20" height="12" rx="6" fill="#2aaa6a"/><text x="746" y="807" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T14</text></g>
+<line x1="772" y1="858" x2="772" y2="886" stroke="#e0a800" stroke-width="1.3" marker-end="url(#aa)"/>
+
+<!-- B7 NARDL -->
+<g class="nd" onclick="showPanel('b7')">
+  <rect x="714" y="888" width="116" height="60" rx="8" fill="#fef3d0" stroke="#e0a800" stroke-width="1.2"/>
+  <text x="772" y="910" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#6b4400">B7 · NARDL</text>
+  <text x="772" y="928" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#6b4400">asimetri · partial sum</text>
+</g>
+<g onclick="goToGoal('T11')" style="cursor:pointer"><rect x="716" y="891" width="20" height="12" rx="6" fill="#e0a800"/><text x="726" y="897" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T11</text></g>
+<line x1="772" y1="948" x2="772" y2="976" stroke="#e0a800" stroke-width="1.3" marker-end="url(#aa)"/>
+
+<!-- B8 Panel -->
+<g class="nd" onclick="showPanel('b8')">
+  <rect x="714" y="978" width="116" height="60" rx="8" fill="#fef3d0" stroke="#e0a800" stroke-width="1.2"/>
+  <text x="772" y="1000" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#6b4400">B8 · Panel ARDL</text>
+  <text x="772" y="1018" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#6b4400">PMG · MG · Hausman</text>
+</g>
+<g onclick="goToGoal('T12')" style="cursor:pointer"><rect x="716" y="981" width="20" height="12" rx="6" fill="#e0a800"/><text x="726" y="987" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T12</text></g>
+
+<!-- Johansen col cx=904 -->
+<!-- B3b -->
+<g class="nd" onclick="showPanel('b3b')">
+  <rect x="846" y="528" width="116" height="60" rx="8" fill="#daeeff" stroke="#5599e8" stroke-width="1.2"/>
+  <text x="904" y="550" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#0c3d82">B3b · Lag VAR</text>
+  <text x="904" y="568" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0c3d82">sebelum Johansen</text>
+</g>
+<g onclick="goToGoal('T2')" style="cursor:pointer"><rect x="848" y="531" width="18" height="12" rx="6" fill="#5599e8"/><text x="857" y="537" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T2</text></g>
+<g onclick="goToGoal('T3')" style="cursor:pointer"><rect x="868" y="531" width="18" height="12" rx="6" fill="#5599e8"/><text x="877" y="537" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T3</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="888" y="531" width="24" height="12" rx="6" fill="#5599e8"/><text x="900" y="537" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6–T7</text></g>
+<line x1="904" y1="588" x2="904" y2="616" stroke="#5599e8" stroke-width="1.3" marker-end="url(#ab)"/>
+
+<!-- B4b -->
+<g class="nd" onclick="showPanel('b4b')">
+  <rect x="846" y="618" width="116" height="60" rx="8" fill="#daeeff" stroke="#5599e8" stroke-width="1.2"/>
+  <text x="904" y="638" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#0c3d82">B4b · Trace / MER</text>
+  <text x="904" y="654" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0c3d82">tentukan rank r</text>
+  <text x="904" y="668" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0c3d82">kointegrasi</text>
+</g>
+<g onclick="goToGoal('T2')" style="cursor:pointer"><rect x="848" y="621" width="18" height="12" rx="6" fill="#5599e8"/><text x="857" y="627" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T2</text></g>
+<g onclick="goToGoal('T3')" style="cursor:pointer"><rect x="868" y="621" width="18" height="12" rx="6" fill="#5599e8"/><text x="877" y="627" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T3</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="888" y="621" width="24" height="12" rx="6" fill="#5599e8"/><text x="900" y="627" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6–T7</text></g>
+<line x1="904" y1="678" x2="904" y2="706" stroke="#5599e8" stroke-width="1.3" marker-end="url(#ab)"/>
+
+<!-- B5b VECM -->
+<g class="nd" onclick="showPanel('b5b')">
+  <rect x="846" y="708" width="116" height="60" rx="8" fill="#daeeff" stroke="#5599e8" stroke-width="2"/>
+  <text x="904" y="730" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#0c3d82">B5b · VECM</text>
+  <text x="904" y="748" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0c3d82">multi-eq. · α &amp; β</text>
+</g>
+<g onclick="goToGoal('T3')" style="cursor:pointer"><rect x="848" y="711" width="18" height="12" rx="6" fill="#5599e8"/><text x="857" y="717" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T3</text></g>
+<g onclick="goToGoal('T4')" style="cursor:pointer"><rect x="868" y="711" width="18" height="12" rx="6" fill="#5599e8"/><text x="877" y="717" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T4</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="888" y="711" width="24" height="12" rx="6" fill="#5599e8"/><text x="900" y="717" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6–T7</text></g>
+<line x1="904" y1="768" x2="904" y2="796" stroke="#5599e8" stroke-width="1.3" marker-end="url(#ab)"/>
+
+<!-- B6b IRF FEVD Granger VECM -->
+<g class="nd" onclick="showPanel('b6b')">
+  <rect x="846" y="798" width="116" height="60" rx="8" fill="#d8f5e4" stroke="#2aaa6a" stroke-width="1.2"/>
+  <text x="904" y="818" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#0a4a28">B6b · IRF &amp; FEVD</text>
+  <text x="904" y="834" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0a4a28">Granger · weak exo.</text>
+  <text x="904" y="848" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#0a4a28">dari VECM</text>
+</g>
+<g onclick="goToGoal('T4')" style="cursor:pointer"><rect x="848" y="801" width="18" height="12" rx="6" fill="#2aaa6a"/><text x="857" y="807" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T4</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="868" y="801" width="18" height="12" rx="6" fill="#2aaa6a"/><text x="877" y="807" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6</text></g>
+<g onclick="goToGoal('T7')" style="cursor:pointer"><rect x="888" y="801" width="18" height="12" rx="6" fill="#2aaa6a"/><text x="897" y="807" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T7</text></g>
+<line x1="904" y1="858" x2="904" y2="886" stroke="#e0a800" stroke-width="1.3" marker-end="url(#aa)"/>
+
+<!-- B9 Spillover -->
+<g class="nd" onclick="showPanel('b9')">
+  <rect x="846" y="888" width="116" height="60" rx="8" fill="#fef3d0" stroke="#e0a800" stroke-width="1.2"/>
+  <text x="904" y="910" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#6b4400">B9 · Spillover</text>
+  <text x="904" y="928" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9" fill="#6b4400">DCC-GARCH · BEKK</text>
+</g>
+<g onclick="goToGoal('T13')" style="cursor:pointer"><rect x="848" y="891" width="20" height="12" rx="6" fill="#e0a800"/><text x="858" y="897" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T13</text></g>
+
+<!-- ═══ DIAGNOSTIK BERSAMA ═══ -->
+<!-- connector lines -->
+<path d="M222 784 L222 1060 L340 1060" fill="none" stroke="#b0a898" stroke-width="1" stroke-dasharray="5 4" marker-end="url(#ag)"/>
+<path d="M772 1040 L772 1060 L480 1060" fill="none" stroke="#b0a898" stroke-width="1" stroke-dasharray="5 4" marker-end="url(#ag)"/>
+<path d="M904 950 L940 950 L940 1048 L622 1048 L622 1068" fill="none" stroke="#b0a898" stroke-width="1" stroke-dasharray="5 4" marker-end="url(#ag)"/>
+<text x="480" y="1050" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#9a958c">kedua cabang bergabung di sini</text>
+
+<!-- DIAGNOSTIK -->
+<g class="nd" onclick="showPanel('diag')">
+  <rect x="220" y="1070" width="520" height="76" rx="8" fill="#ede9fb" stroke="#9b8ff4" stroke-width="1.2"/>
+  <text x="480" y="1094" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="12" font-weight="600" fill="#3d2fa8">Diagnostik residual · kedua cabang</text>
+  <text x="480" y="1114" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#3d2fa8">BG-LM · Jarque-Bera · White · ARCH test</text>
+  <text x="480" y="1132" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#3d2fa8">CUSUM · CUSUM² · RESET · Ramsey</text>
+</g>
+<g onclick="goToGoal('T1')" style="cursor:pointer"><rect x="222" y="1073" width="18" height="12" rx="6" fill="#9b8ff4"/><text x="231" y="1079" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T1</text></g>
+<g onclick="goToGoal('T3')" style="cursor:pointer"><rect x="242" y="1073" width="18" height="12" rx="6" fill="#9b8ff4"/><text x="251" y="1079" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T3</text></g>
+<g onclick="goToGoal('T4')" style="cursor:pointer"><rect x="262" y="1073" width="18" height="12" rx="6" fill="#9b8ff4"/><text x="271" y="1079" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T4</text></g>
+<g onclick="goToGoal('T5')" style="cursor:pointer"><rect x="282" y="1073" width="18" height="12" rx="6" fill="#9b8ff4"/><text x="291" y="1079" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T5</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="302" y="1073" width="40" height="12" rx="6" fill="#9b8ff4"/><text x="322" y="1079" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6–T14</text></g>
+<line x1="480" y1="1146" x2="480" y2="1174" stroke="#9b8ff4" stroke-width="1.3" marker-end="url(#ag)"/>
+
+<!-- STRUCTURAL BREAK -->
+<g class="nd" onclick="showPanel('sb')">
+  <rect x="300" y="1176" width="360" height="60" rx="8" fill="#ede9fb" stroke="#9b8ff4" stroke-width="1.2"/>
+  <text x="480" y="1198" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="11" font-weight="600" fill="#3d2fa8">Structural break eksplisit</text>
+  <text x="480" y="1218" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#3d2fa8">Chow · Bai-Perron · Zivot-Andrews · CUSUM²</text>
+</g>
+<g onclick="goToGoal('T10')" style="cursor:pointer"><rect x="302" y="1179" width="20" height="12" rx="6" fill="#9b8ff4"/><text x="312" y="1185" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T10</text></g>
+<line x1="480" y1="1236" x2="480" y2="1264" stroke="#2aaa6a" stroke-width="1.3" marker-end="url(#agr)"/>
+
+<!-- REVISI -->
+<g class="nd" onclick="showPanel('revisi')">
+  <rect x="340" y="1266" width="280" height="56" rx="8" fill="#d8f5e4" stroke="#2aaa6a" stroke-width="1.2"/>
+  <text x="480" y="1287" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="11" font-weight="600" fill="#0a4a28">Revisi spesifikasi jika perlu</text>
+  <text x="480" y="1307" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#0a4a28">lag · dummy · variabel · transformasi</text>
+</g>
+<line x1="480" y1="1322" x2="480" y2="1350" stroke="#2aaa6a" stroke-width="1.3" marker-end="url(#agr)"/>
+
+<!-- INTERPRETASI FINAL -->
+<g class="nd" onclick="showPanel('final')">
+  <rect x="290" y="1352" width="380" height="64" rx="8" fill="#d8f5e4" stroke="#2aaa6a" stroke-width="1.2"/>
+  <text x="480" y="1376" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="12" font-weight="600" fill="#0a4a28">Interpretasi final</text>
+  <text x="480" y="1398" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="9.5" fill="#0a4a28">koef. · signifikansi · arah · besar pengaruh · implikasi</text>
+</g>
+<g onclick="goToGoal('T1')" style="cursor:pointer"><rect x="292" y="1355" width="30" height="12" rx="6" fill="#2aaa6a"/><text x="307" y="1361" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T1–T5</text></g>
+<g onclick="goToGoal('T6')" style="cursor:pointer"><rect x="324" y="1355" width="32" height="12" rx="6" fill="#2aaa6a"/><text x="340" y="1361" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Mono" font-size="7" font-weight="500" fill="white">T6–T14</text></g>
+<line x1="480" y1="1416" x2="480" y2="1444" stroke="#2aaa6a" stroke-width="1.3" marker-end="url(#agr)"/>
+
+<!-- OUTPUT -->
+<g class="nd" onclick="showPanel('output')">
+  <rect x="330" y="1446" width="300" height="48" rx="24" fill="#2aaa6a" stroke="#0a4a28" stroke-width="1"/>
+  <text x="480" y="1470" text-anchor="middle" dominant-baseline="central" font-family="IBM Plex Sans" font-size="13" font-weight="600" fill="white">Implikasi kebijakan</text>
+</g>
+</svg>
+</div>
+<section class="goals-section">
+<h2>Keterangan tujuan penelitian · T-1 s.d. T-14</h2>
+
+<div class="goal-card" id="T1">
+<div class="goal-header"><span class="goal-badge" style="background:#ede9fb;color:#3d2fa8;border-color:#9b8ff4">T-1</span><h3>Deskripsi &amp; pola data</h3></div>
+<p>Tujuan ini adalah titik masuk seluruh analisis time series — memahami struktur data sebelum model apapun diterapkan. Alat utamanya adalah time plot (melihat tren, musiman, dan outlier secara visual), fungsi autokorelasi ACF (mengukur korelasi antara Yt dan Yt−k untuk berbagai lag k), serta PACF yang menunjukkan korelasi parsial setelah mengontrol lag di antaranya. Untuk data I(1), ACF akan menunjukkan pola decaying yang sangat lambat — ini sinyal visual bahwa data tidak stasioner sebelum uji formal dilakukan.</p>
+<p>Dekomposisi tren-musiman (STL atau X-13) juga termasuk di sini bila data mengandung komponen musiman. Output dari tujuan ini bukan angka statistik tunggal, melainkan pemahaman kualitatif tentang karakter data: apakah ada structural break yang terlihat, apakah varians tampak berubah seiring waktu (indikasi ARCH), dan apakah pola ACF/PACF konsisten dengan proses AR, MA, atau ARMA tertentu.</p>
+<p>Semua step di peta — dari Step 1 hingga interpretasi final — melewati tujuan ini, karena deskripsi yang baik adalah prasyarat untuk memilih model yang tepat. Dalam konteks riset pass-through IDR, T-1 membantu mengidentifikasi secara visual apakah harga komoditas dan nilai tukar bergerak bersama, dan apakah ada periode volatilitas tinggi yang perlu diperhatikan secara khusus.</p>
+</div>
+
+<div class="goal-card" id="T2">
+<div class="goal-header"><span class="goal-badge" style="background:#d6f5ea;color:#0a5c3a;border-color:#2db87d">T-2</span><h3>Hubungan jangka panjang (kointegrasi)</h3></div>
+<p>Kointegrasi menguji apakah dua atau lebih variabel I(1) memiliki hubungan ekuilibrium jangka panjang meski masing-masing berfluktuasi acak dalam jangka pendek. Secara formal, X dan Y terkointegrasi jika ada kombinasi linear β₁Y + β₂X yang menghasilkan proses stasioner I(0) — kombinasi inilah yang disebut cointegrating vector. Ini berarti ada "gaya tarik" yang mencegah kedua variabel menyimpang terlalu jauh satu sama lain dalam jangka panjang.</p>
+<p>Tiga pendekatan utama: Engle-Granger dua langkah (cocok untuk dua variabel, mudah diimplementasi tapi sensitif terhadap normalisasi), Johansen (multivariat, mengestimasi semua vektor kointegrasi secara simultan, mensyaratkan semua variabel I(1)), dan ARDL Bounds test Pesaran et al. (2001) yang toleran terhadap campuran I(0)/I(1) dan tidak memerlukan pra-spesifikasi ordo integrasi secara ketat.</p>
+<p>Implikasi dari ditemukannya kointegrasi sangat besar: model OLS biasa pada data level tidak lagi spurious, hubungan jangka panjang dapat diinterpretasi secara substantif sebagai elastisitas atau pass-through, dan ECM menjadi representasi yang valid untuk dinamika jangka pendek. Tanpa kointegrasi, data I(1) harus di-difference sebelum dianalisis, dan informasi jangka panjang hilang sepenuhnya.</p>
+</div>
+
+<div class="goal-card" id="T3">
+<div class="goal-header"><span class="goal-badge" style="background:#d6f5ea;color:#0a5c3a;border-color:#2db87d">T-3</span><h3>Dinamika penyesuaian jangka pendek (ECM/VECM)</h3></div>
+<p>Error Correction Model (ECM) menjawab pertanyaan: seberapa cepat sistem kembali ke keseimbangan jangka panjang setelah ada gangguan? Komponen kunci adalah Error Correction Term (ECT), yaitu residual lagged dari relasi kointegrasi. Koefisien ECT (φ) harus negatif dan signifikan — nilainya menunjukkan proporsi disequilibrium yang dikoreksi setiap periode. Misalnya φ = −0.3 berarti 30% penyimpangan dari keseimbangan terkoreksi dalam satu periode.</p>
+<p>Untuk jalur ARDL, ECM diperoleh dari reparametrisasi langsung model ARDL — estimasi LR dan SR dilakukan simultan dalam satu langkah, menghindari bias two-step Engle-Granger. Untuk jalur Johansen, hasilnya adalah VECM (Vector ECM) yang bersifat multi-equation: setiap variabel dalam sistem memiliki persamaan sendiri dengan loading coefficient α yang menunjukkan seberapa kuat variabel tersebut merespons disequilibrium.</p>
+<p>Dalam konteks pass-through IDR, koefisien jangka pendek dalam ECM menunjukkan seberapa cepat dampak perubahan harga komoditas global ditransmisikan ke nilai tukar dalam waktu dekat, sementara ECT menunjukkan apakah ada mekanisme koreksi otomatis ketika IDR menyimpang terlalu jauh dari fundamentalnya — informasi krusial bagi Bank Indonesia untuk memahami lag transmisi kebijakan.</p>
+</div>
+
+<div class="goal-card" id="T4">
+<div class="goal-header"><span class="goal-badge" style="background:#fde8e4;color:#8b2214;border-color:#f07060">T-4</span><h3>Kausalitas &amp; arah pengaruh</h3></div>
+<p>Granger causality menguji apakah masa lalu X membantu memprediksi Y setelah mengontrol masa lalu Y itu sendiri. Secara teknis ini adalah Wald test pada restriksi bahwa semua koefisien lag X = 0 dalam persamaan Y. Penting dipahami: Granger causality bukan kausalitas struktural — ini hanya mengukur prediktabilitas temporal. Dua variabel yang sama-sama dipengaruhi variabel ketiga bisa saling Granger-cause meski tidak ada hubungan langsung.</p>
+<p>Untuk data nonstasioner yang tidak kointegrasi, Granger causality diuji dalam VAR in differences (Cabang A). Untuk data dengan kointegrasi menggunakan Johansen, uji dilakukan dalam VECM melalui uji weak exogeneity yang lebih tepat secara ekonometrik karena mempertimbangkan loading coefficient α. Variabel X dikatakan weakly exogenous jika αₓ tidak signifikan — artinya X tidak merespons disequilibrium jangka panjang.</p>
+<p>Dalam riset komoditas-IDR, kausalitas penting untuk memvalidasi asumsi model: apakah harga komoditas global memang Granger-cause IDR (dan bukan sebaliknya), atau ada bi-directional causality yang menunjukkan Indonesia cukup besar mempengaruhi harga internasional? Jawaban ini menentukan apakah ARDL single-equation sudah cukup, atau perlu model simultan yang lebih kompleks.</p>
+</div>
+
+<div class="goal-card" id="T5">
+<div class="goal-header"><span class="goal-badge" style="background:#d8f5e4;color:#0a4a28;border-color:#2aaa6a">T-5</span><h3>Estimasi besar pengaruh (elastisitas &amp; pass-through)</h3></div>
+<p>Ini adalah tujuan inti sebagian besar paper ekonometrika — mengestimasi seberapa besar dan signifikan pengaruh X terhadap Y. Dalam ARDL/ECM, dua set koefisien tersedia: koefisien jangka panjang (LR) yang menunjukkan respons permanen Y terhadap perubahan permanen X, dan koefisien jangka pendek (SR) yang menunjukkan respons kontemporer dan dinamis. Untuk data log-log, koefisien LR langsung adalah elastisitas; untuk data level perlu transformasi manual.</p>
+<p>Pass-through coefficient dalam konteks nilai tukar mengukur seberapa besar perubahan harga komoditas global ditransmisikan ke IDR/USD. Pass-through = 1 berarti transmisi penuh (complete pass-through); pass-through &lt; 1 berarti parsial — bisa karena intervensi Bank Indonesia, hedging pelaku pasar, atau rigiditas kontrak. Estimasi koefisien LR dari ARDL lebih efisien dibanding Engle-Granger karena menghindari bias dari dua langkah estimasi terpisah.</p>
+<p>Interpretasi koefisien harus mempertimbangkan tanda, besaran, signifikansi statistik, dan relevansi ekonomi secara bersamaan. Koefisien yang signifikan secara statistik belum tentu bermakna secara ekonomi jika besarannya kecil. Sebaliknya, koefisien yang tidak signifikan bisa jadi karena power test rendah (sampel kecil), bukan karena tidak ada efek. Selalu sajikan dengan confidence interval, bukan hanya p-value.</p>
+</div>
+
+<div class="goal-card" id="T6">
+<div class="goal-header"><span class="goal-badge" style="background:#daeeff;color:#0c3d82;border-color:#5599e8">T-6</span><h3>Respons terhadap guncangan (Impulse Response Function)</h3></div>
+<p>IRF menunjukkan bagaimana Y merespons shock satu standar deviasi pada X selama h periode ke depan, dengan semua variabel lain dipegang konstan. Hasilnya adalah kurva respons yang mencerminkan pola transmisi shock: apakah respons berlangsung cepat lalu menghilang (temporary), apakah permanen, atau ada overshooting sebelum kembali ke keseimbangan. Untuk VAR stasioner, IRF harus konvergen ke nol; untuk VECM, IRF konvergen ke nilai bukan nol yang mencerminkan efek permanen.</p>
+<p>Identifikasi struktural krusial di sini: Cholesky decomposition mengasumsikan triangular ordering — variabel yang diletakkan lebih awal tidak dipengaruhi secara kontemporer oleh variabel setelahnya. Ini memerlukan justifikasi teori yang kuat. Alternatif yang lebih robust: SVAR dengan restriksi sign atau restriksi long-run (Blanchard-Quah). Confidence band untuk IRF biasanya diperoleh dari bootstrap, bukan distribusi asimtotik.</p>
+<p>Dalam paper komoditas-IDR, IRF menjawab: berapa lama dan seberapa besar dampak shock harga minyak pada IDR? Apakah IDR langsung terdepresiasi lalu kembali (mean-reverting) atau efeknya permanen? Sajikan IRF dalam figure dengan shaded confidence band 68% dan 90%, dan lakukan sensitivity analysis terhadap Cholesky ordering untuk menunjukkan robustness.</p>
+</div>
+
+<div class="goal-card" id="T7">
+<div class="goal-header"><span class="goal-badge" style="background:#daeeff;color:#0c3d82;border-color:#5599e8">T-7</span><h3>Dekomposisi kontribusi guncangan (FEVD)</h3></div>
+<p>Forecast Error Variance Decomposition (FEVD) menjawab pertanyaan berbeda dari IRF: bukan "bagaimana Y merespons shock X" tapi "berapa persen ketidakpastian forecast Y di horizon h disebabkan oleh shock X versus variabel lain?" FEVD adalah normalisasi dari IRF — setiap baris harus menjumlahkan 100%. Di horizon pendek, sebagian besar variance biasanya dijelaskan shock variabel itu sendiri; di horizon panjang, kontribusi variabel lain cenderung meningkat.</p>
+<p>FEVD berguna untuk mengidentifikasi variabel mana yang paling "dominan" dalam sistem — misalnya apakah ketidakpastian IDR lebih banyak ditentukan harga minyak, batubara, atau variabel domestik seperti suku bunga. Seperti IRF, FEVD sensitif terhadap Cholesky ordering. Generalized FEVD (Pesaran-Shin) adalah alternatif yang invariant terhadap ordering karena tidak mengasumsikan triangular struktur kovarians.</p>
+<p>Perlu diperhatikan bahwa FEVD bukan ukuran kausalitas struktural — dua variabel berkorelasi tinggi akan saling "menyumbang" varians besar meski tidak ada hubungan kausal langsung. Kombinasi IRF + FEVD + Granger causality memberikan gambaran paling komprehensif tentang dinamika sistem, dan ketiganya biasanya disajikan bersama dalam satu paper VAR/VECM.</p>
+</div>
+
+<div class="goal-card" id="T8">
+<div class="goal-header"><span class="goal-badge" style="background:#fde8e4;color:#8b2214;border-color:#f07060">T-8</span><h3>Volatilitas kondisional (ARCH/GARCH)</h3></div>
+<p>ARCH (Engle 1982) dan GARCH (Bollerslev 1986) memodelkan fakta bahwa varians residual tidak konstan — periode volatilitas tinggi cenderung diikuti volatilitas tinggi (volatility clustering). Uji ARCH Engle adalah LM test pada residual kuadrat: jika lag residual kuadrat signifikan, ada efek ARCH. GARCH(1,1) — yang paling umum — memodelkan varians kondisional σ²t sebagai fungsi dari residual kuadrat t−1 dan varians kondisional t−1, dengan syarat α + β &lt; 1 untuk stasionaritas.</p>
+<p>Ekstensi penting: EGARCH (Nelson 1991) dan GJR-GARCH menangkap efek asimetri leverage — kabar buruk (shock negatif) menaikkan volatilitas lebih besar dari kabar baik dengan magnitude yang sama. Ini sangat relevan untuk nilai tukar: depresiasi IDR yang tajam biasanya menaikkan volatilitas lebih besar dari apresiasi yang setara. GARCH-in-mean menambahkan varians kondisional sebagai regressor dalam persamaan mean, menghubungkan risk premium dengan volatilitas.</p>
+<p>Dalam konteks IDR dan komoditas, T-8 relevan ketika penelitian fokus pada risiko dan ketidakpastian nilai tukar, bukan hanya arahnya. GARCH dapat dikombinasikan dengan ARDL: estimasi model rata-rata dulu (ARDL/ECM), ambil residualnya, lalu modelkan dengan GARCH. Hasilnya adalah pemahaman dua lapis: rata-rata (level dan pass-through) sekaligus varians (volatilitas kondisional).</p>
+</div>
+
+<div class="goal-card" id="T9">
+<div class="goal-header"><span class="goal-badge" style="background:#fde8e4;color:#8b2214;border-color:#f07060">T-9</span><h3>Prediksi &amp; forecasting</h3></div>
+<p>Forecasting bertujuan menghasilkan prediksi nilai Y di masa depan (h-step ahead) beserta interval prediksinya. Model yang baik untuk inferensi (interpretasi koefisien) belum tentu terbaik untuk forecasting. ARIMA (Box-Jenkins) cocok untuk forecast univariat — ARIMA(p,d,q) dipilih berdasarkan AIC/BIC setelah identifikasi dari ACF/PACF data differenced. VAR in differences cocok untuk forecast multivariat yang memanfaatkan interdependensi antar variabel.</p>
+<p>Evaluasi akurasi forecast dilakukan dengan out-of-sample validation: sisihkan sebagian data akhir sebagai test set, estimasi model pada training set, bandingkan forecast dengan realisasi menggunakan RMSE, MAE, dan Theil-U. Diebold-Mariano test dapat membandingkan akurasi dua model secara formal. Untuk data I(1), forecast dalam levels diperoleh dengan re-integrasi (cumulative sum of forecasted differences) — interval prediksi melebar dengan cepat di horizon panjang.</p>
+<p>Dalam riset akademik ekonometrika struktural, T-9 sering bukan tujuan utama — paper lebih fokus pada estimasi dan inference. Namun untuk audience kebijakan seperti Bank Indonesia atau Bappeda, forecast nilai tukar IDR berdasarkan proyeksi harga komoditas bisa menjadi output yang sangat praktis dan bernilai tinggi sebagai alat perencanaan anggaran dan kebijakan moneter.</p>
+</div>
+
+<div class="goal-card" id="T10">
+<div class="goal-header"><span class="goal-badge" style="background:#ede9fb;color:#3d2fa8;border-color:#9b8ff4">T-10</span><h3>Deteksi structural break</h3></div>
+<p>Structural break terjadi ketika parameter model berubah secara permanen di titik waktu tertentu — karena krisis, kebijakan baru, perubahan rezim, atau shock eksternal besar. Mengabaikan structural break menghasilkan koefisien yang merupakan rata-rata dari dua rezim berbeda, sehingga tidak bermakna untuk keduanya. Chow test cocok ketika titik break diketahui a priori (misalnya krisis 2008 atau pandemi 2020). Zivot-Andrews (1992) menguji unit root sekaligus mengestimasi titik break secara endogen.</p>
+<p>Bai-Perron (1998, 2003) adalah prosedur paling komprehensif untuk multiple structural breaks endogen: mengestimasi jumlah dan lokasi break secara simultan menggunakan dynamic programming. Setelah break teridentifikasi, ada tiga pendekatan: (1) tambahkan dummy variabel untuk break dalam model, (2) interaksikan dummy dengan regresor untuk mengizinkan koefisien berubah antar rezim, atau (3) estimasi model terpisah untuk masing-masing sub-periode dengan uji stabilitas lintas periode.</p>
+<p>Untuk penelitian IDR dan komoditas, structural break sangat relevan karena Indonesia telah mengalami beberapa episode perubahan rezim nilai tukar dan kebijakan komoditas. CUSUM dan CUSUM of squares dari residual rekursif adalah alat visual yang mudah digunakan di Eviews atau R untuk mendeteksi instabilitas parameter secara umum sebelum melakukan uji formal Bai-Perron.</p>
+</div>
+
+<div class="goal-card" id="T11">
+<div class="goal-header"><span class="goal-badge" style="background:#fef3d0;color:#6b4400;border-color:#e0a800">T-11</span><h3>Asimetri &amp; nonlinearitas (NARDL)</h3></div>
+<p>NARDL (Nonlinear ARDL, Shin-Yu-Greenwood-Nimmo 2014) adalah ekstensi langsung ARDL yang mengizinkan respons Y terhadap X berbeda tergantung arah perubahan X. Caranya: dekomposikan X menjadi partial sum kumulatif perubahan positif X⁺ = Σmax(ΔX,0) dan negatif X⁻ = Σmin(ΔX,0), lalu masukkan keduanya sebagai regressor terpisah dalam model ARDL. Wald test asymmetry menguji apakah koefisien jangka panjang X⁺ berbeda signifikan dari X⁻.</p>
+<p>Dua jenis asimetri yang bisa diuji: asimetri jangka panjang (apakah dampak permanen kenaikan X berbeda dari penurunan X) dan asimetri jangka pendek (apakah kecepatan penyesuaian berbeda untuk dua arah perubahan). Kedua jenis bisa ada secara bersamaan atau hanya salah satunya. Hidden cointegration (Granger-Yoon 2002) adalah konsep terkait: kointegrasi yang hanya ada di antara komponen positif atau negatif saja, yang akan terlewat oleh uji kointegrasi linear standar.</p>
+<p>Dalam konteks komoditas-IDR, asimetri sangat relevan secara ekonomi: kenaikan harga minyak (yang mendepresiasi IDR karena Indonesia net importer energi) mungkin punya efek yang lebih besar dan lebih cepat daripada penurunan harga minyak. Menemukan asimetri ini memiliki implikasi kebijakan penting — Bank Indonesia mungkin perlu merespons lebih agresif terhadap shock kenaikan komoditas dibanding penurunannya.</p>
+</div>
+
+<div class="goal-card" id="T12">
+<div class="goal-header"><span class="goal-badge" style="background:#fef3d0;color:#6b4400;border-color:#e0a800">T-12</span><h3>Heterogenitas lintas unit (Panel time series)</h3></div>
+<p>Panel ARDL diperlukan ketika unit analisis lebih dari satu — beberapa negara, komoditas, atau provinsi — dan setiap unit memiliki karakteristik berbeda. PMG (Pooled Mean Group, Pesaran-Shin-Smith 1999) mengizinkan koefisien jangka pendek berbeda antar unit tapi merestriksi koefisien jangka panjang sama (pooled) — asumsi ini masuk akal jika ada tekanan ekuilibrium yang universal. MG (Mean Group) membebaskan semua koefisien berbeda antar unit lalu mengambil rata-rata sederhana. Hausman test membandingkan konsistensi PMG vs MG.</p>
+<p>Cross-Sectional Dependence (CD) adalah masalah serius dalam panel modern — unit yang terekspos common global factor (seperti harga komoditas dunia) cenderung bergerak bersama, melanggar asumsi independensi dalam uji panel standar. Pesaran CD test mendeteksi ini. Jika ada CD, gunakan uji stasioneritas panel yang robust seperti CIPS dan CADF, serta estimator CCEMG (Common Correlated Effects Mean Group) yang mengendalikan faktor umum tidak teramati.</p>
+<p>Dalam konteks penelitian regional Indonesia (pass-through harga komoditas ke inflasi di 34 provinsi), T-12 sangat relevan karena setiap provinsi memiliki struktur ekonomi berbeda tapi semua terekspos harga komoditas global yang sama. PMG akan mengestimasi satu pass-through jangka panjang yang berlaku umum sambil mengizinkan kecepatan penyesuaian berbeda di tiap provinsi — hasil yang jauh lebih informatif dari regresi pooled biasa.</p>
+</div>
+
+<div class="goal-card" id="T13">
+<div class="goal-header"><span class="goal-badge" style="background:#fef3d0;color:#6b4400;border-color:#e0a800">T-13</span><h3>Transmisi &amp; spillover antar pasar</h3></div>
+<p>T-13 fokus pada bagaimana volatilitas atau guncangan berpindah antar pasar secara simultan — bukan hanya mean spillover (ditangkap IRF) tapi juga variance spillover. DCC-GARCH (Dynamic Conditional Correlation, Engle 2002) memodelkan korelasi kondisional yang berubah waktu antara dua atau lebih seri, memungkinkan deteksi periode contagion (korelasi melonjak saat krisis). BEKK-GARCH (Baba-Engle-Kraft-Kroner) memodelkan volatilitas spillover dalam format matrix, mempertahankan positive definiteness varians kondisional.</p>
+<p>Diebold-Yilmaz connectedness index menggunakan Generalized FEVD dari VAR rolling window untuk mengukur seberapa besar setiap variabel "menerima" dan "memancarkan" guncangan. Network VAR menggambarkan struktur koneksi ini sebagai jaringan dengan node (variabel) dan edge berbobot (magnitude spillover). Pendekatan ini sangat berguna untuk memahami bagaimana shock menyebar melalui sistem multi-pasar komoditas.</p>
+<p>Relevansi untuk riset IDR: T-13 menjawab apakah volatilitas harga batubara, minyak, dan nikel saling tertular satu sama lain sebelum mencapai IDR — atau apakah setiap komoditas memiliki jalur transmisi independen ke nilai tukar. Temuan ini memiliki implikasi untuk diversifikasi portofolio dan desain kebijakan stabilisasi nilai tukar yang efisien di Bank Indonesia.</p>
+</div>
+
+<div class="goal-card" id="T14">
+<div class="goal-header"><span class="goal-badge" style="background:#d8f5e4;color:#0a4a28;border-color:#2aaa6a">T-14</span><h3>Keseimbangan jangka panjang &amp; policy gap</h3></div>
+<p>T-14 menggunakan koefisien jangka panjang dari model kointegrasi untuk mengestimasi nilai ekuilibrium dan membandingkannya dengan nilai aktual — selisihnya adalah disequilibrium atau "gap". Analisis ini melampaui sekadar "ada hubungan jangka panjang" untuk menjawab pertanyaan substantif: seberapa jauh variabel saat ini menyimpang dari keseimbangannya, dan ke arah mana? Untuk nilai tukar, ini adalah misalignment analysis — apakah IDR saat ini overvalued atau undervalued relatif terhadap fundamentalnya?</p>
+<p>Equilibrium Real Exchange Rate (ERER) adalah aplikasi klasik T-14: menggunakan ARDL atau Johansen untuk mengestimasi hubungan jangka panjang antara REER dan fundamentals (terms of trade, produktivitas, keterbukaan perdagangan, belanja pemerintah), lalu mengekstrak komponen siklikal sebagai misalignment. Hodrick-Prescott filter atau Beveridge-Nelson decomposition sering dikombinasikan untuk memisahkan tren dari siklus dalam disequilibrium yang diestimasi.</p>
+<p>Output T-14 sangat strategis untuk audience kebijakan: Bank Indonesia dapat menggunakan estimasi misalignment untuk memandu intervensi pasar valas, sementara Bappeda dapat menggunakan gap output atau gap inflasi regional untuk perencanaan fiskal. Ini adalah jembatan terpenting antara ekonometrika teknis dan rekomendasi kebijakan yang konkret, actionable, dan dapat dipertanggungjawabkan secara metodologis.</p>
+</div>
+
+</section>
+<div id="panel">
+<button id="panel-close" onclick="closePanel()">✕</button>
+<h2 id="panel-title"></h2>
+<p id="panel-desc"></p>
+<div class="tags" id="panel-tags"></div>
+</div>
+
+<script>
+const info = {
+  start: { title:"Data nonstasioner I(1)", desc:"Titik masuk seluruh analisis. Data memiliki unit root — mean atau varians berubah seiring waktu. Semua 14 tujuan berawal dari sini.", tags:[] },
+  s1:    { title:"Step 1 · Plot visual", desc:"Time plot, ACF, PACF. ACF decaying lambat = ciri khas I(1). Identifikasi tren, outlier, structural break secara visual sebelum uji formal.", tags:["T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12","T13","T14"] },
+  s2:    { title:"Step 2 · Uji stasioneritas", desc:"ADF (H₀: unit root), PP (koreksi HAC), KPSS (H₀: stasioner). Konfirmasi semua variabel I(1), bukan I(2). ARDL dan Johansen tidak valid untuk I(2).", tags:["T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12","T13","T14"] },
+  a1:    { title:"Step A1 · First difference", desc:"ΔYt = Yt−Yt−1. Menghilangkan tren stokastik → I(0). JANGAN masuk cabang ini jika variabel terkointegrasi — informasi LR hilang.", tags:["T1","T4","T6","T7","T8","T9"] },
+  a2:    { title:"Step A2 · Konfirmasi I(0)", desc:"Uji ADF/PP kembali pada ΔY. Harus tolak H₀ unit root. Jika masih tidak stasioner: periksa kemungkinan I(2) atau structural break.", tags:["T1","T4","T6","T7","T8","T9"] },
+  a3:    { title:"Step A3 · Seleksi lag", desc:"AIC untuk forecast (lag lebih panjang), BIC/HQ untuk inference (parsimoni). Minimal 4 lag untuk data kuartalan, 12 untuk bulanan.", tags:["T4","T6","T7","T9"] },
+  a4:    { title:"Step A4 · Estimasi VAR(ΔY) — HUB UTAMA", desc:"VAR in differences. Hub utama Cabang A. Fan-out ke TIGA output paralel (A5a, A5b, A5d) dan DUA diagnostik dari residual (A6 GARCH, A7 break). Semua keluar langsung dari node ini.", tags:["T4","T6","T7","T9"] },
+  a5a:   { title:"A5a · Granger causality", desc:"Wald test: semua lag X=0 dalam persamaan Y? Granger ≠ kausalitas struktural. Hanya prediktabilitas temporal.", tags:["T4"] },
+  a5bc:  { title:"A5b · IRF & FEVD", desc:"IRF: respons Y terhadap shock 1 SD pada X selama h periode. FEVD: % forecast error variance Y dari shock X. Sensitif terhadap Cholesky ordering.", tags:["T6","T7"] },
+  a5d:   { title:"A5d · Forecast", desc:"h-step ahead forecast. Evaluasi RMSE, MAE, Theil-U, Diebold-Mariano. Forecast levels dari re-integrasi differences.", tags:["T9"] },
+  a6:    { title:"A6 · ARCH test → GARCH  ← dari RESIDUAL A4", desc:"Keluar LANGSUNG dari residual A4, bukan dari A5. Engle LM test pada residual kuadrat. Ada efek ARCH → estimasi GARCH(1,1), EGARCH, atau GJR-GARCH.", tags:["T8","T13"] },
+  a7:    { title:"A7 · Structural break  ← dari RESIDUAL A4", desc:"Keluar LANGSUNG dari residual A4 secara paralel dengan A6. Chow (break diketahui), Bai-Perron (multiple endogenous), Zivot-Andrews (unit root + break).", tags:["T10"] },
+  b1:    { title:"Step B1 · Uji kointegrasi", desc:"Konfirmasi ada hubungan jangka panjang. Data level I(1) digunakan langsung — tidak di-difference. EG sebagai pre-test cepat.", tags:["T2","T3","T5","T6","T7","T11","T12","T13","T14"] },
+  b2:    { title:"Step B2 · Pilih metode", desc:"Campuran I(0)/I(1) → ARDL Bounds test. Semua I(1) → Johansen. Johansen tidak valid jika ada variabel I(0).", tags:["T2","T3","T5","T6","T7","T11","T12","T13","T14"] },
+  b3a:   { title:"B3a · Lag ARDL", desc:"Auto-select AIC atau SBC. Notasi ARDL(p,q₁,q₂,...): p=lag dependen, q=lag independen. Trade-off parsimoni vs fit.", tags:["T3","T5","T11","T12","T13","T14"] },
+  b4a:   { title:"B4a · ARDL Bounds test", desc:"F-stat dari joint significance koefisien level. < lower = tidak kointegrasi; > upper = kointegrasi; tengah = inconclusive. Gunakan tabel Pesaran et al. (2001).", tags:["T2","T3","T5","T11","T12","T13","T14"] },
+  b5a:   { title:"B5a · ECM dari ARDL — HUB ARDL", desc:"Reparametrisasi ARDL → ECM. ECT (φ) harus negatif dan signifikan. |φ| = proporsi disequilibrium terkoreksi per periode. LR dan SR diestimasi simultan.", tags:["T3","T5","T11","T12","T13","T14"] },
+  b6a:   { title:"B6a · Koef. LR & SR", desc:"Elastisitas jangka panjang dan pass-through. Sajikan dengan CI, bukan hanya p-value. Koef. log-log = elastisitas langsung.", tags:["T5","T14"] },
+  b7:    { title:"B7 · NARDL", desc:"Dekomposisi X → X⁺ dan X⁻ (partial sums). Wald asymmetry test: koef. LR X⁺ ≠ X⁻? Menangkap respons asimetris kenaikan vs penurunan komoditas.", tags:["T11"] },
+  b8:    { title:"B8 · Panel ARDL/PMG", desc:"PMG: LR sama, SR berbeda antar unit. MG: semua bebas. Hausman test. Perhatikan cross-sectional dependence — gunakan CIPS dan CCEMG.", tags:["T12"] },
+  b3b:   { title:"B3b · Lag VAR (Johansen)", desc:"Harus ditentukan sebelum Johansen. AIC/BIC/HQ. Lag terlalu pendek → autokorelasi residual → hasil Johansen bias.", tags:["T2","T3","T6","T7"] },
+  b4b:   { title:"B4b · Trace / Max Eigenvalue", desc:"Trace: H₀ = ≤r CE. Max EV: H₀ = tepat r CE. Uji sekuensial dari r=0. Rank r = jumlah CE — menentukan dimensi VECM.", tags:["T2","T3","T6","T7"] },
+  b5b:   { title:"B5b · Estimasi VECM — HUB JOHANSEN", desc:"VAR dengan r ECT. Tiap persamaan punya loading α (speed of adjustment) dan β (LR cointegrating vector). α tidak signifikan = weakly exogenous.", tags:["T3","T4","T6","T7"] },
+  b6b:   { title:"B6b · IRF, FEVD & Granger (VECM)", desc:"IRF dari VECM konvergen ke nilai ≠0 (efek permanen). FEVD: kontribusi shock. Granger/weak exogeneity: α=0?", tags:["T4","T6","T7"] },
+  b9:    { title:"B9 · Spillover (DCC-GARCH)", desc:"DCC-GARCH: korelasi kondisional dinamis antar volatilitas. BEKK: volatility spillover matrix. Diebold-Yilmaz: connectedness dari GFEVD.", tags:["T13"] },
+  diag:  { title:"Diagnostik residual", desc:"Wajib sebelum interpretasi. BG-LM (autokorelasi), Jarque-Bera (normalitas), White (heteroskedastisitas), ARCH test, RESET (misspecifikasi), CUSUM (stabilitas).", tags:["T1","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12","T13","T14"] },
+  sb:    { title:"Structural break eksplisit", desc:"Jika CUSUM tidak stabil: Bai-Perron untuk lokasi break, tambahkan dummy. Split sample jika break sangat besar.", tags:["T10"] },
+  revisi:{ title:"Revisi spesifikasi", desc:"Iteratif hingga semua diagnostik terpenuhi. Tambah lag, variabel kontrol, dummy outlier, atau ganti transformasi.", tags:[] },
+  final: { title:"Interpretasi final", desc:"Koefisien dengan SE robust. Interpretasikan besar, arah, signifikansi. Hubungkan dengan teori. Diskusikan limitasi. Tarik implikasi kebijakan.", tags:["T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12","T13","T14"] },
+  output:{ title:"Implikasi kebijakan", desc:"Terjemahkan temuan ke rekomendasi konkret: Bank Indonesia, Bappeda, atau akademik. Sertakan uncertainty dan caveats.", tags:[] }
+};
+
+const tStyle = {
+  T1:{bg:"#ede9fb",brd:"#9b8ff4",txt:"#3d2fa8"}, T2:{bg:"#d6f5ea",brd:"#2db87d",txt:"#0a5c3a"},
+  T3:{bg:"#d6f5ea",brd:"#2db87d",txt:"#0a5c3a"}, T4:{bg:"#fde8e4",brd:"#f07060",txt:"#8b2214"},
+  T5:{bg:"#d8f5e4",brd:"#2aaa6a",txt:"#0a4a28"}, T6:{bg:"#daeeff",brd:"#5599e8",txt:"#0c3d82"},
+  T7:{bg:"#daeeff",brd:"#5599e8",txt:"#0c3d82"}, T8:{bg:"#fde8e4",brd:"#f07060",txt:"#8b2214"},
+  T9:{bg:"#fde8e4",brd:"#f07060",txt:"#8b2214"}, T10:{bg:"#ede9fb",brd:"#9b8ff4",txt:"#3d2fa8"},
+  T11:{bg:"#fef3d0",brd:"#e0a800",txt:"#6b4400"}, T12:{bg:"#fef3d0",brd:"#e0a800",txt:"#6b4400"},
+  T13:{bg:"#fef3d0",brd:"#e0a800",txt:"#6b4400"}, T14:{bg:"#d8f5e4",brd:"#2aaa6a",txt:"#0a4a28"}
+};
+
+function showPanel(key) {
+  const d = info[key]; if (!d) return;
+  document.getElementById('panel-title').textContent = d.title;
+  document.getElementById('panel-desc').textContent  = d.desc;
+  const tagsEl = document.getElementById('panel-tags');
+  tagsEl.innerHTML = '';
+  d.tags.forEach(t => {
+    const s = document.createElement('span');
+    s.className = 'tag'; s.textContent = t;
+    const st = tStyle[t] || {};
+    s.style.background = st.bg||'#eee'; s.style.color = st.txt||'#333'; s.style.borderColor = st.brd||'#ccc';
+    s.onclick = () => { closePanel(); goToGoal(t); };
+    tagsEl.appendChild(s);
+  });
+  document.getElementById('panel').classList.add('open');
+}
+
+function closePanel() { document.getElementById('panel').classList.remove('open'); }
+
+function goToGoal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior:'smooth', block:'start' });
+  const st = tStyle[id] || {};
+  el.style.outline = '3px solid ' + (st.brd||'#999');
+  el.style.outlineOffset = '3px';
+  setTimeout(() => { el.style.outline=''; el.style.outlineOffset=''; }, 2200);
+}
+
+document.addEventListener('keydown', e => { if (e.key==='Escape') closePanel(); });
+</script>
+</body>
+</html>
