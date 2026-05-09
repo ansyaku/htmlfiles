@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalibrasi & Estimasi Model DSGE</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf8f3;
+    --warm-white: #f5f2eb;
+    --sand: #e8e0d0;
+    --tan: #c9b99a;
+    --brown: #7a5c3e;
+    --dark-brown: #3d2b1a;
+    --accent: #c0392b;
+    --accent-light: #e74c3c;
+    --gold: #c9a227;
+    --teal: #1a6b6b;
+    --teal-light: #2a9090;
+    --ink: #2c2018;
+    --mid: #6b5540;
+    --rule: #d4c4a8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--dark-brown);
+    color: var(--cream);
+    padding: 72px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 60px,
+        rgba(255,255,255,.03) 60px,
+        rgba(255,255,255,.03) 61px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 60px,
+        rgba(255,255,255,.03) 60px,
+        rgba(255,255,255,.03) 61px
+      );
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .75rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--tan);
+    margin-bottom: 20px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  header h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .header-sub {
+    font-size: 1.05rem;
+    color: var(--tan);
+    max-width: 600px;
+    border-left: 3px solid var(--gold);
+    padding-left: 18px;
+  }
+
+  /* ── NAV PILLS ── */
+  .nav-pills {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 48px;
+    display: flex;
+    gap: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-pills a {
+    display: block;
+    padding: 16px 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: all .2s;
+  }
+  .nav-pills a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── LAYOUT ── */
+  main { max-width: 860px; margin: 0 auto; padding: 64px 48px; }
+
+  section { margin-bottom: 80px; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--tan);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--rule);
+  }
+  h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--brown);
+    margin: 36px 0 12px;
+  }
+  p { margin-bottom: 16px; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-left: 4px solid;
+    padding: 20px 24px;
+    margin: 28px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout.definition {
+    border-color: var(--teal);
+    background: #f0f7f7;
+  }
+  .callout.warning {
+    border-color: var(--accent);
+    background: #fdf4f3;
+  }
+  .callout.insight {
+    border-color: var(--gold);
+    background: #fdf9ee;
+  }
+  .callout-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .callout.definition .callout-title { color: var(--teal); }
+  .callout.warning .callout-title { color: var(--accent); }
+  .callout.insight .callout-title { color: var(--gold); }
+
+  /* ── MATH BLOCKS ── */
+  .math-block {
+    background: var(--warm-white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin: 24px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .9rem;
+    line-height: 2;
+    overflow-x: auto;
+  }
+  .math-block .eq-label {
+    color: var(--tan);
+    font-size: .75rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .math-block .eq { color: var(--dark-brown); }
+  .math-block .comment { color: var(--mid); font-style: italic; font-family: 'Source Serif 4', serif; font-size: .82rem; }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 32px 0;
+  }
+  .compare-card {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .compare-card-head {
+    padding: 18px 22px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .compare-card.kalibrasi .compare-card-head { background: var(--teal); }
+  .compare-card.estimasi .compare-card-head { background: var(--accent); }
+  .compare-card-body { padding: 20px 22px; background: var(--warm-white); }
+  .compare-card-body ul { list-style: none; }
+  .compare-card-body ul li {
+    padding: 7px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: .95rem;
+  }
+  .compare-card-body ul li:last-child { border-bottom: none; }
+  .compare-card-body ul li::before { content: '→ '; color: var(--tan); }
+
+  /* ── STEPS ── */
+  .steps { margin: 32px 0; }
+  .step {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 28px;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--dark-brown);
+    color: var(--cream);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+    margin-bottom: 6px;
+  }
+  .step-content p { margin: 0; font-size: .95rem; }
+
+  /* ── PARAMETER TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: .93rem;
+  }
+  th {
+    background: var(--dark-brown);
+    color: var(--cream);
+    padding: 12px 16px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--warm-white); }
+  td:first-child { font-family: 'JetBrains Mono', monospace; font-size: .85rem; color: var(--teal-light); }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 32px 0;
+    overflow-x: auto;
+    padding: 8px 0;
+  }
+  .flow-box {
+    background: var(--dark-brown);
+    color: var(--cream);
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem;
+    text-align: center;
+    min-width: 120px;
+    line-height: 1.4;
+    flex-shrink: 0;
+  }
+  .flow-box.alt { background: var(--teal); }
+  .flow-arrow {
+    color: var(--tan);
+    font-size: 1.4rem;
+    padding: 0 10px;
+    flex-shrink: 0;
+  }
+
+  /* ── PRIOR DIST ── */
+  .prior-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 28px 0;
+  }
+  .prior-card {
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 18px;
+    background: var(--warm-white);
+    text-align: center;
+  }
+  .prior-card .dist-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+    margin-bottom: 6px;
+  }
+  .prior-card .dist-range {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .75rem;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+  .prior-card .dist-use { font-size: .85rem; color: var(--mid); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark-brown);
+    color: var(--tan);
+    text-align: center;
+    padding: 32px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .75rem;
+    letter-spacing: .1em;
+  }
+
+  @media (max-width: 640px) {
+    main, header, .nav-pills { padding-left: 24px; padding-right: 24px; }
+    .compare-grid, .prior-cards { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; align-items: flex-start; }
+    .flow-arrow { transform: rotate(90deg); padding: 4px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-label">Metode Kuantitatif · Model DSGE</div>
+    <h1>Kalibrasi & Estimasi<br><em>Model DSGE</em></h1>
+    <p class="header-sub">Panduan komprehensif untuk memahami dua pendekatan utama dalam menghubungkan teori DSGE dengan data empiris.</p>
+  </div>
+</header>
+
+<nav class="nav-pills">
+  <a href="#overview">Gambaran Umum</a>
+  <a href="#kalibrasi">Kalibrasi</a>
+  <a href="#estimasi">Estimasi</a>
+  <a href="#irf-matching">IRF Matching</a>
+  <a href="#bayesian">Bayesian</a>
+  <a href="#identifikasi">Identifikasi</a>
+  <a href="#rigidities">Nominal Rigidities</a>
+  <a href="#solusi">Metode Solusi</a>
+  <a href="#perbandingan">Perbandingan</a>
+</nav>
+
+<main>
+
+  <!-- SECTION 1: OVERVIEW -->
+  <section id="overview">
+    <div class="section-label">01 · Pendahuluan</div>
+    <h2>Menghubungkan Teori dengan Data</h2>
+
+    <p>Model DSGE (<em>Dynamic Stochastic General Equilibrium</em>) memiliki parameter-parameter struktural yang berasal dari perilaku optimisasi agen ekonomi — rumah tangga, perusahaan, dan pemerintah. Tantangan utamanya: bagaimana menentukan nilai parameter-parameter ini agar model mencerminkan realitas data?</p>
+
+    <p>Ada dua jalur utama yang digunakan peneliti: <strong>kalibrasi</strong> dan <strong>estimasi</strong>. Keduanya bukan pesaing, melainkan saling melengkapi tergantung konteks riset.</p>
+
+    <div class="callout definition">
+      <div class="callout-title">Titik Awal: Model yang Telah Dipecahkan</div>
+      Setelah log-linearisasi, model DSGE umumnya berbentuk:
+      <div class="math-block" style="margin-top:12px;">
+        <div class="eq">Z<sub>t</sub> = C·Z<sub>t-1</sub> + P·X<sub>t</sub></div>
+        <div class="comment">di mana C dan P bergantung pada parameter struktural model</div>
+      </div>
+      Pertanyaannya: bagaimana kita mendapatkan nilai parameter dalam C dan P yang "terbaik"?
+    </div>
+
+    <div class="flow">
+      <div class="flow-box">Model<br>Teoritis</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Log-<br>Linearisasi</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box alt">Kalibrasi /<br>Estimasi</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Simulasi &<br>Analisis</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Kesimpulan<br>Kebijakan</div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: KALIBRASI -->
+  <section id="kalibrasi">
+    <div class="section-label">02 · Metode Pertama</div>
+    <h2>Kalibrasi: Mencocokkan Steady State</h2>
+
+    <p>Kalibrasi adalah pendekatan di mana peneliti memilih nilai parameter berdasarkan data jangka panjang rata-rata, studi mikro-ekonometrik, atau "fakta stilisasi" yang sudah mapan — <em>bukan</em> berdasarkan goodness-of-fit statistik terhadap data time series.</p>
+
+    <div class="callout definition">
+      <div class="callout-title">Definisi Formal</div>
+      Kalibrasi adalah sekumpulan prosedur untuk memberikan jawaban atas pertanyaan ekonomi menggunakan model yang mengaproximasi <em>Data Generating Process</em> (DGP) dari data observasi. Parameter dipilih agar steady-state model mencerminkan rata-rata historis variabel makro.
+    </div>
+
+    <h3>Lima Langkah Kalibrasi (Kydland & Prescott, 1996)</h3>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Pose a Question</h4>
+          <p>Rumuskan pertanyaan riset yang spesifik — apakah implikasi teoritis dari perubahan kebijakan, atau kemampuan model mereplikasi fitur data tertentu.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Gunakan Teori yang Telah Teruji</h4>
+          <p>Pilih kerangka teoritis yang sudah terbukti memberikan jawaban reliabel untuk kelas pertanyaan serupa. Jangan membangun dari nol setiap kali.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Konstruksi Model Ekonomi</h4>
+          <p>Pilih bentuk fungsional untuk primitif model (utility, produksi) dan cari solusi variabel endogen dalam bentuk variabel eksogen dan parameter.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Kalibrasi Model</h4>
+          <p>Tentukan nilai parameter menggunakan target empiris pertama — misalnya rasio steady-state, elastisitas dari studi mikro, atau rata-rata historis. <strong>Ini bukan estimasi</strong>; nilai terpilih bukan yang memberikan fit terbaik secara statistik.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Jalankan Eksperimen</h4>
+          <p>Evaluasi kualitas model dengan membandingkan outputnya terhadap set fakta stilisasi kedua. Lakukan analisis kebijakan jika diperlukan.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Contoh Kalibrasi: Model RBC Sederhana</h3>
+    <p>Berikut bagaimana parameter dikalibrasi dari data makro:</p>
+
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Simbol</th><th>Nilai</th><th>Dasar Kalibrasi</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>β</td>
+          <td>Discount factor</td>
+          <td>≈ 0.99</td>
+          <td>Return ekuitas riil tahunan ~4% → β = 1/(1+r−δ)^(1/4)</td>
+        </tr>
+        <tr>
+          <td>α</td>
+          <td>Elastisitas kapital</td>
+          <td>≈ 1/3</td>
+          <td>Capital share of GDP ≈ 30% dari data nasional</td>
+        </tr>
+        <tr>
+          <td>δ</td>
+          <td>Depresiasi kapital</td>
+          <td>≈ 0.023</td>
+          <td>Rasio I/Y ≈ 0.2 → depresiasi tahunan ~10%</td>
+        </tr>
+        <tr>
+          <td>ψ</td>
+          <td>Leisure preference</td>
+          <td>≈ 1.75</td>
+          <td>Fraksi waktu bekerja L̄ ≈ 0.3 (jam kerja rata-rata)</td>
+        </tr>
+        <tr>
+          <td>ρ</td>
+          <td>Persistensi teknologi</td>
+          <td>0.95</td>
+          <td>Studi empiris TFP; konvensi literatur RBC</td>
+        </tr>
+        <tr>
+          <td>σ</td>
+          <td>Std dev shock teknologi</td>
+          <td>0.01</td>
+          <td>Volatilitas TFP dari dekomposisi pertumbuhan</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout insight">
+      <div class="callout-title">Kunci Penting</div>
+      Kalibrasi menggunakan <em>satu set</em> momen data untuk menentukan parameter, dan <em>set kedua</em> untuk menilai kinerja model. Diskrepansi yang ditemukan bisa menjadi uji atas teori yang digunakan — bukan kegagalan teknis.
+    </div>
+  </section>
+
+  <!-- SECTION 3: ESTIMASI -->
+  <section id="estimasi">
+    <div class="section-label">03 · Metode Kedua</div>
+    <h2>Estimasi: Menggunakan Seluruh Informasi Data</h2>
+
+    <p>Estimasi menggunakan teknik ekonometrika formal untuk menentukan parameter — bukan hanya mencocokkan beberapa momen steady state, melainkan memanfaatkan <em>seluruh informasi</em> dalam data time series.</p>
+
+    <h3>Masalah 1: Stochastic Singularity</h3>
+    <p>Ketika model DSGE hanya memiliki satu sumber shock (misalnya shock teknologi), semua variabel observasi menjadi proporsional satu sama lain. Ini disebut <strong>stochastic singularity</strong> — model memprediksi bahwa rasio tertentu antara variabel akan selalu konstan, padahal data menunjukkan sebaliknya.</p>
+
+    <div class="callout warning">
+      <div class="callout-title">Syarat Identifikasi</div>
+      Agar model memiliki estimasi ekonometrika yang well-defined: <strong>setiap variabel observable harus memiliki setidaknya satu shock unobservable</strong>. Ini bisa berupa measurement error atau shock struktural pada setiap persamaan.
+    </div>
+
+    <h3>Model State-Space: Jembatan ke Estimasi</h3>
+    <p>Model DSGE log-linearisasi dengan campuran variabel observable dan unobservable adalah contoh <strong>state-space model</strong>, yang terdiri dari dua persamaan:</p>
+
+    <div class="math-block">
+      <div class="eq-label">Transition Equation (Persamaan State)</div>
+      <div class="eq">S<sub>t</sub> = F·S<sub>t-1</sub> + u<sub>t</sub></div>
+      <div class="comment">S<sub>t</sub>: variabel state unobservable; u<sub>t</sub> ~ N(0, Σ<sup>u</sup>)</div>
+    </div>
+    <div class="math-block">
+      <div class="eq-label">Measurement Equation (Persamaan Pengukuran)</div>
+      <div class="eq">Z<sub>t</sub> = H·S<sub>t</sub> + v<sub>t</sub></div>
+      <div class="comment">Z<sub>t</sub>: variabel observable; v<sub>t</sub> ~ N(0, Σ<sup>v</sup>)</div>
+    </div>
+
+    <h3>Maximum Likelihood Estimation (MLE)</h3>
+    <p>Ketika semua variabel terobservasi, MLE mencari parameter yang memaksimumkan fungsi log-likelihood gabungan:</p>
+
+    <div class="math-block">
+      <div class="eq-label">Combined Log-Likelihood</div>
+      <div class="eq">max log L = log L<sub>X</sub> + log L<sub>Z</sub></div>
+      <div class="comment">Subject to: cross-equation restrictions dari struktur model</div>
+    </div>
+
+    <p>Untuk variabel unobservable, <strong>Kalman Filter</strong> digunakan untuk menghitung likelihood secara rekursif — Dynare dapat melakukan ini secara otomatis setelah model dispecifikasi.</p>
+
+    <div class="callout warning">
+      <div class="callout-title">Keterbatasan MLE</div>
+      Menurut Fernandez-Villaverde: likelihood DSGE penuh dengan <em>local maxima</em> dan permukaan hampir datar. Data kuartalan yang terbatas memperparah masalah ini. Standard errors notoriusly sulit dihitung, dan distribusi asimtotik menjadi aproksimasi buruk untuk sampel kecil.
+    </div>
+  </section>
+
+  <!-- SECTION IRF MATCHING: dari Christiano, Eichenbaum & Trabandt (2018) -->
+  <section id="irf-matching">
+    <div class="section-label">03b · Limited Information Estimation</div>
+    <h2>IRF Matching: Estimasi Berbasis Impulse Responses</h2>
+
+    <p>Selain kalibrasi penuh dan full-information Bayesian, ada pendekatan ketiga yang sangat berpengaruh dalam literatur DSGE modern: <strong>limited information estimation via IRF matching</strong>. Pendekatan ini digunakan oleh Christiano, Eichenbaum & Evans (2005) — model yang menjadi fondasi sebagian besar DSGE pre-krisis — dan dipertahankan karena fleksibilitas dan transparansinya.</p>
+
+    <div class="callout definition">
+      <div class="callout-title">Prinsip Dasar IRF Matching</div>
+      Alih-alih memaksimumkan full likelihood atau mencocokkan seluruh momen data, IRF matching meminimumkan <em>jarak antara IRF model dan IRF data</em> — biasanya IRF yang diestimasi dari VAR — untuk subset shock tertentu (misalnya shock kebijakan moneter). Ini disebut "limited information" karena tidak mengeksploitasi seluruh implikasi model terhadap momen data.
+      <div class="math-block" style="margin-top:12px;">
+        <div class="eq-label">Objective Function IRF Matching</div>
+        <div class="eq">min<sub>θ</sub> [IRF<sub>model</sub>(θ) − IRF<sub>VAR</sub>]' · W · [IRF<sub>model</sub>(θ) − IRF<sub>VAR</sub>]</div>
+        <div class="comment">W: matriks pembobot; IRF<sub>VAR</sub> dianggap sebagai "data" yang harus dicocokkan model</div>
+      </div>
+    </div>
+
+    <h3>Mengapa Menggunakan VAR sebagai Benchmark?</h3>
+    <p>IRF dari Vector Autoregression (VAR) digunakan sebagai target karena beberapa alasan. Pertama, VAR adalah representasi fleksibel dari data tanpa asumsi teori yang kuat. Kedua, metodologi identifikasi shock telah mapan — misalnya shock kebijakan moneter diidentifikasi dengan asumsi tidak ada dampak kontemporer pada output dan inflasi (Christiano, Eichenbaum & Evans, 1999). Ketiga, IRF VAR terbukti robust terhadap berbagai spesifikasi lag dan periode sampel.</p>
+
+    <div class="callout insight">
+      <div class="callout-title">Robustness IRF VAR (CET 2018)</div>
+      Christiano, Trabandt & Walentin (2010) melakukan 700 estimasi VAR dengan kombinasi berbagai lag (n = 1,...,5) dan titik awal sampel (1951:Q1–1985:Q4). Temuan kunci: <strong>properti kualitatif IRF sangat robust</strong> — hump-shaped response GDP, konsumsi, dan investasi; kenaikan kecil inflasi; real wage yang hampir tidak terpengaruh. Ini menjadi bukti bahwa IRF VAR adalah target yang valid untuk evaluasi model DSGE.
+    </div>
+
+    <h3>Pola IRF yang Harus Direplikasi Model</h3>
+    <p>Berikut fakta stilisasi dari data VAR Amerika 1951–2008 yang menjadi benchmark evaluasi model DSGE (Christiano et al., 2018):</p>
+
+    <table>
+      <thead>
+        <tr><th>Variabel</th><th>Respons terhadap Shock Ekspansif</th><th>Pola</th><th>Relevansi untuk Model</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Real GDP</td>
+          <td>Naik, puncak ~4–6 kuartal</td>
+          <td style="color:#1a6b6b; font-weight:600;">Hump-shaped</td>
+          <td>Butuh habit formation atau adjustment cost</td>
+        </tr>
+        <tr>
+          <td>Konsumsi</td>
+          <td>Naik lambat, persistent</td>
+          <td style="color:#1a6b6b; font-weight:600;">Hump-shaped</td>
+          <td>Menolak time-separable utility; butuh habit</td>
+        </tr>
+        <tr>
+          <td>Investasi</td>
+          <td>Naik signifikan, hump-shape</td>
+          <td style="color:#1a6b6b; font-weight:600;">Hump-shaped</td>
+          <td>Butuh investment adjustment costs (IAC)</td>
+        </tr>
+        <tr>
+          <td>Inflasi</td>
+          <td>Naik sangat kecil</td>
+          <td style="color:#c9a227; font-weight:600;">Hampir datar</td>
+          <td>Menuntut marginal cost yang acyclical</td>
+        </tr>
+        <tr>
+          <td>Federal Funds Rate</td>
+          <td>Turun setelah shock ekspansif</td>
+          <td style="color:#c0392b; font-weight:600;">Berlawanan arah inflasi</td>
+          <td>Sifat anti-Fisherian: r dan π bergerak berlawanan</td>
+        </tr>
+        <tr>
+          <td>Real Wage</td>
+          <td>Hampir tidak berubah</td>
+          <td style="color:#c9a227; font-weight:600;">Acyclical</td>
+          <td>Butuh wage stickiness (krusial!)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Prosedur Estimasi: Dari GMM ke Bayesian Limited Information</h3>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Estimasi IRF dari Data (VAR)</h4>
+          <p>Gunakan VAR dengan identifying assumptions yang tepat untuk mendapatkan IRF<sub>VAR</sub> beserta confidence intervalnya. Ini menjadi "data target" untuk tahap berikutnya.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Pilih Parameter yang Dikalibrasi vs Diestimasi</h4>
+          <p>Parameter steady-state (β, α, δ) dikalibrasi dari data rata-rata jangka panjang. Parameter dinamika (Calvo probability, habit coefficient, investment adjustment cost) diestimasi dari IRF matching.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Minimisasi Jarak IRF (GMM atau Bayesian)</h4>
+          <p>Minimumkan jarak antara IRF<sub>model</sub>(θ) dan IRF<sub>VAR</sub>. Pendekatan klasik menggunakan GMM (Hansen, 1982); pendekatan modern menggunakan Bayesian limited information (Christiano, Trabandt & Walentin, 2010) yang memungkinkan penerapan prior yang transparan.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Evaluasi: Apakah Model Bisa Mereplikasi IRF?</h4>
+          <p>Plot IRF model vs IRF VAR dalam satu grafik. Jika IRF model berada dalam confidence band VAR, model dianggap valid untuk set momen tersebut. Laporkan parameter estimasi: mode posterior, mean, dan HPD interval.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Contoh Hasil: Model CEE (2005) via CET (2016)</h3>
+    <p>Berikut parameter kunci yang diestimasi menggunakan IRF matching dalam model Christiano, Eichenbaum & Trabandt (2016) — re-estimasi dari CEE (2005):</p>
+
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Interpretasi</th><th>Posterior Mode</th><th>Catatan</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ξ<sub>p</sub></td>
+          <td>Calvo price stickiness</td>
+          <td>Ganti harga rata-rata setiap <strong>2.3 kuartal</strong></td>
+          <td>Konsisten dengan micro data harga</td>
+        </tr>
+        <tr>
+          <td>ξ<sub>w</sub></td>
+          <td>Calvo wage stickiness</td>
+          <td>Ganti upah rata-rata sekali <strong>setahun</strong></td>
+          <td>Lebih sticky dari harga — krusial untuk akuralitas IRF</td>
+        </tr>
+        <tr>
+          <td>b</td>
+          <td>Habit formation coefficient</td>
+          <td><strong>0.75</strong></td>
+          <td>Tinggi; menjelaskan hump-shaped konsumsi</td>
+        </tr>
+        <tr>
+          <td>S''</td>
+          <td>Investment adjustment cost elasticity</td>
+          <td><strong>0.16</strong></td>
+          <td>Elastisitas investasi terhadap 1% kenaikan harga kapital terpasang</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warning">
+      <div class="callout-title">Peran Kritis Wage Stickiness</div>
+      CET (2018) menekankan: ketika nominal wages diasumsikan fleksibel (holding semua parameter lain tetap), performa model memburuk drastis. Sticky wages adalah mekanisme yang membuat marginal cost bersifat acyclical, yang pada gilirannya menjelaskan mengapa inflasi hampir tidak bergerak meski ada shock moneter yang besar. Ini menunjukkan bahwa <strong>evaluasi sensitivitas terhadap asumsi kekakuan nominal</strong> adalah prosedur standar dalam evaluasi model DSGE.
+    </div>
+
+    <h3>Keunggulan dan Keterbatasan IRF Matching</h3>
+    <div class="compare-grid">
+      <div class="compare-card kalibrasi">
+        <div class="compare-card-head">Keunggulan</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Transparan: target yang dicocokkan jelas terlihat</li>
+            <li>Fleksibel: bisa fokus pada satu jenis shock saja</li>
+            <li>Prior VAR bisa diverifikasi secara independen dari model</li>
+            <li>Menghindari stochastic singularity</li>
+            <li>Tidak memerlukan asumsi distribusi error eksplisit</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-card estimasi">
+        <div class="compare-card-head">Keterbatasan</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Hanya menggunakan subset informasi dalam data</li>
+            <li>Pilihan momen target berpotensi arbitrary</li>
+            <li>Bergantung pada validitas identifikasi VAR</li>
+            <li>Model bisa fit baik untuk shock yang ditarget tapi buruk di lain tempat</li>
+            <li>Perlu konfirmasi dengan full-information evaluation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: BAYESIAN -->
+  <section id="bayesian">
+    <div class="section-label">04 · Pendekatan Modern</div>
+    <h2>Estimasi Bayesian: Standar Kontemporer</h2>
+
+    <p>Karena keterbatasan MLE, pendekatan <strong>Bayesian</strong> telah menjadi standar dalam estimasi DSGE modern. Bayesian menggabungkan informasi dari data (<em>likelihood</em>) dengan pengetahuan prior (<em>prior distribution</em>) untuk menghasilkan <em>posterior distribution</em> parameter.</p>
+
+    <div class="math-block">
+      <div class="eq-label">Teorema Bayes untuk DSGE</div>
+      <div class="eq">p(θ | Y) ∝ p(Y | θ) · p(θ)</div>
+      <div class="comment">Posterior ∝ Likelihood × Prior</div>
+    </div>
+
+    <div class="callout insight">
+      <div class="callout-title">Intuisi Bayesian</div>
+      Dalam Bayesian: <em>parameter adalah variabel random</em>, data adalah tetap. Kita ingin tahu seberapa plausible suatu model relatif terhadap alternatifnya, <em>given</em> data yang kita amati. Ini berbanding terbalik dengan MLE di mana parameter adalah tetap dan data adalah random.
+    </div>
+
+    <h3>Pemilihan Distribusi Prior</h3>
+    <p>Pemilihan prior mengikuti batasan teoritis parameter:</p>
+
+    <div class="prior-cards">
+      <div class="prior-card">
+        <div class="dist-name">Normal</div>
+        <div class="dist-range">(-∞, +∞)</div>
+        <div class="dist-use">Parameter tak terbatas: koefisien respon kebijakan, elastisitas yang bisa negatif/positif</div>
+      </div>
+      <div class="prior-card">
+        <div class="dist-name">Gamma</div>
+        <div class="dist-range">(0, +∞)</div>
+        <div class="dist-use">Parameter yang harus positif: standar deviasi shock, parameter price markup, Frisch elasticity</div>
+      </div>
+      <div class="prior-card">
+        <div class="dist-name">Beta</div>
+        <div class="dist-range">(0, 1)</div>
+        <div class="dist-use">Parameter antara nol dan satu: probabilitas Calvo, discount factor β, koefisien autoregresif ρ</div>
+      </div>
+    </div>
+
+    <h3>Proses Estimasi Bayesian di Dynare</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Spesifikasi Prior</h4>
+          <p>Peneliti menentukan distribusi prior untuk setiap parameter yang akan diestimasi, berdasarkan studi terdahulu dan pertimbangan teoritis.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Kalman Filter untuk Likelihood</h4>
+          <p>Dynare mengubah model ke state-space form, lalu menggunakan Kalman filter untuk menghitung likelihood data untuk setiap set parameter yang dicoba.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Posterior Sampling (MCMC)</h4>
+          <p>Metropolis-Hastings atau algoritma MCMC lain digunakan untuk mencuplik dari posterior distribution — mengintegrasikan likelihood × prior secara numerik.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Pelaporan Hasil</h4>
+          <p>Hasil dilaporkan sebagai perbandingan <em>posterior mean</em> vs <em>prior mean</em>, disertai <em>credible intervals</em> (HPD intervals) dari distribusi posterior.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout insight">
+      <div class="callout-title">Keunggulan Bayesian vs MLE</div>
+      Mengintegrasikan likelihood lebih mudah secara komputasional daripada memaksimumkannya (terutama untuk fungsi berdimensi tinggi). Bayesian juga lebih robust terhadap local maxima karena menggunakan keseluruhan distribusi, bukan satu titik.
+    </div>
+  </section>
+
+
+
+  <!-- SECTION 6: IDENTIFIKASI (Beltran & Draper) -->
+  <section id="identifikasi">
+    <div class="section-label">06 · Peringatan Kritis</div>
+    <h2>Masalah Identifikasi Parameter</h2>
+
+    <p>Bahkan ketika estimasi Bayesian digunakan dengan benar, tidak semua parameter benar-benar "diestimasi dari data." Beltran & Draper (2008) dalam paper Fed Reserve mereka menunjukkan bahwa banyak parameter kunci DSGE bersifat <strong>weakly identified</strong> — artinya data tidak informatif dan posterior didominasi oleh prior.</p>
+
+    <div class="callout warning">
+      <div class="callout-title">Peringatan dari Beltran & Draper (2008)</div>
+      Ketika prior dan posterior mendekati identik, klaim bahwa parameter "telah diestimasi" adalah menyesatkan. Menggunakan prior informatif dari literatur dalam kondisi ini sebetulnya hanyalah <em>"cara rumit untuk mengkalibrasi"</em> — data hampir tidak berkata apa-apa, dan hasil akhir terutama didorong oleh prior yang diasumsikan.
+    </div>
+
+    <h3>Parameter yang Cenderung Weakly Identified</h3>
+    <p>Dari estimasi model small open economy Swiss (1970–2005), parameter-parameter berikut terbukti sulit diidentifikasi oleh data:</p>
+
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Deskripsi</th><th>Status Identifikasi</th><th>Implikasi</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>φ</td>
+          <td>Inverse elasticity of labor supply</td>
+          <td style="color:#c0392b">Lemah</td>
+          <td>Posterior sangat bergantung prior; perlu kalibrasi dari studi mikro</td>
+        </tr>
+        <tr>
+          <td>ψ<sub>ỹ</sub></td>
+          <td>Policy response to output gap</td>
+          <td style="color:#c0392b">Sangat lemah</td>
+          <td>95% interval sangat lebar (1.4–9.5 saat prior uniform)</td>
+        </tr>
+        <tr>
+          <td>ψ<sub>π</sub></td>
+          <td>Policy response to inflation</td>
+          <td style="color:#e67e22">Moderat</td>
+          <td>Bergantung pada spesifikasi model dan data yang tersedia</td>
+        </tr>
+        <tr>
+          <td>ρ<sub>z</sub></td>
+          <td>Productivity shock persistence</td>
+          <td style="color:#e67e22">Moderat</td>
+          <td>Distribusi bimodal; nilai tinggi atau rendah sama-sama plausible</td>
+        </tr>
+        <tr>
+          <td>β</td>
+          <td>Discount factor</td>
+          <td style="color:#c0392b">Tidak teridentifikasi</td>
+          <td>Selalu dikalibrasi (β = 0.99); data siklus tidak informatif</td>
+        </tr>
+        <tr>
+          <td>h, θ<sub>H</sub>, θ<sub>F</sub></td>
+          <td>Habit, Calvo domestic & imported</td>
+          <td style="color:#27ae60">Baik</td>
+          <td>Data cukup informatif; estimasi kredibel</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Alat Diagnostik Weak Identification</h3>
+    <p>Beltran & Draper merekomendasikan serangkaian alat untuk mendiagnosis masalah identifikasi sebelum menginterpretasikan hasil estimasi:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Surface Plot Log-Likelihood</h4>
+          <p>Plot log-likelihood sebagai fungsi dari dua parameter sekaligus. Parameter yang well-identified menghasilkan puncak yang tajam dan terdefinisi jelas; yang weakly identified menunjukkan permukaan hampir datar atau ridge line.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Heat Plot (3 Parameter)</h4>
+          <p>Visualisasikan log-likelihood sebagai fungsi tiga parameter. Untuk parameter yang well-identified, hanya kombinasi parameter yang sempit yang menghasilkan nilai likelihood dalam 1% tertinggi.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Monte Carlo dengan Data Artifisial</h4>
+          <p>Generate data dari model dengan parameter true θ<sup>DGP</sup> yang diketahui, lalu estimasi ulang. Jika θ̂ ≈ θ<sup>DGP</sup>, parameter teridentifikasi. Penting: butuh ~1000 observasi vs 142 data kuartalan nyata.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Estimasi dengan Tiga Set Prior</h4>
+          <p>Estimasi dengan prior uniform, somewhat informative, dan informatif. Jika posterior berubah drastis antar-set, parameter weakly identified — prior mendominasi, bukan data.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout insight">
+      <div class="callout-title">Implikasi untuk Thesis DSGE</div>
+      Untuk model dengan perfect foresight solver (tanpa Bayesian estimation), masalah identifikasi ini tidak langsung relevan — tapi justru ini yang memvalidasi pendekatan kalibrasi penuh. Parameter seperti β dan φ yang sulit diidentifikasi dari data siklus bisnis memang lebih tepat dikalibrasi dari studi mikro atau nilai konvensional literatur.
+    </div>
+  </section>
+
+  <!-- SECTION: NOMINAL RIGIDITIES & MODEL EVALUATION (dari CET 2018) -->
+  <section id="rigidities">
+    <div class="section-label">06b · Evaluasi Substantif</div>
+    <h2>Kekakuan Nominal & Evaluasi Kuantitatif Model</h2>
+
+    <p>Paper Christiano, Eichenbaum & Trabandt (2018) memberikan panduan substantif tentang bagaimana mengevaluasi apakah mekanisme model — khususnya kekakuan nominal — benar-benar penting secara kuantitatif. Ini relevan tidak hanya untuk model moneter, tetapi juga untuk model DSGE dengan frictions lain seperti collateral constraints atau financial accelerator.</p>
+
+    <h3>Tiga Pilar Kekakuan Nominal dalam Model DSGE Modern</h3>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Calvo Price Stickiness (Nominal Price Rigidity)</h4>
+          <p>Dalam model Calvo (1983), perusahaan hanya bisa mengubah harga dengan probabilitas eksogen (1 − ξ<sub>p</sub>) setiap periode. Ini menangkap fitur data bahwa perusahaan merespons variasi permintaan lebih banyak dengan perubahan kuantitas daripada harga dalam lingkungan inflasi moderat. Calvo stickiness menciptakan hubungan antara inflasi dan ekspektasi biaya marginal masa depan (New Keynesian Phillips Curve).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Calvo Wage Stickiness (Nominal Wage Rigidity)</h4>
+          <p>Serupa dengan harga, household/workers hanya bisa merenegosiasi upah dengan probabilitas (1 − ξ<sub>w</sub>) setiap periode. Kekakuan upah ini secara mekanis memastikan biaya marginal perusahaan bersifat <em>acyclical</em> — tidak banyak berfluktuasi dengan siklus bisnis. Tanpa wage stickiness, model sulit mereplikasi fakta bahwa inflasi hampir tidak bergerak meski terjadi fluktuasi output yang besar.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Habit Formation & Investment Adjustment Costs</h4>
+          <p>Kekakuan riil (bukan nominal) ini bekerja bersama kekakuan nominal untuk menghasilkan hump-shaped dynamics. Habit formation: utilitas marginal konsumsi bergantung positif pada level konsumsi masa lalu, mendorong household menaikkan konsumsi secara bertahap. Investment adjustment costs: mempermahal perubahan <em>tingkat</em> investasi, menghasilkan hump-shape investasi setelah shock.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout definition">
+      <div class="callout-title">Anti-Fisherian Property</div>
+      Model New Keynesian standar memenuhi <em>sifat anti-Fisherian</em>: setelah shock moneter transitori ekspansif (penurunan suku bunga nominal), inflasi dan suku bunga bergerak berlawanan arah. Hal ini terjadi karena perusahaan menetapkan harga berdasarkan biaya marginal saat ini dan mendatang — shock transitori hampir tidak mempengaruhi kondisi masa depan, sehingga inflasi naik sedikit, sementara suku bunga turun. Akibatnya, suku bunga riil turun, mendorong konsumsi dan investasi naik. Sifat ini menjadi salah satu <em>indirect test</em> untuk memvalidasi mekanisme model.
+    </div>
+
+    <h3>Strategi Evaluasi Kuantitatif: Counterfactual Analysis</h3>
+    <p>CET (2018) menunjukkan metode evaluasi yang ampuh: <strong>ubah satu asumsi, tahan semua parameter lain tetap pada nilai estimasi</strong>. Ini memungkinkan identifikasi kontribusi kausal setiap mekanisme terhadap kinerja model.</p>
+
+    <table>
+      <thead>
+        <tr><th>Eksperimen Counterfactual</th><th>Perubahan Asumsi</th><th>Temuan Kunci</th><th>Implikasi</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Flexible wages</td>
+          <td>ξ<sub>w</sub> → 0 (upah fleksibel penuh)</td>
+          <td>Performa model memburuk drastis; IRF tidak lagi cocok data</td>
+          <td>Wage stickiness adalah mekanisme <em>esensial</em>, bukan ornamen</td>
+        </tr>
+        <tr>
+          <td>Flexible prices</td>
+          <td>ξ<sub>p</sub> → 0 (harga fleksibel penuh)</td>
+          <td>Inflasi terlalu responsif terhadap shock</td>
+          <td>Price stickiness diperlukan untuk mendampening inflasi</td>
+        </tr>
+        <tr>
+          <td>No habit formation</td>
+          <td>b = 0 (time-separable utility)</td>
+          <td>Konsumsi dan investasi tidak lagi hump-shaped</td>
+          <td>Habit formation kritis untuk replicating dynamics</td>
+        </tr>
+        <tr>
+          <td>No investment adj. costs</td>
+          <td>S'' = 0 (investasi tanpa biaya adjustment)</td>
+          <td>Investasi melompat secara diskontinu setelah shock</td>
+          <td>IAC diperlukan untuk hump-shaped investasi</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Pelajaran untuk Evaluasi Model DSGE Lain</h3>
+    <p>Metodologi counterfactual ini berlaku general — tidak terbatas pada model moneter. Dalam model bencana alam atau model dengan financial frictions, prosedur serupa dapat dilakukan:</p>
+
+    <div class="callout insight">
+      <div class="callout-title">Prinsip Evaluasi Model yang Baik (dari CET 2018)</div>
+      <ol style="padding-left:20px; margin-top:8px; line-height:2;">
+        <li><strong>Tetapkan target IRF yang jelas:</strong> Apa "fakta stilisasi" yang harus direplikasi model? Tentukan sebelum estimasi.</li>
+        <li><strong>Laporkan posterior mode dan interval:</strong> Bukan hanya titik estimasi — credible intervals memperlihatkan uncertainty parametrik.</li>
+        <li><strong>Bandingkan prior vs posterior:</strong> Jika posterior ≈ prior, parameter tidak teridentifikasi dari data. Nyatakan secara eksplisit.</li>
+        <li><strong>Lakukan counterfactual analysis:</strong> Ubah satu mekanisme ke "off" dan lihat dampak terhadap IRF. Ini membuktikan atau menyangkal pentingnya mekanisme tersebut.</li>
+        <li><strong>Evaluasi out-of-sample:</strong> Model yang fit in-sample belum tentu valid. Uji forecasting atau evaluasi di periode berbeda.</li>
+      </ol>
+    </div>
+
+    <h3>Dari Frictions Finansial ke Frictions Bencana: Analogi Struktural</h3>
+    <p>CET (2018) juga menunjukkan evolusi model DSGE pasca-krisis: penambahan <em>financial frictions</em> (BGG financial accelerator, collateral constraints à la Kiyotaki-Moore, shadow banking) yang sebelumnya dianggap perlu namun ternyata memiliki efek kuantitatif terbatas. Analoginya relevan untuk model dengan disaster shocks:</p>
+
+    <div class="compare-grid">
+      <div class="compare-card kalibrasi">
+        <div class="compare-card-head" style="background:var(--teal);">Financial Frictions (Post-GFC)</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>BGG financial accelerator: amplifikasi modest terhadap IRF standar</li>
+            <li>Kiyotaki-Moore collateral constraint: efek dinamis sangat kecil (Kocherlakota, 2000)</li>
+            <li>Pelajaran: inclusion tidak otomatis berarti quantitatively important</li>
+            <li>Diperlukan: financial data (spread, equity) sebagai observasi tambahan</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-card estimasi">
+        <div class="compare-card-head">Disaster/Spatial Frictions (Model Bencana)</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Kolateral constraint (damaged capital): mekanisme amplifikasi analog BGG</li>
+            <li>Public capital destruction: persistent supply shock, analog productivity shock</li>
+            <li>Pelajaran yang sama: harus diuji apakah mechanism ini <em>quantitatively material</em></li>
+            <li>Diperlukan: regional output, investment, government spending sebagai observasi target</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: SOLUSI (Flotho) -->
+  <section id="solusi">
+    <div class="section-label">07 · Metode Solusi</div>
+    <h2>Strategi Solusi Model DSGE</h2>
+
+    <p>Sebelum bisa dikalibrasi atau diestimasi, model DSGE harus diselesaikan terlebih dahulu. Flotho (2009) memberikan overview komprehensif tentang metode-metode ini. Pemahaman tentang metode solusi penting karena menentukan bentuk akhir model yang akan dihadapkan ke data.</p>
+
+    <h3>Alur Kerja Standar DSGE</h3>
+
+    <div class="flow">
+      <div class="flow-box">Setup<br>Model</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">FOC &<br>Budget Constraints</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Non-stochastic<br>Steady State</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box alt">Aproksimasi<br>(Linearisasi)</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Kalibrasi /<br>Estimasi</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">IRF &<br>Evaluasi</div>
+    </div>
+
+    <h3>Tiga Metode Aproksimasi Utama</h3>
+
+    <div class="compare-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="compare-card kalibrasi">
+        <div class="compare-card-head" style="font-size:.95rem;">Log-Linearisasi (Order 1)</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Paling umum digunakan dalam literatur</li>
+            <li>Aproksimasi Taylor order pertama di sekitar steady state</li>
+            <li>Certainty equivalence berlaku — variansi shock tidak mempengaruhi nilai ekspektasi</li>
+            <li>Cocok untuk analisis IRF dan momen kedua</li>
+            <li>Digunakan Dynare secara default</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-card estimasi">
+        <div class="compare-card-head" style="font-size:.95rem;">Perturbation Order 2+</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Diperlukan untuk analisis welfare yang akurat</li>
+            <li>Mengikutsertakan efek variansi shock (risk premium)</li>
+            <li>Certainty equivalence tidak berlaku</li>
+            <li>Lebih akurat jauh dari steady state</li>
+            <li>Dynare mendukung hingga order ke-6</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-card" style="border:1px solid var(--rule);">
+        <div class="compare-card-head" style="background:var(--gold); font-size:.95rem;">Perfect Foresight Solver</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Solusi deterministik untuk path variabel</li>
+            <li>Tidak memerlukan linearisasi</li>
+            <li>Ideal untuk analisis transisi dan kebijakan satu-kali</li>
+            <li>Tidak perlu appendix linearisasi dalam thesis</li>
+            <li>Dynare: <code>simul</code> atau <code>perfect_foresight_solver</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3>Metode Blanchard-Kahn: Syarat Eksistensi Solusi</h3>
+    <p>Metode eigenvalue-eigenvector dari Blanchard & Kahn (1980) adalah standar untuk menemukan solusi rational expectations. Kondisi kunci untuk eksistensi dan keunikan solusi:</p>
+
+    <div class="callout definition">
+      <div class="callout-title">Blanchard-Kahn Condition</div>
+      Solusi model rational expectations <em>ada dan unik</em> jika dan hanya jika jumlah eigenvalue di luar unit circle <strong>sama persis</strong> dengan jumlah variabel non-predetermined (forward-looking). Ini dikenal sebagai saddle path stability.
+      <div class="math-block" style="margin-top:12px;">
+        <div class="eq"># unstable eigenvalues = # non-predetermined variables</div>
+        <div class="comment">Jika terlalu banyak: tidak ada solusi (explosive). Jika terlalu sedikit: solusi multipel (indeterminacy)</div>
+      </div>
+    </div>
+
+    <h3>Mengapa Certainty Equivalence Penting untuk Kalibrasi</h3>
+    <p>Dari Flotho (2009): pada aproksimasi order pertama, nilai ekspektasi variabel endogen sama dengan nilai steady state — variansi shock tidak mempengaruhi. Ini berarti <strong>kalibrasi parameter dari rata-rata data (steady state targets) sepenuhnya konsisten dengan solusi order pertama</strong>. Ini justifikasi teoritis mengapa kalibrasi dari data jangka panjang valid untuk model yang diselesaikan dengan linearisasi.</p>
+
+    <div class="math-block">
+      <div class="eq-label">Certainty Equivalence (Order 1)</div>
+      <div class="eq">E[y<sub>t</sub>] = ȳ &nbsp;&nbsp;&nbsp; dan &nbsp;&nbsp;&nbsp; g<sub>σ</sub> = h<sub>σ</sub> = 0</div>
+      <div class="comment">Ukuran variansi shock (σ) tidak mempengaruhi policy function pada aproksimasi order pertama</div>
+    </div>
+
+    <h3>Evaluasi Model: Dua Cara Utama</h3>
+    <p>Setelah kalibrasi/estimasi selesai, model dievaluasi dengan dua pendekatan yang saling melengkapi:</p>
+
+    <div class="compare-grid">
+      <div class="compare-card kalibrasi">
+        <div class="compare-card-head">Matching Moments</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Bandingkan standar deviasi dan korelasi variabel model vs data aktual</li>
+            <li>Hitung unconditional moments dari simulasi</li>
+            <li>Model bagus jika statistik mendekati data ekonomi nyata</li>
+            <li>Variance decomposition untuk relatif kepentingan shock</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-card estimasi">
+        <div class="compare-card-head">Impulse Response Functions</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Mulai dari steady state, berikan satu shock ke variabel eksogen</li>
+            <li>Hitung time-path respons variabel endogen</li>
+            <li>Model bagus jika IRF menyerupai respons ekonomi nyata</li>
+            <li>Bisa dibandingkan dengan IRF dari SVAR sebagai benchmark</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3>Software yang Tersedia</h3>
+    <table>
+      <thead>
+        <tr><th>Software</th><th>Metode</th><th>Link / Referensi</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dynare</td>
+          <td>Semua metode; solusi, simulasi, estimasi Bayesian</td>
+          <td>dynare.org — paling direkomendasikan</td>
+        </tr>
+        <tr>
+          <td>Sims (2002)</td>
+          <td>Schur decomposition untuk rational expectations</td>
+          <td>Algoritma gensys; digunakan oleh Dynare</td>
+        </tr>
+        <tr>
+          <td>Klein (2000)</td>
+          <td>Generalized Schur form; sistem singular</td>
+          <td>Menangani eigenvalue yang tidak distinct</td>
+        </tr>
+        <tr>
+          <td>Schmitt-Grohé & Uribe (2004)</td>
+          <td>Second-order perturbation</td>
+          <td>Untuk analisis welfare yang akurat</td>
+        </tr>
+        <tr>
+          <td>Uhlig (1999)</td>
+          <td>Log-linearisasi mekanis + method of undetermined coefficients</td>
+          <td>Toolkit tersedia di HU Berlin</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 5 update: perbandingan -->
+  <section id="perbandingan">
+    <div class="section-label">08 · Sintesis</div>
+    <h2>Kapan Menggunakan Apa?</h2>
+
+    <div class="compare-grid">
+      <div class="compare-card kalibrasi">
+        <div class="compare-card-head">Kalibrasi</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Parameter menggunakan rata-rata historis jangka panjang</li>
+            <li>Studi mikro-ekonometrik (labor, preferensi)</li>
+            <li>Model sederhana / model dasar</li>
+            <li>Tidak perlu data time series panjang</li>
+            <li>Kontrol penuh atas "interpretasi" parameter</li>
+            <li>Umum: depreciation rate, discount factor, capital share</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-card estimasi">
+        <div class="compare-card-head">Estimasi (Bayesian)</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Menggunakan seluruh informasi dalam data</li>
+            <li>Parameter seperti price stickiness, habit formation</li>
+            <li>Model medium-to-large scale (misalnya DSGE BI)</li>
+            <li>Memerlukan data time series yang cukup</li>
+            <li>Menghasilkan uncertainty bounds yang formal</li>
+            <li>Umum: Calvo parameter, Taylor rule coefficients</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout definition">
+      <div class="callout-title">Praktik Terbaik dalam Literatur</div>
+      Pendekatan modern umumnya <strong>menggabungkan keduanya</strong>: parameter yang menentukan karakteristik jangka panjang (steady state) dikalibrasi, sementara parameter yang menentukan dinamika siklus bisnis (shock persistence, nominal rigidities) diestimasi secara Bayesian. Namun perlu dicek identifikasi — jika data tidak informatif untuk suatu parameter, estimasi Bayesian hanyalah kalibrasi yang lebih rumit (Beltran & Draper, 2008). Dynare memfasilitasi keduanya dalam satu file .mod.
+    </div>
+
+    <h3>Ringkasan Perbandingan Metode</h3>
+    <table>
+      <thead>
+        <tr><th>Dimensi</th><th>Kalibrasi</th><th>MLE</th><th>Bayesian</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>β vs θ</td>
+          <td>Parameter tetap (preset)</td>
+          <td>Parameter tetap, unknown</td>
+          <td>Parameter random</td>
+        </tr>
+        <tr>
+          <td>Informasi yang digunakan</td>
+          <td>Beberapa momen target</td>
+          <td>Full likelihood</td>
+          <td>Full likelihood + prior</td>
+        </tr>
+        <tr>
+          <td>Ukuran model</td>
+          <td>Kecil - besar</td>
+          <td>Kecil - menengah</td>
+          <td>Menengah - besar</td>
+        </tr>
+        <tr>
+          <td>Kebutuhan data</td>
+          <td>Rendah</td>
+          <td>Tinggi</td>
+          <td>Menengah - tinggi</td>
+        </tr>
+        <tr>
+          <td>Uncertainty quantification</td>
+          <td>Tidak formal</td>
+          <td>Asymptotic SE</td>
+          <td>Credible intervals</td>
+        </tr>
+        <tr>
+          <td>Identifikasi parameter</td>
+          <td>Tidak relevan</td>
+          <td>Kritis</td>
+          <td>Kritis — cek prior vs posterior</td>
+        </tr>
+        <tr>
+          <td>Certainty equivalence</td>
+          <td>Berlaku (order 1)</td>
+          <td>Berlaku (order 1)</td>
+          <td>Berlaku (order 1)</td>
+        </tr>
+        <tr>
+          <td>Software</td>
+          <td>Manual / Dynare</td>
+          <td>Dynare (ML option)</td>
+          <td>Dynare (estimation)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  Berdasarkan: Whelan (2016) · Luo Rong (2017) · Kydland & Prescott (1996) · Beltran & Draper (2008, Fed Reserve IFDP #955) · Flotho (2009, Univ. Freiburg) · Christiano, Eichenbaum & Trabandt (2018, <em>Journal of Economic Perspectives</em> 32:3)
+</footer>
+
+</body>
+</html>
