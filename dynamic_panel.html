@@ -1,0 +1,3036 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Panel Data — Panduan Komprehensif</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage:     #C8D8C0;
+    --sage-dk:  #7A9E7E;
+    --sage-lt:  #EDF4EB;
+    --lavender: #D4CDE8;
+    --lav-dk:   #8B7EC8;
+    --lav-lt:   #F3F0FB;
+    --blush:    #F0D6D6;
+    --blush-dk: #C47A7A;
+    --blush-lt: #FDF5F5;
+    --sky:      #C6DCF0;
+    --sky-dk:   #5A8EC4;
+    --sky-lt:   #EDF4FB;
+    --peach:    #F5DBC8;
+    --peach-dk: #C88055;
+    --peach-lt: #FEF8F3;
+    --cream:    #FDF8F0;
+    --ink:      #2C2926;
+    --ink-md:   #5A5450;
+    --ink-lt:   #9A928C;
+    --border:   rgba(44,41,38,0.10);
+    --border-md:rgba(44,41,38,0.18);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --shadow: 0 2px 16px rgba(44,41,38,0.07);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(253,248,240,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 52px;
+    overflow-x: auto;
+  }
+  .nav-inner a {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-md);
+    padding: 0 14px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-inner a:hover { color: var(--ink); border-bottom-color: var(--lav-dk); }
+  .nav-brand {
+    font-family: 'Lora', serif;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: var(--ink) !important;
+    padding-right: 24px !important;
+    border-right: 1px solid var(--border);
+    margin-right: 8px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--lav-lt) 0%, var(--sage-lt) 50%, var(--sky-lt) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 2rem 60px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--lavender);
+    color: var(--lav-dk);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ink);
+    max-width: 700px;
+    margin: 0 auto 16px;
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--ink-md);
+    max-width: 580px;
+    margin: 0 auto 36px;
+    font-weight: 300;
+  }
+  .hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .pill {
+    background: white;
+    border: 1px solid var(--border-md);
+    border-radius: 100px;
+    padding: 7px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-md);
+  }
+
+  /* CONTENT LAYOUT */
+  .page-body {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 80px;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-top: 64px;
+    scroll-margin-top: 68px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .section-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Lora', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--ink-md);
+    margin-top: 4px;
+  }
+
+  /* CARDS GRID */
+  .cards-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .cards-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .cards-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
+
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .card-accent-top {
+    border-top: 3px solid;
+  }
+  .card h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+  .card p, .card li {
+    font-size: 14px;
+    color: var(--ink-md);
+    line-height: 1.7;
+  }
+  .card ul { padding-left: 18px; }
+  .card ul li { margin-bottom: 4px; }
+
+  /* COLORED CARD BG */
+  .card-sage { background: var(--sage-lt); border-color: var(--sage); }
+  .card-lav  { background: var(--lav-lt); border-color: var(--lavender); }
+  .card-blush{ background: var(--blush-lt); border-color: var(--blush); }
+  .card-sky  { background: var(--sky-lt); border-color: var(--sky); }
+  .card-peach{ background: var(--peach-lt); border-color: var(--peach); }
+
+  /* EQUATION BLOCK */
+  .eq-block {
+    background: white;
+    border: 1px solid var(--border-md);
+    border-left: 4px solid var(--lav-dk);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    overflow-x: auto;
+    box-shadow: var(--shadow);
+  }
+  .eq-block .eq-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--lav-dk);
+    margin-bottom: 8px;
+  }
+  .eq-main {
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .eq-annot {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-md);
+    margin-top: 14px;
+    line-height: 1.8;
+  }
+  .eq-annot span {
+    font-family: 'DM Mono', monospace;
+    background: var(--lav-lt);
+    color: var(--lav-dk);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  /* COMPARISON TABLE */
+  .cmp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .cmp-table thead {
+    background: var(--lav-lt);
+  }
+  .cmp-table th {
+    text-align: left;
+    padding: 14px 18px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--border-md);
+  }
+  .cmp-table td {
+    padding: 13px 18px;
+    color: var(--ink-md);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .cmp-table tr:last-child td { border-bottom: none; }
+  .cmp-table tr:nth-child(even) td { background: rgba(212,205,232,0.08); }
+  .badge-yes  { color: #3A7A4E; font-weight: 600; }
+  .badge-no   { color: #C44A4A; font-weight: 600; }
+  .badge-part { color: #A06020; font-weight: 600; }
+
+  /* ALERT / HIGHLIGHT BOX */
+  .alert {
+    border-radius: var(--radius-sm);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-left: 4px solid;
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+  .alert-sage  { background: var(--sage-lt); border-color: var(--sage-dk); color: #3A5A3D; }
+  .alert-lav   { background: var(--lav-lt);  border-color: var(--lav-dk);  color: #4A3D7A; }
+  .alert-blush { background: var(--blush-lt);border-color: var(--blush-dk);color: #7A3A3A; }
+  .alert-peach { background: var(--peach-lt);border-color: var(--peach-dk);color: #7A4A20; }
+  .alert strong { font-weight: 600; }
+
+  /* STEP LIST */
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+  .step {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+  }
+  .step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
+  .step-content p  { font-size: 14px; color: var(--ink-md); }
+
+  /* FLOW DIAGRAM */
+  .flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 24px 0;
+  }
+  .flow-node {
+    background: white;
+    border: 1.5px solid var(--border-md);
+    border-radius: var(--radius-sm);
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    min-width: 110px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .flow-arrow {
+    font-size: 18px;
+    color: var(--ink-lt);
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+  .flow-node.active { background: var(--lav-lt); border-color: var(--lav-dk); color: var(--lav-dk); }
+  .flow-node.danger { background: var(--blush-lt); border-color: var(--blush-dk); color: var(--blush-dk); }
+  .flow-node.good   { background: var(--sage-lt); border-color: var(--sage-dk); color: var(--sage-dk); }
+
+  /* WIDE ACCENT BLOCK */
+  .accent-block {
+    background: linear-gradient(135deg, var(--lav-lt), var(--sky-lt));
+    border: 1px solid var(--lavender);
+    border-radius: var(--radius-lg);
+    padding: 40px 44px;
+    margin: 40px 0;
+  }
+  .accent-block h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  /* PROS / CONS */
+  .pro-con { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .pro-box, .con-box {
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+  }
+  .pro-box { background: var(--sage-lt); border: 1px solid var(--sage); }
+  .con-box { background: var(--blush-lt); border: 1px solid var(--blush); }
+  .pro-box h4 { color: var(--sage-dk); font-size: 13px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .con-box h4 { color: var(--blush-dk); font-size: 13px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .pro-box li, .con-box li { font-size: 13.5px; color: var(--ink-md); margin-bottom: 5px; }
+
+  /* TAG */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+  .tag-lav   { background: var(--lavender); color: var(--lav-dk); }
+  .tag-sage  { background: var(--sage);     color: #3A5C3D; }
+  .tag-peach { background: var(--peach);    color: var(--peach-dk); }
+  .tag-sky   { background: var(--sky);      color: var(--sky-dk); }
+  .tag-blush { background: var(--blush);    color: var(--blush-dk); }
+
+  /* DIVIDER */
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  /* INLINE CODE */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    background: var(--lav-lt);
+    color: var(--lav-dk);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* SUMMARY BOX */
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 14px; margin: 24px 0; }
+  .stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .stat-num { font-family: 'Lora', serif; font-size: 2rem; font-weight: 600; color: var(--ink); line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-size: 12px; color: var(--ink-lt); font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 28px 2rem;
+    font-size: 13px;
+  }
+  footer strong { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 640px) {
+    .pro-con { grid-template-columns: 1fr; }
+    .accent-block { padding: 24px 22px; }
+    .hero { padding: 48px 1.5rem 40px; }
+    .page-body { padding: 0 1.25rem 60px; }
+    .flow { flex-direction: column; align-items: stretch; }
+    .flow-arrow { transform: rotate(90deg); align-self: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">Dynamic Panel Data</a>
+    <a href="#motivasi">Motivasi</a>
+    <a href="#data-dummy">Contoh Data</a>
+    <a href="#model">Model</a>
+    <a href="#masalah">Masalah & Nickell Bias</a>
+    <a href="#solusi">Solusi GMM</a>
+    <a href="#jenis">Jenis Estimator</a>
+    <a href="#asumsi">Asumsi</a>
+    <a href="#uji">Uji Validitas</a>
+    <a href="#perbandingan">Perbandingan</a>
+    <a href="#hausman">Hausman Test</a>
+    <a href="#ht-iv">Hausman–Taylor IV</a>
+    <a href="#two-way">Two-Way Effects</a>
+    <a href="#ilustrasi">Ilustrasi</a>
+    <a href="#weak-instruments">Weak Instruments</a>
+    <a href="#eksogenitas">Eksogenitas</a>
+    <a href="#ma-errors">MA Errors</a>
+    <a href="#macro-micro">Macro vs Micro</a>
+    <a href="#diagnostik-lanjut">Diagnostik</a>
+    <a href="#efek-jangka">Jangka Pendek/Panjang</a>
+    <a href="#adaptive-expect">Adaptive Expectation</a>
+    <a href="#prosedur-terbaik">Prosedur Model Terbaik</a>
+    <a href="#ardl-vs-dpd">ARDL vs DPD</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Panduan Komprehensif · Ekonometrika</div>
+  <h1>Dynamic Panel Data Models</h1>
+  <p>Dari Nickell Bias hingga System GMM, Hausman Test hingga Two-Way Effects — panduan lengkap estimasi panel data dinamis berbasis Shin (2014) &amp; Mućk (SGH Warsaw).</p>
+  <div class="hero-pills">
+    <span class="pill">Nickell's Bias (1981)</span>
+    <span class="pill">Anderson–Hsiao (1981)</span>
+    <span class="pill">Arellano–Bond (1991)</span>
+    <span class="pill">Difference GMM</span>
+    <span class="pill">System GMM</span>
+    <span class="pill">Blundell–Bond (1998)</span>
+    <span class="pill">Instrumental Variables</span>
+  </div>
+</div>
+
+<div class="page-body">
+
+  <!-- ========================= MOTIVASI ========================= -->
+  <section class="section" id="motivasi">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--lav-lt);">💡</div>
+      <div>
+        <h2>Mengapa Dynamic Panel?</h2>
+        <p class="section-sub">Fenomena ekonomi sering bergantung pada masa lalunya sendiri</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:24px; font-size:15px;">
+      Banyak fenomena ekonomi bersifat <em>dinamis</em>: keputusan hari ini dipengaruhi oleh apa yang terjadi kemarin. Panel data memberikan dua dimensi — individu <em>i</em> dan waktu <em>t</em> — yang memungkinkan kita menangkap penyesuaian antar waktu sekaligus mengontrol heterogenitas antar individu.
+    </p>
+
+    <div class="cards-3">
+      <div class="card card-lav" style="border-top:3px solid var(--lav-dk);">
+        <h3>📦 Permintaan Konsumen</h3>
+        <p>Permintaan saat ini bergantung pada permintaan periode lalu karena <em>habit formation</em> — konsumen cenderung mempertahankan pola konsumsi mereka.</p>
+      </div>
+      <div class="card card-sage" style="border-top:3px solid var(--sage-dk);">
+        <h3>👷 Persamaan Upah</h3>
+        <p>Negosiasi upah memperhitungkan upah periode sebelumnya. Penyesuaian upah memerlukan waktu karena rigiditas kontrak.</p>
+      </div>
+      <div class="card card-sky" style="border-top:3px solid var(--sky-dk);">
+        <h3>🏭 Investasi Perusahaan</h3>
+        <p>Keputusan investasi bersifat kumulatif dan lambat beradaptasi. Perusahaan menyesuaikan kapital secara bertahap terhadap kondisi baru.</p>
+      </div>
+      <div class="card card-peach" style="border-top:3px solid var(--peach-dk);">
+        <h3>👥 Model Ketenagakerjaan</h3>
+        <p>Biaya merekrut dan memecat pekerja membuat employment adjustment bersifat parsial — menuju keseimbangan secara bertahap.</p>
+      </div>
+      <div class="card card-blush" style="border-top:3px solid var(--blush-dk);">
+        <h3>💱 Nilai Tukar & Harga</h3>
+        <p>Pass-through harga komoditas internasional ke harga domestik bersifat gradual, tidak instan — relevan untuk studi Rupiah terhadap USD.</p>
+      </div>
+      <div class="card card-lav" style="border-top:3px solid var(--lav-dk);">
+        <h3>🏦 Pertumbuhan Ekonomi</h3>
+        <p>Model Solow dan neo-klasik secara eksplisit memodelkan konvergensi kondisional: pertumbuhan bergantung pada GDP awal (lagged).</p>
+      </div>
+    </div>
+
+    <div class="alert alert-lav" style="margin-top:24px;">
+      <strong>Inti gagasan:</strong> Jika variabel dependen <em>y</em><sub>it</sub> bergantung pada nilainya sendiri di periode sebelumnya <em>y</em><sub>i,t−1</sub>, maka model statis biasa (OLS, FE, RE) menghasilkan estimasi yang bias dan tidak konsisten. Diperlukan pendekatan khusus.
+    </div>
+  </section>
+
+
+  <hr class="divider">
+
+  <!-- ========================= DATA DUMMY & INTUISI ========================= -->
+  <section class="section" id="data-dummy">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--peach-lt);">🗂️</div>
+      <div>
+        <h2>Seperti Apa Data Dynamic Panel?</h2>
+        <p class="section-sub">Contoh konkret, pertanyaan penelitian, dan kenapa metode statis tidak cukup</p>
+      </div>
+    </div>
+
+    <!-- KONTEKS PENELITIAN -->
+    <p style="color:var(--ink-md); margin-bottom:22px; font-size:15px; line-height:1.85;">
+      Sebelum membahas rumus, mari bayangkan sebuah penelitian nyata. Kita ingin memahami bagaimana <strong>harga komoditas internasional (minyak CPO)</strong> mempengaruhi <strong>inflasi daerah</strong> di provinsi-provinsi Indonesia. Kita punya data 5 provinsi selama 4 tahun.
+    </p>
+
+    <!-- PERTANYAAN PENELITIAN -->
+    <div class="card" style="border-top:3px solid var(--lav-dk); margin-bottom:24px;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <h3 style="font-size:16px;">❓ Tiga Pertanyaan Penelitian</h3>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px;">
+        <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:14px; border-left:3px solid var(--lav-dk);">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--lav-dk); margin-bottom:6px;">Pertanyaan 1 — Dinamika</div>
+          <p style="font-size:13.5px; color:var(--ink-md); line-height:1.7;">Apakah inflasi bulan ini dipengaruhi oleh inflasi bulan lalu? Seberapa cepat inflasi "kembali normal" setelah shock?</p>
+        </div>
+        <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:14px; border-left:3px solid var(--sky-dk);">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--sky-dk); margin-bottom:6px;">Pertanyaan 2 — Pass-through</div>
+          <p style="font-size:13.5px; color:var(--ink-md); line-height:1.7;">Seberapa besar kenaikan harga CPO global ditransmisikan ke inflasi daerah? Apakah transmisinya sama di semua provinsi?</p>
+        </div>
+        <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:14px; border-left:3px solid var(--sage-dk);">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--sage-dk); margin-bottom:6px;">Pertanyaan 3 — Heterogenitas</div>
+          <p style="font-size:13.5px; color:var(--ink-md); line-height:1.7;">Apakah Kalimantan (penghasil CPO) berbeda dari Jawa (konsumen)? Bagaimana mengontrol perbedaan struktural permanen antar provinsi?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATA DUMMY TABLE -->
+    <h3 style="font-family:'Lora',serif; font-size:1.15rem; color:var(--ink); margin-bottom:6px;">Contoh Struktur Data: Format Panel</h3>
+    <p style="color:var(--ink-md); font-size:14px; margin-bottom:16px; line-height:1.7;">
+      Data panel disusun dalam format <strong>long</strong> — setiap baris adalah satu observasi (satu provinsi, satu tahun). Kolom <code>i</code> adalah identitas individu, <code>t</code> adalah waktu.
+    </p>
+
+    <div style="overflow-x:auto; margin-bottom:8px;">
+      <table class="cmp-table" id="tbl-data">
+        <thead>
+          <tr>
+            <th style="background:var(--ink); color:white; text-align:center;">i</th>
+            <th style="background:var(--ink); color:white;">Provinsi</th>
+            <th style="background:var(--ink); color:white; text-align:center;">t</th>
+            <th style="background:var(--ink); color:white; text-align:center;">Tahun</th>
+            <th style="background:var(--lav-lt); color:var(--lav-dk); text-align:right;">
+              inflasi<sub>it</sub> <span style="font-weight:400; font-size:11px;">(y)</span>
+            </th>
+            <th style="background:var(--lav-lt); color:var(--lav-dk); text-align:right;">
+              inflasi<sub>i,t−1</sub> <span style="font-weight:400; font-size:11px;">(lagged y)</span>
+            </th>
+            <th style="background:var(--sky-lt); color:var(--sky-dk); text-align:right;">
+              Δln_CPO<sub>t</sub> <span style="font-weight:400; font-size:11px;">(x)</span>
+            </th>
+            <th style="background:var(--sage-lt); color:var(--sage-dk); text-align:right;">
+              PDRB<sub>it</sub> <span style="font-weight:400; font-size:11px;">(kontrol)</span>
+            </th>
+            <th style="background:var(--peach-lt); color:var(--peach-dk);">
+              μ<sub>i</sub> <span style="font-weight:400; font-size:11px;">(fixed effect)</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Jawa Barat -->
+          <tr style="background:rgba(212,205,232,0.08);">
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">1</td>
+            <td><strong>Jawa Barat</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">1</td>
+            <td style="text-align:center;">2019</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">3.21</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--ink-lt);">—</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">+0.08</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">1,842</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">rendah</td>
+          </tr>
+          <tr style="background:rgba(212,205,232,0.08);">
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">1</td>
+            <td><strong>Jawa Barat</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">2</td>
+            <td style="text-align:center;">2020</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">2.07</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--lav-dk);">3.21</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">−0.15</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">1,790</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">rendah</td>
+          </tr>
+          <tr style="background:rgba(212,205,232,0.08);">
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">1</td>
+            <td><strong>Jawa Barat</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">3</td>
+            <td style="text-align:center;">2021</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">1.68</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--lav-dk);">2.07</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">+0.22</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">1,865</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">rendah</td>
+          </tr>
+          <!-- Kalimantan Timur -->
+          <tr>
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">2</td>
+            <td><strong>Kaltim</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">1</td>
+            <td style="text-align:center;">2019</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">4.88</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--ink-lt);">—</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">+0.08</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">598</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">tinggi</td>
+          </tr>
+          <tr>
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">2</td>
+            <td><strong>Kaltim</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">2</td>
+            <td style="text-align:center;">2020</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">3.95</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--lav-dk);">4.88</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">−0.15</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">541</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">tinggi</td>
+          </tr>
+          <tr>
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">2</td>
+            <td><strong>Kaltim</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">3</td>
+            <td style="text-align:center;">2021</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">5.42</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--lav-dk);">3.95</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">+0.22</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">589</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">tinggi</td>
+          </tr>
+          <!-- Sulawesi Selatan -->
+          <tr style="background:rgba(212,205,232,0.08);">
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">3</td>
+            <td><strong>Sulsel</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">1</td>
+            <td style="text-align:center;">2019</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">3.74</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--ink-lt);">—</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">+0.08</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">456</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">sedang</td>
+          </tr>
+          <tr style="background:rgba(212,205,232,0.08);">
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">3</td>
+            <td><strong>Sulsel</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">2</td>
+            <td style="text-align:center;">2020</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">2.91</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--lav-dk);">3.74</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">−0.15</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">441</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">sedang</td>
+          </tr>
+          <tr style="background:rgba(212,205,232,0.08);">
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">3</td>
+            <td><strong>Sulsel</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">3</td>
+            <td style="text-align:center;">2021</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">3.10</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--lav-dk);">2.91</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">+0.22</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">462</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">sedang</td>
+          </tr>
+          <!-- Sumatera Utara -->
+          <tr>
+            <td style="text-align:center; font-family:'DM Mono',monospace; font-weight:600;">4</td>
+            <td><strong>Sumut</strong></td>
+            <td style="text-align:center; font-family:'DM Mono',monospace;">1</td>
+            <td style="text-align:center;">2019</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">4.30</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace; color:var(--ink-lt);">—</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">+0.08</td>
+            <td style="text-align:right; font-family:'DM Mono',monospace;">723</td>
+            <td style="font-family:'DM Mono',monospace; color:var(--peach-dk);">tinggi</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px; color:var(--ink-lt); margin-bottom:28px;">
+      ↑ Data ilustrasi. Nilai inflasi dalam %, Δln_CPO adalah log-difference harga CPO global (sama untuk semua provinsi di periode yang sama), PDRB dalam triliun rupiah. Kolom lavender = variabel yang kita modelkan secara dinamis. Kolom peach = unobserved fixed effect.
+    </p>
+
+    <!-- INTERACTIVE: WHY OLS/FE FAILS -->
+    <h3 style="font-family:'Lora',serif; font-size:1.15rem; color:var(--ink); margin-bottom:6px;">Kenapa Panel Biasa Tidak Cukup?</h3>
+    <p style="color:var(--ink-md); font-size:14px; margin-bottom:20px; line-height:1.7;">
+      Bayangkan kamu membangun model satu per satu. Setiap kali kamu menambahkan fitur baru, muncul masalah baru. Klik setiap tab untuk lihat apa yang terjadi:
+    </p>
+
+    <!-- TAB COMPONENT -->
+    <div style="border:1px solid var(--border-md); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow);">
+
+      <!-- Tab buttons -->
+      <div style="display:flex; border-bottom:1px solid var(--border-md); background:var(--cream);" id="why-tabs">
+        <button onclick="showTab('ols')" id="btn-ols"
+          style="flex:1; padding:12px 8px; border:none; background:var(--lav-lt); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; color:var(--lav-dk); border-bottom:3px solid var(--lav-dk); transition:all 0.2s;">
+          1. OLS Biasa
+        </button>
+        <button onclick="showTab('pool')" id="btn-pool"
+          style="flex:1; padding:12px 8px; border:none; background:var(--cream); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; color:var(--ink-lt); border-bottom:3px solid transparent; transition:all 0.2s;">
+          2. Pooled OLS
+        </button>
+        <button onclick="showTab('fe')" id="btn-fe"
+          style="flex:1; padding:12px 8px; border:none; background:var(--cream); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; color:var(--ink-lt); border-bottom:3px solid transparent; transition:all 0.2s;">
+          3. Fixed Effects
+        </button>
+        <button onclick="showTab('dpd')" id="btn-dpd"
+          style="flex:1; padding:12px 8px; border:none; background:var(--cream); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; color:var(--ink-lt); border-bottom:3px solid transparent; transition:all 0.2s;">
+          4. Dynamic Panel ✓
+        </button>
+      </div>
+
+      <!-- Tab content panels -->
+      <div style="padding:24px;">
+
+        <!-- OLS -->
+        <div id="tab-ols">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <span style="font-size:22px;">😕</span>
+            <h4 style="font-size:15px; color:var(--ink);">OLS per Provinsi — Abaikan Struktur Panel</h4>
+            <span class="tag tag-blush">Bermasalah</span>
+          </div>
+          <p style="font-size:14px; color:var(--ink-md); line-height:1.85; margin-bottom:16px;">
+            Andaikan kita hanya pakai OLS sederhana pada data Jawa Barat saja: regresi inflasi<sub>t</sub> pada Δln_CPO<sub>t</sub>. Model ini <em>bisa jalan</em>, tapi membuang 4/5 data yang tersedia dan tidak bisa menjawab apapun tentang provinsi lain.
+          </p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--blush-dk);">❌ Masalah 1: Sampel kecil</strong><br>
+              Dengan T=3–4 per provinsi, estimasi sangat tidak presisi. Standard error besar, inference tidak bermakna.
+            </div>
+            <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--blush-dk);">❌ Masalah 2: Tidak ada generalisasi</strong><br>
+              Kita tidak bisa membandingkan Jawa Barat dengan Kaltim — kita harus percaya bahwa mekanisme yang sama berlaku di semua provinsi, padahal jelas berbeda.
+            </div>
+          </div>
+        </div>
+
+        <!-- POOLED OLS -->
+        <div id="tab-pool" style="display:none;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <span style="font-size:22px;">🤔</span>
+            <h4 style="font-size:15px; color:var(--ink);">Pooled OLS — Gabungkan Semua Tapi Anggap Identik</h4>
+            <span class="tag tag-peach">Bias Serius</span>
+          </div>
+          <p style="font-size:14px; color:var(--ink-md); line-height:1.85; margin-bottom:16px;">
+            Kita gabungkan semua baris menjadi satu regresi besar: inflasi<sub>it</sub> = α + β·Δln_CPO<sub>t</sub> + γ·inflasi<sub>i,t−1</sub> + ε<sub>it</sub>. Lebih banyak data — tapi ada masalah besar yang tersembunyi.
+          </p>
+          <div style="background:var(--peach-lt); border-radius:var(--radius-sm); padding:16px; margin-bottom:14px; border-left:3px solid var(--peach-dk);">
+            <strong style="color:var(--peach-dk); display:block; margin-bottom:8px;">🔍 Perhatikan tabel data di atas:</strong>
+            <p style="font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              Kaltim selalu punya inflasi lebih tinggi dari Jawa Barat — bukan karena CPO, tapi karena Kaltim memiliki struktur ekonomi yang berbeda (lebih tergantung komoditas, infrastruktur berbeda, dll). Ini adalah <strong>μ<sub>i</sub></strong> — fixed effect yang <em>tidak teramati</em>. Pooled OLS memasukkan perbedaan ini ke dalam error term ε<sub>it</sub>.
+            </p>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--blush-dk);">❌ Omitted variable bias</strong><br>
+              μ<sub>i</sub> ada di error, tapi μ<sub>i</sub> berkorelasi dengan inflasi<sub>i,t−1</sub> (karena inflasi masa lalu <em>juga</em> dipengaruhi karakteristik provinsi). Ini melanggar asumsi OLS: E[ε·x] ≠ 0.
+            </div>
+            <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--blush-dk);">❌ Koefisien γ bias ke atas</strong><br>
+              OLS akan "salah atribusikan" sebagian pengaruh tetap provinsi ke koefisien inflasi lag — seolah persistensi inflasi lebih besar dari kenyataannya. Ini upward bias pada γ.
+            </div>
+          </div>
+        </div>
+
+        <!-- FIXED EFFECTS -->
+        <div id="tab-fe" style="display:none;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <span style="font-size:22px;">🧐</span>
+            <h4 style="font-size:15px; color:var(--ink);">Fixed Effects (Within Estimator) — Hilangkan μ<sub>i</sub>, Tapi…</h4>
+            <span class="tag tag-peach">Masih Bias (Nickell)</span>
+          </div>
+          <p style="font-size:14px; color:var(--ink-md); line-height:1.85; margin-bottom:16px;">
+            FE menambahkan dummy per provinsi (atau men-demean data), sehingga μ<sub>i</sub> hilang. Ini langkah yang benar! Tapi ada masalah baru yang muncul justru karena proses demeaningnya sendiri.
+          </p>
+          <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:16px; margin-bottom:14px; border-left:3px solid var(--lav-dk);">
+            <strong style="color:var(--lav-dk); display:block; margin-bottom:8px;">🔍 Apa yang terjadi saat demeaning?</strong>
+            <p style="font-size:13.5px; color:var(--ink-md); line-height:1.85;">
+              FE mengganti setiap inflasi<sub>it</sub> dengan (inflasi<sub>it</sub> − inflasi̅<sub>i</sub>). Begitu pula untuk inflasi<sub>i,t−1</sub> → (inflasi<sub>i,t−1</sub> − inflasi̅<sub>i,−1</sub>).
+              <br><br>
+              Masalahnya: inflasi̅<sub>i,−1</sub> (rata-rata lag) dihitung dari semua periode termasuk inflasi<sub>i,1</sub>, inflasi<sub>i,2</sub>, dst. Nah, inflasi<sub>i,1</sub> bergantung pada ε<sub>i,1</sub>. Tapi ε<sub>i,2</sub> juga ada di dalam rata-rata. Akibatnya: <strong>(inflasi<sub>i,t−1</sub> − inflasi̅<sub>i,−1</sub>) berkorelasi dengan (ε<sub>it</sub> − ε̄<sub>i</sub>)</strong> — regressor tidak lagi ortogonal terhadap error.
+            </p>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--blush-dk);">❌ Nickell Bias — bias ke bawah</strong><br>
+              Dengan T=3, bias ≈ −(1+γ)/(T−1) = −(1+γ)/2. Kalau γ = 0.6, estimasi FE hanya sekitar −0.2 alias bias −0.8! Makin kecil T, makin parah.
+            </div>
+            <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--blush-dk);">❌ Hanya konsisten jika T → ∞</strong><br>
+              Dengan T=3–5 seperti di data kita, FE belum konsisten. Kita butuh solusi yang konsisten untuk N besar, T tetap.
+            </div>
+          </div>
+        </div>
+
+        <!-- DYNAMIC PANEL GMM -->
+        <div id="tab-dpd" style="display:none;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <span style="font-size:22px;">✅</span>
+            <h4 style="font-size:15px; color:var(--ink);">Dynamic Panel GMM — Solusi yang Tepat</h4>
+            <span class="tag tag-sage">Konsisten &amp; Efisien</span>
+          </div>
+          <p style="font-size:14px; color:var(--ink-md); line-height:1.85; margin-bottom:16px;">
+            GMM menggabungkan dua langkah: (1) first-difference untuk menghilangkan μ<sub>i</sub>, (2) menggunakan level lag lama sebagai instrumen untuk mengatasi korelasi yang tersisa.
+          </p>
+
+          <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:16px; margin-bottom:14px; border-left:3px solid var(--sage-dk);">
+            <strong style="color:var(--sage-dk); display:block; margin-bottom:10px;">🔍 Apa yang dilakukan GMM pada data kita?</strong>
+            <div style="overflow-x:auto;">
+              <table style="width:100%; font-size:13px; border-collapse:collapse;">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--border-md);">
+                    <th style="padding:6px 10px; text-align:left; color:var(--ink); font-weight:600;">Provinsi</th>
+                    <th style="padding:6px 10px; text-align:left; color:var(--ink); font-weight:600;">t</th>
+                    <th style="padding:6px 10px; text-align:right; color:var(--lav-dk); font-weight:600;">Δinflasi<sub>it</sub></th>
+                    <th style="padding:6px 10px; text-align:right; color:var(--sky-dk); font-weight:600;">Δinflasi<sub>i,t−1</sub></th>
+                    <th style="padding:6px 10px; text-align:right; color:var(--peach-dk); font-weight:600;">Instrumen IV</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid var(--border);">
+                    <td style="padding:5px 10px; color:var(--ink-md);">Jawa Barat</td>
+                    <td style="padding:5px 10px; font-family:'DM Mono',monospace; color:var(--ink-md);">2</td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace;">2.07−3.21 = <strong>−1.14</strong></td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace; color:var(--ink-lt);">—</td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace; color:var(--peach-dk);">—</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border); background:rgba(212,205,232,0.08);">
+                    <td style="padding:5px 10px; color:var(--ink-md);">Jawa Barat</td>
+                    <td style="padding:5px 10px; font-family:'DM Mono',monospace; color:var(--ink-md);">3</td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace;">1.68−2.07 = <strong>−0.39</strong></td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace;">−1.14</td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace; color:var(--peach-dk);">inflasi<sub>i,1</sub> = <strong>3.21</strong></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border);">
+                    <td style="padding:5px 10px; color:var(--ink-md);">Kaltim</td>
+                    <td style="padding:5px 10px; font-family:'DM Mono',monospace; color:var(--ink-md);">2</td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace;">3.95−4.88 = <strong>−0.93</strong></td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace; color:var(--ink-lt);">—</td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace; color:var(--peach-dk);">—</td>
+                  </tr>
+                  <tr style="background:rgba(212,205,232,0.08);">
+                    <td style="padding:5px 10px; color:var(--ink-md);">Kaltim</td>
+                    <td style="padding:5px 10px; font-family:'DM Mono',monospace; color:var(--ink-md);">3</td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace;">5.42−3.95 = <strong>+1.47</strong></td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace;">−0.93</td>
+                    <td style="padding:5px 10px; text-align:right; font-family:'DM Mono',monospace; color:var(--peach-dk);">inflasi<sub>i,1</sub> = <strong>4.88</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="font-size:12.5px; color:var(--ink-md); margin-top:10px; line-height:1.7;">
+              Perhatikan: setelah first-difference, μ<sub>i</sub> lenyap (tidak ada lagi "Jawa Barat rendah, Kaltim tinggi" — yang tersisa hanya perubahan). Lalu inflasi<sub>i,1</sub> dipakai sebagai instrumen untuk Δinflasi<sub>i,t−1</sub> — ia berkorelasi dengan lag tapi tidak dengan error diferensialnya.
+            </p>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px;">
+            <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--sage-dk);">
+              <strong style="color:var(--sage-dk);">✓ Hilangkan μ<sub>i</sub></strong><br>
+              First-difference menghapus semua yang time-invariant — heterogenitas permanen antar provinsi tidak lagi jadi masalah.
+            </div>
+            <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--sage-dk);">
+              <strong style="color:var(--sage-dk);">✓ Konsisten (N→∞)</strong><br>
+              GMM konsisten walau T kecil (T=3 sudah cukup!), karena identifikasi datang dari N besar, bukan T besar.
+            </div>
+            <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--sage-dk);">
+              <strong style="color:var(--sage-dk);">✓ Tangani endogenitas</strong><br>
+              Lag level y<sub>i,t−s</sub> sebagai instrumen memastikan kita mendapat estimasi kausal dari koefisien autoregresif, bukan sekedar korelasi.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SUMMARY DIAGRAM: dari OLS ke GMM -->
+    <div style="margin-top:28px;">
+      <h3 style="font-family:'Lora',serif; font-size:1.1rem; color:var(--ink); margin-bottom:16px;">Ringkasan: Evolusi Masalah dan Solusi</h3>
+      <div style="display:flex; flex-direction:column; gap:0; border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--border-md);">
+        <div style="display:grid; grid-template-columns:160px 1fr 1fr; font-size:13px; background:var(--ink); color:white; padding:10px 16px;">
+          <div style="font-weight:600;">Metode</div>
+          <div style="font-weight:600;">Apa yang dilakukan</div>
+          <div style="font-weight:600;">Masalah yang tersisa</div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr 1fr; font-size:13px; padding:12px 16px; background:var(--blush-lt); border-bottom:1px solid var(--border);">
+          <div style="font-weight:600; color:var(--blush-dk);">OLS per unit</div>
+          <div style="color:var(--ink-md);">Regresi sederhana, per individu</div>
+          <div style="color:var(--blush-dk);">Sampel kecil, tidak bisa generalisasi</div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr 1fr; font-size:13px; padding:12px 16px; background:var(--peach-lt); border-bottom:1px solid var(--border);">
+          <div style="font-weight:600; color:var(--peach-dk);">Pooled OLS</div>
+          <div style="color:var(--ink-md);">Gabungkan semua, tambahkan lag y</div>
+          <div style="color:var(--peach-dk);">μ<sub>i</sub> di error → bias ke atas pada γ</div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr 1fr; font-size:13px; padding:12px 16px; background:var(--lav-lt); border-bottom:1px solid var(--border);">
+          <div style="font-weight:600; color:var(--lav-dk);">Fixed Effects</div>
+          <div style="color:var(--ink-md);">Demean → μ<sub>i</sub> hilang</div>
+          <div style="color:var(--lav-dk);">Nickell bias → bias ke bawah (parah jika T kecil)</div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr 1fr; font-size:13px; padding:12px 16px; background:var(--sky-lt); border-bottom:1px solid var(--border);">
+          <div style="font-weight:600; color:var(--sky-dk);">First Difference</div>
+          <div style="color:var(--ink-md);">FD → μ<sub>i</sub> hilang</div>
+          <div style="color:var(--sky-dk);">Δy<sub>t−1</sub> masih berkorelasi dengan Δε<sub>t</sub></div>
+        </div>
+        <div style="display:grid; grid-template-columns:160px 1fr 1fr; font-size:13px; padding:12px 16px; background:var(--sage-lt);">
+          <div style="font-weight:600; color:var(--sage-dk);">DPD GMM ✓</div>
+          <div style="color:var(--ink-md);">FD + IV (lag level sebagai instrumen)</div>
+          <div style="color:var(--sage-dk); font-weight:600;">Konsisten untuk N→∞, T tetap ✓</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showTab(id) {
+        // Hide all panels
+        ['ols','pool','fe','dpd'].forEach(function(t) {
+          var panel = document.getElementById('tab-' + t);
+          var btn   = document.getElementById('btn-' + t);
+          if (panel) panel.style.display = 'none';
+          if (btn) {
+            btn.style.background    = 'var(--cream)';
+            btn.style.color         = 'var(--ink-lt)';
+            btn.style.borderBottom  = '3px solid transparent';
+          }
+        });
+        // Show selected
+        var active = document.getElementById('tab-' + id);
+        var activeBtn = document.getElementById('btn-' + id);
+        if (active) active.style.display = 'block';
+        if (activeBtn) {
+          activeBtn.style.background   = 'var(--lav-lt)';
+          activeBtn.style.color        = 'var(--lav-dk)';
+          activeBtn.style.borderBottom = '3px solid var(--lav-dk)';
+        }
+      }
+    </script>
+
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= MODEL ========================= -->
+  <section class="section" id="model">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--sage-lt);">📐</div>
+      <div>
+        <h2>Spesifikasi Model</h2>
+        <p class="section-sub">One-way error component dengan lagged dependent variable</p>
+      </div>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Model Dasar Dynamic Panel</div>
+      <div class="eq-main">y<sub>it</sub> = δ · y<sub>i,t−1</sub> + x'<sub>it</sub>β + u<sub>it</sub></div>
+      <div class="eq-annot">
+        untuk <span>i = 1, …, N</span> (individu) dan <span>t = 1, …, T</span> (periode waktu)<br>
+        <em>Catatan notasi: koefisien autoregresif ditulis δ di sini (mengikuti Bond 2002 / Roodman 2009), dan γ di literatur Mućk (SGH) dan Shin (2014). Keduanya identik.</em>
+      </div>
+    </div>
+
+    <div class="eq-block" style="border-left-color: var(--sage-dk);">
+      <div class="eq-label" style="color:var(--sage-dk);">Struktur Error Term</div>
+      <div class="eq-main">u<sub>it</sub> = μ<sub>i</sub> + ν<sub>it</sub></div>
+      <div class="eq-annot">
+        <span>μ<sub>i</sub></span> = individual-specific effect — tidak berubah sepanjang waktu. Bisa diperlakukan sebagai <strong>fixed</strong> (berkorelasi dengan x<sub>it</sub>, diestimasi per-individu) atau <strong>random</strong> ~ iid(0, σ²<sub>μ</sub>) (tidak berkorelasi dengan x<sub>it</sub>). Pilihan ini menentukan apakah kita pakai FE atau RE.<br>
+        <span>ν<sub>it</sub></span> = idiosyncratic error, iid(0, σ²<sub>ν</sub>) — bervariasi antar individu dan waktu<br>
+        Keduanya saling independen satu sama lain.
+      </div>
+    </div>
+
+    <div class="cards-2" style="margin-top:20px;">
+      <div class="card">
+        <h3>Parameter Kunci</h3>
+        <ul>
+          <li><strong>δ</strong> — koefisien pada lagged dependent variable. Mengukur seberapa besar nilai masa lalu memengaruhi nilai sekarang.</li>
+          <li><strong>β</strong> — vektor koefisien untuk regresor eksogen <em>x</em><sub>it</sub></li>
+          <li>Jika <strong>|δ| &lt; 1</strong>, proses stasioner (mean-reverting) — shock ν<sub>it</sub> memiliki efek yang meluruh secara geometris</li>
+          <li>Jika <strong>δ = 0</strong>, tidak ada dinamika — model panel statis biasa</li>
+          <li>Jika <strong>δ → 1</strong>, proses mendekati random walk — instrumen AB menjadi sangat lemah (sinyal dalam lag levels hampir hilang)</li>
+          <li>Jika <strong>|δ| ≥ 1</strong>, proses tidak stasioner — asumsi model dilanggar</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Dimensi Panel</h3>
+        <ul>
+          <li><strong>N besar, T kecil</strong> (micro-panel) — paling umum, sumber masalah utama. Estimasi harus konsisten untuk N→∞.</li>
+          <li><strong>N kecil, T besar</strong> (macro-panel) — FE bisa dipakai, bias kecil karena T besar.</li>
+          <li>Dalam kebanyakan aplikasi: <em>N</em> (perusahaan/negara) >> <em>T</em> (tahun). Ini konteks Arellano–Bond.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= MASALAH ========================= -->
+  <section class="section" id="masalah">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--blush-lt);">⚠️</div>
+      <div>
+        <h2>Mengapa Estimator Konvensional Gagal</h2>
+        <p class="section-sub">OLS, Fixed Effects, Random Effects, dan FD — semua bias; Nickell (1981) menformulasikan besarannya</p>
+      </div>
+    </div>
+
+    <div class="cards-3">
+      <!-- OLS -->
+      <div class="card">
+        <div style="margin-bottom:12px;"><span class="tag tag-blush">OLS</span></div>
+        <h3>Ordinary Least Squares</h3>
+        <p style="margin-bottom:10px;"><strong>Masalah:</strong> y<sub>it</sub> berkorelasi dengan μ<sub>i</sub>, sehingga y<sub>i,t−1</sub> juga berkorelasi dengan μ<sub>i</sub>.</p>
+        <p>Karena μ<sub>i</sub> masuk ke error term, regressor (y<sub>i,t−1</sub>) tidak ortogonal terhadap error.</p>
+        <div class="alert alert-blush" style="margin-top:12px; padding:10px 14px;">
+          <strong>Hasil:</strong> Bias ke atas (upward bias). Koefisien δ terlalu besar karena OLS mengaitkan pengaruh fixed effect ke lagged variable.
+        </div>
+      </div>
+
+      <!-- FE -->
+      <div class="card">
+        <div style="margin-bottom:12px;"><span class="tag tag-peach">Fixed Effects (Within)</span></div>
+        <h3>Fixed Effects Estimator</h3>
+        <p style="margin-bottom:10px;"><strong>Masalah:</strong> Within-transformation menghilangkan μ<sub>i</sub>, tapi menciptakan masalah baru.</p>
+        <p>Setelah demeaning: (y<sub>i,t−1</sub> − ȳ<sub>i,−1</sub>) berkorelasi dengan (ν<sub>it</sub> − ν̄<sub>i</sub>) karena ȳ<sub>i,−1</sub> mengandung ν<sub>i,t−1</sub>.</p>
+        <div class="alert alert-peach" style="margin-top:12px; padding:10px 14px;">
+          <strong>Hasil:</strong> Bias ke bawah (downward bias). Semakin kecil T, semakin besar bias. Konsisten hanya jika T→∞.
+        </div>
+      </div>
+
+      <!-- RE -->
+      <div class="card">
+        <div style="margin-bottom:12px;"><span class="tag tag-lav">Random Effects (GLS)</span></div>
+        <h3>Random Effects Estimator</h3>
+        <p style="margin-bottom:10px;"><strong>Masalah:</strong> Quasi-demeaning menghasilkan (y<sub>i,t−1</sub> − θȳ<sub>i,−1</sub>) yang berkorelasi dengan error.</p>
+        <p>ū<sub>i</sub> mengandung u<sub>i,t−1</sub> yang bergantung pada y<sub>i,t−1</sub>, sehingga asumsi RE dilanggar secara fundamental.</p>
+        <div class="alert alert-lav" style="margin-top:12px; padding:10px 14px;">
+          <strong>Hasil:</strong> Estimasi bias dan tidak konsisten untuk semua N dan T.
+        </div>
+      </div>
+    </div>
+
+    <!-- NICKELL BIAS DEEP DIVE -->
+    <div class="card" style="margin-top:28px; border-top:3px solid var(--peach-dk);">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <h3 style="font-size:16px;">Nickell's (1981) Bias — Formula Eksak</h3>
+        <span class="tag tag-peach">Small-T Bias</span>
+      </div>
+      <p style="font-size:14px; color:var(--ink-md); margin-bottom:16px;">
+        Nickell (1981) menurunkan ekspresi analitik untuk bias FE estimator ketika N → ∞. Bias ini hanya bergantung pada T dan γ — bukan pada N.
+      </p>
+      <div class="eq-block" style="border-left-color:var(--peach-dk); margin:0 0 16px 0;">
+        <div class="eq-label" style="color:var(--peach-dk);">Nickell's Bias — Formula Eksak (N → ∞)</div>
+        <div class="eq-main" style="font-size:13px; line-height:2.2;">
+          plim(γ̂<sup>FE</sup> − γ) = − <sup>(1+γ)</sup>⁄<sub>T</sub> · (1 − <sup>1</sup>⁄<sub>T</sub> · <sup>1−γ<sup>T</sup></sup>⁄<sub>1−γ</sub>) · [1 − <sup>1</sup>⁄<sub>T</sub> − <sup>2γ</sup>⁄<sub>(1−γ)T</sub> · (1 − <sup>1</sup>⁄<sub>T</sub> · <sup>1−γ<sup>T</sup></sup>⁄<sub>1−γ</sub>)]<sup>−1</sup>
+        </div>
+      </div>
+      <div class="cards-2">
+        <div class="eq-block" style="border-left-color:var(--peach-dk); margin:0;">
+          <div class="eq-label" style="color:var(--peach-dk);">Aproksimasi untuk T cukup besar</div>
+          <div class="eq-main" style="font-size:16px;">
+            plim(γ̂<sup>FE</sup> − γ) ≈ − <sup>(1+γ)</sup>⁄<sub>(T−1)</sub>
+          </div>
+          <div class="eq-annot">Bias menurun seiring bertambahnya T, berbanding terbalik dengan (T−1).</div>
+        </div>
+        <div class="eq-block" style="border-left-color:var(--blush-dk); margin:0;">
+          <div class="eq-label" style="color:var(--blush-dk);">Kasus ekstrem: T = 2</div>
+          <div class="eq-main" style="font-size:16px;">
+            plim(γ̂<sup>FE</sup> − γ) ≈ − <sup>(1+γ)</sup>⁄<sub>2</sub>
+          </div>
+          <div class="eq-annot">Dengan γ = 0.9 dan T = 2: bias ≈ −0.95! Estimasi γ hanya sekitar −0.05.</div>
+        </div>
+      </div>
+      <div class="alert alert-peach" style="margin-top:16px;">
+        <strong>Intuisi:</strong> Bias bersumber dari eliminasi individual-specific effect dari setiap observasi. Proses ini menciptakan korelasi antara variabel penjelas dan error sebesar orde 1/T. Semakin kecil T, semakin besar kontaminasi ini.
+      </div>
+    </div>
+
+    <!-- FD BIAS -->
+    <div class="card" style="margin-top:20px; border-top:3px solid var(--sky-dk);">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <h3 style="font-size:16px;">Bias First-Difference (FD) Estimator</h3>
+        <span class="tag tag-sky">Juga Bias</span>
+      </div>
+      <p style="font-size:14px; color:var(--ink-md); margin-bottom:14px;">
+        FD estimator — yang intuitif menghilangkan μ<sub>i</sub> — <em>juga</em> menghasilkan estimasi yang bias. Setelah first-differencing:
+      </p>
+      <div class="eq-block" style="border-left-color:var(--sky-dk); margin:0 0 14px 0;">
+        <div class="eq-label" style="color:var(--sky-dk);">FD AR(1) Estimator</div>
+        <div class="eq-main" style="font-size:14px; line-height:1.9;">
+          y<sub>it</sub> − y<sub>i,t−1</sub> = γ(y<sub>i,t−1</sub> − y<sub>i,t−2</sub>) + ε<sub>it</sub> − ε<sub>i,t−1</sub>
+        </div>
+        <div class="eq-annot">
+          Masalah: y<sub>i,t−1</sub> (sebagai regressor) bergantung pada ε<sub>i,t−1</sub>.<br>
+          Error term adalah (ε<sub>it</sub> − ε<sub>i,t−1</sub>), yang mengandung ε<sub>i,t−1</sub>.<br>
+          ∴ Regressor berkorelasi dengan error → estimasi OLS pada persamaan FD <strong>tidak konsisten</strong>.
+        </div>
+      </div>
+      <div class="alert alert-sky" style="background:var(--sky-lt); border-color:var(--sky-dk); color:#1A3A5A;">
+        <strong>Kesimpulan:</strong> Baik FE (within), RE, maupun FD — semua gagal di model dinamis karena lagged dependent variable menjadi endogen terhadap error term. Inilah motivasi utama estimator Anderson-Hsiao dan Arellano-Bond.
+      </div>
+    </div>
+
+    <!-- MC SIMULATION BLOCK -->
+    <div class="card" style="margin-top:20px; border-top:3px solid var(--sage-dk);">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <h3 style="font-size:16px;">🎲 Monte Carlo Simulation — Besaran Nickell's Bias</h3>
+        <span class="tag tag-sage">Simulasi</span>
+      </div>
+      <p style="font-size:14px; color:var(--ink-md); margin-bottom:16px;">
+        Simulasi MC dengan DGP: y<sub>it</sub> = γ·y<sub>i,t−1</sub> + u<sub>it</sub>, dengan u<sub>it</sub> = μ<sub>i</sub> + ε<sub>it</sub>. Setting: N=100, 1000 replikasi, σ<sub>μ</sub>=0.5, σ<sub>ε</sub>=0.25.
+      </p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px;">
+        <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; text-align:center;">
+          <div style="font-size:13px; font-weight:600; color:var(--blush-dk); margin-bottom:6px;">γ = 0.9, T = 3</div>
+          <div style="font-size:22px; font-weight:700; color:var(--blush-dk);">≈ 0.66</div>
+          <div style="font-size:12px; color:var(--ink-md); margin-top:4px;">Bias ≈ −0.24 (besar!)</div>
+        </div>
+        <div style="background:var(--peach-lt); border-radius:var(--radius-sm); padding:14px; text-align:center;">
+          <div style="font-size:13px; font-weight:600; color:var(--peach-dk); margin-bottom:6px;">γ = 0.9, T = 5</div>
+          <div style="font-size:22px; font-weight:700; color:var(--peach-dk);">≈ 0.79</div>
+          <div style="font-size:12px; color:var(--ink-md); margin-top:4px;">Bias ≈ −0.11 (moderat)</div>
+        </div>
+        <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:14px; text-align:center;">
+          <div style="font-size:13px; font-weight:600; color:var(--sky-dk); margin-bottom:6px;">γ = 0.9, T = 10</div>
+          <div style="font-size:22px; font-weight:700; color:var(--sky-dk);">≈ 0.86</div>
+          <div style="font-size:12px; color:var(--ink-md); margin-top:4px;">Bias ≈ −0.04 (kecil)</div>
+        </div>
+        <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:14px; text-align:center;">
+          <div style="font-size:13px; font-weight:600; color:var(--sage-dk); margin-bottom:6px;">γ = 0.9, T = 30</div>
+          <div style="font-size:22px; font-weight:700; color:var(--sage-dk);">≈ 0.89</div>
+          <div style="font-size:12px; color:var(--ink-md); margin-top:4px;">Bias ≈ −0.01 (negligible)</div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px;">
+        <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+          <strong style="color:var(--lav-dk);">Efek γ (T=10, semua γ):</strong><br>
+          γ=0.5 → bias kecil, distribusi cepat konvergen<br>
+          γ=0.9 → bias moderat<br>
+          γ=0.95 → bias besar bahkan di T=10<br>
+          <em>Semakin tinggi persistence, semakin parah bias FE.</em>
+        </div>
+        <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+          <strong style="color:var(--lav-dk);">Implikasi praktis:</strong><br>
+          Untuk data macro (T besar, misal T=30+), FE mungkin masih bisa digunakan.<br>
+          Untuk micro-panel (T=3–7), FE sangat bias. Gunakan GMM.<br>
+          <em>"Which T is sufficiently large?" — tidak ada jawaban tunggal, bergantung pada γ.</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="accent-block" style="margin-top:28px;">
+      <h3>🎯 "Credible Range" — Panduan Praktis</h3>
+      <p style="color:var(--ink-md); margin-bottom:16px; font-size:15px;">
+        Karena OLS bias ke atas dan FE bias ke bawah, estimasi yang valid dari δ seharusnya berada di antara kedua nilai tersebut. Ini dikenal sebagai <em>credible range</em> (Blundell & Bond, 1998) dan berguna untuk mengecek apakah hasil GMM masuk akal.
+      </p>
+      <div class="flow">
+        <div class="flow-node danger">OLS<br><small>bias ↑ (upward)</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node good" style="min-width:180px; background:var(--sage-lt); border-color:var(--sage-dk); color:var(--sage-dk);">
+          <strong>GMM estimator</strong><br><small>seharusnya di sini ✓</small>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node danger">FE<br><small>bias ↓ (downward)</small></div>
+      </div>
+      <p style="font-size:13.5px; color:var(--ink-md); margin-top:10px;">Contoh dari Arellano–Bond (1991): OLS → δ = 1.045, FE → δ = 0.733. Maka estimasi GMM yang baik harusnya antara 0.733 dan 1.045.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= SOLUSI ========================= -->
+  <section class="section" id="solusi">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--sky-lt);">🔧</div>
+      <div>
+        <h2>Solusi: First-Differencing + IV/GMM</h2>
+        <p class="section-sub">Menghilangkan fixed effects, lalu menggunakan level lama sebagai instrumen</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:22px;">
+      Ide dasarnya sederhana: ambil <em>first difference</em> untuk menghilangkan fixed effect μ<sub>i</sub>, kemudian gunakan level lag dari y sebagai instrumen untuk mengatasi endogenitas yang tersisa.
+    </p>
+
+    <!-- Step 1: First Difference -->
+    <div class="eq-block" style="border-left-color:var(--sky-dk);">
+      <div class="eq-label" style="color:var(--sky-dk);">Langkah 1 — First Difference</div>
+      <div class="eq-main">Δy<sub>it</sub> = δ · Δy<sub>i,t−1</sub> + Δx'<sub>it</sub>β + Δν<sub>it</sub></div>
+      <div class="eq-annot">
+        di mana <span>Δy<sub>it</sub> = y<sub>it</sub> − y<sub>i,t−1</sub></span><br>
+        μ<sub>i</sub> hilang karena konstan sepanjang waktu. Tapi Δy<sub>i,t−1</sub> masih berkorelasi dengan Δν<sub>it</sub> karena ν<sub>i,t−1</sub> ada di keduanya.
+      </div>
+    </div>
+
+    <!-- Step 2: Instruments -->
+    <div class="cards-2" style="margin-top:20px; margin-bottom:20px;">
+      <div class="card card-sky">
+        <h3>Periode t = 3 (pertama)</h3>
+        <p style="font-family:'DM Mono',monospace; font-size:13px; margin-bottom:10px; color:var(--ink);">
+          Δy<sub>i3</sub> = δ(y<sub>i2</sub>−y<sub>i1</sub>) + Δν<sub>i3</sub>
+        </p>
+        <p>Instrumen valid: <strong>y<sub>i1</sub></strong> — tidak berkorelasi dengan Δν<sub>i3</sub> = ν<sub>i3</sub> − ν<sub>i2</sub></p>
+      </div>
+      <div class="card card-sky">
+        <h3>Periode t = 4</h3>
+        <p style="font-family:'DM Mono',monospace; font-size:13px; margin-bottom:10px; color:var(--ink);">
+          Δy<sub>i4</sub> = δ(y<sub>i3</sub>−y<sub>i2</sub>) + Δν<sub>i4</sub>
+        </p>
+        <p>Instrumen valid: <strong>y<sub>i1</sub></strong> dan <strong>y<sub>i2</sub></strong> — satu instrumen tambahan per periode</p>
+      </div>
+    </div>
+
+    <div class="alert alert-sky" style="background:var(--sky-lt); border-color:var(--sky-dk); color:#2A4A6A;">
+      <strong>Pola umum:</strong> Untuk periode t, semua lag level y<sub>i1</sub>, y<sub>i2</sub>, …, y<sub>i,t−2</sub> adalah instrumen yang valid. Makin lama panel (T besar), makin banyak instrumen tersedia — jumlah instrumen tumbuh sebesar (T−1)(T−2)/2 untuk variabel dependen saja.
+    </div>
+
+    <!-- INSTRUMENTS FOR EXOGENOUS REGRESSORS -->
+    <div class="card" style="margin-top:20px; border-top:3px solid var(--sage-dk);">
+      <h3 style="margin-bottom:12px;">Instrumen untuk Regresor x<sub>it</sub> — Tiga Kasus</h3>
+      <p style="font-size:14px; color:var(--ink-md); margin-bottom:16px;">
+        Ketika model memiliki regresor x<sub>it</sub> selain lagged y, pilihan instrumen bergantung pada derajat eksogenitasnya (Shin 2014, Arellano–Bond 1991):
+      </p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+        <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--sage-dk);">
+          <strong style="color:var(--sage-dk);">Strictly Exogenous</strong><br>
+          E[x<sub>it</sub> ν<sub>is</sub>] = 0 untuk semua t, s<br>
+          → Semua nilai x<sub>it</sub> (masa lalu, kini, dan masa depan) valid sebagai instrumen.<br>
+          Tambahkan (x<sub>i1</sub>, …, x<sub>iT</sub>) ke setiap baris W<sub>i</sub>.
+        </div>
+        <div style="background:var(--peach-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--peach-dk);">
+          <strong style="color:var(--peach-dk);">Predetermined</strong><br>
+          E[x<sub>it</sub> ν<sub>is</sub>] ≠ 0 untuk s &lt; t (berkorelasi dengan error masa lalu)<br>
+          → Hanya lag x<sub>i1</sub>, …, x<sub>i,s−1</sub> valid untuk periode s.<br>
+          Instrumen tumbuh seperti y<sub>it</sub>: semakin ke depan, makin banyak.
+        </div>
+        <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--blush-dk);">
+          <strong style="color:var(--blush-dk);">Endogenous</strong><br>
+          E[x<sub>it</sub> ν<sub>is</sub>] ≠ 0 untuk beberapa s ≥ t<br>
+          → Hanya lag x<sub>i,s−2</sub> ke belakang yang valid.<br>
+          Paling banyak membuang informasi; perlu instrumen eksternal jika lag tidak cukup.
+        </div>
+      </div>
+    </div>
+
+    <!-- Matrix Instrument -->
+    <div class="eq-block" style="border-left-color:var(--peach-dk); margin-top:24px;">
+      <div class="eq-label" style="color:var(--peach-dk);">Matriks Instrumen Individu i</div>
+      <div class="eq-main" style="font-size:14px;">
+        W<sub>i</sub> =
+        ⎡ [y<sub>i1</sub>]         0              ···      0           ⎤<br>
+        ⎢ 0          [y<sub>i1</sub>,y<sub>i2</sub>]    ···      0           ⎥<br>
+        ⎢ ⋮                          ⋱                0           ⎥<br>
+        ⎣ 0           0             ···  [y<sub>i1</sub>,…,y<sub>i,T−2</sub>] ⎦
+      </div>
+      <div class="eq-annot">
+        Instrumen untuk seluruh panel: <span>W = [W'<sub>1</sub>, W'<sub>2</sub>, …, W'<sub>N</sub>]'</span><br>
+        Kondisi momen yang dieksploitasi: <span>E[W'<sub>i</sub> Δν<sub>i</sub>] = 0</span>
+      </div>
+    </div>
+
+    <!-- GMM Estimator -->
+    <div class="eq-block" style="border-left-color:var(--lav-dk); margin-top:24px;">
+      <div class="eq-label">Estimator 1-Step Arellano–Bond (One-Step GMM)</div>
+      <div class="eq-main" style="font-size:13.5px; line-height:2;">
+        δ̂<sub>1</sub> = [(Δy<sub>−1</sub>)'W (W'(I<sub>N</sub>⊗G)W)<sup>−1</sup> W'(Δy<sub>−1</sub>)]<sup>−1</sup><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× [(Δy<sub>−1</sub>)'W (W'(I<sub>N</sub>⊗G)W)<sup>−1</sup> W'(Δy)]
+      </div>
+      <div class="eq-annot">
+        di mana <span>G</span> adalah matriks (T−1)×(T−1) tridiagonal dari struktur kovarian Δν<sub>it</sub>.<br>
+        G memiliki 2 di diagonal utama dan −1 di off-diagonal (merepresentasikan MA(1) dari first difference iid errors).
+      </div>
+    </div>
+
+    <div class="eq-block" style="border-left-color:var(--sage-dk);">
+      <div class="eq-label" style="color:var(--sage-dk);">Estimator 2-Step (Optimal GMM)</div>
+      <div class="eq-main" style="font-size:13.5px; line-height:2;">
+        V̂<sub>N</sub> = Σ<sub>i=1</sub><sup>N</sup> W'<sub>i</sub> (Δν̂<sub>i</sub>)(Δν̂<sub>i</sub>)' W<sub>i</sub>
+      </div>
+      <div class="eq-annot">
+        Ganti <span>(W'(I<sub>N</sub>⊗G)W)</span> dengan <span>V̂<sub>N</sub></span> — matriks bobot optimal dari residual step 1.<br>
+        Estimator 2-step lebih efisien secara asimptotik tapi standard error-nya downward-biased dalam sampel kecil.<br>
+        <em>Solusi:</em> Koreksi Windmeijer (2005) untuk memperbaiki standar error 2-step.
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= JENIS ========================= -->
+  <section class="section" id="jenis">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--peach-lt);">🌿</div>
+      <div>
+        <h2>Jenis-Jenis Estimator Dynamic Panel</h2>
+        <p class="section-sub">Dari Anderson–Hsiao hingga System GMM</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <!-- AH -->
+      <div class="step">
+        <div class="step-num" style="background:var(--lavender); color:var(--lav-dk);">1</div>
+        <div class="step-content">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h4>Anderson–Hsiao (1981) — IV Sederhana</h4>
+            <span class="tag tag-lav">Pionir</span>
+          </div>
+          <p style="margin-bottom:10px;">Titik awal: FD estimator. Masalahnya Δy<sub>i,t−1</sub> berkorelasi dengan Δε<sub>it</sub> = ε<sub>it</sub> − ε<sub>i,t−1</sub>. Solusi Anderson–Hsiao: gunakan <strong>instrumen tunggal</strong>.</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+            <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:12px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--lav-dk);">Opsi 1: y<sub>i,t−2</sub> (level)</strong><br>
+              Tidak berkorelasi dengan Δε<sub>it</sub> ✓<br>
+              Berkorelasi dengan Δy<sub>i,t−1</sub> ✓<br>
+              <em>Kelebihan: lebih banyak data tersedia.</em>
+            </div>
+            <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:12px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--lav-dk);">Opsi 2: Δy<sub>i,t−2</sub> (difference)</strong><br>
+              Juga valid sebagai instrumen ✓<br>
+              <em>Kelemahan: varians asimptotik lebih besar → estimator kurang presisi.</em>
+            </div>
+          </div>
+          <div class="alert alert-lav" style="padding:10px 14px; margin:0;">
+            <strong>Keterbatasan AH:</strong> Konsisten tapi tidak efisien — IV tidak mengeksploitasi semua kondisi momen yang tersedia. Autokorelasi di first-difference errors juga bisa merusak konsistensi.
+          </div>
+        </div>
+      </div>
+
+      <!-- Arellano Bond Difference GMM -->
+      <div class="step">
+        <div class="step-num" style="background:var(--sky); color:var(--sky-dk);">2</div>
+        <div class="step-content">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h4>Arellano–Bond (1991) — Difference GMM</h4>
+            <span class="tag tag-sky">Standard</span>
+          </div>
+          <p>Mengeksploitasi <em>semua</em> kondisi momen yang tersedia dari lag level variabel dependen. First-difference transformation, instrumen makin banyak seiring bertambahnya T. Lebih efisien dari AH (1982). Implementasi di Stata: <code>xtabond2 ... nolevel</code>.</p>
+          <div class="eq-block" style="border-left-color:var(--sky-dk); margin:12px 0 0 0; padding:14px 18px;">
+            <div class="eq-label" style="color:var(--sky-dk);">Instrumen Valid per Periode (dari slide Mućk)</div>
+            <div style="font-size:13px; color:var(--ink-md); line-height:2; font-family:'DM Mono',monospace;">
+              t=3: instrumen untuk Δy<sub>i2</sub> = y<sub>i1</sub><br>
+              t=4: instrumen untuk Δy<sub>i3</sub> = y<sub>i2</sub>, y<sub>i1</sub><br>
+              t=5: instrumen untuk Δy<sub>i4</sub> = y<sub>i3</sub>, y<sub>i2</sub>, y<sub>i1</sub><br>
+              t=T: instrumen untuk Δy<sub>i,T−1</sub> = y<sub>i,T−2</sub>, …, y<sub>i1</sub>
+            </div>
+            <div class="eq-annot">
+              Total instrumen: <span>(T−1)(T−2)/2</span> kondisi momen untuk Δy<sub>i,t−1</sub>.<br>
+              Kondisi momen umum: E[y<sub>is</sub>(Δy<sub>it</sub> − γΔy<sub>i,t−1</sub> − β'Δx<sub>it</sub>)] = 0 untuk s=0,…,t−2 dan t=2,…,T
+            </div>
+          </div>
+          <div class="pro-con" style="margin-top:12px;">
+            <div class="pro-box">
+              <h4>✓ Kelebihan</h4>
+              <ul>
+                <li>Konsisten untuk N→∞, T tetap</li>
+                <li>Efisien secara asimptotik (2-step)</li>
+                <li>Menghilangkan fixed effects</li>
+              </ul>
+            </div>
+            <div class="con-box">
+              <h4>✗ Kelemahan</h4>
+              <ul>
+                <li>Instrumen lemah jika δ ≈ 1 (random walk)</li>
+                <li>Hilangkan variabel time-invariant</li>
+                <li>Bias besar jika variabel sangat persisten</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arellano Bover / Blundell Bond -->
+      <div class="step">
+        <div class="step-num" style="background:var(--sage); color:var(--sage-dk);">3</div>
+        <div class="step-content">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h4>Blundell–Bond (1998) — System GMM</h4>
+            <span class="tag tag-sage">Direkomendasikan</span>
+          </div>
+          <p>Menggabungkan dua set persamaan: (1) first-difference equation dengan lag level sebagai instrumen, dan (2) level equation dengan lag difference sebagai instrumen tambahan. Membutuhkan asumsi tambahan bahwa first difference instrumen tidak berkorelasi dengan fixed effects.</p>
+          <div class="eq-block" style="border-left-color:var(--sage-dk); margin-top:14px; padding:14px 18px;">
+            <div class="eq-label" style="color:var(--sage-dk);">Kondisi Awal — Asumsi Blundell–Bond (1998)</div>
+            <div class="eq-main" style="font-size:13px; line-height:1.9;">
+              y<sub>i0</sub> = μ<sub>i</sub>/(1−γ) + ε<sub>i0</sub> untuk i=1,…,N<br>
+              Asumsi: E[Δy<sub>i1</sub>·μ<sub>i</sub>] = 0
+            </div>
+            <div class="eq-annot">
+              Jika asumsi ini dipenuhi, maka T−1 kondisi momen tambahan tersedia:<br>
+              <span>E[(y<sub>it</sub> − γy<sub>i,t−1</sub>)·Δy<sub>i,t−1</sub>] = 0</span><br>
+              System GMM menggabungkan AB difference equations <em>dan</em> level equations dengan kondisi momen masing-masing.
+            </div>
+          </div>
+          <div class="eq-block" style="border-left-color:var(--sage-dk); margin-top:10px; padding:14px 18px;">
+            <div class="eq-label" style="color:var(--sage-dk);">System GMM: Gabungan 2 Sistem</div>
+            <div class="eq-main" style="font-size:13px; line-height:1.9;">
+              Difference eq: Δy<sub>it</sub> = δ·Δy<sub>i,t−1</sub> + … + Δν<sub>it</sub> &nbsp;|&nbsp; instrumen: lag level<br>
+              Level eq: y<sub>it</sub> = δ·y<sub>i,t−1</sub> + … + u<sub>it</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp; instrumen: lag difference
+            </div>
+          </div>
+          <div class="pro-con" style="margin-top:12px;">
+            <div class="pro-box">
+              <h4>✓ Kelebihan</h4>
+              <ul>
+                <li>Mengatasi masalah instrumen lemah</li>
+                <li>Mempertahankan variabel time-invariant</li>
+                <li>Lebih efisien dari Difference GMM</li>
+                <li>Baik untuk δ mendekati 1</li>
+              </ul>
+            </div>
+            <div class="con-box">
+              <h4>✗ Kelemahan</h4>
+              <ul>
+                <li>Asumsi tambahan (stationarity condition)</li>
+                <li>Instrumen bisa terlalu banyak ("instrument proliferation")</li>
+                <li>Sargan/Hansen test lemah jika terlalu banyak instrumen</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Corrected Bias -->
+      <div class="step">
+        <div class="step-num" style="background:var(--peach); color:var(--peach-dk);">4</div>
+        <div class="step-content">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h4>Bias-Corrected Estimators (LSDV-C)</h4>
+            <span class="tag tag-peach">Alternatif</span>
+          </div>
+          <p>Untuk panel dengan T sedang (tidak terlalu kecil), metode koreksi bias analitik terhadap FE estimator (Kiviet 1995, Bruno 2005) dapat digunakan. Lebih tepat dalam sampel kecil dibandingkan GMM tapi kurang populer di literatur empiris.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= ASUMSI ========================= -->
+  <section class="section" id="asumsi">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--sage-lt);">📋</div>
+      <div>
+        <h2>Asumsi-Asumsi Kunci</h2>
+        <p class="section-sub">Yang harus dipenuhi agar estimasi GMM valid</p>
+      </div>
+    </div>
+
+    <div class="cards-2">
+      <div class="card">
+        <div style="margin-bottom:10px;"><span class="tag tag-sage">Asumsi Inti (Difference GMM)</span></div>
+        <ul style="font-size:14px; color:var(--ink-md); line-height:1.9; padding-left:16px;">
+          <li><strong>Tidak ada serial korelasi dalam ν<sub>it</sub></strong> (error idiosinkratis). Boleh ada MA(1) di Δν karena first-differencing, tapi tidak MA(2) ke atas.</li>
+          <li><strong>Instrumen ortogonal terhadap error</strong>: E[y<sub>i,t−s</sub> · Δν<sub>it</sub>] = 0 untuk s ≥ 2</li>
+          <li><strong>Regresor exogenous atau predetermined</strong>: x<sub>it</sub> bisa strictly exogenous (E[x<sub>it</sub>ν<sub>is</sub>]=0 ∀t,s), predetermined (E[x<sub>it</sub>ν<sub>is</sub>]=0 untuk s ≥ t), atau endogenous (diinstrumentasi).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div style="margin-bottom:10px;"><span class="tag tag-sky">Asumsi Tambahan (System GMM)</span></div>
+        <ul style="font-size:14px; color:var(--ink-md); line-height:1.9; padding-left:16px;">
+          <li><strong>Stationarity condition</strong>: E[Δy<sub>i2</sub> · μ<sub>i</sub>] = 0 — first difference awal tidak berkorelasi dengan fixed effect. Ini non-trivial dan patut dipertanyakan.</li>
+          <li><strong>Instrument non-proliferation</strong>: Jumlah instrumen (instrument count) harus lebih kecil dari jumlah individu N. Rule of thumb: <em>instrument count &lt; N</em>.</li>
+          <li><strong>Homoskedastisitas</strong> (untuk 1-step); 2-step GMM robust terhadap heteroskedastisitas tapi butuh koreksi Windmeijer.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert alert-lav" style="margin-top:20px;">
+      <strong>Penting untuk diingat:</strong> Kondisi momen yang digunakan GMM adalah berupa identitas <em>teoritis</em> tentang ortogonalitas instrumen dan error. Validitasnya harus diuji secara empiris menggunakan Sargan/Hansen test dan Arellano–Bond serial correlation test.
+    </div>
+
+    <!-- AB DETERIORATION -->
+    <div class="card" style="margin-top:20px; border-top:3px solid var(--blush-dk);">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <h3 style="font-size:16px;">⚠️ Kapan Arellano-Bond Estimator Memburuk?</h3>
+        <span class="tag tag-blush">Keterbatasan</span>
+      </div>
+      <div class="cards-2">
+        <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+          <strong style="color:var(--blush-dk);">1. Persistensi tinggi (γ → 1)</strong><br>
+          Ketika y<sub>it</sub> sangat persisten (γ mendekati unit root), lag level y<sub>i,t−2</sub> hanya sedikit berkorelasi dengan Δy<sub>i,t−1</sub>. Instrumen menjadi lemah (<em>weak instruments</em>) → estimasi sangat tidak presisi dan bias parah.
+        </div>
+        <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+          <strong style="color:var(--blush-dk);">2. Rasio σ<sub>μ</sub>/σ<sub>ε</sub> besar</strong><br>
+          Ketika varians unit-specific effect (σ<sub>μ</sub>) besar relatif terhadap varians idiosyncratic (σ<sub>ε</sub>), informasi dari level data didominasi oleh variasi antar-individu permanen → lag levels tidak banyak membantu.
+        </div>
+      </div>
+      <div class="alert alert-blush" style="margin-top:14px; padding:10px 14px;">
+        <strong>Implikasi:</strong> Di kedua kondisi ini, pilih System GMM (Blundell–Bond 1998). Instrumen Δy<sub>i,t−1</sub> untuk persamaan level memberikan informasi tambahan yang krusial.
+      </div>
+      <div style="margin-top:14px; background:var(--lav-lt); border-radius:var(--radius-sm); padding:12px 16px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--lav-dk);">📌 Catatan Instrument Proliferation:</strong> Untuk panel T besar, jumlah instrumen AB tumbuh kuadratik: r = (T−1)(T−2)/2. Dengan T=10 misalnya, ada (9×8)/2 = 36 instrumen untuk Δy<sub>i,t−1</sub> saja, belum termasuk regresor lainnya. Terlalu banyak instrumen melemahkan Hansen test (p-value → 1.00) dan memunculkan bias. Batasi dengan opsi <code>collapse</code> atau <code>lagrange()</code> di Stata.
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= UJI ========================= -->
+  <section class="section" id="uji">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--blush-lt);">🔬</div>
+      <div>
+        <h2>Uji Validitas Model</h2>
+        <p class="section-sub">Dua uji diagnostik wajib dalam dynamic panel GMM</p>
+      </div>
+    </div>
+
+    <div class="cards-2">
+      <!-- Arellano Bond Test -->
+      <div class="card" style="border-top:3px solid var(--sky-dk);">
+        <div style="margin-bottom:12px;"><span class="tag tag-sky">Arellano–Bond Test</span></div>
+        <h3>Uji Serial Korelasi</h3>
+        <p style="margin-bottom:12px;">Menguji apakah error term ν<sub>it</sub> mengalami serial korelasi. Dilakukan pada <em>residual first-difference</em> (Δν̂) karena bekerja pada error level (ν).</p>
+        <ul style="font-size:14px; color:var(--ink-md); padding-left:16px; line-height:1.8;">
+          <li><strong>AR(1) di difference</strong> — diharapkan signifikan (karena Δν<sub>it</sub> mengandung ν<sub>i,t−1</sub> secara mekanis)</li>
+          <li><strong>AR(2) di difference</strong> — <em>tidak</em> boleh signifikan. AR(2) signifikan menandakan serial korelasi di level (ν<sub>it</sub>), yang membatalkan instrumen lag-2.</li>
+        </ul>
+        <div class="alert alert-sky" style="margin-top:12px; padding:10px 14px; background:var(--sky-lt); border-color:var(--sky-dk); color:#2A4A6A;">
+          <strong>Interpretasi:</strong> p-value AR(2) &gt; 0.05 → instrumen valid ✓
+        </div>
+      </div>
+
+      <!-- Sargan/Hansen Test -->
+      <div class="card" style="border-top:3px solid var(--sage-dk);">
+        <div style="margin-bottom:12px;"><span class="tag tag-sage">Sargan / Hansen Test</span></div>
+        <h3>Uji Over-identifying Restrictions</h3>
+        <p style="margin-bottom:12px;">Menguji apakah instrumen yang digunakan valid secara kolektif — apakah residual ortogonal terhadap instrumen (kondisi momen terpenuhi).</p>
+        <ul style="font-size:14px; color:var(--ink-md); padding-left:16px; line-height:1.8;">
+          <li><strong>Sargan test</strong> (1-step) — tidak robust terhadap heteroskedastisitas</li>
+          <li><strong>Hansen J test</strong> (2-step) — robust tapi lemah jika terlalu banyak instrumen</li>
+          <li>H<sub>0</sub>: instrumen valid (ortogonal terhadap error)</li>
+        </ul>
+        <div class="alert alert-sage" style="margin-top:12px; padding:10px 14px;">
+          <strong>Interpretasi:</strong> p-value &gt; 0.05 → tidak menolak H<sub>0</sub> → instrumen valid ✓<br>
+          <small>⚠ p-value terlalu besar (> 0.25) bisa jadi tanda overfitting instrumen.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px; border-top:3px solid var(--lav-dk);">
+      <h3>🚨 Masalah "Instrument Proliferation"</h3>
+      <p style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        Jumlah instrumen tumbuh kuadratik dalam T. Dengan T=8, bisa ada puluhan instrumen. Terlalu banyak instrumen menyebabkan: (1) Hansen test kehilangan daya — p-value mendekati 1.00 meski instrumen tidak valid, (2) bias IV-style muncul kembali, (3) estimasi tidak stabil. <strong>Aturan praktis:</strong> jumlah instrumen &lt; N (jumlah individu). Gunakan opsi <code>collapse</code> di xtabond2 untuk membatasi jumlah instrumen.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= PERBANDINGAN ========================= -->
+  <section class="section" id="perbandingan">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--lav-lt);">⚖️</div>
+      <div>
+        <h2>Perbandingan Semua Estimator</h2>
+        <p class="section-sub">Tabel ringkas sifat-sifat setiap estimator</p>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Estimator</th>
+            <th>Menghilangkan FE?</th>
+            <th>Konsisten (N→∞)?</th>
+            <th>Efisien?</th>
+            <th>Variabel Time-Invariant?</th>
+            <th>Utama Digunakan Ketika</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>OLS</strong></td>
+            <td><span class="badge-no">✗ Tidak</span></td>
+            <td><span class="badge-no">✗ Tidak</span></td>
+            <td><span class="badge-no">✗ Bias ↑</span></td>
+            <td><span class="badge-yes">✓</span></td>
+            <td>Hanya sebagai batas atas (upper bound) δ</td>
+          </tr>
+          <tr>
+            <td><strong>Fixed Effects (Within)</strong></td>
+            <td><span class="badge-yes">✓ Ya</span></td>
+            <td><span class="badge-no">✗ Tidak (T kecil)</span></td>
+            <td><span class="badge-no">✗ Bias ↓</span></td>
+            <td><span class="badge-no">✗ Tidak</span></td>
+            <td>Hanya sebagai batas bawah (lower bound) δ</td>
+          </tr>
+          <tr>
+            <td><strong>Random Effects (GLS)</strong></td>
+            <td><span class="badge-part">~ Partial</span></td>
+            <td><span class="badge-no">✗ Tidak</span></td>
+            <td><span class="badge-no">✗ Bias</span></td>
+            <td><span class="badge-yes">✓</span></td>
+            <td>Tidak cocok untuk model dinamis</td>
+          </tr>
+          <tr>
+            <td><strong>Anderson–Hsiao IV</strong></td>
+            <td><span class="badge-yes">✓ Ya</span></td>
+            <td><span class="badge-yes">✓ Ya</span></td>
+            <td><span class="badge-part">~ Tidak optimal</span></td>
+            <td><span class="badge-no">✗ Tidak</span></td>
+            <td>T sangat kecil, instrumen sangat terbatas</td>
+          </tr>
+          <tr>
+            <td><strong>Difference GMM (AB)</strong></td>
+            <td><span class="badge-yes">✓ Ya</span></td>
+            <td><span class="badge-yes">✓ Ya</span></td>
+            <td><span class="badge-yes">✓ Optimal GMM</span></td>
+            <td><span class="badge-no">✗ Tidak</span></td>
+            <td>δ tidak terlalu mendekati 1, variabel tidak time-invariant</td>
+          </tr>
+          <tr>
+            <td><strong>System GMM (BB)</strong></td>
+            <td><span class="badge-yes">✓ Ya</span></td>
+            <td><span class="badge-yes">✓ Ya</span></td>
+            <td><span class="badge-yes">✓ Lebih efisien</span></td>
+            <td><span class="badge-yes">✓ Ya</span></td>
+            <td>δ mendekati 1, atau ada variabel time-invariant penting</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <hr class="divider">
+
+  <!-- ========================= HAUSMAN TEST ========================= -->
+  <section class="section" id="hausman">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--lav-lt);">🔀</div>
+      <div>
+        <h2>Fixed Effects vs Random Effects — Hausman Test</h2>
+        <p class="section-sub">Kapan menggunakan FE dan kapan RE? — Shin (2014), Melbourne Workshop</p>
+      </div>
+    </div>
+
+    <div class="cards-2">
+      <div class="card card-lav">
+        <h3>🏛️ Fixed Effects — Kapan?</h3>
+        <p style="margin-bottom:10px;">FE cocok ketika individual effects μ<sub>i</sub> <strong>berkorelasi</strong> dengan regressor x<sub>it</sub>. FE mengkondisikan pada μ<sub>i</sub>, sehingga hanya variasi <em>within</em> individu yang dieksploitasi.</p>
+        <p style="font-size:13.5px; color:var(--ink-md);">Cocok untuk: perusahaan besar, negara, industri yang memiliki karakteristik unik. <strong>Tidak bisa</strong> memasukkan variabel time-invariant (gender, lokasi, ras).</p>
+      </div>
+      <div class="card card-sage">
+        <h3>🎲 Random Effects — Kapan?</h3>
+        <p style="margin-bottom:10px;">RE cocok ketika μ<sub>i</sub> <strong>tidak berkorelasi</strong> dengan x<sub>it</sub> dan sampel diambil dari populasi yang lebih besar.</p>
+        <p style="font-size:13.5px; color:var(--ink-md);">Memungkinkan estimasi variabel time-invariant dan lebih efisien — tapi tidak konsisten jika asumsi ortogonalitas E(μ<sub>i</sub>|x<sub>it</sub>) = 0 dilanggar.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px; border-top:3px solid var(--lav-dk);">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <h3 style="font-size:16px;">Hausman (1978) Specification Test</h3>
+        <span class="tag tag-lav">Wajib dilakukan</span>
+      </div>
+      <p style="font-size:14px; color:var(--ink-md); margin-bottom:16px;">
+        FE konsisten di bawah H<sub>0</sub> maupun H<sub>1</sub>, tapi tidak efisien. RE konsisten dan efisien hanya di bawah H<sub>0</sub>. Perbedaan sistematis antara keduanya mengindikasikan pelanggaran asumsi RE.
+      </p>
+      <div class="cards-2">
+        <div class="eq-block" style="border-left-color:var(--lav-dk); margin:0;">
+          <div class="eq-label" style="color:var(--lav-dk);">Hipotesis</div>
+          <div class="eq-main" style="font-size:13.5px; line-height:2.2;">
+            H<sub>0</sub>: x<sub>it</sub> dan μ<sub>i</sub> tidak berkorelasi → RE konsisten &amp; efisien<br>
+            H<sub>1</sub>: x<sub>it</sub> dan μ<sub>i</sub> berkorelasi → hanya FE konsisten
+          </div>
+        </div>
+        <div class="eq-block" style="border-left-color:var(--sage-dk); margin:0;">
+          <div class="eq-label" style="color:var(--sage-dk);">Statistik Hausman</div>
+          <div class="eq-main" style="font-size:13px; line-height:2.2;">
+            h = (β̂<sub>W</sub>−β̂<sub>RE</sub>)' [Var(β̂<sub>W</sub>)−Var(β̂<sub>RE</sub>)]<sup>−1</sup> (β̂<sub>W</sub>−β̂<sub>RE</sub>)<br>
+            Under H<sub>0</sub>: h ~ χ²(k)
+          </div>
+          <div class="eq-annot">Var(β̂<sub>W</sub> − β̂<sub>RE</sub>) = Var(β̂<sub>W</sub>) − Var(β̂<sub>RE</sub>) karena Cov(β̂<sub>W</sub>, β̂<sub>RE</sub>) = Var(β̂<sub>RE</sub>).</div>
+        </div>
+      </div>
+      <div class="alert alert-lav" style="margin-top:16px;">
+        <strong>Keputusan:</strong> p-value &lt; 0.05 → tolak H<sub>0</sub> → x<sub>it</sub> berkorelasi dengan μ<sub>i</sub> → gunakan FE (atau Hausman–Taylor IV). Jika tidak tolak H<sub>0</sub> → RE lebih efisien.
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h3>FE sebagai Special Case IV Estimator</h3>
+      <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-bottom:12px;">Poin kunci dari Shin (2014): FE estimator adalah IVE di mana x<sub>it</sub> diinstrumentasi oleh deviasi dari individual mean-nya sendiri (x<sub>it</sub>−x̄<sub>i</sub>). Ini menjamin E[(x<sub>it</sub>−x̄<sub>i</sub>)'μ<sub>i</sub>] = 0 secara definitional, sehingga FE konsisten selama strict exogeneity terpenuhi.</p>
+      <div class="eq-block" style="border-left-color:var(--peach-dk); margin:0;">
+        <div class="eq-label" style="color:var(--peach-dk);">FE = IV dengan instrumen within-deviation</div>
+        <div class="eq-main" style="font-size:13px; line-height:2;">
+          β̂<sub>W</sub> = [Σ<sub>i</sub>Σ<sub>t</sub>(x<sub>it</sub>−x̄<sub>i</sub>)'(x<sub>it</sub>−x̄<sub>i</sub>)]<sup>−1</sup> [Σ<sub>i</sub>Σ<sub>t</sub>(x<sub>it</sub>−x̄<sub>i</sub>)'y<sub>it</sub>] = β̂<sub>IV</sub>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= HAUSMAN-TAYLOR IV ========================= -->
+  <section class="section" id="ht-iv">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--sky-lt);">🔑</div>
+      <div>
+        <h2>Hausman–Taylor (1981) IV Estimator</h2>
+        <p class="section-sub">Jembatan FE–RE: estimasi variabel time-invariant yang berkorelasi dengan μ<sub>i</sub></p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:20px; font-size:15px;">
+      FE menghilangkan semua variabel time-invariant — harga terlalu tinggi jika justru itu yang ingin diestimasi (misal: efek gender atau pendidikan pada upah). Hausman–Taylor membangun instrumen dari <em>dalam model sendiri</em>, tanpa perlu variabel eksternal.
+    </p>
+
+    <div class="eq-block" style="border-left-color:var(--sky-dk);">
+      <div class="eq-label" style="color:var(--sky-dk);">Model HT — 4 Grup Variabel</div>
+      <div class="eq-main" style="font-size:13.5px; line-height:2;">
+        y<sub>it</sub> = x<sub>1it</sub>β<sub>1</sub> + x<sub>2it</sub>β<sub>2</sub> + z<sub>1i</sub>γ<sub>1</sub> + z<sub>2i</sub>γ<sub>2</sub> + μ<sub>i</sub> + u<sub>it</sub>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-top:16px; margin-bottom:20px;">
+      <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--sage-dk);">
+        <strong style="color:var(--sage-dk);">x<sub>1it</sub></strong><br>Time-varying, <em>tidak</em> berkorelasi dengan μ<sub>i</sub><br>
+        <small>→ Instrumen untuk dirinya sendiri</small>
+      </div>
+      <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--blush-dk);">
+        <strong style="color:var(--blush-dk);">x<sub>2it</sub></strong><br>Time-varying, <em>berkorelasi</em> dengan μ<sub>i</sub><br>
+        <small>→ Diinstrumentasi oleh (x<sub>2it</sub>−x̄<sub>2i</sub>)</small>
+      </div>
+      <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--sky-dk);">
+        <strong style="color:var(--sky-dk);">z<sub>1i</sub></strong><br>Time-invariant, <em>tidak</em> berkorelasi dengan μ<sub>i</sub><br>
+        <small>→ Instrumen untuk dirinya sendiri</small>
+      </div>
+      <div style="background:var(--peach-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8; border-left:3px solid var(--peach-dk);">
+        <strong style="color:var(--peach-dk);">z<sub>2i</sub></strong><br>Time-invariant, <em>berkorelasi</em> dengan μ<sub>i</sub><br>
+        <small>→ Diinstrumentasi oleh x̄<sub>1i</sub></small>
+      </div>
+    </div>
+
+    <div class="cards-3">
+      <div class="card" style="border-top:3px solid var(--lav-dk);">
+        <h3>Underidentified (k<sub>1</sub> &lt; g<sub>2</sub>)</h3>
+        <p style="font-size:13.5px; color:var(--ink-md);">Tidak ada solusi. β̂<sub>W</sub> = β̂<sub>GLS</sub>, dan estimasi γ<sub>1</sub>, γ<sub>2</sub> tidak ada.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--sage-dk);">
+        <h3>Just-identified (k<sub>1</sub> = g<sub>2</sub>)</h3>
+        <p style="font-size:13.5px; color:var(--ink-md);">β̂<sub>IV</sub> = β̂<sub>GLS</sub>. Satu solusi unik, tapi tidak ada gain efisiensi.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--peach-dk);">
+        <h3>Over-identified (k<sub>1</sub> &gt; g<sub>2</sub>)</h3>
+        <p style="font-size:13.5px; color:var(--ink-md);">β̂<sub>GLS</sub> lebih efisien dari β̂<sub>IV</sub>. Kondisi ideal untuk HT estimator.</p>
+      </div>
+    </div>
+    <div class="alert alert-sky" style="margin-top:16px; background:var(--sky-lt); border-color:var(--sky-dk); color:#1A3A5A;">
+      <strong>Keunggulan HT:</strong> Tidak perlu variabel instrumen eksternal — semua instrumen berasal dari dalam model. Generalisasi lebih lanjut: Amemiya–McCurdy (1986) menambah x<sub>1it</sub>−x̄<sub>1i</sub> sebagai instrumen individual per periode; Breusch–Mizon–Schmidt (1989) menambah x<sub>2it</sub>−x̄<sub>2i</sub>.
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= TWO-WAY EFFECTS ========================= -->
+  <section class="section" id="two-way">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--peach-lt);">🔲</div>
+      <div>
+        <h2>Two-Way Error Components Model</h2>
+        <p class="section-sub">Individual effects + Time effects — untuk N dan T keduanya besar</p>
+      </div>
+    </div>
+
+    <div class="eq-block" style="border-left-color:var(--peach-dk);">
+      <div class="eq-label" style="color:var(--peach-dk);">Two-Way Error Components</div>
+      <div class="eq-main">y<sub>it</sub> = x'<sub>it</sub>β + μ<sub>i</sub> + λ<sub>t</sub> + u<sub>it</sub></div>
+      <div class="eq-annot">
+        <span>μ<sub>i</sub></span> = individual-specific effect (time-invariant) — heterogenitas antar unit<br>
+        <span>λ<sub>t</sub></span> = time-specific effect (cross-section invariant) — shock makro yang dirasakan semua individu di periode t<br>
+        <span>u<sub>it</sub></span> = idiosyncratic error, iid(0, σ²<sub>u</sub>)
+      </div>
+    </div>
+
+    <div class="cards-2" style="margin-top:20px;">
+      <div class="card card-peach">
+        <h3>Two-Way FE (Within)</h3>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-bottom:10px;">Regresi y pada [X, N−1 individual dummies, T−1 time dummies]. Ekuivalen dengan two-way within transformation:</p>
+        <div class="eq-block" style="border-left-color:var(--peach-dk); margin:0; padding:12px 14px;">
+          <div class="eq-main" style="font-size:13px; line-height:1.9;">
+            y<sup>w</sup><sub>it</sub> = y<sub>it</sub> − ȳ<sub>i·</sub> − ȳ<sub>·t</sub> + ȳ<sub>··</sub>
+          </div>
+          <div class="eq-annot" style="margin-top:6px;">Menghilangkan μ<sub>i</sub> (konstan dalam t) dan λ<sub>t</sub> (konstan dalam i) sekaligus.</div>
+        </div>
+      </div>
+      <div class="card card-sky">
+        <h3>Two-Way RE (GLS)</h3>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-bottom:10px;">Perlakukan μ<sub>i</sub> ~ N(0,σ²<sub>μ</sub>) dan λ<sub>t</sub> ~ N(0,σ²<sub>λ</sub>) sebagai random. GLS lebih efisien dari OLS. Berlaku ketika N dan T keduanya besar.</p>
+        <div class="alert alert-sky" style="margin:0; padding:10px 14px; font-size:13px; background:var(--sky-lt); border-color:var(--sky-dk); color:#1A3A5A;">
+          Syarat: μ<sub>i</sub> dan λ<sub>t</sub> tidak berkorelasi dengan X. Konsisten sebagai N→∞ dan T→∞.
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-peach" style="margin-top:18px;">
+      <strong>Kapan two-way effects penting?</strong> Ketika ada shock bersama antar periode — krisis keuangan, kebijakan moneter, pandemi — yang mempengaruhi semua unit di waktu yang sama. Menambahkan λ<sub>t</sub> (atau time dummies) mencegah atribusi spurious shock waktu ke heterogenitas individu. Sangat krusial untuk studi cross-country panel dan makroekonometrika.
+    </div>
+  </section>
+
+  <!-- ========================= ILUSTRASI ========================= -->
+  <section class="section" id="ilustrasi">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--peach-lt);">📊</div>
+      <div>
+        <h2>Ilustrasi Empiris</h2>
+        <p class="section-sub">Arellano–Bond (1991): Employment equation, 140 perusahaan UK, 1976–1984</p>
+      </div>
+    </div>
+
+    <div class="summary-grid">
+      <div class="stat-card">
+        <div class="stat-num">140</div>
+        <div class="stat-label">Firms UK</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">1976</div>
+        <div class="stat-label">Tahun Awal</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">1984</div>
+        <div class="stat-label">Tahun Akhir</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">7.89</div>
+        <div class="stat-label">Rata-rata Employment</div>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin:20px 0 16px; font-size:15px;">
+      Model employment perusahaan: biaya hiring/firing membuat penyesuaian tenaga kerja bertahap — employment saat ini bergantung pada employment periode lalu. Variabel dependen: log employment. Regresor: upah, kapital, output industri, dan lag-lag mereka.
+    </p>
+
+    <div style="overflow-x:auto;">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Variabel</th>
+            <th>OLS</th>
+            <th>Fixed Effects</th>
+            <th>Difference GMM</th>
+            <th>System GMM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>L1 Employment (δ)</strong></td>
+            <td>1.045**</td>
+            <td>0.733**</td>
+            <td>0.686** – 0.818**</td>
+            <td>1.030**</td>
+          </tr>
+          <tr>
+            <td><strong>L2 Employment</strong></td>
+            <td>−0.077*</td>
+            <td>−0.139**</td>
+            <td>−0.085 – −0.112*</td>
+            <td>−0.089*</td>
+          </tr>
+          <tr>
+            <td><strong>Wage (current)</strong></td>
+            <td>−0.524**</td>
+            <td>−0.560**</td>
+            <td>−0.608** – −0.682**</td>
+            <td>−0.641**</td>
+          </tr>
+          <tr>
+            <td><strong>Capital</strong></td>
+            <td>0.343**</td>
+            <td>0.388**</td>
+            <td>0.353** – 0.357**</td>
+            <td>0.428**</td>
+          </tr>
+          <tr>
+            <td><strong>Credible range δ?</strong></td>
+            <td><span class="badge-no">✗ Batas atas</span></td>
+            <td><span class="badge-no">✗ Batas bawah</span></td>
+            <td><span class="badge-yes">✓ Di dalam range</span></td>
+            <td><span class="badge-part">~ Perlu dicek</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-sage" style="margin-top:20px;">
+      <strong>Interpretasi:</strong> Difference GMM menghasilkan δ ≈ 0.686–0.818, yang berada dalam credible range antara OLS (1.045) dan FE (0.733). Ini mendukung validitas estimasi. Koefisien negatif pada upah dan positif pada kapital konsisten dengan teori permintaan tenaga kerja.
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= PANDUAN PRAKTIS ========================= -->
+  <section class="section" id="praktis">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--lav-lt);">🗺️</div>
+      <div>
+        <h2>Panduan Praktis — Memilih Estimator</h2>
+        <p class="section-sub">Alur keputusan untuk penelitian empiris</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:var(--lavender); color:var(--lav-dk);">1</div>
+        <div class="step-content">
+          <h4>Cek apakah model benar-benar dinamis</h4>
+          <p>Apakah ada teori atau evidence bahwa y<sub>it</sub> bergantung pada y<sub>i,t−1</sub>? Jika tidak, model statis (FE) sudah cukup. Jika ya, lanjutkan.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--sky); color:var(--sky-dk);">2</div>
+        <div class="step-content">
+          <h4>Pilih Difference vs System GMM</h4>
+          <p>Gunakan <strong>Difference GMM</strong> jika tidak ada variabel time-invariant dan δ tidak terlalu dekat 1. Gunakan <strong>System GMM</strong> jika δ mendekati 1, atau ada variabel time-invariant penting (misal gender, negara), atau panel sangat pendek (T = 3–4).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--sage); color:var(--sage-dk);">3</div>
+        <div class="step-content">
+          <h4>Kendalikan jumlah instrumen</h4>
+          <p>Pastikan instrument count &lt; N. Gunakan opsi <code>collapse</code> atau batasi lag maksimum dengan <code>laglimits()</code> di xtabond2. Cek Hansen test: jika p-value = 1.00, terlalu banyak instrumen.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--peach); color:var(--peach-dk);">4</div>
+        <div class="step-content">
+          <h4>Lakukan uji diagnostik</h4>
+          <p>Wajib melaporkan: (1) Arellano–Bond AR(2) test — harus tidak signifikan, (2) Sargan/Hansen test — harus tidak menolak H₀. Selain itu, cek apakah δ berada dalam credible range [δ_FE, δ_OLS].</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--lavender); color:var(--lav-dk);">5</div>
+        <div class="step-content">
+          <h4>Laporkan 1-step dan 2-step, gunakan Windmeijer correction</h4>
+          <p>Untuk inferensi, gunakan <strong>2-step GMM dengan Windmeijer (2005) corrected standard errors</strong>. Laporkan juga 1-step sebagai robustness check. Di Stata: opsi <code>twostep robust small</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stata Commands Quick Reference -->
+    <div class="card" style="margin-top:24px; border-top:3px solid var(--ink-md);">
+      <h3 style="margin-bottom:14px;">📌 Quick Reference — Stata Commands</h3>
+      <div style="display:flex; flex-direction:column; gap:10px; font-size:13.5px;">
+        <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:12px 16px;">
+          <div style="font-weight:600; color:var(--lav-dk); margin-bottom:4px;">Difference GMM (2-step, robust)</div>
+          <code style="background:transparent; color:var(--ink); font-size:13px; padding:0;">xtabond2 y L.y x1 x2, gmm(L.y) iv(x1 x2) nolevel twostep robust small</code>
+        </div>
+        <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:12px 16px;">
+          <div style="font-weight:600; color:var(--sage-dk); margin-bottom:4px;">System GMM (2-step, Windmeijer)</div>
+          <code style="background:transparent; color:var(--ink); font-size:13px; padding:0;">xtabond2 y L.y x1 x2, gmmstyle(L.(y x1)) ivstyle(x2, eq(level)) twostep robust small</code>
+        </div>
+        <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:12px 16px;">
+          <div style="font-weight:600; color:var(--sky-dk); margin-bottom:4px;">Collapse instrumen untuk mencegah proliferation</div>
+          <code style="background:transparent; color:var(--ink); font-size:13px; padding:0;">xtabond2 y L.y x1, gmm(L.y, collapse) iv(x1) nolevel twostep robust</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= WEAK INSTRUMENTS ========================= -->
+  <section class="section" id="weak-instruments">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--blush-lt);">🪤</div>
+      <div>
+        <h2>Weak Instruments — Masalah Serius yang Sering Diabaikan</h2>
+        <p class="section-sub">Ketika δ mendekati 1, Difference GMM bisa kolaps seperti FE</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:20px; font-size:15px;">
+      Ini adalah salah satu insight terpenting dari Bond (2002) dan Blundell &amp; Bond (1998): Difference GMM bergantung pada korelasi antara lag level y<sub>i,t−2</sub> dan first difference Δy<sub>i,t−1</sub>. Korelasi ini menjadi sangat lemah — dan instrumen menjadi <em>weak</em> — dalam dua situasi:
+    </p>
+
+    <div class="cards-2">
+      <div class="card card-blush" style="border-top:3px solid var(--blush-dk);">
+        <h3>⚠ Situasi 1: δ mendekati 1 (near unit root)</h3>
+        <p style="margin-bottom:10px;">Jika proses mendekati random walk, first difference Δy<sub>i,t−1</sub> mendekati <em>innovation</em> (sangat unpredictable). Level lag y<sub>i,t−2</sub> hampir tidak berkorelasi dengan Δy<sub>i,t−1</sub>.</p>
+        <div class="alert alert-blush" style="padding:10px 14px; margin-top:0;">
+          Dalam kasus ekstrem δ = 1: parameter α <strong>tidak teridentifikasi</strong> sama sekali dari Difference GMM!
+        </div>
+      </div>
+      <div class="card card-blush" style="border-top:3px solid var(--blush-dk);">
+        <h3>⚠ Situasi 2: Variance ratio besar</h3>
+        <p style="margin-bottom:10px;">Jika var(η<sub>i</sub>) / var(ν<sub>it</sub>) sangat besar, artinya variasi antar-individu didominasi fixed effect, bukan transitory shock. Lag level menjadi sangat "noisy" sebagai prediktor Δy.</p>
+        <div class="alert alert-blush" style="padding:10px 14px; margin-top:0;">
+          Kedua kondisi ini sering bersamaan: seri yang sangat persisten sekaligus punya variance ratio besar.
+        </div>
+      </div>
+    </div>
+
+    <!-- Simulation results table -->
+    <div style="margin-top:24px;">
+      <p style="font-size:14px; color:var(--ink-md); margin-bottom:14px;">Blundell &amp; Bond (1998) mendokumentasikan bias finite sample yang parah dalam simulasi Monte Carlo (T=4, 1000 replikasi, var(η)=var(ν)=1, initial conditions stasioner):</p>
+      <div style="overflow-x:auto;">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th>Nilai α sejati</th>
+              <th>N</th>
+              <th>Within Groups (FE)</th>
+              <th>Difference GMM</th>
+              <th>System GMM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0.5</td><td>100</td><td>0.488 (bias: −0.01)</td><td><span class="badge-no">−0.036 (bias: −0.54!)</span></td><td><span class="badge-yes">0.502 (bias: +0.002)</span></td></tr>
+            <tr><td>0.8</td><td>100</td><td>0.134 (bias: −0.67)</td><td><span class="badge-no">0.484 (bias: −0.32)</span></td><td><span class="badge-yes">0.810 (bias: +0.01)</span></td></tr>
+            <tr><td>0.9</td><td>100</td><td>0.191 (bias: −0.71)</td><td><span class="badge-no">0.226 (bias: −0.67!)</span></td><td><span class="badge-yes">0.941 (bias: +0.04)</span></td></tr>
+            <tr><td>0.8</td><td>500</td><td>0.136 (bias: −0.66)</td><td><span class="badge-part">0.739 (bias: −0.06)</span></td><td><span class="badge-yes">0.794 (bias: −0.006)</span></td></tr>
+            <tr><td>0.9</td><td>500</td><td>0.193 (bias: −0.71)</td><td><span class="badge-no">0.598 (bias: −0.30)</span></td><td><span class="badge-yes">0.904 (bias: +0.004)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12.5px; color:var(--ink-lt); margin-top:8px;">Sumber: Blundell &amp; Bond (1998), direproduksi dari Bond (2002, Table 2). Untuk α = 0.9 dan N=100, Difference GMM menghasilkan estimasi 0.226 — hampir sama buruknya dengan Within Groups (0.191)! System GMM jauh lebih akurat.</p>
+    </div>
+
+    <div class="alert alert-lav" style="margin-top:20px;">
+      <strong>Implikasi praktis (Bond 2002):</strong> Sebelum memutuskan estimator, <em>lakukan dulu AR(1) test pada tiap seri secara terpisah</em>. Jika autoregressive coefficient dari OLS mendekati 1 dan dari Within Groups jauh di bawah 1, seri tersebut sangat persisten — gunakan System GMM, bukan Difference GMM.
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= EXOGENEITY SPECTRUM ========================= -->
+  <section class="section" id="eksogenitas">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--sky-lt);">🔗</div>
+      <div>
+        <h2>Spektrum Eksogenitas Regresor x<sub>it</sub></h2>
+        <p class="section-sub">Instrumen yang valid bergantung pada asumsi tentang x<sub>it</sub></p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:20px; font-size:15px;">
+      Tidak semua variabel penjelas bersifat sama. Bond (2002) menekankan bahwa pilihan instrumen untuk x<sub>it</sub> harus disesuaikan dengan asumsi yang bisa dipertahankan tentang korelasinya dengan error. Ada tiga tingkatan:
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:var(--sage); color:var(--sage-dk);">1</div>
+        <div class="step-content">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h4>Strictly Exogenous</h4>
+            <span class="tag tag-sage">Paling kuat</span>
+          </div>
+          <p>E[x<sub>it</sub> · ν<sub>is</sub>] = 0 untuk semua t, s. Tidak ada feedback antara shock error dan nilai x di masa lalu, sekarang, atau depan. Seluruh time series x<sub>i</sub> = (x<sub>i1</sub>, …, x<sub>iT</sub>) valid sebagai instrumen di setiap persamaan first-difference.</p>
+          <p style="margin-top:6px; font-size:13.5px; color:var(--ink-lt);">Contoh: time dummies, karakteristik individu yang benar-benar eksogen.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--sky); color:var(--sky-dk);">2</div>
+        <div class="step-content">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h4>Predetermined (Weakly Exogenous)</h4>
+            <span class="tag tag-sky">Moderat</span>
+          </div>
+          <p>E[x<sub>it</sub> · ν<sub>is</sub>] = 0 hanya untuk s ≥ t. Nilai x saat ini tidak bergantung pada shock masa depan, tapi boleh bergantung pada shock masa lalu. Hanya lag x<sub>i,t−1</sub> dan sebelumnya valid sebagai instrumen di persamaan untuk periode t.</p>
+          <p style="margin-top:6px; font-size:13.5px; color:var(--ink-lt);">Contoh: investment yang bereaksi terhadap productivity shock masa lalu.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--blush); color:var(--blush-dk);">3</div>
+        <div class="step-content">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h4>Endogenous</h4>
+            <span class="tag tag-blush">Paling lemah</span>
+          </div>
+          <p>E[x<sub>it</sub> · ν<sub>it</sub>] ≠ 0. x<sub>it</sub> berkorelasi dengan shock kontemporer. Hanya lag x<sub>i,t−2</sub> dan sebelumnya valid sebagai instrumen di persamaan first-difference untuk periode t. Diperlakuan sama seperti y<sub>i,t−1</sub>.</p>
+          <p style="margin-top:6px; font-size:13.5px; color:var(--ink-lt);">Contoh: employment dan wages dalam production function — keduanya endogenous terhadap productivity shocks.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px; background:var(--lav-lt); border-color:var(--lavender);">
+      <h3>Difference Sargan Test — Menguji Asumsi Eksogenitas</h3>
+      <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-top:8px;">
+        Karena asumsi eksogenitas adalah <em>over-identifying restriction</em>, kita bisa mengujinya. Jika S adalah Sargan statistic dari model dengan asumsi lebih kuat (misal: x predetermined) dan S' dari model lebih lemah (x endogenous), maka:
+      </p>
+      <div class="eq-block" style="margin:12px 0 12px; border-left-color:var(--lav-dk);">
+        <div class="eq-label">Difference Sargan Test</div>
+        <div class="eq-main">DS = S<sub>kuat</sub> − S<sub>lemah</sub> ~ χ²(df)</div>
+        <div class="eq-annot">
+          di mana df = jumlah kondisi momen tambahan yang diuji.<br>
+          H<sub>0</sub>: kondisi momen tambahan valid. <span>p-value &gt; 0.05</span> → asumsi lebih kuat dapat diterima.
+        </div>
+      </div>
+      <p style="font-size:13.5px; color:var(--ink-md);">Ini berguna karena set moment conditions di asumsi lemah adalah <em>subset</em> dari set di asumsi kuat — sehingga difference-nya testable (Arellano &amp; Bond, 1991).</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= MA ERRORS ========================= -->
+  <section class="section" id="ma-errors">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--peach-lt);">🌀</div>
+      <div>
+        <h2>Error dengan Serial Korelasi — MA(q) Extension</h2>
+        <p class="section-sub">Ketika ν<sub>it</sub> tidak iid: implikasi untuk pilihan instrumen</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:18px; font-size:15px;">
+      Asumsi dasar mensyaratkan ν<sub>it</sub> tidak berkorelasi secara serial. Tapi bagaimana jika ada serial korelasi? Ini tidak serta-merta membatalkan GMM, melainkan <em>menggeser</em> instrumen yang valid.
+    </p>
+
+    <div class="cards-2">
+      <div class="card card-sky">
+        <h3>Baseline: ν<sub>it</sub> iid (MA(0))</h3>
+        <p>First-differenced error Δν<sub>it</sub> ~ MA(1). Instrumen valid: lag level mulai t−2. AR(1) signifikan di first-difference, AR(2) tidak signifikan.</p>
+      </div>
+      <div class="card card-peach">
+        <h3>Jika ν<sub>it</sub> ~ MA(1)</h3>
+        <p>Δν<sub>it</sub> ~ MA(2). Maka y<sub>i,t−2</sub> tidak lagi valid! Instrumen valid baru mulai dari y<sub>i,t−3</sub> ke belakang. AR(2) masih signifikan, tapi AR(3) tidak boleh signifikan.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-sage" style="margin-top:18px;">
+      <strong>Aturan umum (Bond 2002):</strong> Jika ν<sub>it</sub> ~ MA(q), maka instrumen valid dimulai dari lag t−(q+2) ke belakang. Ini mengurangi jumlah instrumen yang tersedia. Perlu dicek dengan uji AR(q+1) di residual first-difference — harus tidak signifikan.
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h3>Aplikasi: Production Function (Blundell &amp; Bond 2000)</h3>
+      <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-top:8px;">
+        Dalam production function y<sub>it</sub> = βn<sub>it</sub> + βk<sub>it</sub> + (η<sub>i</sub> + v<sub>it</sub> + m<sub>it</sub>) di mana v<sub>it</sub> adalah AR(1) productivity shock dan m<sub>it</sub> adalah MA(0) measurement error — gabungan error (v<sub>it</sub> + m<sub>it</sub>) berkorelasi serial. Arellano-Bond test AR(2) dipakai untuk memeriksa bahwa instrumen lag-3 dan ke belakang tetap valid. Sargan test mengkonfirmasi bahwa lag-2 tidak valid tapi lag-3 ke belakang valid.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= MACRO VS MICRO ========================= -->
+  <section class="section" id="macro-micro">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--lav-lt);">🌍</div>
+      <div>
+        <h2>Micro vs Macro Panel — Implikasi Dimensi</h2>
+        <p class="section-sub">Judson &amp; Owen (1997): panduan khusus untuk data makroekonomi</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:20px; font-size:15px;">
+      Sebagian besar literatur dynamic panel dikembangkan untuk <em>micro panel</em> (N besar, T kecil). Tapi banyak penelitian makroekonomi memiliki T yang relatif besar (puluhan tahun data negara). Judson &amp; Owen (1997) menjawab: apa yang harus dilakukan di situasi ini?
+    </p>
+
+    <div class="cards-2">
+      <div class="card" style="border-top:3px solid var(--sage-dk);">
+        <div style="margin-bottom:10px;"><span class="tag tag-sage">Micro Panel</span></div>
+        <h3>N besar, T kecil</h3>
+        <ul style="font-size:14px; color:var(--ink-md); padding-left:16px; line-height:1.9; margin-top:8px;">
+          <li>Tipikal: N = ratusan/ribuan perusahaan/individu, T = 5–15 tahun</li>
+          <li>LSDV bias besar, tidak bisa diabaikan</li>
+          <li>GMM (Arellano–Bond) jelas superior</li>
+          <li>Asimptotik: N → ∞ dengan T tetap</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:3px solid var(--sky-dk);">
+        <div style="margin-bottom:10px;"><span class="tag tag-sky">Macro Panel</span></div>
+        <h3>N kecil, T besar</h3>
+        <ul style="font-size:14px; color:var(--ink-md); padding-left:16px; line-height:1.9; margin-top:8px;">
+          <li>Tipikal: N = 20–100 negara, T = 10–30+ tahun (data pertumbuhan, savings, dll.)</li>
+          <li>Bias LSDV berkurang seiring T besar, tapi masih non-trivial untuk T ≤ 30</li>
+          <li>GMM2 (two-step) bermasalah karena proliferasi instrumen dengan T besar</li>
+          <li>Anderson–Hsiao dan LSDVC lebih kompetitif</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LSDV Bias Table -->
+    <div style="margin-top:22px;">
+      <p style="font-size:14px; color:var(--ink-md); margin-bottom:12px;"><strong>Judson &amp; Owen (1997): Besarnya bias LSDV untuk berbagai T</strong> (N=100, α=0.8, σ²=1):</p>
+      <div style="overflow-x:auto;">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th>T (periode waktu)</th>
+              <th>Bias LSDV rata-rata</th>
+              <th>Sebagai % dari α sejati</th>
+              <th>Rekomendasi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>T = 5</td><td>−0.504</td><td><span class="badge-no">~63% bias!</span></td><td>Jangan pakai LSDV</td></tr>
+            <tr><td>T = 10</td><td>−0.232</td><td><span class="badge-no">~29% bias</span></td><td>Jangan pakai LSDV</td></tr>
+            <tr><td>T = 20</td><td>−0.104</td><td><span class="badge-part">~13% bias</span></td><td>Pertimbangkan LSDVC</td></tr>
+            <tr><td>T = 30</td><td>−0.066</td><td><span class="badge-part">~8% bias (kisaran 3–20%)</span></td><td>LSDVC atau AH masih lebih baik</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12.5px; color:var(--ink-lt); margin-top:8px;">Sumber: Judson &amp; Owen (1997, Table 1). Bahkan T=30 pun masih bisa menghasilkan bias 3–20% — sulit dijustifikasi menggunakan LSDV jika alternatif yang mudah tersedia.</p>
+    </div>
+
+    <!-- LSDVC -->
+    <div class="card" style="margin-top:20px; border-top:3px solid var(--peach-dk);">
+      <div style="margin-bottom:12px;"><span class="tag tag-peach">LSDVC — Kiviet (1995)</span></div>
+      <h3>Bias-Corrected LSDV (LSDVC)</h3>
+      <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-top:8px;">
+        Kiviet (1995) menurunkan formula analitik untuk bias LSDV dan menyarankan mengurangi bias tersebut dari estimasi. Prosedur dua langkah: (1) dapatkan estimasi konsisten awal (AH digunakan sebagai starting value), (2) hitung bias secara analitik dan kurangi dari estimasi LSDV.
+      </p>
+      <div class="pro-con" style="margin-top:14px;">
+        <div class="pro-box">
+          <h4>✓ Kelebihan</h4>
+          <ul>
+            <li>Standard error lebih kecil dari AH dan GMM untuk T kecil</li>
+            <li>Bias hampir hilang (bias ~0 di simulasi)</li>
+            <li>Lebih efisien dari GMM saat T moderat</li>
+            <li>Judson &amp; Owen: pilihan terbaik untuk T ≤ 10</li>
+          </ul>
+        </div>
+        <div class="con-box">
+          <h4>✗ Kelemahan</h4>
+          <ul>
+            <li>Hanya bekerja pada balanced panel (data tidak boleh missing)</li>
+            <li>Tidak ada analytical standard errors — perlu bootstrap</li>
+            <li>Komputasi berat untuk N atau T besar</li>
+            <li>Kurang populer di literatur empiris modern</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendation flowchart -->
+    <div class="accent-block" style="margin-top:24px;">
+      <h3>🗺️ Panduan Judson &amp; Owen: Pilih Estimator Berdasarkan Dimensi Panel</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:16px;">
+        <div style="background:white; border:1px solid var(--border-md); border-radius:var(--radius-md); padding:18px;">
+          <div style="font-weight:600; color:var(--blush-dk); font-size:13px; margin-bottom:8px;">T ≤ 10 (panel sangat pendek)</div>
+          <p style="font-size:13.5px; color:var(--ink-md);">Gunakan <strong>LSDVC</strong> jika panel balanced. Jika unbalanced atau missing data banyak, gunakan <strong>GMM1 (1-step)</strong> dengan instrumen terbatas.</p>
+        </div>
+        <div style="background:white; border:1px solid var(--border-md); border-radius:var(--radius-md); padding:18px;">
+          <div style="font-weight:600; color:var(--peach-dk); font-size:13px; margin-bottom:8px;">10 &lt; T ≤ 20 (panel menengah)</div>
+          <p style="font-size:13.5px; color:var(--ink-md);">LSDVC masih lebih efisien, tapi <strong>Anderson–Hsiao (AH)</strong> mulai kompetitif. GMM1 dengan sedikit instrumen juga masuk akal.</p>
+        </div>
+        <div style="background:white; border:1px solid var(--border-md); border-radius:var(--radius-md); padding:18px;">
+          <div style="font-weight:600; color:var(--sage-dk); font-size:13px; margin-bottom:8px;">T &gt; 20 (panel panjang)</div>
+          <p style="font-size:13.5px; color:var(--ink-md);">Gunakan <strong>Anderson–Hsiao (AH)</strong>: bias kecil, komputasi sederhana. GMM2 tidak direkomendasikan — standard error tidak akurat dengan T besar karena proliferasi instrumen.</p>
+        </div>
+      </div>
+      <p style="font-size:13px; color:var(--ink-md); margin-top:14px; font-style:italic;">Catatan: Rekomendasi Judson &amp; Owen diasumsikan tidak ada masalah weak instruments. Jika seri sangat persisten (δ mendekati 1), pertimbangkan System GMM terlepas dari dimensi T.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= DIAGNOSTICS DETAIL ========================= -->
+  <section class="section" id="diagnostik-lanjut">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--sage-lt);">📡</div>
+      <div>
+        <h2>Diagnostik Lanjut — Interpretasi m1, m2, dan Sargan</h2>
+        <p class="section-sub">Apa yang seharusnya dilihat di output Stata/DPD</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:20px; font-size:15px;">
+      Bond (2002) memberikan panduan detail tentang cara menginterpretasikan test statistics. Memahaminya penting karena hasil yang "mengejutkan" di m1 atau m2 tidak selalu berarti model salah — terkadang itu hanya mencerminkan bias estimasi.
+    </p>
+
+    <div class="cards-2">
+      <div class="card" style="border-top:3px solid var(--sky-dk);">
+        <h3>m1 — Serial Korelasi Orde 1</h3>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-top:8px;">
+          Untuk estimasi di <em>levels</em> (OLS): diharapkan m1 <strong>positif dan signifikan</strong> karena η<sub>i</sub> yang persisten menyebabkan korelasi positif di residual level.<br><br>
+          Untuk estimasi di <em>first-differences</em>: diharapkan m1 <strong>negatif dan signifikan</strong> karena Δν<sub>it</sub> = ν<sub>it</sub> − ν<sub>i,t−1</sub> otomatis berkorelasi negatif orde-1 jika ν<sub>it</sub> iid.<br><br>
+          <span style="color:var(--blush-dk); font-weight:600;">⚠ Jika m1 tidak signifikan di first-difference:</span> ini bisa menandakan estimasi sangat bias (bukan berarti tidak ada korelasi). Tidak bisa dipercaya jika estimator bermasalah.
+        </p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--sage-dk);">
+        <h3>m2 — Serial Korelasi Orde 2</h3>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-top:8px;">
+          Ini adalah <strong>uji kritis</strong>. Untuk first-differenced residuals, m2 menguji apakah ada korelasi orde-2, yang setara dengan menguji apakah ν<sub>it</sub> di level berkorelasi orde-1.<br><br>
+          <span style="color:var(--sage-dk); font-weight:600;">✓ m2 tidak signifikan:</span> instrumen lag-2 valid. Model teridentifikasi dengan baik.<br><br>
+          <span style="color:var(--blush-dk); font-weight:600;">✗ m2 signifikan:</span> ada MA(1) atau lebih tinggi di ν<sub>it</sub>. Instrumen lag-2 tidak valid — harus geser ke lag-3. Hitung ulang dengan instrumen yang lebih jauh.
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h3>Interpretasi Pattern Lengkap — Checklist</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin-top:14px; font-size:14px; color:var(--ink-md);">
+        <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:14px; line-height:1.8;">
+          <strong style="color:var(--sage-dk);">✓ Pattern Ideal (AR(1) model valid)</strong><br>
+          OLS: m1 (+), m2 (+) signifikan<br>
+          FE/GMM diff: m1 (−) signifikan, m2 tidak signifikan<br>
+          Sargan: p-value &gt; 0.05<br>
+          δ̂ di antara OLS dan FE
+        </div>
+        <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:14px; line-height:1.8;">
+          <strong style="color:var(--blush-dk);">✗ Pattern Bermasalah</strong><br>
+          m2 signifikan → geser instrumen ke lag-3+<br>
+          Sargan p &lt; 0.05 → instrumen tidak valid, review spec<br>
+          Hansen p ≈ 1.00 → terlalu banyak instrumen, collapse<br>
+          δ̂ &lt; FE → finite sample bias besar, pertimbangkan System GMM
+        </div>
+      </div>
+    </div>
+
+    <!-- 1-step vs 2-step detail -->
+    <div class="card" style="margin-top:18px; border-top:3px solid var(--lav-dk);">
+      <h3>1-Step vs 2-Step: Kapan Lebih Baik Mana?</h3>
+      <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-top:10px;">
+        Bond (2002) dan Judson &amp; Owen (1997) keduanya menemukan bahwa <strong>1-step GMM (GMM1) sering lebih baik dalam praktik</strong> daripada 2-step, terutama dalam ukuran sampel kecil. Alasannya:
+      </p>
+      <ul style="font-size:14px; color:var(--ink-md); padding-left:18px; line-height:1.9; margin-top:8px;">
+        <li><strong>2-step weight matrix bergantung pada estimasi residual dari step 1</strong> → menambah variabilitas dalam sampel kecil.</li>
+        <li>Simulasi menunjukkan: <strong>standard error 2-step terlalu kecil</strong> (downward biased) hingga 30% — membuat t-test menjadi terlalu rejective.</li>
+        <li>Windmeijer (2005) memperbaiki ini: koreksi finite-sample membuat 2-step reliable. <strong>2-step + Windmeijer = pilihan terbaik saat ini.</strong></li>
+        <li>Judson &amp; Owen: untuk macro panels, GMM1 (one-step dengan instrumen terbatas) lebih konsisten daripada GMM2 (two-step) — GMM2 memiliki bias sangat besar saat N kecil dan T menengah.</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= SHORT RUN VS LONG RUN ========================= -->
+  <section class="section" id="efek-jangka">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--sage-lt);">📈</div>
+      <div>
+        <h2>Interpretasi Ekonomi: Jangka Pendek vs Jangka Panjang</h2>
+        <p class="section-sub">Fitur paling berharga dari dynamic panel — yang sering luput dibahas</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:20px; font-size:15px;">
+      Keberadaan lagged dependent variable L.y bukan hanya solusi teknis — ia membawa makna ekonomi yang kaya. Model panel dinamis memungkinkan kita mengukur tiga hal sekaligus dari satu estimasi.
+    </p>
+
+    <div class="cards-3">
+      <div class="card" style="border-top:3px solid var(--lav-dk);">
+        <div style="margin-bottom:10px;"><span class="tag tag-lav">Koefisien δ</span></div>
+        <h3>Kecepatan Konvergensi</h3>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+          δ mengukur seberapa cepat Y<sub>it</sub> bergerak menuju nilai keseimbangannya. Semakin kecil δ (mendekati 0), semakin cepat konvergensi. Semakin δ mendekati 1, semakin lambat penyesuaian — proses hampir tidak bergerak.
+        </p>
+        <div class="eq-block" style="margin-top:12px; padding:10px 14px; font-size:13px;">
+          <div class="eq-label">Kecepatan penyesuaian</div>
+          <div class="eq-main" style="font-size:14px;">(1 − δ) = kecepatan konvergensi per periode</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--sky-dk);">
+        <div style="margin-bottom:10px;"><span class="tag tag-sky">Koefisien β</span></div>
+        <h3>Efek Jangka Pendek</h3>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+          β adalah efek kontemporer X terhadap Y — pengaruh yang terjadi dalam periode yang sama ketika X berubah, sebelum efek dinamis berlanjut ke periode berikutnya.
+        </p>
+        <div class="eq-block" style="margin-top:12px; padding:10px 14px; font-size:13px;">
+          <div class="eq-label">Short-run effect</div>
+          <div class="eq-main" style="font-size:14px;">∂Y<sub>it</sub>/∂X<sub>it</sub> = β</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--sage-dk);">
+        <div style="margin-bottom:10px;"><span class="tag tag-sage">Turunan dari β dan δ</span></div>
+        <h3>Efek Jangka Panjang</h3>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+          Efek jangka panjang adalah akumulasi total dari perubahan X, yang merambat melalui koefisien L1.Y ke semua periode berikutnya hingga sistem mencapai keseimbangan baru.
+        </p>
+        <div class="eq-block" style="margin-top:12px; padding:10px 14px; font-size:13px;">
+          <div class="eq-label">Long-run effect (multiplier)</div>
+          <div class="eq-main" style="font-size:14px;">β / (1 − δ)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Derivation of long-run -->
+    <div class="accent-block" style="margin-top:24px;">
+      <h3>Derivasi Efek Jangka Panjang</h3>
+      <p style="color:var(--ink-md); font-size:14.5px; margin-bottom:16px;">Dalam keseimbangan jangka panjang, Y<sub>it</sub> = Y<sub>i,t−1</sub> = Y* (konstan). Substitusikan ke model dasar:</p>
+      <div class="eq-block" style="margin:0 0 14px;">
+        <div class="eq-label">Keseimbangan jangka panjang</div>
+        <div class="eq-main" style="font-size:15px; line-height:1.9;">
+          Y* = δ·Y* + β·X* + (μ<sub>i</sub> + ν)<br>
+          Y*(1 − δ) = β·X* + konstan<br>
+          ∂Y*/∂X* = β / (1 − δ)
+        </div>
+      </div>
+      <div class="cards-2">
+        <div style="background:white; border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; font-size:14px; color:var(--ink-md); line-height:1.8;">
+          <strong style="color:var(--ink);">Contoh interpretasi:</strong><br>
+          Jika β = 0.3 dan δ = 0.7, maka:<br>
+          — Efek jangka pendek: 0.3<br>
+          — Efek jangka panjang: 0.3 / (1 − 0.7) = <strong>1.0</strong><br>
+          Satu unit kenaikan X meningkatkan Y sebesar 0.3 di periode ini, tapi total akumulasinya 1.0 unit.
+        </div>
+        <div style="background:white; border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; font-size:14px; color:var(--ink-md); line-height:1.8;">
+          <strong style="color:var(--ink);">Syarat stasionaritas:</strong><br>
+          Long-run multiplier hanya terdefinisi dengan baik jika |δ| &lt; 1. Jika δ = 1, sistem tidak stasioner — tidak ada keseimbangan jangka panjang yang finite. Inilah mengapa uji unit root pada seri individual penting dilakukan sebelum estimasi.
+        </div>
+      </div>
+    </div>
+
+    <!-- Convergence visualization with examples -->
+    <div class="card" style="margin-top:20px;">
+      <h3>Contoh Aplikasi: Konvergensi dalam Makroekonomi</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-top:14px;">
+        <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.7;">
+          <strong style="color:var(--lav-dk);">Permintaan Uang</strong><br>
+          δ tinggi (0.7–0.9): permintaan uang sangat persisten. Shock moneter berlangsung lama sebelum terserap.
+        </div>
+        <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.7;">
+          <strong style="color:var(--sky-dk);">Konsumsi Rumah Tangga</strong><br>
+          δ sedang (0.4–0.7): habit formation ada, tapi konsumsi merespons income dalam 2–3 periode.
+        </div>
+        <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.7;">
+          <strong style="color:var(--sage-dk);">Pertumbuhan Ekonomi</strong><br>
+          δ rendah (0.1–0.4): konvergensi kondisional cepat. Negara miskin tumbuh lebih cepat menuju steady state.
+        </div>
+        <div style="background:var(--peach-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.7;">
+          <strong style="color:var(--peach-dk);">Pass-through Nilai Tukar</strong><br>
+          β = short-run pass-through (misal 0.2). β/(1−δ) = long-run pass-through (misal 0.8). Gap menunjukkan adjustment delay.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= ADAPTIVE EXPECTATION ========================= -->
+  <section class="section" id="adaptive-expect">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--peach-lt);">🔮</div>
+      <div>
+        <h2>Adaptive Expectation Model — Asal-Usul L1.Y</h2>
+        <p class="section-sub">Mengapa lagged dependent variable muncul secara teoritis dari model ekspektasi</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:20px; font-size:15px;">
+      Salah satu justifikasi teoritis terpenting untuk memasukkan L1.Y adalah model ekspektasi adaptif. Ini menunjukkan bahwa struktur dinamis bukan sekadar teknis — ia memiliki fondasi ekonomi yang dalam.
+    </p>
+
+    <!-- Setup -->
+    <div class="eq-block" style="border-left-color:var(--peach-dk);">
+      <div class="eq-label" style="color:var(--peach-dk);">Model Awal — Bergantung pada Variabel Ekspektasi</div>
+      <div class="eq-main" style="font-size:15px;">Y<sub>t</sub> = α + βX*<sub>t</sub> + ε<sub>t</sub></div>
+      <div class="eq-annot">
+        di mana <span>X*<sub>t</sub></span> adalah nilai yang <em>diharapkan/expected</em> dari X — bukan nilai aktual yang teramati.<br>
+        Contoh: X* = permanent income, expected price, tingkat bunga normal yang diharapkan.
+      </div>
+    </div>
+
+    <!-- Adaptive expectation mechanism -->
+    <div class="card card-peach" style="margin-top:18px;">
+      <h3>Mekanisme Ekspektasi Adaptif</h3>
+      <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-top:8px; margin-bottom:14px;">
+        Ekspektasi diasumsikan berubah setiap waktu, direvisi dengan penyesuaian antara nilai sekarang yang diamati dan nilai harapan periode sebelumnya (disebut juga <em>progressive expectation</em> atau <em>error learning hypothesis</em>):
+      </p>
+      <div class="eq-block" style="border-left-color:var(--peach-dk); margin:0 0 12px;">
+        <div class="eq-label" style="color:var(--peach-dk);">Mekanisme Penyesuaian Ekspektasi</div>
+        <div class="eq-main" style="font-size:15px; line-height:1.9;">
+          X*<sub>t</sub> − X*<sub>t−1</sub> = θ(X<sub>t</sub> − X*<sub>t−1</sub>) ; &nbsp;&nbsp; 0 &lt; θ &lt; 1
+        </div>
+        <div class="eq-annot">
+          atau ditulis ulang: <span>X*<sub>t</sub> = θX<sub>t</sub> + (1−θ)X*<sub>t−1</sub></span> — rata-rata tertimbang (weighted average) antara nilai aktual sekarang dan ekspektasi lama.<br>
+          θ = koefisien penyesuaian. θ mendekati 1: ekspektasi sangat responsif. θ mendekati 0: ekspektasi sangat lambat berubah.
+        </div>
+      </div>
+    </div>
+
+    <!-- Geometric lag derivation -->
+    <div class="card" style="margin-top:18px;">
+      <h3>Substitusi Berulang → Geometric Distributed Lag</h3>
+      <p style="font-size:14px; color:var(--ink-md); line-height:1.8; margin-top:8px;">Dengan substitusi berulang (ekspansi X*<sub>t−1</sub>, X*<sub>t−2</sub>, …), diperoleh:</p>
+      <div class="eq-block" style="margin-top:12px; border-left-color:var(--lav-dk);">
+        <div class="eq-label">Geometric Lag Representation</div>
+        <div class="eq-main" style="font-size:14px; line-height:2;">
+          X*<sub>t</sub> = θ[X<sub>t</sub> + (1−θ)X<sub>t−1</sub> + (1−θ)²X<sub>t−2</sub> + …]<br>
+          = θ · Σ<sub>s=0</sub><sup>∞</sup> (1−θ)<sup>s</sup> X<sub>t−s</sub>
+        </div>
+        <div class="eq-annot">
+          Bobot lag menurun secara geometris: lag terbaru mendapat bobot θ, lag satu periode sebelumnya (1−θ)θ, dst.<br>
+          Catatan: θΣ(1−θ)<sup>s</sup> = 1 → bobot menjumlah ke 1 (properly normalized weighted average).
+        </div>
+      </div>
+    </div>
+
+    <!-- Final model -->
+    <div class="eq-block" style="margin-top:20px; border-left-color:var(--sage-dk);">
+      <div class="eq-label" style="color:var(--sage-dk);">Hasil Akhir — Model Koyck / Autoregresif Terreduksi</div>
+      <div class="eq-main" style="font-size:16px; line-height:2;">
+        Y<sub>t</sub> = αθ + (1−θ)Y<sub>t−1</sub> + βθX<sub>t</sub> + v<sub>t</sub>
+      </div>
+      <div class="eq-annot">
+        di mana <span>v<sub>t</sub> = ε<sub>t</sub> − (1−θ)ε<sub>t−1</sub></span> (error MA(1), bukan iid!)<br>
+        <span>(1−θ)</span> = koefisien pada L1.Y, analog dengan δ dalam model panel dinamis.<br>
+        <span>βθ</span> = koefisien pada X<sub>t</sub>, analog dengan β dalam model panel.<br>
+        <span>αθ</span> = intercept tereduksi.
+      </div>
+    </div>
+
+    <div class="alert alert-lav" style="margin-top:16px;">
+      <strong>Implikasi penting:</strong> Error term v<sub>t</sub> = ε<sub>t</sub> − (1−θ)ε<sub>t−1</sub> adalah MA(1) — bukan iid. Ini persis situasi yang dibahas di seksi MA Errors: instrumen dari lag-2 mungkin tidak valid, dan harus dimulai dari lag-3. Arellano-Bond test AR(2) menjadi sangat krusial untuk model jenis ini.
+    </div>
+
+    <div class="cards-2" style="margin-top:18px;">
+      <div class="card card-sky">
+        <h3>Koyck Transformation</h3>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.8;">Model yang dihasilkan disebut model Koyck (atau geometric distributed lag model). Kalikan model Y<sub>t</sub> = α + βΣ(1−θ)<sup>s</sup>X<sub>t−s</sub>·θ dengan (1−θ) satu periode sebelumnya dan kurangi — hasilnya adalah model AR dengan L1.Y.</p>
+      </div>
+      <div class="card card-sage">
+        <h3>Partial Adjustment Model</h3>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.8;">Model serupa muncul dari <em>partial adjustment</em>: Y<sub>t</sub> − Y<sub>t−1</sub> = λ(Y*<sub>t</sub> − Y<sub>t−1</sub>), di mana firma/individu hanya menyesuaikan sebagian (λ) dari gap menuju target. Hasilnya juga mengandung L1.Y dengan koefisien (1−λ).</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ========================= PROSEDUR MODEL TERBAIK ========================= -->
+  <section class="section" id="prosedur-terbaik">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--lav-lt);">✅</div>
+      <div>
+        <h2>Prosedur Standar Pemilihan Model GMM Terbaik</h2>
+        <p class="section-sub">Tiga kriteria + dua tahap + uji post-estimation</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-md); margin-bottom:20px; font-size:15px;">
+      Bukan sembarang GMM yang asal jalan — ada prosedur baku yang ditetapkan dalam literatur (Arellano &amp; Bond 1991; Blundell &amp; Bond 1998; Roodman 2009) untuk memastikan hasil estimasi dapat dipercaya.
+    </p>
+
+    <!-- Three criteria -->
+    <div class="card" style="border-top:3px solid var(--lav-dk); margin-bottom:22px;">
+      <h3 style="margin-bottom:16px;">Tiga Kriteria Model GMM yang Baik</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px;">
+        <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:16px; text-align:center;">
+          <div style="font-size:28px; margin-bottom:8px;">1️⃣</div>
+          <strong style="color:var(--lav-dk); display:block; margin-bottom:6px; font-size:14px;">Instrumen Valid</strong>
+          <p style="font-size:13px; color:var(--ink-md); line-height:1.7;">Tidak ada korelasi antara variabel instrumen dengan komponen error. Diuji dengan <strong>Sargan/Hansen test</strong> — H₀: instrumen valid.</p>
+        </div>
+        <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:16px; text-align:center;">
+          <div style="font-size:28px; margin-bottom:8px;">2️⃣</div>
+          <strong style="color:var(--sky-dk); display:block; margin-bottom:6px; font-size:14px;">Konsisten</strong>
+          <p style="font-size:13px; color:var(--ink-md); line-height:1.7;">Estimasi konsisten jika error tidak berkorelasi serial. Diuji dengan <strong>Arellano-Bond AR(2) test</strong> — H₀: tidak ada autokorelasi orde 2.</p>
+        </div>
+        <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:16px; text-align:center;">
+          <div style="font-size:28px; margin-bottom:8px;">3️⃣</div>
+          <strong style="color:var(--sage-dk); display:block; margin-bottom:6px; font-size:14px;">Tidak Bias</strong>
+          <p style="font-size:13px; color:var(--ink-md); line-height:1.7;">Estimasi δ berada di antara FE (batas bawah, bias ↓) dan OLS (batas atas, bias ↑). Ini adalah <strong>credible range check</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-step procedure -->
+    <h3 style="font-family:'Lora',serif; font-size:1.2rem; color:var(--ink); margin-bottom:16px;">Tahapan Penentuan Model "Terbaik"</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:var(--sky); color:var(--sky-dk);">1</div>
+        <div class="step-content">
+          <h4>Mulai dengan FD-GMM (Difference GMM)</h4>
+          <p>Estimasi model dengan metode Arellano–Bond Difference GMM. Lakukan dua uji spesifikasi:</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+            <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:12px; font-size:13.5px; color:var(--ink-md);">
+              <strong style="color:var(--sky-dk);">Uji Sargan</strong><br>
+              Identifikasi validitas keseluruhan instrumen (kondisi <em>overidentifying</em>). H₀: instrumen valid dan tidak berkorelasi dengan error. Hasil yang diharapkan: <strong>p-value &gt; 0.05</strong>.
+            </div>
+            <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:12px; font-size:13.5px; color:var(--ink-md);">
+              <strong style="color:var(--sky-dk);">Uji Arellano-Bond AR(2)</strong><br>
+              Pastikan error tidak berkorelasi serial orde 2 (autokorelasi orde 2 di <em>difference</em> ~ autokorelasi orde 1 di <em>level</em>). Hasil yang diharapkan: <strong>p-value &gt; 0.05</strong>.
+            </div>
+          </div>
+          <div class="alert alert-sky" style="margin-top:12px; padding:10px 14px; background:var(--sky-lt); border-color:var(--sky-dk); color:#1A3A5A;">
+            Jika kedua uji tidak menolak H₀ <strong>dan</strong> estimasi δ berada dalam credible range → <strong>FD-GMM adalah pilihan terbaik, selesai</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num" style="background:var(--sage); color:var(--sage-dk);">2</div>
+        <div class="step-content">
+          <h4>Jika FD-GMM gagal → Beralih ke SYS-GMM</h4>
+          <p>Jika FD-GMM tidak memenuhi ketiga kriteria (instrumen tidak valid, tidak konsisten, atau estimasi bias parah), lanjutkan dengan System GMM (Blundell–Bond 1998). Alasan umum beralih ke SYS-GMM:</p>
+          <ul style="font-size:14px; color:var(--ink-md); padding-left:16px; line-height:1.9; margin-top:8px;">
+            <li>Sargan test menolak H₀ di FD-GMM → instrumen level tidak valid karena near unit root</li>
+            <li>δ̂ dari FD-GMM mendekati atau di bawah estimasi FE (weak instrument bias)</li>
+            <li>Ada variabel time-invariant penting yang hilang setelah first-differencing</li>
+          </ul>
+          <div class="alert alert-sage" style="margin-top:12px; padding:10px 14px;">
+            SYS-GMM juga harus lolos Sargan dan AR(2) test. Uji AR(2) lebih penting pada SYS-GMM karena mendeteksi autokorelasi di level (Mileva 2007).
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num" style="background:var(--peach); color:var(--peach-dk);">3</div>
+        <div class="step-content">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <h4>Uji Post-Estimation: Ramsey RESET Test</h4>
+            <span class="tag tag-peach">Sering dilupakan</span>
+          </div>
+          <p>Setelah mendapatkan model GMM terbaik, lakukan uji Ramsey RESET (<em>Regression Equation Specification Error Test</em>) untuk memastikan tidak ada <em>omitted variable</em> dalam model.</p>
+          <div class="cards-2" style="margin-top:12px;">
+            <div style="background:var(--peach-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--peach-dk);">Cara kerja RESET:</strong><br>
+              Regresi Y pada X dan fitted values Ŷ²,Ŷ³. Jika Ŷ² atau Ŷ³ signifikan → ada nonlinearitas atau omitted variable yang membuat model mis-spesifikasi.
+            </div>
+            <div style="background:var(--peach-lt); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+              <strong style="color:var(--peach-dk);">Interpretasi:</strong><br>
+              H₀: model tidak memiliki omitted variable. Taraf nyata 5%.<br>
+              Hasil yang diharapkan: <strong>p-value &gt; 0.05</strong> → tidak menolak H₀ → spesifikasi model sudah memadai.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full decision tree -->
+    <div class="card" style="margin-top:24px; border-top:3px solid var(--ink-md);">
+      <h3>Diagram Keputusan — Alur Lengkap</h3>
+      <div style="margin-top:16px; font-size:13.5px; color:var(--ink-md); line-height:2.2;">
+        <div style="display:flex; flex-direction:column; gap:0;">
+          <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:10px 16px; border-left:3px solid var(--lav-dk);">
+            <strong style="color:var(--lav-dk);">START:</strong> Estimasi FD-GMM (Difference GMM, two-step, Windmeijer corrected SE)
+          </div>
+          <div style="padding:4px 0 4px 24px; color:var(--ink-lt);">↓ Cek: Sargan p &gt; 0.05 AND AR(2) p &gt; 0.05 AND δ dalam credible range?</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:10px 16px; border-left:3px solid var(--sage-dk);">
+              <strong style="color:var(--sage-dk);">YA → FD-GMM Valid</strong><br>
+              Lanjut ke Ramsey RESET
+            </div>
+            <div style="background:var(--blush-lt); border-radius:var(--radius-sm); padding:10px 16px; border-left:3px solid var(--blush-dk);">
+              <strong style="color:var(--blush-dk);">TIDAK → Switch ke SYS-GMM</strong><br>
+              Estimasi System GMM, cek ulang Sargan + AR(2)
+            </div>
+          </div>
+          <div style="padding:4px 0 4px 24px; color:var(--ink-lt);">↓ Setelah mendapat estimator terbaik:</div>
+          <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:10px 16px; border-left:3px solid var(--sky-dk);">
+            <strong style="color:var(--sky-dk);">FINAL CHECK:</strong> Ramsey RESET test — pastikan tidak ada omitted variable (p &gt; 0.05)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Note on two-step choice -->
+    <div class="alert alert-lav" style="margin-top:20px;">
+      <strong>Catatan Roodman (2009), Pesaran–Shin–Smith (1999):</strong> Model two-step lebih efisien dan standard error-nya robust terhadap heteroskedastisitas dan autokorelasi dibanding one-step, <em>asalkan</em> menggunakan koreksi Windmeijer (2005). Tanpa koreksi Windmeijer, standard error two-step terlalu kecil dan inferensi tidak dapat dipercaya. Kombinasi <strong>two-step + Windmeijer correction</strong> adalah gold standard saat ini.
+    </div>
+  </section>
+
+
+  <hr class="divider">
+
+  <!-- ========================= ARDL vs DPD ========================= -->
+  <section class="section" id="ardl-vs-dpd">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--sky-lt);">🤔</div>
+      <div>
+        <h2>Kenapa Tidak Pakai ARDL Saja?</h2>
+        <p class="section-sub">Memahami kapan ARDL tepat, kapan DPD/GMM lebih sesuai, dan kapan keduanya bisa digabung</p>
+      </div>
+    </div>
+
+    <!-- OPENING INTUITION -->
+    <p style="color:var(--ink-md); margin-bottom:24px; font-size:15px; line-height:1.85;">
+      ARDL (<em>Autoregressive Distributed Lag</em>) dan Dynamic Panel GMM adalah dua cara untuk menangkap dinamika — keduanya sama-sama memasukkan lag variabel dependen dan lag regresor. Tapi mereka menjawab pertanyaan yang <em>sedikit berbeda</em>, dengan asumsi yang berbeda, dan cocok untuk data yang berbeda. Memahami perbedaan ini penting agar kamu tidak salah pilih alat.
+    </p>
+
+    <!-- CORE IDEA COMPARISON -->
+    <div class="cards-2">
+      <div class="card" style="border-top:3px solid var(--sky-dk);">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+          <span style="font-size:22px;">📈</span>
+          <h3 style="font-size:15px;">ARDL — "Satu Cerita, Satu Persamaan"</h3>
+        </div>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.85; margin-bottom:12px;">
+          ARDL pada dasarnya adalah model regresi time series yang memasukkan lag dari <em>y</em> sendiri dan lag dari regressor <em>x</em>. Misalnya ARDL(1,1):
+        </p>
+        <div class="eq-block" style="border-left-color:var(--sky-dk); margin:0 0 12px 0; padding:12px 16px;">
+          <div class="eq-main" style="font-size:13px;">y<sub>t</sub> = α + δ·y<sub>t−1</sub> + β<sub>0</sub>x<sub>t</sub> + β<sub>1</sub>x<sub>t−1</sub> + ε<sub>t</sub></div>
+        </div>
+        <p style="font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+          Model ini diestimasi dengan OLS biasa (atau GLS), dan menjadi sangat powerful ketika dikombinasikan dengan <strong>bounds testing</strong> (Pesaran et al. 2001) untuk menguji kointegrasi jangka panjang — bahkan ketika variabel campuran I(0) dan I(1).
+        </p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--lav-dk);">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+          <span style="font-size:22px;">🏛️</span>
+          <h3 style="font-size:15px;">Dynamic Panel GMM — "Banyak Cerita Sekaligus"</h3>
+        </div>
+        <p style="font-size:14px; color:var(--ink-md); line-height:1.85; margin-bottom:12px;">
+          DPD GMM menggunakan struktur panel: banyak individu (<em>i</em>) sekaligus, masing-masing dengan historisnya. Model yang sama ditulis:
+        </p>
+        <div class="eq-block" style="border-left-color:var(--lav-dk); margin:0 0 12px 0; padding:12px 16px;">
+          <div class="eq-main" style="font-size:13px;">y<sub>it</sub> = δ·y<sub>i,t−1</sub> + β·x<sub>it</sub> + μ<sub>i</sub> + ν<sub>it</sub></div>
+        </div>
+        <p style="font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+          Kunci perbedaannya: ada μ<sub>i</sub> — <em>individual fixed effect</em> yang berbeda untuk tiap unit. Ini menangkap heterogenitas permanen antar individu (perusahaan A berbeda dari perusahaan B secara struktural) yang tidak bisa dijelaskan oleh x<sub>it</sub>.
+        </p>
+      </div>
+    </div>
+
+    <!-- THE REAL QUESTION: WHAT DIMENSION IS YOUR DATA? -->
+    <div class="card" style="margin-top:24px; border-top:3px solid var(--peach-dk);">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+        <h3 style="font-size:16px;">🔑 Pertanyaan Kunci: Seperti Apa Datamu?</h3>
+        <span class="tag tag-peach">Mulai dari sini</span>
+      </div>
+      <p style="font-size:14px; color:var(--ink-md); margin-bottom:18px; line-height:1.8;">
+        Pilihan antara ARDL dan DPD GMM seringkali langsung terjawab begitu kamu melihat dimensi datamu. Berikut panduan visualnya:
+      </p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:0; border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--border-md);">
+        <div style="background:var(--blush-lt); padding:18px; border-right:1px solid var(--border-md);">
+          <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--blush-dk); margin-bottom:8px;">Situasi 1</div>
+          <div style="font-size:15px; font-weight:600; color:var(--ink); margin-bottom:8px;">N kecil, T panjang</div>
+          <div style="font-size:13px; color:var(--ink-md); line-height:1.7;">Misal: 5 negara ASEAN, 30 tahun data tahunan. Tiap unit bisa dianalisis sendiri, atau digabung.</div>
+          <div style="margin-top:10px; font-size:13px; font-weight:600; color:var(--blush-dk);">→ ARDL / PMG lebih natural</div>
+        </div>
+        <div style="background:var(--lav-lt); padding:18px; border-right:1px solid var(--border-md);">
+          <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--lav-dk); margin-bottom:8px;">Situasi 2</div>
+          <div style="font-size:15px; font-weight:600; color:var(--ink); margin-bottom:8px;">N besar, T kecil</div>
+          <div style="font-size:13px; color:var(--ink-md); line-height:1.7;">Misal: 500 perusahaan, 5 tahun. Tidak cukup T untuk ARDL per-unit. ARDL agregat kehilangan heterogenitas.</div>
+          <div style="margin-top:10px; font-size:13px; font-weight:600; color:var(--lav-dk);">→ DPD GMM satu-satunya pilihan</div>
+        </div>
+        <div style="background:var(--sage-lt); padding:18px;">
+          <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--sage-dk); margin-bottom:8px;">Situasi 3</div>
+          <div style="font-size:15px; font-weight:600; color:var(--ink); margin-bottom:8px;">N sedang, T sedang</div>
+          <div style="font-size:13px; color:var(--ink-md); line-height:1.7;">Misal: 34 provinsi Indonesia, 15 tahun. Zona abu-abu — bergantung pada fokus penelitian dan asumsi.</div>
+          <div style="margin-top:10px; font-size:13px; font-weight:600; color:var(--sage-dk);">→ PMG atau DPD, lihat tabel di bawah</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAILED COMPARISON TABLE -->
+    <h3 style="font-family:'Lora',serif; font-size:1.2rem; color:var(--ink); margin:28px 0 16px;">Perbandingan Sifat: ARDL vs DPD GMM</h3>
+    <div style="overflow-x:auto;">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Dimensi</th>
+            <th>ARDL (time series / pooled)</th>
+            <th>DPD GMM (Arellano–Bond / Blundell–Bond)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Dimensi data ideal</strong></td>
+            <td>N kecil–sedang, T besar (T ≫ N)</td>
+            <td>N besar, T kecil–sedang (N ≫ T)</td>
+          </tr>
+          <tr>
+            <td><strong>Individual heterogeneity</strong></td>
+            <td><span class="badge-no">✗</span> ARDL biasa tidak menangkap μ<sub>i</sub>. Pooled ARDL menganggap semua unit identik.</td>
+            <td><span class="badge-yes">✓</span> Fixed effects μ<sub>i</sub> di-handle secara eksplisit via first-differencing.</td>
+          </tr>
+          <tr>
+            <td><strong>Endogenitas regressor</strong></td>
+            <td><span class="badge-no">✗</span> ARDL standar mengasumsikan x<sub>t</sub> strictly exogenous.</td>
+            <td><span class="badge-yes">✓</span> GMM menggunakan IV — bisa menangani endogenous, predetermined, maupun strictly exogenous regressors.</td>
+          </tr>
+          <tr>
+            <td><strong>Long-run relationship / kointegrasi</strong></td>
+            <td><span class="badge-yes">✓</span> ARDL bounds test sangat powerful untuk ini, bahkan campuran I(0)/I(1).</td>
+            <td><span class="badge-part">~</span> Bisa diestimasi tapi bukan fokus utama. Perlu asumsi tambahan.</td>
+          </tr>
+          <tr>
+            <td><strong>Kebutuhan T minimum</strong></td>
+            <td>T harus cukup besar (≥ 30 per unit ideal) untuk ARDL bermakna.</td>
+            <td>Bisa bekerja dengan T = 3–5, asalkan N besar.</td>
+          </tr>
+          <tr>
+            <td><strong>Asumsi stasioneritas</strong></td>
+            <td>Fleksibel — ARDL bounds test valid untuk campuran I(0) dan I(1).</td>
+            <td>Idealnya proses stasioner kondisional (|δ| &lt; 1). Near unit root melemahkan instrumen.</td>
+          </tr>
+          <tr>
+            <td><strong>Interpretasi long-run</strong></td>
+            <td><span class="badge-yes">✓</span> Langsung dari reparametrisasi ARDL ke VECM/ECM: koefisien long-run dan speed of adjustment jelas.</td>
+            <td><span class="badge-part">~</span> Bisa dihitung dari δ̂ dan β̂, tapi estimasi long-run kurang efisien.</td>
+          </tr>
+          <tr>
+            <td><strong>Jumlah parameter yang diestimasi</strong></td>
+            <td>Satu set koefisien (atau satu per unit jika pooled ARDL).</td>
+            <td>Satu set koefisien untuk semua N — asumsi slope homogeneity lintas individu.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- THE BRIDGE: PMG/MG -->
+    <div class="card" style="margin-top:28px; border-top:3px solid var(--sage-dk);">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+        <h3 style="font-size:16px;">🌉 Jembatan Keduanya: PMG dan MG Estimator</h3>
+        <span class="tag tag-sage">Pesaran, Shin &amp; Smith (1999)</span>
+      </div>
+      <p style="font-size:14px; color:var(--ink-md); margin-bottom:18px; line-height:1.85;">
+        Kalau kamu tidak mau memilih salah satu — ada jalan tengah. <strong>Pooled Mean Group (PMG)</strong> dan <strong>Mean Group (MG)</strong> estimator menggabungkan logika ARDL dengan struktur panel, sehingga kamu mendapatkan yang terbaik dari kedua dunia.
+      </p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num" style="background:var(--sage); color:var(--sage-dk);">MG</div>
+          <div class="step-content">
+            <h4>Mean Group (Pesaran &amp; Smith 1995)</h4>
+            <p style="margin-bottom:8px;">Estimasi ARDL secara terpisah untuk <em>setiap</em> unit i, lalu rata-ratakan koefisiennya. Tidak ada asumsi homogenitas sama sekali — setiap unit boleh memiliki koefisien yang berbeda, baik jangka pendek maupun jangka panjang.</p>
+            <div class="alert alert-sage" style="padding:10px 14px; margin:0;">
+              <strong>Kelebihan:</strong> Paling fleksibel — tidak ada pembatasan. <strong>Kelemahan:</strong> Membutuhkan T yang cukup besar per unit (≥ 20–30) agar estimasi per-unit masuk akal. Varians estimasi bisa besar kalau T kecil.
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--sky); color:var(--sky-dk);">PMG</div>
+          <div class="step-content">
+            <h4>Pooled Mean Group (Pesaran, Shin &amp; Smith 1999)</h4>
+            <p style="margin-bottom:8px;">Kompromis cerdas: <strong>long-run coefficients dibatasi sama</strong> untuk semua unit (homogenitas jangka panjang), tapi <strong>short-run dynamics bebas berbeda</strong> antar unit (heterogenitas jangka pendek). Model ARDL untuk setiap unit kemudian di-pool dengan MLE.</p>
+            <div class="eq-block" style="border-left-color:var(--sky-dk); margin:10px 0 0 0; padding:12px 16px;">
+              <div class="eq-label" style="color:var(--sky-dk);">ARDL(1,1) dalam bentuk ECM — PMG</div>
+              <div class="eq-main" style="font-size:13px; line-height:2;">
+                Δy<sub>it</sub> = φ<sub>i</sub>(y<sub>i,t−1</sub> − θ'x<sub>i,t−1</sub>) + γ<sub>i</sub>Δx<sub>it</sub> + μ<sub>i</sub> + ε<sub>it</sub>
+              </div>
+              <div class="eq-annot">
+                <span>θ</span> = long-run coefficient, <strong>sama untuk semua i</strong> (di-pool)<br>
+                <span>φ<sub>i</sub></span> = speed of adjustment, <strong>berbeda per individu</strong> (harus &lt; 0)<br>
+                <span>γ<sub>i</sub></span> = short-run coefficient, <strong>berbeda per individu</strong>
+              </div>
+            </div>
+            <div class="alert alert-sky" style="margin-top:12px; padding:10px 14px; background:var(--sky-lt); border-color:var(--sky-dk); color:#1A3A5A;">
+              <strong>Kelebihan:</strong> Lebih efisien dari MG ketika long-run homogeneity benar (lebih sedikit parameter). Bisa uji homogeneity via Hausman test (MG vs PMG). <strong>Kelemahan:</strong> Jika long-run coefficients benar-benar heterogen, PMG tidak konsisten.
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--lav); color:var(--lav-dk);">DFE</div>
+          <div class="step-content">
+            <h4>Dynamic Fixed Effects — Estimator Pembanding</h4>
+            <p>Pool <em>semua</em> koefisien (long-run dan short-run) dengan asumsi identik antar unit, hanya individual intercepts yang berbeda. Ini ekuivalen dengan FE biasa diterapkan ke ARDL. Paling efisien tapi paling ketat asumsinya — rentan terhadap Nickell bias kalau T kecil.</p>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-sage" style="margin-top:20px;">
+        <strong>Cara memilih MG vs PMG:</strong> Lakukan Hausman test dengan H<sub>0</sub>: long-run coefficients homogen (PMG konsisten dan efisien) vs H<sub>1</sub>: heterogen (hanya MG konsisten). Jika tidak tolak H<sub>0</sub> → PMG lebih baik. Jika tolak → gunakan MG.
+      </div>
+    </div>
+
+    <!-- DECISION GUIDE -->
+    <div class="card" style="margin-top:24px; border-top:3px solid var(--ink-md);">
+      <h3 style="margin-bottom:18px;">🗺️ Peta Keputusan — Pilih Metode yang Tepat</h3>
+      <div style="display:flex; flex-direction:column; gap:10px; font-size:13.5px; color:var(--ink-md); line-height:1.8;">
+
+        <div style="background:var(--lav-lt); border-radius:var(--radius-sm); padding:12px 16px; border-left:3px solid var(--lav-dk);">
+          <strong style="color:var(--lav-dk);">Apakah N besar (≥ 50) dan T kecil (≤ 10)?</strong><br>
+          → <strong>Gunakan DPD GMM</strong> (Difference atau System). ARDL tidak akan bekerja dengan baik karena T terlalu pendek per unit.
+        </div>
+
+        <div style="padding:2px 0 2px 20px; color:var(--ink-lt); font-size:12px;">↓ Kalau tidak (N sedang–kecil, T lebih panjang):</div>
+
+        <div style="background:var(--sky-lt); border-radius:var(--radius-sm); padding:12px 16px; border-left:3px solid var(--sky-dk);">
+          <strong style="color:var(--sky-dk);">Apakah ada dugaan kointegrasi / long-run relationship yang menjadi fokus utama?</strong><br>
+          → <strong>Gunakan ARDL bounds test</strong> (time series) atau <strong>PMG/MG</strong> (panel). Keduanya jauh lebih tepat untuk long-run inference.
+        </div>
+
+        <div style="padding:2px 0 2px 20px; color:var(--ink-lt); font-size:12px;">↓ Kalau tidak (fokus pada short-run dynamics dan causal identification):</div>
+
+        <div style="background:var(--peach-lt); border-radius:var(--radius-sm); padding:12px 16px; border-left:3px solid var(--peach-dk);">
+          <strong style="color:var(--peach-dk);">Apakah ada endogenitas regressor atau individual fixed effects yang kuat?</strong><br>
+          → <strong>Gunakan DPD GMM</strong>. ARDL tidak bisa menangani endogenitas secara proper.
+        </div>
+
+        <div style="padding:2px 0 2px 20px; color:var(--ink-lt); font-size:12px;">↓ Kalau regresor strictly exogenous dan heterogenitas antarunit tidak terlalu besar:</div>
+
+        <div style="background:var(--sage-lt); border-radius:var(--radius-sm); padding:12px 16px; border-left:3px solid var(--sage-dk);">
+          <strong style="color:var(--sage-dk);">ARDL (per unit atau pooled) menjadi pilihan yang valid dan lebih parsimoni.</strong><br>
+          Pertimbangkan PMG jika ingin pooling yang lebih efisien dengan long-run homogeneity.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RELEVANCE BOX for commodity/exchange rate research -->
+    <div class="accent-block" style="margin-top:24px;">
+      <h3>🇮🇩 Relevansi untuk Studi Pass-Through &amp; Nilai Tukar</h3>
+      <p style="color:var(--ink-md); margin-bottom:16px; font-size:15px; line-height:1.8;">
+        Dalam konteks penelitian <em>commodity currency dynamics</em> dan <em>pass-through</em> harga komoditas internasional ke harga domestik (IDR/USD), pilihan antara ARDL dan DPD GMM sangat bergantung pada desain data:
+      </p>
+      <div class="cards-2">
+        <div style="font-size:14px; color:var(--ink-md); line-height:1.85;">
+          <strong style="color:var(--ink);">Jika data agregat Indonesia (time series)</strong><br>
+          Misal: data bulanan Bank Indonesia, 1990–2023. Gunakan <strong>ARDL bounds test</strong> atau <strong>VECM</strong>. T sangat panjang, N=1. Fokus pada kointegrasi dan long-run pass-through elasticity.
+        </div>
+        <div style="font-size:14px; color:var(--ink-md); line-height:1.85;">
+          <strong style="color:var(--ink);">Jika data panel komoditas (N komoditas × T periode)</strong><br>
+          Misal: 20 komoditas ekspor, 15 tahun. Gunakan <strong>PMG/MG</strong> untuk long-run, atau <strong>DPD GMM</strong> jika fokus pada short-run adjustment dan ada endogenitas harga.
+        </div>
+        <div style="font-size:14px; color:var(--ink-md); line-height:1.85;">
+          <strong style="color:var(--ink);">Jika data panel kabupaten/provinsi</strong><br>
+          Misal: 34 provinsi, 10 tahun, variabel dependen inflasi regional. N sedang, T kecil → <strong>DPD GMM lebih sesuai</strong>, terutama jika ada endogenitas infrastruktur atau transfer fiskal.
+        </div>
+        <div style="font-size:14px; color:var(--ink-md); line-height:1.85;">
+          <strong style="color:var(--ink);">Jika data panel negara-negara komoditi eksportir</strong><br>
+          Misal: 30 negara berkembang pengekspor komoditas, 20 tahun. Zona abu-abu — <strong>PMG</strong> paling direkomendasikan karena menangkap heterogenitas speed-of-adjustment antar negara sambil membatasi long-run elastisitas.
+        </div>
+      </div>
+    </div>
+
+    <!-- REFERENCES for this section -->
+    <div class="alert alert-lav" style="margin-top:20px;">
+      <strong>Referensi Kunci:</strong> Pesaran &amp; Smith (1995) untuk MG; Pesaran, Shin &amp; Smith (1999) untuk PMG; Pesaran, Shin &amp; Bounds (2001) untuk ARDL bounds testing; Im, Pesaran &amp; Shin (2003) untuk panel unit root yang diperlukan sebelum PMG/MG. Di Stata: <code>xtpmg</code> (MG, PMG, DFE) atau <code>ardl</code> (ARDL bounds test).
+    </div>
+
+  </section>
+
+  <!-- SUMMARY BLOCK -->
+  <div class="accent-block" style="margin-top:50px;">
+    <h3>📚 Referensi Utama</h3>
+    <div class="cards-2">
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Arellano &amp; Bond (1991)</strong><br>
+        "Some tests of specification for panel data: Monte Carlo evidence and an application to employment equations." <em>Review of Economic Studies</em>, 58: 277–297.<br>
+        <span class="tag tag-lav" style="margin-top:4px;">Difference GMM</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Blundell &amp; Bond (1998)</strong><br>
+        "Initial conditions and moment restrictions in dynamic panel data models." <em>Journal of Econometrics</em>, 87: 115–143.<br>
+        <span class="tag tag-sage" style="margin-top:4px;">System GMM</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Bond (2002)</strong><br>
+        "Dynamic panel data models: a guide to micro data methods and practice." <em>Portuguese Economic Journal</em>, 1: 141–162.<br>
+        <span class="tag tag-sky" style="margin-top:4px;">Review &amp; Praktik</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Judson &amp; Owen (1997)</strong><br>
+        "Estimating dynamic panel data models: a practical guide for macroeconomists." <em>Federal Reserve Board Working Paper</em>.<br>
+        <span class="tag tag-peach" style="margin-top:4px;">Macro Panels</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Roodman (2009)</strong><br>
+        "How to do xtabond2: An introduction to difference and system GMM in Stata." <em>Stata Journal</em>, 9(1): 86–136.<br>
+        <span class="tag tag-sky" style="margin-top:4px;">Implementasi Stata</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Windmeijer (2005)</strong><br>
+        "A finite sample correction for the variance of linear efficient two-step GMM estimators." <em>Journal of Econometrics</em>, 126: 25–51.<br>
+        <span class="tag tag-peach" style="margin-top:4px;">Koreksi SE</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Hausman (1978)</strong><br>
+        "Specification tests in econometrics." <em>Econometrica</em>, 46(6): 1251–1271.<br>
+        <span class="tag tag-lav" style="margin-top:4px;">Specification Test</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Hausman &amp; Taylor (1981)</strong><br>
+        "Panel data and unobservable individual effects." <em>Econometrica</em>, 49(6): 1377–1398.<br>
+        <span class="tag tag-sky" style="margin-top:4px;">HT-IV Estimator</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Nickell (1981)</strong><br>
+        "Biases in dynamic models with fixed effects." <em>Econometrica</em>, 49(6): 1417–1426.<br>
+        <span class="tag tag-peach" style="margin-top:4px;">Nickell Bias</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Shin, Y. (2014)</strong><br>
+        "Dynamic Panel Data Workshop." <em>Melbourne University / DERS York</em>, June 2014.<br>
+        <span class="tag tag-sage" style="margin-top:4px;">Workshop Slides (308 pp)</span>
+      </div>
+      <div style="font-size:14px; color:var(--ink-md); line-height:1.8;">
+        <strong style="color:var(--ink);">Ahn &amp; Schmidt (1995)</strong><br>
+        "Efficient estimation of models for dynamic panel data." <em>Journal of Econometrics</em>, 68: 5–27.<br>
+        <span class="tag tag-sky" style="margin-top:4px;">Additional Moments</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end page-body -->
+
+<footer>
+  <strong>Dynamic Panel Data — Panduan Komprehensif</strong><br>
+  Berdasarkan Shin (2014, Melbourne Workshop), Mućk (SGH Warsaw), Nickell (1981), Hausman &amp; Taylor (1981), Anderson &amp; Hsiao (1981), Arellano &amp; Bond (1991), Blundell &amp; Bond (1998), Bond (2002), Roodman (2009) · Untuk keperluan akademik
+</footer>
+
+</body>
+</html>
