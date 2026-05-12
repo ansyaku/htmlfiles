@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Economics Conference Calendar 2025–2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f0eb;
+    --surface: #fdfaf7;
+    --surface2: #f0ebe4;
+    --border: #e0d8cf;
+    --text: #2a2118;
+    --text2: #6b5d4f;
+    --text3: #9c8d80;
+    --accent: #4a3f8c;
+    --accent-light: #eeecf8;
+    --accent-mid: #7b72c4;
+    --green: #2d6a4f;
+    --green-light: #e8f4ee;
+    --red: #8b2e2e;
+    --red-light: #f7eaea;
+    --amber: #7a4f0f;
+    --amber-light: #fdf0db;
+    --blue: #1a4f7a;
+    --blue-light: #e6f0f8;
+    --purple: #4a3f8c;
+    --purple-light: #eeecf8;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: 0.5rem;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  header h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .header-sub {
+    font-size: 14px;
+    color: var(--text2);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: fit-content;
+  }
+
+  .tab {
+    padding: 7px 18px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .tab:hover { background: var(--surface2); color: var(--text); }
+
+  .tab.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .conf-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .conf-header {
+    padding: 16px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    background: var(--surface);
+  }
+
+  .conf-header-left { flex: 1; min-width: 0; }
+
+  .conf-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text);
+    margin: 0 0 5px;
+    line-height: 1.35;
+  }
+
+  .conf-meta {
+    font-size: 12.5px;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .conf-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .conf-link {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 7px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border: 1px solid #d5d1f0;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+
+  .conf-link:hover { background: #dddaf4; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+
+  thead tr { background: var(--surface2); }
+
+  th {
+    text-align: left;
+    padding: 9px 20px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover td { background: #faf7f3; }
+
+  .date-cell {
+    font-size: 12.5px;
+    color: var(--text2);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .b-open    { background: var(--green-light);  color: var(--green); }
+  .b-deadline{ background: var(--red-light);    color: var(--red); }
+  .b-notif   { background: var(--amber-light);  color: var(--amber); }
+  .b-reg     { background: var(--blue-light);   color: var(--blue); }
+  .b-event   { background: var(--purple-light); color: var(--purple); }
+  .b-other   { background: var(--surface2);     color: var(--text2); }
+
+  .milestone-strong { font-weight: 500; }
+
+  .empty-panel {
+    padding: 3.5rem 1.5rem;
+    text-align: center;
+    background: var(--surface);
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    color: var(--text3);
+  }
+
+  .empty-panel .icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+    display: block;
+  }
+
+  .empty-panel h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+
+  .empty-panel p { font-size: 13.5px; }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+
+  .legend-label {
+    font-size: 11px;
+    color: var(--text3);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 12px;
+    color: var(--text3);
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="header-eyebrow">Research Calendar</p>
+  <h1>Economics <em>Conferences</em><br>2025–2026</h1>
+  <p class="header-sub">Call for papers, deadlines &amp; registrasi konferensi ekonomi internasional</p>
+</header>
+
+<div class="container">
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('australia', this)">🌏 Australia &amp; Pacific</button>
+    <button class="tab" onclick="showTab('asia', this)">🌏 Asia</button>
+    <button class="tab" onclick="showTab('america', this)">🌎 Amerika</button>
+    <button class="tab" onclick="showTab('europe', this)">🌍 Eropa</button>
+    <button class="tab" onclick="showTab('africa', this)">🌍 Afrika</button>
+  </div>
+
+  <div class="legend">
+    <span class="legend-label">Legenda:</span>
+    <span class="badge b-open">Open</span>
+    <span class="badge b-deadline">Deadline</span>
+    <span class="badge b-notif">Notifikasi</span>
+    <span class="badge b-reg">Registrasi</span>
+    <span class="badge b-event">Event</span>
+    <span class="badge b-other">Lainnya</span>
+  </div>
+
+  <!-- ============ AUSTRALIA ============ -->
+  <div id="tab-australia" class="panel active">
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">Australian Conference of Economists (ACE 2026)</p>
+          <div class="conf-meta">
+            <span>📍 Canberra</span>
+            <span>📅 7–10 July 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://ace2026.org.au/call-for-papers.html" target="_blank">
+          ↗ Website
+        </a>
+      </div>
+      <table>
+        <thead>
+          <tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Call opens</td><td class="date-cell">13 Feb 2026</td><td><span class="badge b-open">Open</span></td></tr>
+          <tr><td>Submissions close</td><td class="date-cell">24 Apr 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Notification</td><td class="date-cell">8 May 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Presenter registration deadline</td><td class="date-cell">29 May 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Program released</td><td class="date-cell">5 Jun 2026</td><td><span class="badge b-other">Program</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>7–10 Jul 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">Asia-Pacific Meeting of the Economic Science Association (ESA 2026)</p>
+          <div class="conf-meta">
+            <span>📍 University of Melbourne</span>
+            <span>🌏 Asia-Pacific Region</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://fbe.unimelb.edu.au/conferences/asia-pacific-meeting-of-the-economic-science-association" target="_blank">
+          ↗ Website
+        </a>
+      </div>
+      <table>
+        <thead>
+          <tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Call for papers</td><td class="date-cell">9 Sep 2025</td><td><span class="badge b-open">Open</span></td></tr>
+          <tr><td>Deadline for submissions</td><td class="date-cell">18 Nov 2025</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Announcement of acceptance decisions</td><td class="date-cell">9 Dec 2025</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Early registration opens</td><td class="date-cell">1 Jan 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Early registration deadline</td><td class="date-cell">3 Feb 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Final registration deadline</td><td class="date-cell">3 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">47th Annual Australian Health Economics Society (AHES) Conference</p>
+          <div class="conf-meta">
+            <span>📍 Grand Chancellor Hotel, Hobart</span>
+            <span>📅 22–23 Sep 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://ahes.org.au/ahes-conference-2026-2/" target="_blank">
+          ↗ Website
+        </a>
+      </div>
+      <table>
+        <thead>
+          <tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Abstract submissions open</td><td class="date-cell">2 Mar 2026</td><td><span class="badge b-open">Open</span></td></tr>
+          <tr><td>Prize &amp; award nominations open</td><td class="date-cell">2 Mar 2026</td><td><span class="badge b-open">Open</span></td></tr>
+          <tr><td>Abstract submissions close</td><td class="date-cell">30 Apr 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Notification of abstract outcomes</td><td class="date-cell">7 Jun 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Registrations open</td><td class="date-cell">12 Jun 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Prize &amp; award nominations close</td><td class="date-cell">1 Jul 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Speaker &amp; early bird registration deadline</td><td class="date-cell">12 Jul 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Registration deadline</td><td class="date-cell">11 Sep 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>22–23 Sep 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">Melbourne Money &amp; Finance Conference</p>
+          <div class="conf-meta">
+            <span>📍 Melbourne</span>
+            <span>📅 9–10 Feb 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>9–10 Feb 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">16th Annual Australia New Zealand Workshop in Experimental Economics (ANZWEE / ADEW 2026)</p>
+          <div class="conf-meta">
+            <span>📍 Australian National University, Canberra</span>
+            <span>📅 4–5 Jun 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Submission deadline (via Conference Maker)</td><td class="date-cell">15 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Notification of acceptance</td><td class="date-cell">Mid-Apr 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>4–5 Jun 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- end australia -->
+
+  <!-- ============ ASIA ============ -->
+  <div id="tab-asia" class="panel">
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">JEPA 2026 — 25th International Conference of the Japan Economic Policy Association</p>
+          <div class="conf-meta">
+            <span>📍 Shinagawa Campus, Tokai University, Tokyo</span>
+            <span>📅 24–25 Oct 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://jepa.jpn.org/en/2026/05/08/jepa2026/" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Full paper submission deadline</td><td class="date-cell">10 Aug 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>24–25 Oct 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">8th Annual Conference of the Japan Economy Network (JEN 2026)</p>
+          <div class="conf-meta">
+            <span>📍 Tokyo</span>
+            <span>📅 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://www.soas.ac.uk/about/news/call-papers-eighth-annual-conference-japan-economy-network" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Call for papers</td><td class="date-cell">24 Feb 2026</td><td><span class="badge b-open">Open</span></td></tr>
+          <tr><td>Submission deadline</td><td class="date-cell">30 Apr 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Acceptance notification</td><td class="date-cell">15 May 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">International Economies: Challenges Ahead — Ryukoku / YNU / Sciences Po / AMSE</p>
+          <div class="conf-meta">
+            <span>📍 Ryukoku University, Kyoto</span>
+            <span>📅 28 Feb – 1 Mar 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>28 Feb – 1 Mar 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">International Conference on Economic Theory and Policy — Meiji University</p>
+          <div class="conf-meta">
+            <span>📍 Liberty Tower, Surugadai Campus, Meiji University, Tokyo</span>
+            <span>📅 25–27 Sep 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://www.isc.meiji.ac.jp/~confyagi/September2026.html" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Submission deadline</td><td class="date-cell">25 Jul 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>25–27 Sep 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">Economics of Payments XV Conference — Bank of Japan</p>
+          <div class="conf-meta">
+            <span>📍 Bank of Japan Head Office, Tokyo</span>
+            <span>📅 9–10 Nov 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://www.imes.boj.or.jp/en/eop/cfp.html" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Submission deadline (full paper / extended abstract)</td><td class="date-cell">31 May 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Notification of review results</td><td class="date-cell">Jul 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>9–10 Nov 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">8th Annual JADE Conference — Japanese Association for Development Economics</p>
+          <div class="conf-meta">
+            <span>📍 Kyoto University, Kyoto</span>
+            <span>📅 11–12 Apr 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Paper submission deadline</td><td class="date-cell">15 Dec 2025</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Acceptance/rejection notification</td><td class="date-cell">End Dec 2025</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Registration opens</td><td class="date-cell">14 Feb 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Final papers due</td><td class="date-cell">10 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Early registration deadline</td><td class="date-cell">3 Apr 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>11–12 Apr 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">IMFC10 — 10th International Macroeconomics and Finance Conference (KMFA-BOK-CEPR)</p>
+          <div class="conf-meta">
+            <span>📍 Korea University, Seoul</span>
+            <span>📅 10–11 Apr 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://sites.google.com/view/asiaimfc/home" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Submission deadline</td><td class="date-cell">15 Dec 2025</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Acceptance notification</td><td class="date-cell">15 Jan 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>10–11 Apr 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">2026 KER International Conference — Korean Economic Review</p>
+          <div class="conf-meta">
+            <span>📍 Maison Glad Jeju, Jeju, South Korea</span>
+            <span>📅 22–23 Jun 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Submission deadline</td><td class="date-cell">5 Apr 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>22–23 Jun 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">IME 2026 — 29th International Congress on Insurance: Mathematics and Economics</p>
+          <div class="conf-meta">
+            <span>📍 Seoul, South Korea</span>
+            <span>📅 29 Jun – 3 Jul 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://ime2026.org" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Abstract submission deadline</td><td class="date-cell">5 Apr 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Notification of acceptance</td><td class="date-cell">15 Apr 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Early-bird registration deadline</td><td class="date-cell">30 Apr 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Regular registration deadline</td><td class="date-cell">15 Jun 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>29 Jun – 3 Jul 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">2026 CES China Annual Conference — Chinese Economists Society</p>
+          <div class="conf-meta">
+            <span>📍 Southwestern University of Finance and Economics, Chengdu</span>
+            <span>📅 3–5 Jul 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Paper &amp; organized session deadline</td><td class="date-cell">29 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Notification of decision</td><td class="date-cell">15 Apr 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Early registration deadline</td><td class="date-cell">30 Apr 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Registration deadline (for program inclusion)</td><td class="date-cell">15 May 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>3–5 Jul 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">CICM 2026 — 8th China International Conference in Macroeconomics</p>
+          <div class="conf-meta">
+            <span>📍 Jilin University, Changchun, China</span>
+            <span>📅 27–28 Jun 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Paper submission deadline</td><td class="date-cell">13 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Decision notification</td><td class="date-cell">13 Apr 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>27–28 Jun 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">19th China Economics Summer Institute (CESI 2026)</p>
+          <div class="conf-meta">
+            <span>📍 Chinese University of Hong Kong (CUHK)</span>
+            <span>📅 14–15 Aug 2026</span>
+          </div>
+          </div>
+        <a class="conf-link" href="http://cesi.econ.cuhk.edu.hk/" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Paper submission deadline</td><td class="date-cell">8 May 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Acceptance notification</td><td class="date-cell">22 May 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>14–15 Aug 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- end asia -->
+
+  <!-- ============ AMERICA ============ -->
+  <div id="tab-america" class="panel">
+    <div class="empty-panel">
+      <span class="icon">🗺️</span>
+      <h3>Tab Amerika siap diisi</h3>
+      <p>Tambahkan konferensi dari kawasan Amerika — AEA Annual Meeting, NBER, LACEA, dan lainnya.</p>
+    </div>
+  </div>
+
+  <!-- ============ EUROPE ============ -->
+  <div id="tab-europe" class="panel">
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">XXVII Conference on International Economics — AEEFI</p>
+          <div class="conf-meta">
+            <span>📍 University of Castilla-La Mancha, Ciudad Real, Spain</span>
+            <span>📅 28–29 May 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>PhD session abstract deadline (May 27 sessions)</td><td class="date-cell">20 Feb 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Full paper submission deadline</td><td class="date-cell">5 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>PhD pre-conference sessions</td><td class="date-cell">27 May 2026</td><td><span class="badge b-event">Event</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>28–29 May 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">2026 RCEA International Conference in Economics, Econometrics &amp; Finance</p>
+          <div class="conf-meta">
+            <span>📍 Universidad Pontificia de Comillas, Madrid, Spain</span>
+            <span>📅 25–27 May 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Paper submission deadline</td><td class="date-cell">16 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Notification</td><td class="date-cell">4 Apr 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Registration (standard)</td><td class="date-cell">4–15 Apr 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Late registration</td><td class="date-cell">16–22 Apr 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>25–27 May 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">55th EBES Conference (Eurasian Business &amp; Economics Society)</p>
+          <div class="conf-meta">
+            <span>📍 Mathias Corvinus Collegium, Budapest, Hungary</span>
+            <span>📅 16–18 Apr 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://ebesweb.org/55th-ebes-conference-budapest/abstract-submission/" target="_blank">↗ Submit</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Abstract submission deadline</td><td class="date-cell">17 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Acceptance notification</td><td class="date-cell">19 Mar 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Registration &amp; virtual presentation deadline</td><td class="date-cell">25 Mar 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Full paper deadline (optional)</td><td class="date-cell">26 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Program announced</td><td class="date-cell">3 Apr 2026</td><td><span class="badge b-other">Program</span></td></tr>
+          <tr><td class="milestone-strong">Conference (hybrid)</td><td class="date-cell"><strong>16–18 Apr 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+          <tr><td>Paper submission to EBES journals</td><td class="date-cell">15 Jul 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">WCERE 2026 — 7th World Congress of Environmental &amp; Resource Economists</p>
+          <div class="conf-meta">
+            <span>📍 Nova SBE, Carcavelos Campus, Lisbon, Portugal</span>
+            <span>📅 29 Jun – 3 Jul 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://wcere2026.org/" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Submission deadline</td><td class="date-cell">20 Feb 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>29 Jun – 3 Jul 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">CARMA 2026 — 8th International Conference on Advanced Research Methods &amp; Analytics</p>
+          <div class="conf-meta">
+            <span>📍 Universitat Politècnica de València (UPV), Valencia, Spain</span>
+            <span>📅 1–3 Jul 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>1–3 Jul 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">CEA (Europe/UK) 2026 Annual Conference — 18th CEA Europe &amp; 37th CEA UK</p>
+          <div class="conf-meta">
+            <span>📍 University College Dublin (UCD), Ireland</span>
+            <span>📅 5–7 Aug 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="mailto:ceaukeu2026@gmail.com">✉ Submit</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Paper submission deadline</td><td class="date-cell">15 Apr 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Acceptance notification</td><td class="date-cell">End Apr 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>5–7 Aug 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">17th Paris Conference on Digital Economics</p>
+          <div class="conf-meta">
+            <span>📍 Institut Polytechnique de Paris, Palaiseau, France</span>
+            <span>📅 9–10 Apr 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Full paper submission deadline</td><td class="date-cell">5 Jan 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>9–10 Apr 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">16th Annual ASFEE Conference — French Association of Experimental Economics</p>
+          <div class="conf-meta">
+            <span>📍 Lille, France (LEM / ETHICS)</span>
+            <span>📅 25–26 Jun 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://asfee2026.sciencesconf.org/" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Abstract submission deadline</td><td class="date-cell">13 Mar 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>25–26 Jun 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">13th Annual FAERE Conference — French Association of Environmental &amp; Resource Economists</p>
+          <div class="conf-meta">
+            <span>📍 Université Bourgogne Europe, Dijon, France</span>
+            <span>📅 10–11 Sep 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://faere.fr/en/events/" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>10–11 Sep 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">18th Digital Economics Conference — TSE Digital Center &amp; CEPR</p>
+          <div class="conf-meta">
+            <span>📍 Toulouse School of Economics, Toulouse, France</span>
+            <span>📅 2026 (edition concluded)</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://www.tse-fr.eu/events/conferences" target="_blank">↗ Events</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Registration deadline</td><td class="date-cell">31 Dec 2025</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>2026 (concluded)</strong></td><td><span class="badge b-other">Selesai</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ============ AFRICA ============ -->
+  <div id="tab-africa" class="panel">
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">63rd AEASA Conference 2026 — Agricultural Economics Association of South Africa</p>
+          <div class="conf-meta">
+            <span>📍 Legend Golf &amp; Safari Resort, Mokopane, Limpopo, South Africa</span>
+            <span>📅 29 Sep – 1 Oct 2026</span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>1st Call for Papers</td><td class="date-cell">27 Feb 2026</td><td><span class="badge b-open">Open</span></td></tr>
+          <tr><td>Invited panels &amp; organised symposia open</td><td class="date-cell">30 Apr 2026</td><td><span class="badge b-open">Open</span></td></tr>
+          <tr><td>2nd Call for Papers</td><td class="date-cell">15 Apr 2026</td><td><span class="badge b-open">Open</span></td></tr>
+          <tr><td>Paper submissions open</td><td class="date-cell">11 May 2026</td><td><span class="badge b-open">Open</span></td></tr>
+          <tr><td>Mini symposium proposals deadline</td><td class="date-cell">15 Jun 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Full paper, invited panel &amp; symposia deadline</td><td class="date-cell">30 Jun 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Early bird registration starts</td><td class="date-cell">1 Jul 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Acceptance notification</td><td class="date-cell">30 Jul 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Early bird registration deadline</td><td class="date-cell">1 Aug 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Regular registration deadline</td><td class="date-cell">15 Aug 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Online registration closes</td><td class="date-cell">6 Sep 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>29 Sep – 1 Oct 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="conf-card">
+      <div class="conf-header">
+        <div class="conf-header-left">
+          <p class="conf-title">2026 AREF Conference — African Review of Economics and Finance</p>
+          <div class="conf-meta">
+            <span>📍 Wits Business School, Johannesburg, South Africa</span>
+            <span>📅 3–6 Nov 2026</span>
+          </div>
+        </div>
+        <a class="conf-link" href="https://www.african-review.com" target="_blank">↗ Website</a>
+      </div>
+      <table>
+        <thead><tr><th style="width:48%">Milestone</th><th>Tanggal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Abstract / full paper submission deadline</td><td class="date-cell">30 Jul 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td>Notification of acceptance</td><td class="date-cell">15 Aug 2026</td><td><span class="badge b-notif">Notifikasi</span></td></tr>
+          <tr><td>Early-bird registration closes</td><td class="date-cell">31 Aug 2026</td><td><span class="badge b-reg">Registrasi</span></td></tr>
+          <tr><td>Full paper for proceedings deadline</td><td class="date-cell">15 Sep 2026</td><td><span class="badge b-deadline">Deadline</span></td></tr>
+          <tr><td class="milestone-strong">Conference</td><td class="date-cell"><strong>3–6 Nov 2026</strong></td><td><span class="badge b-event">Event</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div><!-- end container -->
+
+<footer>
+  Economics Conference Calendar 2025–2026 &nbsp;·&nbsp; Last updated May 2026
+</footer>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>
