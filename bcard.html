@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Card — The Ansyaku's Atelier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0f1f4b;
+      --royal: #1a3a8c;
+      --mid-blue: #2451b3;
+      --sky: #4a80d4;
+      --pale-blue: #dde8f8;
+      --ice: #eef3fc;
+      --white: #ffffff;
+      --gold: #c9a84c;
+      --gold-light: #e8d08a;
+      --text-dark: #0d1b3e;
+      --text-muted: #5a6f99;
+
+      /* card-specific */
+      --card-bg: #e8f0fb;
+      --card-border: #b5cef0;
+      --card-navy: #0c3b7a;
+      --card-blue: #1a5fc8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--ice);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 50vh;
+      background: linear-gradient(160deg, #0a1535 0%, #0f2060 40%, #1a3a8c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 50px 30px 45px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(74,128,212,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,128,212,0.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(74,128,212,0.25) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .glow-bl {
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 860px;
+      animation: fadeUp 1s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .avatar-ring {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--sky) 100%);
+      margin-bottom: 20px;
+      box-shadow: 0 0 40px rgba(74,128,212,0.4);
+    }
+    .avatar-ring img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background: var(--navy);
+    }
+    .eyebrow {
+      font-size: 0.75em;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6em, 6vw, 4.4em);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1.1;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+      text-shadow: 0 2px 20px rgba(201,168,76,0.35);
+    }
+    .hero-name em { font-style: italic; color: var(--gold-light); }
+    .hero-tagline {
+      font-size: 1em;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+    .hero-loc {
+      font-size: 0.85em;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 10px;
+    }
+    .hero-contact {
+      font-size: 0.82em;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 36px;
+    }
+    .nav-pills {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav-pills a {
+      display: inline-block;
+      padding: 11px 28px;
+      border-radius: 40px;
+      font-size: 0.88em;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      letter-spacing: 0.03em;
+    }
+    .pill-primary { background: var(--white); color: var(--navy); }
+    .pill-primary:hover {
+      background: var(--gold-light); color: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+    }
+    .pill-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .pill-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.5);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .pill-active {
+      background: rgba(201,168,76,0.2);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,0.45);
+    }
+
+    /* ── DIVIDER ── */
+    .wave-divider {
+      background: linear-gradient(160deg, #0a1535 0%, #0f2060 40%, #1a3a8c 100%);
+      height: 5px;
+    }
+
+    /* ── MAIN ── */
+    main { background: var(--ice); min-height: 60vh; }
+    .content-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 70px 40px 80px;
+    }
+    .sec-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.7em;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid-blue);
+      margin-bottom: 14px;
+    }
+    .sec-label::after {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--mid-blue);
+      opacity: 0.4;
+    }
+    .sec-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2em, 4vw, 2.8em);
+      font-weight: 300;
+      color: var(--navy);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .sec-intro {
+      font-size: 0.95em;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 680px;
+      margin-bottom: 50px;
+    }
+
+    /* ── CARD STAGE ── */
+    .card-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .card-label {
+      font-size: 0.72em;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    /* ── BUSINESS CARD BASE ── */
+    .biz-card {
+      width: 533px;
+      height: 337px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      box-sizing: border-box;
+      box-shadow: 0 8px 40px rgba(15,31,75,0.18), 0 2px 8px rgba(15,31,75,0.10);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .biz-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 18px 56px rgba(15,31,75,0.22), 0 4px 16px rgba(15,31,75,0.12);
+    }
+
+    /* borders */
+    .bar-top    { position: absolute; top: 0;    left: 0; right: 0;  height: 5px; background: var(--card-navy); z-index: 2; }
+    .bar-bottom { position: absolute; bottom: 0; left: 0; right: 0;  height: 5px; background: var(--card-navy); z-index: 2; }
+    .bar-left   { position: absolute; left: 0;   top: 0;  bottom: 0; width:  5px; background: var(--card-navy); z-index: 2; }
+    .bar-right  { position: absolute; right: 0;  top: 0;  bottom: 0; width:  5px; background: var(--card-navy); z-index: 2; }
+
+    /* ── FRONT ── */
+    .front {
+      background: var(--card-bg);
+      border: 0.5px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 22px 16px 22px;
+      height: 100%;
+    }
+    .front-top {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .logo-front {
+      width: 108px;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+    .f-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--card-navy);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 1.2;
+      margin: 0;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .f-rule { width: 32px; height: 2px; background: var(--card-blue); margin: 5px 0 4px; }
+    .f-org {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--card-navy);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin: 0 0 2px;
+    }
+    .f-role {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--card-blue);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 0 0 2px;
+    }
+    .f-edu {
+      font-size: 9px;
+      font-weight: 300;
+      color: #5a7a9a;
+      letter-spacing: 0.04em;
+      margin: 0 0 7px;
+    }
+    .f-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .f-tag {
+      font-size: 7.5px;
+      font-weight: 500;
+      color: var(--card-blue);
+      background: rgba(26,95,200,0.1);
+      border: 0.5px solid rgba(26,95,200,0.28);
+      border-radius: 20px;
+      padding: 2px 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .f-divider { width: 100%; height: 1.5px; background: var(--card-blue); margin: 11px 0 9px; opacity: 0.35; }
+
+    .f-section-label {
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--card-blue);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .f-contact-rows { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+    .f-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      font-size: 9.5px;
+      color: #1a2e5e;
+      line-height: 1.4;
+    }
+    .f-row svg {
+      width: 11px; height: 11px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: var(--card-blue);
+    }
+
+    .f-office-rows { display: flex; flex-direction: column; gap: 5px; }
+
+    /* watermark */
+    .wm {
+      position: absolute;
+      bottom: 18px; right: 18px;
+      width: 120px; height: 120px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    /* ── BACK ── */
+    .back {
+      background: var(--card-bg);
+      border: 0.5px solid var(--card-border);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 22px 28px;
+      gap: 28px;
+    }
+    .back-qr {
+      flex-shrink: 0;
+      width: 130px;
+    }
+    #qr img, #qr canvas { border-radius: 6px; }
+
+    .back-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+    }
+    .back-logo { width: 160px; object-fit: contain; margin-bottom: 12px; }
+    .back-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .back-logo-icon { width: 52px; object-fit: contain; }
+    .back-logo-text { display: flex; flex-direction: column; }
+    .back-kemenku-big {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--card-navy);
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .back-kemenku-sub {
+      font-size: 9.5px;
+      color: #5a7a9a;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .back-rule { width: 100%; height: 1.5px; background: var(--card-blue); opacity: 0.35; margin-bottom: 12px; }
+    .back-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--card-navy);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .back-url {
+      font-size: 10px;
+      color: var(--card-blue);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── DOWNLOAD HINT ── */
+    .hint {
+      margin-top: 36px;
+      text-align: center;
+      font-size: 0.82em;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+    .hint a {
+      color: var(--mid-blue);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(36,81,179,0.25);
+    }
+    .hint a:hover { color: var(--navy); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(160deg, #070e28 0%, #0f1f4b 100%);
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      padding: 36px 30px;
+      font-size: 0.8em;
+      letter-spacing: 0.04em;
+    }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
+
+    @media (max-width: 600px) {
+      .biz-card { width: 100%; height: auto; min-height: 220px; }
+      .front { flex-direction: column; }
+      .content-wrap { padding: 40px 18px 60px; }
+      .back { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="glow-bl"></div>
+    <div class="hero-inner">
+      <div class="avatar-ring">
+        <img src="https://raw.githubusercontent.com/ansyaku/htmlfiles/refs/heads/main/Circle.png" alt="Andreas Syaloom Kurniawan">
+      </div>
+      <p class="eyebrow">The Ansyaku's Atelier</p>
+      <h1 class="hero-name">Andreas <em>Syaloom</em> Kurniawan</h1>
+      <p class="hero-tagline">Master of Science in Economics &nbsp;·&nbsp; Universitas Gadjah Mada</p>
+      <p class="hero-loc">Yogyakarta, Indonesia</p>
+      <p class="hero-contact">andreas.kurniawan@kemenkeu.go.id</p>
+      <nav class="nav-pills">
+        <a href="about.html"         class="pill-ghost">About Me</a>
+        <a href="research.html"      class="pill-ghost">Research</a>
+        <a href="writings.html"      class="pill-ghost">Writings</a>
+        <a href="business_card.html" class="pill-active">Business Card</a>
+        <a href="sidenotes.html"     class="pill-ghost">Side Notes</a>
+      </nav>
+    </div>
+  </section>
+
+  <div class="wave-divider"></div>
+
+  <!-- MAIN -->
+  <main>
+    <div class="content-wrap">
+
+      <p class="sec-label">Contact</p>
+      <h2 class="sec-title">Business Card</h2>
+      <p class="sec-intro">
+        Front and back of my official business card. Scan the QR code on the back to visit my personal page.
+      </p>
+
+      <div class="card-stage">
+
+        <!-- FRONT -->
+        <div>
+          <p class="card-label">Front &nbsp;·&nbsp; 8,56 × 5,39 cm</p>
+          <div class="biz-card">
+            <div class="bar-top"></div>
+            <div class="bar-bottom"></div>
+            <div class="bar-left"></div>
+            <div class="bar-right"></div>
+
+            <!-- watermark SVG (Garuda silhouette approximation) -->
+            <div class="wm">
+              <svg viewBox="0 0 100 100" fill="#0c3b7a" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="50" cy="38" rx="18" ry="22"/>
+                <path d="M50 55 Q30 70 10 65 Q20 55 32 52 L50 55Z"/>
+                <path d="M50 55 Q70 70 90 65 Q80 55 68 52 L50 55Z"/>
+                <path d="M50 55 L44 90 L50 80 L56 90 Z"/>
+              </svg>
+            </div>
+
+            <div class="front">
+              <div class="front-top">
+                <!-- Kemenkeu logo -->
+                <img
+                  class="logo-front"
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Logo_Kemenkeu.png/200px-Logo_Kemenkeu.png"
+                  alt="Kementerian Keuangan"
+                  onerror="this.style.display='none'"
+                >
+                <div class="right-col">
+                  <p class="f-name">Andreas Syaloom Kurniawan</p>
+                  <div class="f-rule"></div>
+                  <p class="f-org">Inspectorate General, Ministry of Finance</p>
+                  <p class="f-role">Internal Auditor</p>
+                  <p class="f-edu">Magister Sains Ilmu Ekonomi, FEB UGM</p>
+                  <div class="f-tags">
+                    <span class="f-tag">Audit</span>
+                    <span class="f-tag">Data Analytics</span>
+                    <span class="f-tag">Information Systems</span>
+                    <span class="f-tag">Economics</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="f-divider"></div>
+
+              <!-- Contact -->
+              <p class="f-section-label">Contact</p>
+              <div class="f-contact-rows">
+                <div class="f-row">
+                  <!-- envelope icon -->
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="5" width="16" height="11" rx="1.5"/>
+                    <path d="M2 6l8 6 8-6"/>
+                  </svg>
+                  <span>andreas.kurniawan@kemenkeu.go.id</span>
+                </div>
+                <div class="f-row">
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="5" width="16" height="11" rx="1.5"/>
+                    <path d="M2 6l8 6 8-6"/>
+                  </svg>
+                  <span>andreassyaloomkurniawan@mail.ugm.ac.id</span>
+                </div>
+                <div class="f-row">
+                  <!-- WhatsApp icon -->
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2a8 8 0 00-6.93 11.97L2 18l4.13-1.05A8 8 0 1010 2z"/>
+                    <path d="M7.5 7.5c.17.38.7 1.5.77 1.62.08.12.08.24 0 .36-.08.12-.12.2-.24.32-.12.12-.25.27-.12.5.56.99 1.14 1.58 2.12 2.12.23.13.38 0 .5-.12.12-.12.2-.25.32-.37.12-.12.24-.14.38-.08.38.2 1.25.62 1.5.77.12.06.2.1.24.16.04.32-.1.88-.48 1.2-.38.32-.88.48-1.37.38-1.5-.3-3-1.12-4.25-2.37S5.3 9.87 5 8.37c-.1-.5.06-1 .38-1.37.32-.38.88-.52 1.2-.48.06.04.1.12.16.24.15.25.57 1.12.76 1.5z"/>
+                  </svg>
+                  <span>+62 858-8564-9536 <span style="color:#5a7a9a; font-style:italic;">(WhatsApp)</span></span>
+                </div>
+              </div>
+
+              <div class="f-divider" style="margin-top:2px;"></div>
+
+              <!-- Office -->
+              <p class="f-section-label">Office</p>
+              <div class="f-office-rows">
+                <div class="f-row">
+                  <!-- home icon -->
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+                    <path d="M7 18v-6h6v6"/>
+                  </svg>
+                  <span>Djuanda II Building 5th Floor, Jl. Dr. Wahidin No. 1, Central Jakarta, DKI Jakarta, Indonesia, 10710</span>
+                </div>
+                <div class="f-row">
+                  <!-- phone icon -->
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4h3.5l1.5 3.5-2 1.2a9.5 9.5 0 004.3 4.3l1.2-2L16 12.5V16a1 1 0 01-1 1C7.8 17 3 12.2 3 5a1 1 0 011-1z"/>
+                  </svg>
+                  <span>+62 21-3865-430</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BACK -->
+        <div>
+          <p class="card-label">Back &nbsp;·&nbsp; 8,56 × 5,39 cm</p>
+          <div class="biz-card">
+            <div class="bar-top"></div>
+            <div class="bar-bottom"></div>
+            <div class="bar-left"></div>
+            <div class="bar-right"></div>
+
+            <div class="back">
+              <!-- QR -->
+              <div class="back-qr">
+                <div id="qr"></div>
+              </div>
+
+              <!-- Right info -->
+              <div class="back-right">
+                <div class="back-logo-row">
+                  <img
+                    class="back-logo-icon"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Logo_Kemenkeu.png/200px-Logo_Kemenkeu.png"
+                    alt="Kemenkeu"
+                    onerror="this.style.display='none'"
+                  >
+                  <div class="back-logo-text">
+                    <span class="back-kemenku-big">Kementerian Keuangan</span>
+                    <span class="back-kemenku-sub">Republik Indonesia</span>
+                  </div>
+                </div>
+                <div class="back-rule"></div>
+                <p class="back-name">Andreas Syaloom Kurniawan</p>
+                <p class="back-url">ansyaku.github.io/htmlfiles/</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /card-stage -->
+
+      <p class="hint">
+        Personal site: <a href="https://ansyaku.github.io/htmlfiles/" target="_blank">ansyaku.github.io/htmlfiles/</a>
+      </p>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 Andreas Syaloom Kurniawan &nbsp;·&nbsp;
+      <a href="https://ansyaku.github.io/htmlfiles/" target="_blank">ansyaku.github.io</a>
+    </p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    (function wait(){
+      if(typeof QRCode === 'undefined' || !document.getElementById('qr')){
+        setTimeout(wait, 80); return;
+      }
+      new QRCode(document.getElementById('qr'), {
+        text: 'https://ansyaku.github.io/htmlfiles/',
+        width: 120, height: 120,
+        colorDark: '#0a2550',
+        colorLight: '#e8f0fb',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    })();
+  </script>
+</body>
+</html>
