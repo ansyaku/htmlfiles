@@ -335,6 +335,7 @@
     }
     .card.interest::before  { background: linear-gradient(90deg, var(--royal), var(--sky)); }
     .card.education::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+    .card.certification::before { background: linear-gradient(90deg, var(--navy), var(--mid-blue)); }
 
     .card-label {
       font-family: 'DM Mono', monospace;
@@ -348,6 +349,7 @@
     }
     .card.interest .card-label  { color: var(--mid-blue); }
     .card.education .card-label { color: var(--amber); }
+    .card.certification .card-label { color: var(--navy); }
     .card-label::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.2; }
 
     .card h2 {
@@ -384,6 +386,10 @@
     }
     .card.interest .item-dot  { background: var(--mid-blue); opacity: 0.5; }
     .card.education .item-dot { background: var(--gold); opacity: 0.8; }
+    .card.certification .item-dot { background: var(--navy); opacity: 0.6; }
+    .item-list a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color 0.2s, color 0.2s; }
+    .item-list a:hover { color: var(--mid-blue); border-color: var(--mid-blue); }
+    .item-meta { display: block; font-family: 'DM Mono', monospace; font-size: 0.74em; color: var(--text-muted); margin-top: 6px; letter-spacing: 0.03em; }
 
     .item-sub {
       display: block;
@@ -546,6 +552,22 @@
             <span>
               Master of Science in Economics <span class="item-year">2027</span>
               <span class="item-sub">Universitas Gadjah Mada</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card certification">
+        <div class="card-label">03 / Certification</div>
+        <h2>Certification</h2>
+        <ul class="item-list">
+          <li>
+            <span class="item-dot"></span>
+            <span>
+              <strong><a href="https://www.lspmks.co.id/sertifikasi/skema-manajemen-risiko/qrma" target="_blank" rel="noopener">Qualified Risk Management Analyst (QRMA)</a></strong>
+              <span class="item-sub"><a href="https://bnsp.go.id/" target="_blank" rel="noopener">Badan Nasional Sertifikasi Profesi</a></span>
+              <span class="item-meta">ID: 70209 2421 0018310 2024</span>
+              <span class="item-meta">Valid: 16-Feb-2024 – 15-Feb-2027</span>
             </span>
           </li>
         </ul>
