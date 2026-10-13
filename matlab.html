@@ -47,8 +47,7 @@
 
   .viewer{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
   .frame{position:relative;aspect-ratio:16/9;background:#fafafa;display:flex;align-items:center;justify-content:center}
-  .frame img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;opacity:0;transition:opacity .15s}
-  .frame img.ready{opacity:1}
+  .frame canvas{display:block;pointer-events:none}
   .shield{position:absolute;inset:0;cursor:pointer}
   .progress{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);transition:width .2s}
   .msg{position:absolute;color:var(--muted);padding:20px;text-align:center}
@@ -87,8 +86,8 @@
 
   <section class="viewer" id="viewer" aria-label="Penampil slide">
     <div class="frame">
-      <img id="img" alt="" draggable="false">
-      <p class="msg" id="msg">Memuat slide…</p>
+      <canvas id="cv" role="img"></canvas>
+      <p class="msg" id="msg">Memuat materi…</p>
       <div class="shield" id="shield" title="Klik kiri untuk mundur, kanan untuk maju"></div>
       <div class="progress" id="progress" style="width:0"></div>
     </div>
@@ -103,56 +102,83 @@
   <footer>Gunakan tombol panah keyboard atau geser layar untuk berpindah slide.</footer>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
-/* ===== Daftar materi: tambah entri baru di sini ===== */
+/* ===== Konfigurasi ===== */
+const KUNCI = "zlFK6wW2nTnQhV7M/cQ43OglEaJkkHG4InE4jlUQ6fA=";   // harus sama dengan kunci.txt
 const MATERI = [
-  { no:"03a", judul:"Indexing matriks", ket:"magic(), akses elemen, eye/triu/tril, sum()", folder:"slides/indexing/", jumlah:22 },
-  { no:"03b", judul:"Operasi matriks",  ket:"Penjumlahan, perkalian, transpose, determinan, invers, eigen", folder:"slides/operasi/", jumlah:15 },
+  { no:"03a", judul:"Indexing matriks", ket:"magic(), akses elemen, eye/triu/tril, sum()", file:"materi/03a.bin" },
+  { no:"03b", judul:"Operasi matriks",  ket:"Penjumlahan, perkalian, transpose, determinan, invers, eigen", file:"materi/03b.bin" },
 ];
-/* ==================================================== */
+/* ======================= */
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 const $ = id => document.getElementById(id);
-const img = $("img");
-let m = 0, page = 1;
+const cv = $("cv"), ctx = cv.getContext("2d"), frame = cv.parentElement;
+const docs = {};                       // cache dokumen yang sudah dibuka
+let m = 0, page = 1, doc = null, task = null, token = 0;
 
-const src = (mi, n) => {
-  const x = MATERI[mi];
-  return x.folder + "slide-" + String(n).padStart(String(x.jumlah).length, "0") + ".jpg";
-};
+async function bukaMateri(i){
+  if (docs[i]) return docs[i];
+  const raw = new Uint8Array(await (await fetch(MATERI[i].file)).arrayBuffer());
+  const key = await crypto.subtle.importKey("raw",
+    Uint8Array.from(atob(KUNCI), c => c.charCodeAt(0)), "AES-GCM", false, ["decrypt"]);
+  const pdf = await crypto.subtle.decrypt({name:"AES-GCM", iv:raw.slice(0,12)}, key, raw.slice(12));
+  docs[i] = await pdfjsLib.getDocument({data:new Uint8Array(pdf)}).promise;
+  return docs[i];
+}
 
-// tombol materi
 $("materi").innerHTML = MATERI.map((x,i) =>
   `<button type="button" data-i="${i}" aria-pressed="false">
      <span class="no">${x.no}</span><span class="t">${x.judul}</span>
-     <span class="d">${x.ket} (${x.jumlah} slide)</span>
+     <span class="d" id="d${i}">${x.ket}</span>
    </button>`).join("");
-$("materi").onclick = e => {
-  const b = e.target.closest("button"); if (!b) return;
-  pilih(+b.dataset.i, 1);
-};
+$("materi").onclick = e => { const b = e.target.closest("button"); if (b) pilih(+b.dataset.i, 1); };
 
-function pilih(i, n){
-  m = i; page = n;
+async function pilih(i, n){
+  m = i;
   document.querySelectorAll("#materi button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.i === m));
-  img.alt = MATERI[m].judul;
-  history.replaceState(null, "", `#${MATERI[m].no}-${page}`);
-  render();
+  cv.setAttribute("aria-label", MATERI[m].judul);
+  $("msg").hidden = false; $("msg").textContent = "Memuat materi…"; cv.style.visibility = "hidden";
+  try{
+    const d = await bukaMateri(i);
+    if (m !== i) return;
+    doc = d; page = Math.min(Math.max(n,1), doc.numPages);
+    $("msg").hidden = true; cv.style.visibility = "";
+    render();
+  }catch(err){
+    console.error(err);
+    $("msg").textContent = "Materi gagal dimuat. Periksa file " + MATERI[i].file + " dan KUNCI.";
+  }
 }
 
-function render(){
-  const total = MATERI[m].jumlah;
-  img.classList.remove("ready");
-  img.src = src(m, page);
-  $("count").textContent = `${page} / ${total}`;
-  $("prev").disabled = page <= 1; $("next").disabled = page >= total;
-  $("progress").style.width = (page/total*100) + "%";
-  history.replaceState(null, "", `#${MATERI[m].no}-${page}`);
-  [page-1, page+1].forEach(k => { if (k >= 1 && k <= total) new Image().src = src(m, k); });
-}
-img.onload  = () => { img.classList.add("ready"); $("msg").hidden = true; };
-img.onerror = () => { $("msg").hidden = false; $("msg").textContent = "Slide tidak ditemukan: " + src(m, page); };
+async function render(){
+  const my = ++token;
+  if (task) { task.cancel(); task = null; }
+  const p = await doc.getPage(page);
+  if (my !== token) return;
+  const base = p.getViewport({scale:1});
+  const fit = Math.min(frame.clientWidth/base.width, frame.clientHeight/base.height);
+  const dpr = Math.min(window.devicePixelRatio || 1, 3);
+  const vp = p.getViewport({scale: fit*dpr});
+  const off = document.createElement("canvas");          // render di luar layar, lalu tempel: tanpa kedip
+  off.width = Math.floor(vp.width); off.height = Math.floor(vp.height);
+  task = p.render({canvasContext: off.getContext("2d"), viewport: vp});
+  try { await task.promise; } catch { return; }
+  if (my !== token) return;
+  cv.width = off.width; cv.height = off.height;
+  cv.style.width = off.width/dpr + "px"; cv.style.height = off.height/dpr + "px";
+  ctx.drawImage(off, 0, 0);
 
-const go = d => { const n = page + d; if (n >= 1 && n <= MATERI[m].jumlah){ page = n; render(); } };
+  $("count").textContent = `${page} / ${doc.numPages}`;
+  $("prev").disabled = page <= 1; $("next").disabled = page >= doc.numPages;
+  $("progress").style.width = (page/doc.numPages*100) + "%";
+  history.replaceState(null, "", `#${MATERI[m].no}-${page}`);
+}
+
+const go = d => { if (!doc) return; const n = page + d; if (n >= 1 && n <= doc.numPages){ page = n; render(); } };
 
 $("prev").onclick = () => go(-1);
 $("next").onclick = () => go(1);
@@ -166,8 +192,11 @@ document.addEventListener("keydown", e => {
 });
 
 $("fs").onclick = () => document.fullscreenElement ? document.exitFullscreen() : $("viewer").requestFullscreen?.();
-document.addEventListener("fullscreenchange", () =>
-  $("fs").textContent = document.fullscreenElement ? "Keluar layar penuh" : "Layar penuh");
+document.addEventListener("fullscreenchange", () => {
+  $("fs").textContent = document.fullscreenElement ? "Keluar layar penuh" : "Layar penuh";
+  setTimeout(() => doc && render(), 50);
+});
+let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => doc && render(), 150); });
 
 let x0 = null;
 $("shield").addEventListener("touchstart", e => x0 = e.touches[0].clientX, {passive:true});
@@ -179,10 +208,9 @@ $("shield").addEventListener("touchend", e => {
 document.addEventListener("contextmenu", e => e.preventDefault());
 document.addEventListener("dragstart", e => e.preventDefault());
 
-// buka dari link, misal #03b-4
 const h = location.hash.slice(1).split("-");
 const mi = MATERI.findIndex(x => x.no === h[0]);
-pilih(mi >= 0 ? mi : 0, Math.min(Math.max(parseInt(h[1]) || 1, 1), MATERI[mi >= 0 ? mi : 0].jumlah));
+pilih(mi >= 0 ? mi : 0, parseInt(h[1]) || 1);
 </script>
 </body>
 </html>
