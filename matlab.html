@@ -123,13 +123,13 @@
 
   <main class="main">
     <section class="notice" aria-label="Tentang modul">
-      <p class="lead">Slide ini merupakan modul pembelajaran pribadi untuk memahami penggunaan MATLAB yang umum digunakan di seluruh bidang sains.</p>
+      <p class="lead">Slide ini merupakan modul pembelajaran pribadi (mainly used for me biar ga nanya hal yang sama berulang-ulang ke claude untuk buat tesis dsge, jadi semacam FAQ hehe). Meskipun demikian, modul ini juga bisa dipakai untuk memahami penggunaan dasar-dasar MATLAB yang umum digunakan di seluruh bidang sains.</p>
       <p>(Untuk sementara, bab kondisional yang lebih rinci belum ditulis. Gunakan dan pelajari bagian operator logika di Bab 1; dengan sedikit pengembangan, materi kondisional sudah tercakup.)</p>
-      <p>Modul ini belum memasukkan penggunaan Modul Dynare di MATLAB untuk penyelesaian model DSGE (Dynamic Stochastic General Equilibrium) [menyusul].</p>
+      <p>Modul ini belum memasukkan penggunaan Modul Dynare di MATLAB untuk penyelesaian model DSGE (Dynamic Stochastic General Equilibrium) [menyusul kemudian, mungkin setelah tesis saya selesai defense wkwk].</p>
       <p>Beberapa materi lain juga belum tersedia:</p>
       <ul>
-        <li>membuat antarmuka pengguna (<i>user interface</i>) dan menu; tidak terlalu penting, tetapi baik untuk diketahui.</li>
-        <li>matlab untuk peluang/probability/statistika. </li>
+        <li>membuat antarmuka pengguna (<i>user interface</i>) dan menu; tidak terlalu penting, tetapi baik untuk diketahui bahwa itu mungkin dilakukan.</li>
+        <li>matlab untuk peluang/probability/statistika/ekonometrika. </li>
       </ul>
       <p>Modul <code>break</code> dan <code>pause</code> serta plotting akan menyusul bila ada waktu.</p>
     </section>
@@ -163,12 +163,14 @@
 /* ===== Konfigurasi ===== */
 const KUNCI = "zlFK6wW2nTnQhV7M/cQ43OglEaJkkHG4InE4jlUQ6fA=";   // harus sama dengan kunci.txt
 const MATERI = [
+  { no:"01",  judul:"Pengantar",         ket:"Mengenali Perangkat Lunak Matlab", file:"materi/00.bin" },
   { no:"01",  judul:"Operator",         ket:"Aritmetika, relasional, logika, dan operator lain", file:"materi/01.bin" },
   { no:"02",  judul:"Struktur data",    ket:"Array, cell, struct, table, JSON, dan menyimpan hasil loop", file:"materi/02.bin" },
   { no:"03a", judul:"Indexing matriks", ket:"magic(), akses elemen, eye/triu/tril, sum()", file:"materi/03a.bin" },
   { no:"03b", judul:"Operasi matriks",  ket:"Penjumlahan, perkalian, transpose, determinan, invers, eigen", file:"materi/03b.bin" },
   { no:"04",  judul:"User-defined function", ket:"Input, output, penamaan file, dan input kompleks", file:"materi/04.bin" },
   { no:"05",  judul:"Perulangan (looping)",  ket:"for loop dan while loop", file:"materi/05.bin" },
+  { no:"01",  judul:"Break, Continue",         ket:"Menggunakan break dan continue", file:"materi/06.bin" },
 ];
 /* ======================= */
 
