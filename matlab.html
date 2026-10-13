@@ -99,7 +99,7 @@
     </div>
   </section>
 
-  <footer>Gunakan tombol panah keyboard atau geser layar untuk berpindah slide.</footer>
+  <footer>Pindah slide dengan tombol panah, spasi, Home/End, klik sisi kiri/kanan slide, atau geser layar.</footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -107,8 +107,10 @@
 /* ===== Konfigurasi ===== */
 const KUNCI = "zlFK6wW2nTnQhV7M/cQ43OglEaJkkHG4InE4jlUQ6fA=";   // harus sama dengan kunci.txt
 const MATERI = [
+  { no:"02",  judul:"Struktur data",    ket:"Array, cell, struct, table, JSON, dan menyimpan hasil loop", file:"materi/02.bin" },
   { no:"03a", judul:"Indexing matriks", ket:"magic(), akses elemen, eye/triu/tril, sum()", file:"materi/03a.bin" },
   { no:"03b", judul:"Operasi matriks",  ket:"Penjumlahan, perkalian, transpose, determinan, invers, eigen", file:"materi/03b.bin" },
+  { no:"04",  judul:"User-defined function", ket:"Input, output, penamaan file, dan input kompleks", file:"materi/04.bin" },
 ];
 /* ======================= */
 
@@ -120,13 +122,28 @@ const cv = $("cv"), ctx = cv.getContext("2d"), frame = cv.parentElement;
 const docs = {};                       // cache dokumen yang sudah dibuka
 let m = 0, page = 1, doc = null, task = null, token = 0;
 
-async function bukaMateri(i){
-  if (docs[i]) return docs[i];
-  const raw = new Uint8Array(await (await fetch(MATERI[i].file)).arrayBuffer());
-  const key = await crypto.subtle.importKey("raw",
+let kunciPromise = null;
+function ambilKunci(){
+  kunciPromise ??= crypto.subtle.importKey("raw",
     Uint8Array.from(atob(KUNCI), c => c.charCodeAt(0)), "AES-GCM", false, ["decrypt"]);
-  const pdf = await crypto.subtle.decrypt({name:"AES-GCM", iv:raw.slice(0,12)}, key, raw.slice(12));
-  docs[i] = await pdfjsLib.getDocument({data:new Uint8Array(pdf)}).promise;
+  return kunciPromise;
+}
+
+function bukaMateri(i){
+  // simpan promise-nya, bukan hasilnya, agar klik ganda tidak mengunduh dua kali
+  docs[i] ??= (async () => {
+    const res = await fetch(MATERI[i].file);
+    if (!res.ok) throw new Error(`File ${MATERI[i].file} tidak ditemukan (HTTP ${res.status}).`);
+    const raw = new Uint8Array(await res.arrayBuffer());
+    let pdf;
+    try {
+      pdf = await crypto.subtle.decrypt({name:"AES-GCM", iv:raw.slice(0,12)}, await ambilKunci(), raw.slice(12));
+    } catch {
+      throw new Error(`File ${MATERI[i].file} tidak bisa didekripsi. Pastikan KUNCI sama dengan kunci.txt.`);
+    }
+    return pdfjsLib.getDocument({data:new Uint8Array(pdf)}).promise;
+  })();
+  docs[i].catch(() => delete docs[i]);   // gagal: boleh dicoba lagi
   return docs[i];
 }
 
@@ -142,6 +159,8 @@ async function pilih(i, n){
   document.querySelectorAll("#materi button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.i === m));
   cv.setAttribute("aria-label", MATERI[m].judul);
   $("msg").hidden = false; $("msg").textContent = "Memuat materi…"; cv.style.visibility = "hidden";
+  $("count").textContent = "– / –"; $("prev").disabled = $("next").disabled = true;
+  $("progress").style.width = "0";
   try{
     const d = await bukaMateri(i);
     if (m !== i) return;
@@ -150,7 +169,7 @@ async function pilih(i, n){
     render();
   }catch(err){
     console.error(err);
-    $("msg").textContent = "Materi gagal dimuat. Periksa file " + MATERI[i].file + " dan KUNCI.";
+    if (m === i) $("msg").textContent = err.message || ("Materi gagal dimuat: " + MATERI[i].file);
   }
 }
 
@@ -187,8 +206,10 @@ $("shield").onclick = e => go(e.offsetX < e.currentTarget.clientWidth/2 ? -1 : 1
 document.addEventListener("keydown", e => {
   const k = e.key.toLowerCase();
   if ((e.ctrlKey || e.metaKey) && ["s","p","u"].includes(k)){ e.preventDefault(); return; }
-  if (["arrowright","pagedown"].includes(k)){ e.preventDefault(); go(1); }
+  if (["arrowright","pagedown"," "].includes(k)){ e.preventDefault(); go(1); }
   if (["arrowleft","pageup"].includes(k)){ e.preventDefault(); go(-1); }
+  if (k === "home" && doc){ e.preventDefault(); page = 1; render(); }
+  if (k === "end"  && doc){ e.preventDefault(); page = doc.numPages; render(); }
 });
 
 $("fs").onclick = () => document.fullscreenElement ? document.exitFullscreen() : $("viewer").requestFullscreen?.();
@@ -208,9 +229,13 @@ $("shield").addEventListener("touchend", e => {
 document.addEventListener("contextmenu", e => e.preventDefault());
 document.addEventListener("dragstart", e => e.preventDefault());
 
-const h = location.hash.slice(1).split("-");
-const mi = MATERI.findIndex(x => x.no === h[0]);
-pilih(mi >= 0 ? mi : 0, parseInt(h[1]) || 1);
+function dariHash(){
+  const h = location.hash.slice(1).split("-");
+  const mi = MATERI.findIndex(x => x.no === h[0]);
+  pilih(mi >= 0 ? mi : 0, parseInt(h[1]) || 1);
+}
+window.addEventListener("hashchange", dariHash);
+dariHash();
 </script>
 </body>
 </html>
