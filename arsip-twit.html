@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tweet Archive</title>
+<style>
+  :root{--bg:#f7f6f3;--card:#fff;--ink:#1d1f23;--muted:#6b7078;--line:#e3e1db;--accent:#2f5d8a;--soft:#f1efe9;--mark:#ffe58a}
+  @media (prefers-color-scheme: dark){
+    :root{--bg:#14161a;--card:#1c1f24;--ink:#e8e6e1;--muted:#9aa0a8;--line:#2e323a;--accent:#8bb4dd;--soft:#23272d;--mark:#7a6420}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 Georgia,"Times New Roman",serif}
+  .sans{font-family:-apple-system,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:680px;margin:0 auto;padding:28px 16px 60px}
+  h1{font:600 22px/1.3 -apple-system,"Segoe UI",Roboto,sans-serif;margin:0 0 4px}
+  .sub{color:var(--muted);font:13px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif;margin:0 0 16px}
+  .searchbar{display:flex;gap:8px;margin-bottom:8px}
+  .searchbar input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:10px;
+    background:var(--card);color:var(--ink);font:14px -apple-system,"Segoe UI",Roboto,sans-serif}
+  .searchbar button{padding:10px 16px;border:0;border-radius:10px;background:var(--accent);color:#fff;
+    font:600 14px -apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer}
+  .searchbar button.clear{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .count{font:12.5px -apple-system,"Segoe UI",Roboto,sans-serif;color:var(--muted);min-height:18px;margin-bottom:16px}
+  mark{background:var(--mark);color:inherit;border-radius:2px;padding:0 1px}
+  .thread{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:24px}
+  .thread h2{font:600 16px/1.4 -apple-system,"Segoe UI",Roboto,sans-serif;margin:0 0 4px}
+  .meta{font:12.5px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif;color:var(--muted);margin-bottom:16px}
+  .step{position:relative;padding:0 0 18px 22px;border-left:2px solid var(--line);margin-left:6px}
+  .step:last-of-type{border-left-color:transparent;padding-bottom:4px}
+  .step::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;
+    background:var(--card);border:2px solid var(--accent)}
+  .who{font:14px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif}
+  .who b{font-weight:650}
+  .who a,blockquote a{color:var(--accent);text-decoration:none}
+  .verb{color:var(--muted)}
+  blockquote{margin:6px 0;padding:0;white-space:pre-wrap}
+  .stats{font:12.5px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif;color:var(--muted)}
+  .stats .on{color:var(--accent);font-weight:600}
+  .links{margin-top:14px;padding:14px 16px;background:var(--soft);border-radius:10px;
+    font:14px/1.55 -apple-system,"Segoe UI",Roboto,sans-serif}
+  .links h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .links ol{margin:0;padding-left:20px}
+  .links li{margin-bottom:8px}
+  .links a{color:var(--accent)}
+  .links small{display:block;color:var(--muted)}
+  .note{margin-top:12px;font:13.5px/1.55 -apple-system,"Segoe UI",Roboto,sans-serif;color:var(--muted)}
+  .empty{display:none;text-align:center;color:var(--muted);padding:40px 0;font:14px -apple-system,"Segoe UI",Roboto,sans-serif}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Tweet Archive</h1>
+  <p class="sub">Saved locally. To add a new conversation, copy one &lt;section class="thread"&gt; block and replace its contents.</p>
+
+  <form class="searchbar" id="searchForm">
+    <input id="q" type="search" placeholder="Search text, names, tags, references…" autocomplete="off">
+    <button type="submit">Search</button>
+    <button type="button" class="clear" id="clearBtn">Clear</button>
+  </form>
+  <div class="count" id="count"></div>
+
+  <main id="archive">
+
+  <!-- ===================== THREAD START ===================== -->
+  <section class="thread">
+    <h2>Unit roots, cointegration, and IRFs in levels</h2>
+    <div class="meta">Saved Oct 24, 2026 · #econometrics #unitroots #cointegration #SVAR</div>
+
+    <div class="step">
+      <div class="who"><b><a href="https://x.com/mean_field_zane" target="_blank" rel="noopener">@mean_field_zane</a></b>
+        <span class="verb">replying to @PositivistWitch and @besttrousers, said:</span></div>
+      <blockquote>Well stop caring about unit roots, the trend stationary versus unit root debate is old and unresolvable atp.</blockquote>
+      <div class="stats">≈ Oct 23–24, 2026 (about 12 hours before saving)</div>
+    </div>
+
+    <div class="step">
+      <div class="who"><b><a href="https://x.com/farmerrf" target="_blank" rel="noopener">@farmerrf</a></b> (Roger E. A. Farmer)
+        <span class="verb">quoted that tweet and said:</span></div>
+      <blockquote>There are other reasons to worry about unit roots
+<a href="#ref-farmer">[link: Farmer (2015), see reference 1]</a>
+
+And to understand cointegration</blockquote>
+      <div class="stats">2 reposts · <span class="on">♥ 19 (liked by me)</span> · 2.9K views · <span class="on">bookmarked</span></div>
+    </div>
+
+    <div class="step">
+      <div class="who"><b><a href="https://x.com/S_Surprenant" target="_blank" rel="noopener">@S_Surprenant</a></b> (Stéphane Surprenant)
+        <span class="verb">replied to Farmer:</span></div>
+      <blockquote>Another good reason is that there is no econometric free lunch.
+
+Working in levels only gives you a convergent estimator for IRFs and FEVDs at short horizons (<a href="#ref-phillips">Phillips, 1998</a>). If you apply max share at long horizons to get long-run restrictions without really using them as people do with news shocks, you have a problem (<a href="#ref-gps">Guay, Pelgrin, and Surprenant, 2025</a>).</blockquote>
+      <div class="stats">7:37 AM · Oct 24, 2026 · 79 views · <span class="on">♥ 1 (liked by me)</span> · <span class="on">1 bookmark (mine)</span></div>
+    </div>
+
+    <div class="links">
+      <h3>Related files &amp; references</h3>
+      <ol>
+        <li id="ref-farmer">Farmer, R. E. A. (2015). The Stock Market Crash Really Did Cause the Great Recession. <i>Oxford Bulletin of Economics and Statistics</i>. ISSN 0305-9049.
+          <small><a href="https://doi.org/10.1111/obes.12100" target="_blank" rel="noopener">doi:10.1111/obes.12100</a> · the tweet linked a PDF hosted at static1.squarespace.com/static/573b5f2… (full URL truncated in the screenshot)</small></li>
+        <li id="ref-phillips">Phillips, P. C. B. (1998). Impulse response and forecast error variance asymptotics in nonstationary VARs. <i>Journal of Econometrics</i>, 83(1–2), 21–56.
+          <small><a href="https://cowles.yale.edu/sites/default/files/2022-08/d1102.pdf" target="_blank" rel="noopener">Free PDF (Cowles Foundation Discussion Paper 1102, 1995)</a> ·
+          <a href="https://ideas.repec.org/a/eee/econom/v83y1998i1-2p21-56.html" target="_blank" rel="noopener">Journal version (RePEc)</a></small></li>
+        <li id="ref-gps">Guay, A., Pelgrin, F., &amp; Surprenant, S. (2025). Title not yet identified.
+          <small><a href="https://scholar.google.com/scholar?q=Guay+Pelgrin+Surprenant+max+share" target="_blank" rel="noopener">Search on Google Scholar</a></small></li>
+      </ol>
+    </div>
+
+    <p class="note"><b>Note:</b> VARs estimated in levels are only reliable at short horizons. Using max share at long horizons as a stand-in for long-run restrictions is problematic.</p>
+  </section>
+  <!-- ===================== THREAD END ===================== -->
+
+  </main>
+  <div class="empty" id="empty">No matches found.</div>
+</div>
+
+<script>
+(function(){
+  const threads = Array.from(document.querySelectorAll(".thread"));
+  const originals = threads.map(t => t.innerHTML);
+  const q = document.getElementById("q");
+  const count = document.getElementById("count");
+  const empty = document.getElementById("empty");
+
+  function highlight(root, term){
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    const re = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
+    nodes.forEach(node => {
+      if (!re.test(node.nodeValue)) return;
+      re.lastIndex = 0;
+      const span = document.createElement("span");
+      span.innerHTML = node.nodeValue
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(new RegExp(re.source.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"), "gi"), m => "<mark>" + m + "</mark>");
+      node.parentNode.replaceChild(span, node);
+    });
+  }
+
+  function run(){
+    const term = q.value.trim();
+    let shown = 0, hits = 0;
+    threads.forEach((t, i) => {
+      t.innerHTML = originals[i];
+      if (!term){ t.style.display = ""; shown++; return; }
+      const match = t.textContent.toLowerCase().includes(term.toLowerCase());
+      t.style.display = match ? "" : "none";
+      if (match){ shown++; highlight(t, term); hits += t.querySelectorAll("mark").length; }
+    });
+    empty.style.display = shown ? "none" : "block";
+    count.textContent = term ? `${hits} match${hits === 1 ? "" : "es"} in ${shown} conversation${shown === 1 ? "" : "s"}` : `${threads.length} conversation${threads.length === 1 ? "" : "s"} saved`;
+    const first = document.querySelector("mark");
+    if (first) first.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  document.getElementById("searchForm").addEventListener("submit", e => { e.preventDefault(); run(); });
+  document.getElementById("clearBtn").addEventListener("click", () => { q.value = ""; run(); q.focus(); });
+  run();
+})();
+</script>
+</body>
+</html>
