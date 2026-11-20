@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screening Saham Bluechip US</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2430;--mute:#6b7685;--line:#e3e7ec;--acc:#1f4fd8;--up:#0a7f45;--dn:#c0392b;--chip:#eef2fb;--okbg:#e5f5ec;--badbg:#fbe9e7}
+@media (prefers-color-scheme:dark){:root{--bg:#0f141b;--card:#171e27;--ink:#e8edf3;--mute:#93a0b0;--line:#27313d;--acc:#6d95ff;--up:#3ccf8a;--dn:#ff7b6b;--chip:#1e2a40;--okbg:#14301f;--badbg:#3a1f1c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:1400px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;align-items:baseline;margin-bottom:14px}
+h1{font-size:20px;margin:0}.asof{color:var(--mute);font-size:12.5px}
+nav{display:flex;gap:4px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+nav a{padding:8px 14px;color:var(--mute);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+nav a.on{color:var(--ink);border-color:var(--acc);font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:22px;margin-top:2px}.kpi span{color:var(--mute);font-size:12px}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 14px;align-items:end}
+label{display:flex;flex-direction:column;font-size:12px;color:var(--mute);gap:3px}
+input[type=text],input[type=number],select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:7px 9px;font:inherit;width:100%}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 11px;cursor:pointer;font:inherit;font-size:12.5px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.row .sp{flex:1}.sub{color:var(--mute);font-size:11.5px}
+button.link{background:none;border:0;color:var(--acc);cursor:pointer;font:inherit;padding:4px 6px}
+details{margin:12px 0 0;font-size:12.5px;color:var(--mute)}summary{cursor:pointer;color:var(--ink)}
+details ol{margin:8px 0 0;padding-left:20px}details li{margin:2px 0}
+.tw{overflow:auto;max-height:72vh;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-top:14px}
+table{border-collapse:collapse;width:100%;min-width:1500px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap;text-align:right}
+th{position:sticky;top:0;background:var(--card);cursor:pointer;font-size:12px;color:var(--mute);user-select:none;z-index:2}
+th.l,td.l{text-align:left}th.on{color:var(--ink)}
+th.grp{cursor:default;text-align:center;border-left:1px solid var(--line);border-right:1px solid var(--line);color:var(--ink);font-weight:600}
+td.name{white-space:normal;min-width:230px}.tk{font-weight:700}
+td.tk,th.tkh{position:sticky;left:0;background:var(--card);z-index:1}th.tkh{z-index:3}
+.up{color:var(--up)}.dn{color:var(--dn)}.tick{color:var(--up);font-weight:700;text-align:center}
+.na{color:var(--mute)}
+td.ok{background:var(--okbg)}td.bad{background:var(--badbg)}
+td.ok::after{content:" ✓";color:var(--up);font-size:11px}td.bad::after{content:" ✗";color:var(--dn);font-size:11px}
+td.sc{font-weight:700}
+tr:hover td{filter:brightness(.97)}
+footer{color:var(--mute);font-size:12px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Screening Saham Bluechip US</h1><div class="asof" id="asof">Memuat data…</div></header>
+<nav><a class="on" href="index.html">Screening</a><a href="ringkasan.html">Ringkasan &amp; Sektor</a></nav>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="card">
+  <div class="filters">
+    <label>Cari kode / nama<input type="text" id="q" placeholder="mis. visa, BRK, bank"></label>
+    <label>Sektor<select id="sector"><option value="">Semua sektor</option></select></label>
+    <label>Subsektor<select id="subsector"><option value="">Semua subsektor</option></select></label>
+    <label>PER maksimum<input type="number" id="peMax" min="0" step="1" placeholder="mis. 20"></label>
+    <label>Dividend yield minimum (%)<input type="number" id="dyMin" min="0" step="0.1" placeholder="mis. 2"></label>
+    <label>Market cap minimum ($ miliar)<input type="number" id="capMin" min="0" step="10" placeholder="mis. 200"></label>
+    <label>Return YTD minimum (%)<input type="number" id="ytdMin" step="1" placeholder="mis. 0"></label>
+    <label>Skor 7 indikator minimal<input type="number" id="scMin" min="0" max="7" step="1" placeholder="mis. 5"></label>
+  </div>
+  <div class="row">
+    <span class="sub">Indeks:</span>
+    <div class="chips" id="idx">
+      <button class="chip" data-k="dow">Dow 30</button>
+      <button class="chip" data-k="sp">S&amp;P 100</button>
+      <button class="chip" data-k="nd">Nasdaq 100</button>
+    </div>
+    <label style="flex-direction:row;align-items:center;gap:6px"><input type="checkbox" id="all"> harus ada di semua indeks terpilih</label>
+  </div>
+  <div class="row">
+    <span class="sub">Wajib lolos:</span>
+    <div class="chips" id="need"></div>
+    <span class="sp"></span>
+    <button class="link" data-p="div">Dividen ≥ 3%</button>
+    <button class="link" data-p="val">PER &lt; 15</button>
+    <button class="link" data-p="big">Cap &gt; $500 M</button>
+    <button class="link" data-p="three">Ada di ketiga indeks</button>
+    <button class="link" data-p="quality">Skor ≥ 5</button>
+    <button class="link" id="reset">Reset</button>
+    <button class="link" id="csv">Unduh CSV</button>
+  </div>
+  <details><summary>Aturan penilaian 7 indikator</summary>
+  <ol>
+    <li><b>Net Profit Margin</b>: positif dan ≥ median sektornya (median dihitung dari 170 saham di daftar ini).</li>
+    <li><b>ROE</b>: ≥ 15% dan DER ≤ 2x, supaya ROE tinggi bukan karena utang besar. Ekuitas negatif dianggap tidak bermakna.</li>
+    <li><b>Pertumbuhan Pendapatan &amp; EPS</b>: keduanya naik di setiap periode tahunan yang tersedia (Yahoo biasanya hanya memberi ±4 tahun, jadi maksimal 3 periode kenaikan).</li>
+    <li><b>Current Ratio</b>: &gt; 1.</li>
+    <li><b>Utang</b>: Net Debt/EBITDA ≤ median sektornya (kas bersih otomatis lolos). Bila EBITDA tidak ada, dipakai DER terhadap median sektor.</li>
+    <li><b>Interest Coverage</b> (EBIT / beban bunga): ≥ 3. Tanpa beban bunga dianggap lolos.</li>
+    <li><b>Free Cash Flow</b>: positif dan ≥ 80% dari laba bersih.</li>
+  </ol>
+  <p>Sektor <b>Financials</b> (bank, asuransi, pembayaran) hanya dinilai pada indikator 1–3 karena current ratio, utang, bunga, dan FCF tidak bermakna untuk bisnis mereka. Data yang tidak tersedia tidak dihitung lolos maupun gagal. Skor = jumlah lolos.</p>
+  </details>
+</div>
+
+<div class="tw"><table>
+<thead><tr id="grp"></tr><tr id="head"></tr></thead><tbody id="body"></tbody></table></div>
+<footer id="foot"></footer>
+</div>
+
+<script>
+const IND=[
+ {n:"NPM",full:"Net Profit Margin"},{n:"ROE",full:"ROE"},{n:"Growth",full:"Pertumbuhan Pendapatan & EPS"},
+ {n:"CR",full:"Current Ratio"},{n:"Utang",full:"Net Debt/EBITDA vs median sektor"},{n:"IC",full:"Interest Coverage"},{n:"FCF",full:"Free Cash Flow"}];
+const f1=v=>v.toFixed(1),f2=v=>v.toFixed(2),pc=v=>(v>0?"+":"")+v.toFixed(1)+"%";
+const COLS=[
+ {k:"t",l:"Kode",cls:"l tk tkh"},{k:"n",l:"Nama / Sektor · Subsektor",cls:"l"},
+ {k:"dow",l:"Dow",tick:1},{k:"sp",l:"S&P",tick:1},{k:"nd",l:"Nasdaq",tick:1},
+ {k:"p",l:"Harga ($)",f:v=>v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}),g:"Pasar"},
+ {k:"d1",l:"1 Hari",f:pc,sg:1},{k:"ytd",l:"YTD",f:pc,sg:1},{k:"y1",l:"1 Tahun",f:pc,sg:1},
+ {k:"cap",l:"Market cap",f:v=>v>=1000?"$"+(v/1000).toFixed(2)+" T":"$"+Math.round(v)+" M"},
+ {k:"pe",l:"PER",f:v=>v>=1000?Math.round(v):f1(v)},{k:"dy",l:"Div. yield",f:v=>f2(v)+"%"},
+ {k:"npm",l:"1 NPM %",f:f1,i:0,g:"7 Indikator"},
+ {k:"roe",l:"2 ROE %",f:f1,i:1},
+ {k:"revCg",l:"3 Growth (CAGR Pend. | EPS)",i:2,show:r=>r.revCg==null&&r.epsCg==null?null:`${r.revCg==null?"–":pc(r.revCg)} | ${r.epsCg==null?"–":pc(r.epsCg)}`},
+ {k:"cr",l:"4 Current R.",f:f2,i:3},
+ {k:"nde",l:"5 ND/EBITDA",f:f1,i:4,extra:r=>r.der!=null?` · DER ${f2(r.der)}`:""},
+ {k:"ic",l:"6 Int. Cov.",f:v=>v>=99?"∞":f1(v),i:5},
+ {k:"fcfni",l:"7 FCF/Laba",f:f2,i:6,extra:r=>r.fcf!=null?` · $${r.fcf}B`:""},
+ {k:"sc",l:"Skor",sc:1}
+];
+const $=id=>document.getElementById(id);
+let U=[],meta={},sort={k:"cap",d:-1},idxOn=new Set(),need=new Set(),secMed={};
+
+function med(a){a=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!a.length)return null;const m=a.length>>1;return a.length%2?a[m]:(a[m-1]+a[m])/2}
+function prep(){
+  const by={};U.forEach(r=>(by[r.s]=by[r.s]||[]).push(r));
+  Object.entries(by).forEach(([s,a])=>secMed[s]={npm:med(a.map(r=>r.npm)),nde:med(a.map(r=>r.nde)),der:med(a.map(r=>r.der))});
+  U.forEach(evaluate);
+}
+// hasil tiap indikator: true=lolos, false=gagal, null=data tidak ada / tidak berlaku
+function evaluate(r){
+  const fin=r.s==="Financials",m=secMed[r.s]||{},e=Array(7).fill(null),has=v=>v!=null;
+  if(has(r.npm)&&has(m.npm)) e[0]=r.npm>0&&r.npm>=m.npm;
+  if(has(r.roe)) e[1]=r.roe>=15&&(!has(r.der)||r.der<=2);
+  if(has(r.revN)&&has(r.epsN)&&r.revN>=2&&r.epsN>=2) e[2]=r.revUp===r.revN&&r.epsUp===r.epsN;
+  if(!fin){
+    if(has(r.cr)) e[3]=r.cr>1;
+    if(has(r.nde)&&has(m.nde)) e[4]=r.nde<=m.nde; else if(has(r.der)&&has(m.der)) e[4]=r.der<=m.der;
+    if(has(r.ic)) e[5]=r.ic>=3;
+    if(has(r.fcf)) e[6]=r.fcf>0&&(!has(r.fcfni)||r.fcfni>=0.8);
+  }
+  r.e=e;r.sc=e.some(x=>x!==null)?e.filter(x=>x===true).length:null;r.scN=e.filter(x=>x!==null).length;
+}
+
+Promise.all([fetch("data/universe.json").then(r=>r.json()),fetch("data/quotes.json").then(r=>r.json())]).then(([u,q])=>{
+  U=u;meta=q;U.forEach(r=>Object.assign(r,q.quotes[r.t]||{}));prep();
+  fill("sector",[...new Set(U.map(r=>r.s))].sort());syncSub();
+  IND.forEach((x,i)=>{const b=document.createElement("button");b.className="chip";b.textContent=(i+1)+" "+x.n;b.title=x.full;b.onclick=()=>{need.has(i)?need.delete(i):need.add(i);b.classList.toggle("on");render()};$("need").appendChild(b)});
+  const d=new Date(q.updated);
+  $("asof").textContent="Data penutupan "+q.asof+" · diperbarui "+(isNaN(d)?q.updated:d.toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"}));
+  const have=U.filter(r=>r.p!=null).length,fund=U.filter(r=>r.e.some(x=>x!==null)).length;
+  $("foot").textContent=(have<U.length?`Harga tersedia untuk ${have} dari ${U.length} saham. `:"")+(fund<U.length?`Indikator fundamental tersedia untuk ${fund} saham (terisi setelah pembaruan otomatis berjalan). `:"")+"Sumber: "+q.source+". Return YTD/1 tahun bisa berupa total return (snapshot awal) atau return harga (pembaruan otomatis). PER = trailing. Bukan saran investasi.";
+  buildHead();render();
+}).catch(e=>{$("asof").textContent="Gagal memuat data: "+e.message+" (jalankan lewat server, mis. python -m http.server)"});
+
+function fill(id,a){const s=$(id);[...s.options].slice(1).forEach(o=>o.remove());a.forEach(x=>{const o=document.createElement("option");o.value=o.textContent=x;s.appendChild(o)})}
+function syncSub(){const sec=$("sector").value,cur=$("subsector").value;
+  const a=[...new Set(U.filter(r=>!sec||r.s===sec).map(r=>r.ss))].sort();fill("subsector",a);if(a.includes(cur))$("subsector").value=cur}
+function buildHead(){
+  const g=$("grp"),h=$("head");g.innerHTML=h.innerHTML="";
+  let cell=null,n=0;
+  COLS.forEach(c=>{
+    if(c.g||!cell){cell=document.createElement("th");cell.className="grp";cell.textContent=c.g||"";n=0;g.appendChild(cell)}
+    cell.colSpan=++n;
+    const th=document.createElement("th");th.className=c.cls||"";th.dataset.k=c.k;if(c.i!=null)th.title=IND[c.i].full;
+    th.onclick=()=>{sort=sort.k===c.k?{k:c.k,d:-sort.d}:{k:c.k,d:(c.cls||"").includes("l")?1:-1};render()};h.appendChild(th)});
+}
+const num=id=>{const v=$(id).value;return v===""?null:parseFloat(v)};
+function filtered(){
+  const q=$("q").value.trim().toLowerCase(),sec=$("sector").value,ss=$("subsector").value,
+    pe=num("peMax"),dy=num("dyMin"),cap=num("capMin"),ytd=num("ytdMin"),scm=num("scMin"),all=$("all").checked,on=[...idxOn];
+  return U.filter(r=>{
+    if(q&&!(r.t.toLowerCase().includes(q)||r.n.toLowerCase().includes(q)||r.ss.toLowerCase().includes(q)))return false;
+    if(sec&&r.s!==sec)return false;if(ss&&r.ss!==ss)return false;
+    if(pe!=null&&!(r.pe!=null&&r.pe<=pe))return false;
+    if(dy!=null&&!(r.dy!=null&&r.dy>=dy))return false;
+    if(cap!=null&&!(r.cap!=null&&r.cap>=cap))return false;
+    if(ytd!=null&&!(r.ytd!=null&&r.ytd>=ytd))return false;
+    if(scm!=null&&!(r.sc!=null&&r.sc>=scm))return false;
+    for(const i of need) if(r.e[i]!==true)return false;
+    if(on.length&&!(all?on.every(k=>r[k]):on.some(k=>r[k])))return false;
+    return true});
+}
+function render(){
+  const rows=filtered(),k=sort.k;
+  rows.sort((a,b)=>{const x=a[k],y=b[k];if(x==null&&y==null)return 0;if(x==null)return 1;if(y==null)return -1;
+    return (typeof x==="string"?x.localeCompare(y):(x===y?0:x<y?-1:1))*sort.d});
+  document.querySelectorAll("#head th").forEach(th=>{const c=COLS.find(c=>c.k===th.dataset.k);th.textContent=c.l+(th.dataset.k===k?(sort.d>0?" ▲":" ▼"):"");th.classList.toggle("on",th.dataset.k===k)});
+  const tb=$("body");tb.innerHTML="";const frag=document.createDocumentFragment();
+  rows.forEach(r=>{const tr=document.createElement("tr");
+    COLS.forEach(c=>{const td=document.createElement("td");td.className=c.cls||"";const v=r[c.k];
+      if(c.k==="n"){td.className="l name";td.textContent=r.n;const s=document.createElement("div");s.className="sub";s.textContent=r.s+" · "+r.ss;td.appendChild(s)}
+      else if(c.k==="t"){td.textContent=r.t}
+      else if(c.tick){td.className="tick";td.textContent=v?"✓":""}
+      else if(c.sc){td.className="sc";if(r.sc==null){td.classList.add("na");td.textContent="–"}else{td.textContent=r.sc+"/"+r.scN}}
+      else{
+        const txt=c.show?c.show(r):(v==null?null:c.f(v));
+        if(txt==null){td.className="na";td.textContent=(c.i!=null&&r.s==="Financials"&&c.i>=3)?"n/a":"–"}
+        else{td.textContent=txt+(c.extra?c.extra(r):"");if(c.sg)td.classList.add(v>=0?"up":"dn");
+          if(c.i!=null){const e=r.e[c.i];if(e===true)td.classList.add("ok");else if(e===false)td.classList.add("bad")}}
+      }
+      tr.appendChild(td)});frag.appendChild(tr)});
+  tb.appendChild(frag);
+  if(!rows.length)tb.innerHTML='<tr><td colspan="'+COLS.length+'" class="l na" style="padding:18px">Tidak ada saham yang cocok dengan filter.</td></tr>';
+  const m=a=>{const x=med(a);return x};
+  const kp=[["Saham cocok",rows.length+" / "+U.length],["PER median",m(rows.map(r=>r.pe))==null?"–":f1(m(rows.map(r=>r.pe)))],
+    ["Div. yield median",m(rows.map(r=>r.dy))==null?"–":f2(m(rows.map(r=>r.dy)))+"%"],
+    ["YTD median",m(rows.map(r=>r.ytd))==null?"–":pc(m(rows.map(r=>r.ytd)))],
+    ["Skor ≥ 5 indikator",rows.filter(r=>r.sc!=null&&r.sc>=5).length+" saham"]];
+  $("kpis").innerHTML=kp.map(([a,b])=>`<div class="card kpi"><span>${a}</span><b>${b}</b></div>`).join("");
+}
+document.querySelectorAll("#idx .chip").forEach(b=>b.onclick=()=>{const k=b.dataset.k;idxOn.has(k)?idxOn.delete(k):idxOn.add(k);b.classList.toggle("on");render()});
+["q","sector","subsector","peMax","dyMin","capMin","ytdMin","scMin","all"].forEach(id=>$(id).addEventListener("input",()=>{if(id==="sector"){syncSub()}render()}));
+function reset(){["q","sector","subsector","peMax","dyMin","capMin","ytdMin","scMin"].forEach(id=>$(id).value="");syncSub();$("all").checked=false;idxOn.clear();need.clear();document.querySelectorAll(".chip").forEach(b=>b.classList.remove("on"))}
+$("reset").onclick=()=>{reset();render()};
+document.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{const p=b.dataset.p;
+  if(p==="div")$("dyMin").value=3;if(p==="val")$("peMax").value=15;if(p==="big")$("capMin").value=500;if(p==="quality")$("scMin").value=5;
+  if(p==="three"){idxOn=new Set(["dow","sp","nd"]);$("all").checked=true;document.querySelectorAll("#idx .chip").forEach(c=>c.classList.add("on"))}
+  render()});
+$("csv").onclick=()=>{
+  const rows=filtered(),esc=s=>'"'+String(s).replace(/"/g,'""')+'"',
+   keys=["t","n","s","ss","dow","sp","nd","p","d1","ytd","y1","cap","pe","dy","npm","roe","der","cr","nde","ic","fcf","fcfni","revCg","epsCg","sc"];
+  const csv=[keys.join(",")].concat(rows.map(r=>keys.map(k=>r[k]==null?"":typeof r[k]==="string"?esc(r[k]):typeof r[k]==="boolean"?(r[k]?1:0):r[k]).join(","))).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="screening-saham.csv";a.click()};
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ringkasan Sektor &amp; Indeks – Saham Bluechip US</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2430;--mute:#6b7685;--line:#e3e7ec;--acc:#1f4fd8;
+ --c1:#2a78d6;--c2:#eb6834;--c3:#1baf7a;--bar:#2a78d6;--track:#eef1f5}
+@media (prefers-color-scheme:dark){:root{--bg:#0f141b;--card:#171e27;--ink:#e8edf3;--mute:#93a0b0;--line:#27313d;--acc:#6d95ff;
+ --c1:#3987e5;--c2:#d95926;--c3:#199e70;--bar:#3987e5;--track:#202a36}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;align-items:baseline;margin-bottom:14px}
+h1{font-size:20px;margin:0}h2{font-size:15px;margin:0 0 2px}.asof,.sub{color:var(--mute);font-size:12.5px}
+nav{display:flex;gap:4px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+nav a{padding:8px 14px;color:var(--mute);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+nav a.on{color:var(--ink);border-color:var(--acc);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.kpi b{display:block;font-size:26px;line-height:1.2;margin-top:2px}.kpi span{color:var(--mute);font-size:12px}
+.kpi i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;color:var(--ink);padding:7px 13px;font:inherit;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border:0}.seg button.on{background:var(--acc);color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.list{margin-top:10px;max-height:520px;overflow:auto;padding-right:4px}
+.r{display:grid;grid-template-columns:minmax(120px,210px) 1fr 74px;gap:10px;align-items:center;padding:3px 0;cursor:default}
+.r.click{cursor:pointer}.r.click:hover .lab{text-decoration:underline}
+.lab{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lab small{color:var(--mute)}
+.track{height:14px;background:var(--track);border-radius:4px;position:relative}
+.fill{position:absolute;left:0;top:0;bottom:0;background:var(--bar);border-radius:0 4px 4px 0;min-width:2px}
+.r.sel .lab{font-weight:700}.r.dim .fill{opacity:.35}
+.val{font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}.val small{color:var(--mute)}
+.g3{display:grid;grid-template-columns:minmax(120px,210px) 1fr;gap:10px;padding:5px 0;align-items:center}
+.g3 .bars{display:flex;flex-direction:column;gap:2px}
+.g3 .b{display:grid;grid-template-columns:1fr 46px;gap:6px;align-items:center}
+.g3 .track{height:8px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:8px 0 2px;font-size:12.5px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}th,td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}
+details{margin-top:12px;color:var(--mute);font-size:12.5px}summary{cursor:pointer;color:var(--ink)}
+#tip{position:fixed;pointer-events:none;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12.5px;box-shadow:0 4px 14px rgba(0,0,0,.18);display:none;z-index:9;max-width:260px}
+footer{color:var(--mute);font-size:12px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Ringkasan Sektor &amp; Indeks</h1><div class="asof" id="asof">Memuat data…</div></header>
+<nav><a href="index.html">Screening</a><a class="on" href="ringkasan.html">Ringkasan &amp; Sektor</a></nav>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="card" style="margin-bottom:14px">
+  <h2>Komposisi keanggotaan indeks</h2>
+  <div class="sub">Satu saham bisa ada di lebih dari satu indeks. Persen terhadap total saham unik.</div>
+  <div class="list" id="overlap" style="max-height:none"></div>
+</div>
+
+<div class="bar">
+  <div class="seg" id="scope">
+    <button data-v="all" class="on">Semua saham</button><button data-v="dow">Dow 30</button><button data-v="sp">S&amp;P 100</button><button data-v="nd">Nasdaq 100</button>
+  </div>
+  <div class="seg" id="mode">
+    <button data-v="n" class="on">Berdasarkan jumlah saham</button><button data-v="cap">Berdasarkan market cap</button>
+  </div>
+  <span class="sub" id="scopeNote"></span>
+</div>
+
+<div class="grid">
+  <div class="card"><h2>Persentase per sektor</h2><div class="sub">Klik sektor untuk melihat subsektornya.</div><div class="list" id="sectors"></div></div>
+  <div class="card"><h2 id="subTitle">Persentase per subsektor</h2><div class="sub" id="subNote"></div><div class="list" id="subs"></div></div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h2>Perbandingan komposisi sektor antar indeks</h2>
+  <div class="sub">Persentase saham per sektor di dalam masing-masing indeks (tiap indeks = 100%).</div>
+  <div class="legend"><span><i style="background:var(--c1)"></i>Dow 30</span><span><i style="background:var(--c2)"></i>S&amp;P 100</span><span><i style="background:var(--c3)"></i>Nasdaq 100</span></div>
+  <div id="cmp"></div>
+  <details><summary>Lihat sebagai tabel (jumlah saham)</summary><div id="tbl" style="margin-top:8px"></div></details>
+</div>
+<footer id="foot"></footer>
+</div>
+<div id="tip"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let U=[],scope="all",mode="n",selSec="";
+const IDX=[["dow","Dow 30","--c1"],["sp","S&P 100","--c2"],["nd","Nasdaq 100","--c3"]];
+const pct=(v,d=1)=>v.toFixed(d).replace(".",",")+"%";
+
+Promise.all([fetch("data/universe.json").then(r=>r.json()),fetch("data/quotes.json").then(r=>r.json())]).then(([u,q])=>{
+  U=u.map(r=>Object.assign(r,q.quotes[r.t]||{}));
+  const d=new Date(q.updated);
+  $("asof").textContent="Data per "+q.asof+" · diperbarui "+(isNaN(d)?q.updated:d.toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"}));
+  $("foot").textContent="Sektor memakai klasifikasi GICS; subsektor = GICS Industry (ditetapkan manual di data/universe.json, bisa sedikit berbeda dengan penyedia data lain). Alphabet (GOOGL & GOOG) dihitung satu perusahaan. Nasdaq 100 berisi 101 perusahaan sementara karena aturan fast entry.";
+  kpis();overlap();render();
+});
+
+function kpis(){
+  const c=k=>U.filter(r=>r[k]).length,all3=U.filter(r=>r.dow&&r.sp&&r.nd).length;
+  const items=[["Total saham unik",U.length,""],["Dow 30",c("dow"),"--c1"],["S&P 100",c("sp"),"--c2"],["Nasdaq 100",c("nd"),"--c3"],
+    ["Ada di ketiga indeks",all3,""],["Sektor",new Set(U.map(r=>r.s)).size,""],["Subsektor",new Set(U.map(r=>r.ss)).size,""]];
+  $("kpis").innerHTML=items.map(([a,b,col])=>`<div class="card kpi"><span>${col?`<i style="background:var(${col})"></i>`:""}${a}</span><b>${b}</b></div>`).join("");
+}
+function overlap(){
+  const key=r=>(r.dow?"D":"")+(r.sp?"S":"")+(r.nd?"N":""),cnt={};
+  U.forEach(r=>cnt[key(r)]=(cnt[key(r)]||0)+1);
+  const lab={DSN:"Dow + S&P + Nasdaq",DS:"Dow + S&P saja",SN:"S&P + Nasdaq saja",DN:"Dow + Nasdaq saja",D:"Dow saja",S:"S&P saja",N:"Nasdaq saja"};
+  const rows=Object.entries(lab).filter(([k])=>cnt[k]).map(([k,l])=>[l,cnt[k]]).sort((a,b)=>b[1]-a[1]);
+  const mx=Math.max(...rows.map(r=>r[1]));
+  $("overlap").innerHTML=rows.map(([l,n])=>bar(l,"",n/mx*100,`${n}`,`<small> ${pct(n/U.length*100)}</small>`,l+": "+n+" saham ("+pct(n/U.length*100)+")")).join("");
+  wireTips($("overlap"));
+}
+function bar(label,small,w,val,small2,tip,cls="",data=""){
+  return `<div class="r ${cls}" ${data} data-tip="${tip.replace(/"/g,"&quot;")}"><div class="lab" title="${label}">${label}${small?` <small>${small}</small>`:""}</div><div class="track"><div class="fill" style="width:${w}%"></div></div><div class="val">${val}${small2||""}</div></div>`;
+}
+function scoped(){return U.filter(r=>scope==="all"||r[scope])}
+function agg(rows,key){
+  const m={};rows.forEach(r=>{const v=mode==="n"?1:(r.cap||0);m[r[key]]=m[r[key]]||{v:0,n:0,s:r.s};m[r[key]].v+=v;m[r[key]].n++});
+  const tot=Object.values(m).reduce((s,x)=>s+x.v,0)||1;
+  return {list:Object.entries(m).map(([k,x])=>({k,v:x.v,n:x.n,s:x.s,p:x.v/tot*100})).sort((a,b)=>b.v-a.v||b.n-a.n),tot};
+}
+function render(){
+  const rows=scoped(),withCap=rows.filter(r=>r.cap!=null).length;
+  $("scopeNote").textContent=(scope==="all"?"170":rows.length)+" saham"+(mode==="cap"&&withCap<rows.length?` · market cap tersedia untuk ${withCap}`:"");
+  const rr=mode==="cap"?rows.filter(r=>r.cap!=null):rows;
+  const S=agg(rr,"s"),mx=Math.max(1,...S.list.map(x=>x.p));
+  const fmt=x=>mode==="n"?`${x.n}`:`$${x.v>=1000?(x.v/1000).toFixed(1)+" T":Math.round(x.v)+" M"}`;
+  $("sectors").innerHTML=S.list.map(x=>bar(x.k,"",x.p/mx*100,pct(x.p),`<small> · ${x.n}</small>`,`${x.k}: ${pct(x.p)} (${x.n} saham${mode==="cap"?", "+fmt(x):""})`,"click"+(selSec===x.k?" sel":selSec?" dim":""),`data-s="${x.k}"`)).join("");
+  document.querySelectorAll("#sectors .r").forEach(e=>e.onclick=()=>{selSec=selSec===e.dataset.s?"":e.dataset.s;render()});
+  const sub=selSec?rr.filter(r=>r.s===selSec):rr,T=agg(sub,"ss"),mx2=Math.max(1,...T.list.map(x=>x.p));
+  $("subTitle").textContent=selSec?"Subsektor di "+selSec:"Persentase per subsektor";
+  $("subNote").textContent=selSec?`Persen terhadap total sektor ${selSec}. Klik sektor yang sama untuk melihat semua.`:`Persen terhadap seluruh saham di cakupan ini (${T.list.length} subsektor).`;
+  $("subs").innerHTML=T.list.map(x=>bar(x.k,selSec?"":x.s.replace("Information Technology","IT").replace("Communication Services","Comm."),x.p/mx2*100,pct(x.p),`<small> · ${x.n}</small>`,`${x.k} (${x.s}): ${pct(x.p)} (${x.n} saham)`)).join("");
+  document.querySelectorAll("#scope button").forEach(b=>b.classList.toggle("on",b.dataset.v===scope));
+  document.querySelectorAll("#mode button").forEach(b=>b.classList.toggle("on",b.dataset.v===mode));
+  wireTips($("sectors"));wireTips($("subs"));compare();
+}
+function compare(){
+  const secs=[...new Set(U.map(r=>r.s))],tot={};IDX.forEach(([k])=>tot[k]=U.filter(r=>r[k]).length);
+  const cnt={};secs.forEach(s=>cnt[s]={});IDX.forEach(([k])=>secs.forEach(s=>cnt[s][k]=U.filter(r=>r.s===s&&r[k]).length));
+  secs.sort((a,b)=>U.filter(r=>r.s===b).length-U.filter(r=>r.s===a).length);
+  const mx=Math.max(...secs.flatMap(s=>IDX.map(([k])=>cnt[s][k]/tot[k]*100)));
+  $("cmp").innerHTML=secs.map(s=>`<div class="g3"><div class="lab">${s}</div><div class="bars">`+IDX.map(([k,n,c])=>{
+    const p=cnt[s][k]/tot[k]*100;return `<div class="b" data-tip="${s} – ${n}: ${pct(p)} (${cnt[s][k]} dari ${tot[k]})"><div class="track"><div class="fill" style="width:${p/mx*100}%;background:var(${c})"></div></div><div class="val">${pct(p,0)}</div></div>`}).join("")+`</div></div>`).join("");
+  wireTips($("cmp"));
+  $("tbl").innerHTML=`<table><tr><th>Sektor</th><th>Dow 30</th><th>S&P 100</th><th>Nasdaq 100</th><th>Total unik</th></tr>`+
+   secs.map(s=>`<tr><td>${s}</td>${IDX.map(([k])=>`<td>${cnt[s][k]}</td>`).join("")}<td>${U.filter(r=>r.s===s).length}</td></tr>`).join("")+
+   `<tr><th>Total</th>${IDX.map(([k])=>`<th>${tot[k]}</th>`).join("")}<th>${U.length}</th></tr></table>`;
+}
+const tip=$("tip");
+function wireTips(root){root.querySelectorAll("[data-tip]").forEach(e=>{
+  e.onmousemove=ev=>{tip.textContent=e.dataset.tip;tip.style.display="block";tip.style.left=Math.min(ev.clientX+14,innerWidth-270)+"px";tip.style.top=(ev.clientY+14)+"px"};
+  e.onmouseleave=()=>tip.style.display="none"})}
+document.querySelectorAll("#scope button").forEach(b=>b.onclick=()=>{scope=b.dataset.v;render()});
+document.querySelectorAll("#mode button").forEach(b=>b.onclick=()=>{mode=b.dataset.v;render()});
+</script>
+</body>
+</html>
