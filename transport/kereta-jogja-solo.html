@@ -60,6 +60,8 @@
   .notes h2 { font-size: 15px; color: var(--text); margin-bottom: 8px; }
   .notes li { margin: 0 0 6px 18px; }
   .notes a { color: var(--accent); }
+  td.yia { min-width: 120px; }
+  [hidden] { display: none !important; }
   @media (max-width: 560px) {
     th.hide, td.hide { display: none; }
     th, td { padding: 9px 8px; }
@@ -71,10 +73,13 @@
   <header>
     <div class="eyebrow">Transport · Kereta Api</div>
     <h1>Kereta tarif khusus Yogyakarta ⇄ Solo Balapan</h1>
-    <p class="lead">Jadwal 15 KA jarak jauh yang punya tarif khusus (go show) di rute Yogyakarta–Solo Balapan. Tiket dibeli lewat Access by KAI atau loket, mulai 2 jam sebelum berangkat, selama kursi masih ada.</p>
-    <div class="fare">
+    <p class="lead">Jadwal KA jarak jauh bertarif khusus (go show) dan KRL Commuter Line di rute Yogyakarta–Solo Balapan. Arah Solo → Yogya dilengkapi rekomendasi KA Bandara ke Bandara YIA (NYIA).</p>
+    <div class="fare" id="fare">
       <div><b>Rp65.000</b><span>Eksekutif</span></div>
       <div><b>Rp55.000</b><span>Ekonomi</span></div>
+    </div>
+    <div class="fare" id="fareKrl" hidden>
+      <div><b>Rp8.000</b><span>KRL sekali jalan</span></div>
     </div>
   </header>
 
@@ -82,6 +87,10 @@
     <div class="seg" role="group" aria-label="Arah">
       <button data-dir="ys" class="on">Yogya → Solo</button>
       <button data-dir="sy">Solo → Yogya</button>
+    </div>
+    <div class="seg" role="group" aria-label="Jenis kereta">
+      <button data-mode="ka" class="on">KA tarif khusus</button>
+      <button data-mode="krl">KRL</button>
     </div>
     <div class="seg" role="group" aria-label="Versi jadwal">
       <button data-g="2026" class="on">Mulai 1 Des 2026</button>
@@ -93,7 +102,7 @@
 
   <table>
     <thead>
-      <tr><th>Kereta</th><th class="hide">No. KA</th><th id="hDep">Berangkat</th><th id="hArr">Tiba</th></tr>
+      <tr><th id="hName">Kereta</th><th class="hide">No. KA</th><th id="hDep">Berangkat</th><th id="hArr">Tiba</th><th id="hYia" hidden>KA Bandara YIA</th></tr>
     </thead>
     <tbody id="rows"></tbody>
   </table>
@@ -103,9 +112,13 @@
     <ul>
       <li>Semua kereta di daftar ini berangkat/tiba di <b>Stasiun Yogyakarta (Tugu)</b>, kecuali Batavia di jadwal lama (tiba di Purwosari / Lempuyangan).</li>
       <li><b>Fajar Utama Solo</b> hanya arah Yogya → Solo; <b>Senja Utama Solo</b> hanya arah Solo → Yogya.</li>
+      <li><b>KA tarif khusus</b>: tiket lewat Access by KAI atau loket, mulai 2 jam sebelum berangkat, selama kursi masih ada.</li>
+      <li><b>KRL</b> berangkat/tiba di Stasiun Yogyakarta (Tugu) dan lanjut sampai Palur (lewat Solo Balapan &amp; Solo Jebres). Bayar dengan kartu uang elektronik atau QRIS di gerbang.</li>
+      <li><b>KA Bandara YIA</b> berangkat dari Stasiun Yogyakarta (Tugu), ±35–39 menit ke Bandara YIA. Rekomendasi memakai jeda pindah minimal 15 menit (35 menit bila tiba di Lempuyangan) dan tidak memakai KA Bandara fakultatif. Untuk penerbangan, sisakan waktu check-in di bandara.</li>
+      <li>Jadwal KA Bandara di halaman ini adalah GAPEKA 2025. Papan stasiun Tugu berlabel GAPEKA 2026 menampilkan jam yang sama, tapi jadwal 2026 lengkapnya belum terkonfirmasi.</li>
       <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari.</li>
       <li>Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
-      <li>Sumber jadwal: <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-solo">168Railway</a> (disusun dari daftar waktu GAPEKA resmi; bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
+      <li>Sumber jadwal: <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-solo">168Railway</a> , <a href="https://168railway.com/gapeka-2026/krl/yogyakarta">KRL 2026</a>, <a href="https://168railway.com/jadwal-kereta-api/commuter-line-yogyakarta">KRL 2025</a>, <a href="https://168railway.com/jadwal-kereta-api/bandara-yia">KA Bandara YIA</a> (disusun dari daftar waktu GAPEKA resmi; bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
     </ul>
   </div>
 </div>
@@ -203,6 +216,54 @@ const DATA = {
   }
 };
 
+// KRL Commuter Line Yogyakarta (YK – Palur, lewat Solo Balapan)
+// {no, dep, arr, note, fak}; dep/arr null = jam di Solo Balapan tidak tersedia
+const KRL = {
+  "2026": {
+    ys: [
+      ["720","04.55","06.05","06.17"],["730F","06.00","07.10","07.20",1],["702","06.55","08.04","08.15"],
+      ["712","07.54","09.04","09.16"],["722","08.39","09.49","10.01"],["732F","09.34","10.45","10.56",1],
+      ["704","10.07","11.18","11.29"],["714","12.14","13.24","13.35"],["706","13.57","15.08","15.19"],
+      ["724F","14.50","16.00","16.11",1],["716","15.35","16.46","16.57"],["734F","16.14","17.34","17.44",1],
+      ["708","17.15","18.36","18.47"],["726","17.58","19.11","19.22"],["718","19.08","20.19","20.30"],
+      ["736","20.33","21.45","21.56"],["710F","21.33","22.47","22.58",1],["728","22.55","00.17","00.28"]
+    ].map(([no,dep,arr,pl,fak]) => ({no, dep, arr, fak, note:`Lanjut ke Palur, tiba ${pl}`})),
+    sy: [
+      ["701","05.10","05.23","06.33"],["711","06.10","06.25","07.33"],["721","07.05","07.17","08.26"],
+      ["731F","07.45","07.58","09.24",1],["703","08.25","08.38","09.57"],["713","10.45","10.57","12.04"],
+      ["705","12.15","12.27","13.42"],["723F","12.55","13.08","14.30",1],["715","13.45","13.57","15.22"],
+      ["733F","14.25","14.37","15.49",1],["707","15.28","15.40","16.49"],["725","16.28","16.40","17.49"],
+      ["717","17.10","17.22","18.33"],["735","18.35","18.48","19.58"],["709","19.50","20.02","21.23"],
+      ["727","21.10","21.22","22.40"]
+    ].map(([no,pl,dep,arr,fak]) => ({no, dep, arr, fak, note:`Dari Palur ${pl}`}))
+  },
+  "2025": {
+    ys: [
+      ["720","05.05","06.26"],["730F","06.00","07.20",1],["702","07.05","08.29"],["712","07.54","09.18"],
+      ["722","08.49","10.12"],["704","10.56","12.18"],["724","12.07","13.30"],["714","13.57","15.21"],
+      ["706","15.01","16.25"],["726","16.10","17.45"],["716","17.35","18.57"],["708","18.08","19.28"],
+      ["728","20.15","21.40"],["718A","21.25","22.44"],["710","22.35","23.54"]
+    ].map(([no,dep,pl,fak]) => ({no, dep, arr:null, fak, note:`Tiba Palur ${pl}`})),
+    sy: [
+      ["701","05.00","06.23"],["711","06.05","07.29"],["721","07.15","08.39"],["703","08.56","10.27"],
+      ["723","10.40","11.59"],["705","12.50","14.12"],["725","13.43","15.17"],["715","15.35","16.56"],
+      ["707","16.35","17.55"],["727","18.05","19.25"],["717","19.45","21.09"],["709","20.42","22.01"]
+    ].map(([no,pl,arr]) => ({no, dep:null, pl, arr, note:`Berangkat Palur ${pl} (±12–15 mnt sebelum Solo Balapan)`}))
+  }
+};
+
+// KA Bandara YIA dari Stasiun Yogyakarta (Tugu): [no, berangkat YK, tiba YIA, fakultatif]
+const YIA = [
+  ["521","04.20","04.59"],["561","05.10","05.49"],["547F","06.00","06.35",1],["523","06.30","07.09"],
+  ["535","07.40","08.15"],["549","07.57","08.32"],["525","08.33","09.12"],["563","08.55","09.34"],
+  ["537","09.28","10.03"],["551","09.51","10.26"],["539","11.03","11.38"],["527","12.00","12.39"],
+  ["565","12.35","13.14"],["553","13.28","14.03"],["529","14.13","14.52"],["541","15.02","15.37"],
+  ["555","15.30","16.05"],["567","15.49","16.28"],["531","16.07","16.46"],["543","16.48","17.23"],
+  ["557","17.15","17.50"],["569","18.25","19.04"],["559","18.50","19.25"],["533","19.16","19.55"],
+  ["545","20.12","20.47"]
+];
+const BUF_TUGU = 15, BUF_LPN = 35; // menit pindah kereta
+
 // Default ke jadwal yang berlaku hari ini (WIB)
 // Date yang jam/tanggal lokalnya = waktu WIB (UTC+7)
 function nowWIB() {
@@ -211,40 +272,69 @@ function nowWIB() {
 const now = nowWIB();
 let g = now >= new Date(2026, 11, 1) ? "2026" : "2025";
 let dir = "ys";
+let mode = "ka";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const mins = t => { const [h, m] = t.split(".").map(Number); return h * 60 + m; };
 
+// Rekomendasi KA Bandara YIA pertama yang masih terkejar setelah tiba di Yogyakarta
+function yiaCell(arr, lpn) {
+  if (!arr) return "—";
+  const ready = mins(arr) + (lpn ? BUF_LPN : BUF_TUGU);
+  const regular = YIA.filter(y => !y[3]);
+  let pick = regular.find(y => mins(y[1]) >= ready), besok = false;
+  if (!pick) { pick = regular[0]; besok = true; }
+  const wait = (mins(pick[1]) - mins(arr) + 1440) % 1440;
+  const waitTxt = wait >= 60 ? `${Math.floor(wait / 60)} j ${wait % 60} mnt` : `${wait} mnt`;
+  return `<span class="t dep">${pick[1]}</span>${besok ? '<span class="tag">besok</span>' : ""}
+    <span class="note">KA ${pick[0]} · tiba YIA ${pick[2]} · tunggu ${waitTxt}${lpn ? " · pindah dari Lempuyangan" : ""}</span>`;
+}
+
 function render() {
   document.querySelectorAll("[data-dir]").forEach(b => b.classList.toggle("on", b.dataset.dir === dir));
   document.querySelectorAll("[data-g]").forEach(b => b.classList.toggle("on", b.dataset.g === g));
-  $("#hDep").textContent = dir === "ys" ? "Berangkat YK" : "Berangkat SLO";
-  $("#hArr").textContent = dir === "ys" ? "Tiba SLO" : "Tiba YK";
-  $("#notice").textContent = g === "2026"
+  document.querySelectorAll("[data-mode]").forEach(b => b.classList.toggle("on", b.dataset.mode === mode));
+  const toYk = dir === "sy";
+  $("#hName").textContent = mode === "ka" ? "Kereta" : "KRL";
+  $("#hDep").textContent = toYk ? "Berangkat SLO" : "Berangkat YK";
+  $("#hArr").textContent = toYk ? "Tiba YK" : "Tiba SLO";
+  $("#hYia").hidden = !toYk;
+  $("#fare").hidden = mode !== "ka";
+  $("#fareKrl").hidden = mode !== "krl";
+  let notice = g === "2026"
     ? "Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026."
     : "Jadwal GAPEKA 2025, berlaku sampai 30 November 2026.";
+  if (mode === "krl" && g === "2025") notice += " Jam singgah KRL di Solo Balapan untuk jadwal ini tidak tersedia di sumber.";
+  if (toYk) notice += ` Kolom KA Bandara YIA: kereta pertama dari Stasiun Yogyakarta (Tugu) dengan jeda pindah minimal ${BUF_TUGU} menit.`;
+  $("#notice").textContent = notice;
 
-  const rows = DATA[g][dir];
+  const rows = mode === "ka"
+    ? DATA[g][dir].map(([name, no, dep, arr, note, fak]) => ({name, no, dep, arr, note, fak}))
+    : KRL[g][dir].map(r => ({...r, name: "Commuter Line"}));
+
   const cur = now.getHours() * 60 + now.getMinutes();
-  // kereta berikutnya: jam berangkat terdekat setelah sekarang (lewat tengah malam ikut dihitung)
+  // waktu acuan untuk "kereta berikutnya": jam berangkat, atau perkiraan dari Palur bila jam SLO tak ada
+  const ref = r => r.dep ? mins(r.dep) : mins(r.pl) + 13;
   let nextIdx = -1, best = Infinity;
-  rows.forEach((r, i) => { const diff = (mins(r[2]) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
+  rows.forEach((r, i) => { const diff = (ref(r) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
 
   $("#rows").innerHTML = rows.map((r, i) => {
-    const [name, no, dep, arr, note, fak] = r;
-    const overnight = mins(arr) < mins(dep) ? ' <span class="note">+1 hari</span>' : "";
+    const overnight = r.dep && r.arr && mins(r.arr) < mins(r.dep) ? ' <span class="note">+1 hari</span>' : "";
+    const lpn = r.note && /Lempuyangan/.test(r.note);
     return `<tr${i === nextIdx ? ' class="next"' : ""}>
-      <td>${esc(name)}${fak ? '<span class="tag">fakultatif</span>' : ""}${note ? `<span class="note">${esc(note)}</span>` : ""}</td>
-      <td class="no hide">${esc(no)}</td>
-      <td class="t dep">${dep}</td>
-      <td class="t">${arr}${overnight}</td>
+      <td>${esc(r.name)}${r.fak ? '<span class="tag">fakultatif</span>' : ""}${r.note ? `<span class="note">${esc(r.note)}</span>` : ""}</td>
+      <td class="no hide">${esc(r.no)}</td>
+      <td class="t dep">${r.dep || "—"}</td>
+      <td class="t">${r.arr || "—"}${overnight}</td>
+      ${toYk ? `<td class="yia">${yiaCell(r.arr, lpn)}</td>` : ""}
     </tr>`;
   }).join("");
 }
 
 document.querySelectorAll("[data-dir]").forEach(b => b.onclick = () => { dir = b.dataset.dir; render(); });
 document.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { g = b.dataset.g; render(); });
+document.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => { mode = b.dataset.mode; render(); });
 render();
 </script>
 </body>
