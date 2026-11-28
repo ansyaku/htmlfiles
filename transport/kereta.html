@@ -84,6 +84,15 @@
   tr.direct td { background: var(--accent-soft); }
   tr.direct.next td { background: rgba(154, 91, 19, 0.2); }
   tr.krlrow td.t.dep { color: var(--krl); }
+  .cls { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .3px; padding: 1px 6px; border-radius: 4px; margin: 3px 4px 0 0; }
+  .cls.eks { background: var(--accent-soft); color: var(--accent); }
+  .cls.eko { background: var(--krl-soft); color: var(--krl); }
+  .cls.unk { border: 1px dashed var(--border); color: var(--dim); font-weight: 500; }
+  .clsrow { line-height: 1.2; }
+  span.no { color: var(--dim); font-family: 'DM Mono', monospace; font-size: 12px; }
+  .big { font-size: 15px; }
+  #rowsJkt td.t .note { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; white-space: normal; color: var(--muted); }
+  #rowsJkt td { vertical-align: top; }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin: -4px 0 12px; }
   [hidden] { display: none !important; }
   @media (max-width: 560px) {
@@ -100,6 +109,7 @@
     <nav class="tabs">
       <button class="tab" data-tab="solo">Yogya ⇄ Solo</button>
       <button class="tab" data-tab="semarang">Yogya ⇄ Semarang</button>
+      <button class="tab" data-tab="jakarta">Yogya ⇄ Jakarta</button>
     </nav>
   </div>
 </header>
@@ -181,6 +191,51 @@
       <li>Tiket KA Solo ⇄ Semarang dibeli terpisah (Access by KAI), bukan tarif khusus.</li>
       <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/solo-semarang">Solo–Semarang 2026</a>, <a href="https://168railway.com/gapeka-2026/relasi/semarang-solo">Semarang–Solo 2026</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/solo-ke-semarang">Solo–Semarang 2025</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/semarang-ke-solo">Semarang–Solo 2025</a>, <a href="https://168railway.com/gapeka-2026/ka/282-pandawa">KA Pandawa</a>, <a href="https://money.kompas.com/read/2026/11/05/080654326/ka-pandawa-yogyakarta-semarang-pp-beroperasi-1-desember-2026-cek-jadwalnya">Kompas</a> (bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
     </ul>
+    </div>
+  </section>
+
+  <section class="pane" id="jakarta">
+    <p class="lead">Semua KA jarak jauh Jakarta ⇄ Yogyakarta per GAPEKA 2026 (mulai 1 Desember 2026), dari Gambir maupun Pasar Senen, ke Stasiun Yogyakarta (Tugu) maupun Lempuyangan. Saring menurut kelas atau stasiun.</p>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Arah">
+        <button data-p="jkt" data-dir="jy">Jakarta → Yogya</button>
+        <button data-p="jkt" data-dir="yj">Yogya → Jakarta</button>
+      </div>
+      <div class="seg" role="group" aria-label="Kelas">
+        <button data-f="cls" data-v="all">Semua kelas</button>
+        <button data-f="cls" data-v="eks">Eksekutif</button>
+        <button data-f="cls" data-v="eko">Ekonomi</button>
+      </div>
+    </div>
+    <div class="controls" style="padding-top:0">
+      <div class="seg" role="group" aria-label="Stasiun Jakarta">
+        <button data-f="jst" data-v="all">Semua stasiun Jakarta</button>
+        <button data-f="jst" data-v="GMR">Gambir</button>
+        <button data-f="jst" data-v="PSE">Pasar Senen</button>
+      </div>
+      <div class="seg" role="group" aria-label="Stasiun Yogya">
+        <button data-f="yst" data-v="all">Tugu &amp; Lempuyangan</button>
+        <button data-f="yst" data-v="YK">Tugu</button>
+        <button data-f="yst" data-v="LPN">Lempuyangan</button>
+      </div>
+    </div>
+    <div class="notice" id="noticeJkt"></div>
+    <div class="legend"><span><span class="cls eks">Eksekutif</span><span class="cls eko">Ekonomi</span>kelas yang tersedia</span><span><span class="cls unk">kelas ?</span>belum terdata di sumber</span><span>Kode: GMR Gambir · PSE Pasar Senen · JNG Jatinegara · BKS Bekasi · CKR Cikarang · YK Tugu · LPN Lempuyangan</span></div>
+    <table>
+      <thead id="theadJkt"></thead>
+      <tbody id="rowsJkt"></tbody>
+    </table>
+    <div class="notes">
+      <h2>Catatan</h2>
+      <ul>
+        <li>Hanya jadwal GAPEKA 2026 (berlaku mulai 1 Desember 2026).</li>
+        <li><b>Kelas &amp; harga</b> diambil dari halaman 168Railway, yang memantau tiket.com untuk 10–14 Des 2026. Harga adalah harga terendah (mulai), bisa berubah. Kelas lain seperti Luxury, Panoramic, atau Premium Ekonomi tidak tercatat di sumber.</li>
+        <li><span class="cls unk">kelas ?</span> artinya kelasnya tidak tercatat di sumber (Borobudur, Fajar/Senja Utama Yk, Gajahwong, Jaka Tingkir, Bogowonto, Progo, Gajayana fakultatif). Cek di Access by KAI. Untuk Argo Dwipangga 15 dan Bengawan 315, kelas mengikuti pasangannya (16 dan 316).</li>
+        <li>Stasiun singgah di Jakarta (Jatinegara, Bekasi, Cikarang) hanya tampil kalau tercatat di halaman per kereta. Sebagian halaman tidak bisa dibuka karena dibatasi situs sumber, jadi untuk kereta itu hanya stasiun pertama/terakhir di Jakarta yang tampil. Arah ke Jakarta: bila hanya Jatinegara yang tercatat, stasiun akhirnya disimpulkan dari pasangan keretanya (tanpa jam).</li>
+        <li>Banyak kereta tidak berawal/berakhir di Yogya atau Jakarta (mis. lanjut ke Solo, Surabaya, Malang). Jam yang tampil adalah jam di stasiun Jakarta dan Yogya.</li>
+        <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari. Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
+        <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/jakarta-yogyakarta">Jakarta–Yogyakarta</a>, <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-jakarta">Yogyakarta–Jakarta</a>, dan halaman per kereta (bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
+      </ul>
     </div>
   </section>
 </main>
@@ -554,12 +609,141 @@ function renderSmgPane() {
   renderSmg();
 }
 
+
+// ===== Jakarta ⇄ Yogyakarta (GAPEKA 2026) =====
+// {n: nama, no, j: [[stasiun, jam]] singgah area Jakarta urut perjalanan, y: [[stasiun, jam]] di Yogya,
+//  c: "eks" | "eko" | "both" | null, c2: kelas disimpulkan dari pasangan, rp: harga mulai (ribu), f: fakultatif,
+//  x: catatan asal/tujuan, end: stasiun akhir Jakarta bila jamnya tak tercatat}
+const JKT = {
+  jy: [
+    {n:"Borobudur", no:"78F", j:[["GMR","05.10"],["BKS","05.36"]], y:[["YK","12.32"],["LPN","12.41"]], f:1},
+    {n:"Fajar Utama Solo", no:"184", j:[["PSE","05.25"],["JNG","05.39"],["BKS","05.53"]], y:[["YK","12.56"]], c:"both", rp:370, x:"Lanjut ke Solo Balapan"},
+    {n:"Argo Semeru", no:"6", j:[["GMR","06.10"],["BKS","06.35"]], y:[["YK","12.46"]], c:"eks", rp:730, x:"Lanjut ke Surabaya Gubeng"},
+    {n:"Taksaka", no:"32", j:[["GMR","07.00"],["BKS","07.24"]], y:[["YK","13.16"]], c:"eks", rp:680},
+    {n:"Fajar Utama Yk", no:"198", j:[["PSE","07.15"],["BKS","07.38"]], y:[["YK","15.13"]]},
+    {n:"Gajahwong", no:"194", j:[["PSE","07.40"],["JNG","07.52"],["BKS","08.06"]], y:[["LPN","15.49"]]},
+    {n:"Argo Dwipangga", no:"16", j:[["GMR","08.15"],["BKS","08.40"]], y:[["YK","14.35"]], c:"eks", rp:670, x:"Lanjut ke Solo Balapan"},
+    {n:"Jaka Tingkir", no:"298", j:[["PSE","08.20"],["JNG","08.33"],["BKS","08.46"],["CKR","09.05"]], y:[["LPN","16.08"]], x:"Lanjut ke Solo Balapan"},
+    {n:"Bengawan", no:"316", j:[["PSE","09.15"],["JNG","09.28"],["BKS","09.42"],["CKR","10.09"]], y:[["LPN","17.49"]], c:"eko", x:"Lanjut ke Purwosari"},
+    {n:"Batavia", no:"126", j:[["GMR","09.40"],["BKS","10.07"]], y:[["YK","17.04"]], c:"both", rp:390, x:"Lanjut ke Solo Balapan"},
+    {n:"Manahan", no:"60", j:[["GMR","10.35"],["BKS","11.01"],["CKR","11.20"]], y:[["YK","17.31"]], c:"eks", rp:620, x:"Lanjut ke Solo Balapan"},
+    {n:"Gayabaru Selatan", no:"90", j:[["PSE","11.10"],["BKS","11.33"],["CKR","11.52"]], y:[["LPN","18.56"]], c:"both", rp:410, x:"Lanjut ke Surabaya Gubeng"},
+    {n:"Bangunkarta", no:"176", j:[["PSE","12.35"]], y:[["YK","20.19"]], c:"both", rp:330, x:"Lanjut ke Jombang"},
+    {n:"Taksaka", no:"30", j:[["GMR","13.00"]], y:[["YK","19.21"]], c:"eks", rp:680},
+    {n:"Bima", no:"8", j:[["GMR","16.45"]], y:[["YK","23.22"]], c:"eks", rp:730, x:"Lanjut ke Surabaya Gubeng"},
+    {n:"Borobudur", no:"76F", j:[["GMR","17.00"],["BKS","17.26"],["CKR","17.45"]], y:[["YK","00.26"],["LPN","00.35"]], f:1},
+    {n:"Jayakarta", no:"290", j:[["PSE","17.15"]], y:[["LPN","00.45"]], c:"eko", rp:360, x:"Lanjut ke Surabaya Gubeng"},
+    {n:"Bogowonto", no:"192", j:[["PSE","17.45"]], y:[["YK","01.32"]], x:"Berakhir di Lempuyangan"},
+    {n:"Senja Utama Yk", no:"196", j:[["PSE","18.50"]], y:[["YK","02.27"]]},
+    {n:"Gajayana", no:"50", j:[["GMR","19.10"],["BKS","19.36"]], y:[["YK","01.48"]], c:"eks", rp:770, x:"Lanjut ke Malang"},
+    {n:"Argo Lawu", no:"14", j:[["GMR","20.30"],["BKS","20.55"]], y:[["YK","02.48"]], c:"eks", rp:670, x:"Lanjut ke Solo Balapan"},
+    {n:"Madiun Jaya", no:"182", j:[["PSE","21.10"]], y:[["YK","03.57"]], c:"both", rp:350, x:"Lanjut ke Madiun"},
+    {n:"Mataram", no:"186", j:[["PSE","21.40"]], y:[["YK","05.16"]], c:"both", rp:370, x:"Lanjut ke Solo Balapan"},
+    {n:"Singasari", no:"150", j:[["PSE","21.55"]], y:[["LPN","05.35"]], c:"eko", rp:350, x:"Lanjut ke Blitar"},
+    {n:"Taksaka", no:"34", j:[["GMR","22.00"]], y:[["YK","04.22"]], c:"eks", rp:680},
+    {n:"Manahan", no:"62", j:[["GMR","22.35"]], y:[["YK","05.40"]], c:"eks", rp:620, x:"Lanjut ke Solo Balapan"},
+    {n:"Progo", no:"300", j:[["PSE","23.45"]], y:[["LPN","07.24"]]},
+    {n:"Gajayana", no:"80F", j:[["GMR","00.05"]], y:[["YK","07.28"]], f:1, x:"Lanjut ke Malang"}
+  ],
+  yj: [
+    {n:"Borobudur", no:"75F", y:[["LPN","06.10"],["YK","06.20"]], j:[["CKR","13.04"],["BKS","13.24"],["JNG","13.38"],["GMR","13.54"]], f:1},
+    {n:"Fajar Utama Yk", no:"197", y:[["YK","07.00"]], j:[["BKS","14.24"],["JNG","14.38"],["PSE","14.51"]]},
+    {n:"Taksaka", no:"29", y:[["YK","08.45"]], j:[["GMR","15.02"]], c:"eks", rp:680},
+    {n:"Bogowonto", no:"191", y:[["LPN","08.50"],["YK","08.58"]], j:[["CKR","16.08"],["BKS","16.27"],["PSE","16.51"]]},
+    {n:"Argo Lawu", no:"13", y:[["YK","09.10"]], j:[["GMR","15.29"]], c:"eks", rp:670, x:"Dari Solo Balapan"},
+    {n:"Madiun Jaya", no:"181", y:[["YK","10.09"]], j:[["JNG","16.51"]], end:"PSE", c:"both", rp:350, x:"Dari Madiun"},
+    {n:"Gayabaru Selatan", no:"89", y:[["LPN","10.24"]], j:[["JNG","18.06"]], end:"PSE", c:"both", rp:410, x:"Dari Surabaya Gubeng"},
+    {n:"Manahan", no:"59", y:[["YK","11.00"]], j:[["CKR","17.20"],["BKS","17.39"],["JNG","17.54"],["GMR","18.09"]], c:"eks", rp:620, x:"Dari Solo Balapan"},
+    {n:"Mataram", no:"185", y:[["YK","11.33"]], j:[["BKS","18.38"],["JNG","18.52"],["PSE","19.04"]], c:"both", rp:370, x:"Dari Solo Balapan"},
+    {n:"Bangunkarta", no:"175", y:[["YK","11.46"]], j:[["BKS","19.27"],["JNG","19.41"],["PSE","19.54"]], c:"both", rp:330, x:"Dari Jombang"},
+    {n:"Argo Semeru", no:"5", y:[["YK","12.57"]], j:[["BKS","19.10"],["JNG","19.23"],["GMR","19.39"]], c:"eks", rp:730, x:"Dari Surabaya Gubeng"},
+    {n:"Progo", no:"299", y:[["LPN","13.30"]], j:[["BKS","21.14"],["JNG","21.28"],["PSE","21.41"]]},
+    {n:"Taksaka", no:"33", y:[["YK","15.40"]], j:[["GMR","22.00"]], c:"eks", rp:680},
+    {n:"Borobudur", no:"77F", y:[["LPN","16.20"],["YK","16.30"]], j:[["CKR","23.28"],["BKS","23.48"],["JNG","00.04"],["GMR","00.18"]], f:1},
+    {n:"Senja Utama Yk", no:"195", y:[["YK","17.50"]], j:[["BKS","00.59"],["JNG","01.13"],["PSE","01.26"]]},
+    {n:"Senja Utama Solo", no:"183", y:[["YK","18.58"]], j:[["JNG","02.20"]], end:"PSE", c:"both", rp:370, x:"Dari Solo Balapan"},
+    {n:"Jayakarta", no:"289", y:[["LPN","19.05"]], j:[["JNG","02.58"]], end:"PSE", c:"eko", rp:360, x:"Dari Surabaya Gubeng"},
+    {n:"Gajayana", no:"49", y:[["YK","20.42"]], j:[["JNG","03.09"]], end:"GMR", c:"eks", rp:770, x:"Dari Malang"},
+    {n:"Gajahwong", no:"193", y:[["LPN","20.50"]], j:[["BKS","04.42"],["PSE","05.06"]]},
+    {n:"Argo Dwipangga", no:"15", y:[["YK","21.15"]], j:[["GMR","03.35"]], c:"eks", c2:1, x:"Dari Solo Balapan"},
+    {n:"Taksaka", no:"31", y:[["YK","21.40"]], j:[["GMR","04.02"]], c:"eks", rp:680},
+    {n:"Singasari", no:"149", y:[["LPN","21.45"]], j:[["PSE","05.28"]], c:"eko", rp:350, x:"Dari Blitar"},
+    {n:"Bima", no:"7", y:[["YK","23.01"]], j:[["BKS","05.11"],["JNG","05.24"],["GMR","05.40"]], c:"eks", rp:730, x:"Dari Surabaya Gubeng"},
+    {n:"Batavia", no:"125", y:[["YK","23.09"]], j:[["JNG","06.02"]], end:"GMR", c:"both", rp:390, x:"Dari Solo Balapan"},
+    {n:"Manahan", no:"61", y:[["YK","23.26"]], j:[["JNG","06.10"]], end:"GMR", c:"eks", rp:620, x:"Dari Solo Balapan"},
+    {n:"Jaka Tingkir", no:"297", y:[["LPN","00.05"]], j:[["JNG","07.26"]], end:"PSE", x:"Dari Solo Balapan"},
+    {n:"Bengawan", no:"315", y:[["LPN","00.26"]], j:[["CKR","07.33"],["BKS","07.53"],["JNG","08.07"],["PSE","08.20"]], c:"eko", c2:1, x:"Dari Purwosari"},
+    {n:"Gajayana", no:"79F", y:[["YK","01.40"]], j:[["BKS","08.36"],["JNG","08.52"],["GMR","09.08"]], f:1, x:"Dari Malang"}
+  ]
+};
+const ST_NAME = {GMR:"Gambir", PSE:"Pasar Senen", JNG:"Jatinegara", BKS:"Bekasi", CKR:"Cikarang", YK:"Yogyakarta (Tugu)", LPN:"Lempuyangan"};
+let dirJkt = "jy", fCls = "all", fJst = "all", fYst = "all";
+
+function renderJkt() {
+  const toJ = dirJkt === "yj";
+  document.querySelectorAll("[data-p=jkt]").forEach(b => b.classList.toggle("on", b.dataset.dir === dirJkt));
+  [["cls", fCls], ["jst", fJst], ["yst", fYst]].forEach(([k, v]) =>
+    document.querySelectorAll(`[data-f=${k}]`).forEach(b => b.classList.toggle("on", b.dataset.v === v)));
+  $("#theadJkt").innerHTML = `<tr><th>Kereta</th><th>Berangkat ${toJ ? "Yogya" : "Jakarta"}</th><th>Tiba ${toJ ? "Jakarta" : "Yogya"}</th><th class="hide">Lama</th><th class="hide">Mulai</th></tr>`;
+
+  // stasiun utama Jakarta (Gambir / Pasar Senen) untuk filter
+  const jMain = t => (t.j.find(([st]) => st === "GMR" || st === "PSE") || [t.end])[0] || t.end;
+  const rows = JKT[dirJkt].filter(t =>
+    (fCls === "all" || t.c === fCls || t.c === "both") &&
+    (fJst === "all" || jMain(t) === fJst) &&
+    (fYst === "all" || t.y.some(([st]) => st === fYst)));
+
+  const first = t => toJ ? t.y[0] : t.j[0];
+  const last = t => toJ ? t.j[t.j.length - 1] : t.y[0];
+  rows.sort((a, b) => A(first(a)[1]) - A(first(b)[1]));
+
+  const cur = now.getHours() * 60 + now.getMinutes();
+  let nextIdx = -1, best = Infinity;
+  rows.forEach((t, i) => { const diff = (mins(first(t)[1]) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
+
+  const total = JKT[dirJkt].length;
+  $("#noticeJkt").textContent = `Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026. Menampilkan ${rows.length} dari ${total} kereta.`;
+
+  const clsTag = t => {
+    if (t.c === "both") return '<span class="cls eks">Eksekutif</span><span class="cls eko">Ekonomi</span>';
+    if (t.c === "eks") return `<span class="cls eks">Eksekutif${t.c2 ? "*" : ""}</span>`;
+    if (t.c === "eko") return `<span class="cls eko">Ekonomi${t.c2 ? "*" : ""}</span>`;
+    return '<span class="cls unk">kelas ?</span>';
+  };
+  const stopList = (list, skip) => list.filter((_, i) => i !== skip).map(([st, tm]) => `${st} ${tm}`).join(" · ");
+  const timeCell = (main, others, extra) =>
+    `<span class="big">${main[1]}</span> <span class="st">${main[0]}</span>${others ? `<span class="note">${others}</span>` : ""}${extra ? `<span class="note">${extra}</span>` : ""}`;
+
+  $("#rowsJkt").innerHTML = rows.length ? rows.map((t, i) => {
+    const dep = first(t), arr = last(t);
+    const lama = dur(dep[1], arr[1]);
+    const over = mins(arr[1]) < mins(dep[1]) ? ' <span class="note">+1 hari</span>' : "";
+    let depCell, arrCell;
+    if (!toJ) {
+      depCell = timeCell(dep, stopList(t.j, 0) && `juga naik di ${stopList(t.j, 0)}`);
+      arrCell = timeCell(t.y[0], t.y.length > 1 ? `lalu ${stopList(t.y, 0)}` : "") + over;
+    } else {
+      depCell = timeCell(dep, t.y.length > 1 ? `juga naik di ${stopList(t.y, 0)}` : "");
+      const others = t.j.slice(0, -1).map(([st, tm]) => `${st} ${tm}`).join(" · ");
+      arrCell = timeCell(arr, others && `singgah ${others}`, t.end ? `lanjut ke ${ST_NAME[t.end]} (jam tak tercatat)` : "") + over;
+    }
+    return `<tr${i === nextIdx ? ' class="next"' : ""}>
+      <td><b>${esc(t.n)}</b> <span class="no">${esc(t.no)}</span>${t.f ? '<span class="tag">fakultatif</span>' : ""}<div class="clsrow">${clsTag(t)}</div>${t.x ? `<span class="note">${esc(t.x)}</span>` : ""}</td>
+      <td class="t dep">${depCell}</td>
+      <td class="t">${arrCell}</td>
+      <td class="t hide">${fmtDur(lama)}</td>
+      <td class="t hide">${t.rp ? `Rp${t.rp} rb` : "—"}</td>
+    </tr>`;
+  }).join("") : '<tr><td colspan="5">Tidak ada kereta yang cocok dengan saringan ini.</td></tr>';
+}
+
 function render() {
   document.querySelectorAll("[data-g]").forEach(b => b.classList.toggle("on", b.dataset.g === g));
   document.querySelectorAll("[data-p=slo]").forEach(b => b.classList.toggle("on", b.dataset.dir === dirSlo));
   document.querySelectorAll("[data-p=smg]").forEach(b => b.classList.toggle("on", b.dataset.dir === dirSmg));
   renderSlo();
   renderSmgPane();
+  renderJkt();
 }
 
 // tab rute (ikut tersimpan di URL: #solo / #semarang)
@@ -569,13 +753,20 @@ function show(k) {
   tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === k));
   panes.forEach(p => p.classList.toggle("active", p.id === k));
   history.replaceState(null, "", "#" + k);
-  document.title = `Kereta ${k === "semarang" ? "Yogyakarta ⇄ Semarang" : "Yogyakarta ⇄ Solo"}`;
+  document.title = `Kereta Yogyakarta ⇄ ${{semarang: "Semarang", jakarta: "Jakarta"}[k] || "Solo"}`;
 }
 tabs.forEach(t => t.onclick = () => { show(t.dataset.tab); window.scrollTo(0, 0); });
 
 document.querySelectorAll("[data-p]").forEach(b => b.onclick = () => {
-  if (b.dataset.p === "slo") dirSlo = b.dataset.dir; else dirSmg = b.dataset.dir;
+  if (b.dataset.p === "slo") dirSlo = b.dataset.dir;
+  else if (b.dataset.p === "smg") dirSmg = b.dataset.dir;
+  else dirJkt = b.dataset.dir;
   render();
+});
+document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => {
+  const v = b.dataset.v;
+  if (b.dataset.f === "cls") fCls = v; else if (b.dataset.f === "jst") fJst = v; else fYst = v;
+  renderJkt();
 });
 document.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { g = b.dataset.g; render(); });
 show(location.hash.slice(1));
