@@ -98,6 +98,22 @@
   .big { font-size: 15px; }
   #rowsJkt td.t .note { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; white-space: normal; color: var(--muted); }
   #rowsJkt td { vertical-align: top; }
+  .filters { display: flex; flex-direction: column; gap: 8px; margin: 2px 0 12px; }
+  .frow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .flabel { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); min-width: 112px; }
+  .chip { font: inherit; font-size: 13.5px; padding: 6px 13px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .chip:hover { color: var(--text); border-color: var(--accent); }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 500; }
+  .chip:focus-visible, .clear:focus-visible, .x:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chip .hint { font-size: 11px; opacity: .7; }
+  .chip .ord { display: inline-grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: var(--bg); color: var(--accent); font-size: 10.5px; font-weight: 700; }
+  .active-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; margin: 0 0 12px; }
+  .active-filters .step { display: inline-flex; align-items: center; gap: 5px; }
+  .active-filters .cnt, .active-filters .cnt0 { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); }
+  .active-filters .x { border: 0; background: none; color: var(--dim); font-size: 15px; line-height: 1; cursor: pointer; padding: 0 2px; }
+  .active-filters .x:hover { color: var(--warn); }
+  .active-filters .clear { margin-left: auto; font: inherit; font-size: 12.5px; border: 1px solid var(--border); background: transparent; color: var(--warn); border-radius: 999px; padding: 4px 11px; cursor: pointer; }
+  @media (max-width: 560px) { .flabel { min-width: 100%; } }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin: -4px 0 12px; }
   [hidden] { display: none !important; }
   @media (max-width: 560px) {
@@ -200,31 +216,15 @@
   </section>
 
   <section class="pane" id="jakarta">
-    <p class="lead">Semua KA jarak jauh Jakarta ⇄ Yogyakarta per GAPEKA 2026 (mulai 1 Desember 2026), dari Gambir maupun Pasar Senen, ke Stasiun Yogyakarta (Tugu) maupun Lempuyangan. Saring menurut kelas atau stasiun.</p>
+    <p class="lead">Semua KA jarak jauh Jakarta ⇄ Yogyakarta per GAPEKA 2026 (mulai 1 Desember 2026), dari Gambir maupun Pasar Senen, ke Stasiun Yogyakarta (Tugu) maupun Lempuyangan. Saring dengan tombol filter: bisa digabung, berlaku sesuai urutan dipilih.</p>
     <div class="controls">
       <div class="seg" role="group" aria-label="Arah">
         <button data-p="jkt" data-dir="jy">Jakarta → Yogya</button>
         <button data-p="jkt" data-dir="yj">Yogya → Jakarta</button>
       </div>
-      <div class="seg" role="group" aria-label="Kelas">
-        <button data-f="cls" data-v="all">Semua kelas</button>
-        <button data-f="cls" data-v="eks">Eksekutif</button>
-        <button data-f="cls" data-v="eko">Ekonomi</button>
-      </div>
     </div>
-    <div class="controls" style="padding-top:0">
-      <div class="seg" role="group" aria-label="Stasiun Jakarta">
-        <button data-f="jst" data-v="all">Semua stasiun Jakarta</button>
-        <button data-f="jst" data-v="GMR">Gambir</button>
-        <button data-f="jst" data-v="PSE">Pasar Senen</button>
-        <button data-f="jst" data-v="JNG">Jatinegara</button>
-      </div>
-      <div class="seg" role="group" aria-label="Stasiun Yogya">
-        <button data-f="yst" data-v="all">Tugu &amp; Lempuyangan</button>
-        <button data-f="yst" data-v="YK">Tugu</button>
-        <button data-f="yst" data-v="LPN">Lempuyangan</button>
-      </div>
-    </div>
+    <div class="filters" id="filtersJkt"></div>
+    <div class="active-filters" id="activeJkt" hidden></div>
     <div class="notice" id="noticeJkt"></div>
     <div class="legend"><span><span class="cls eks">Eksekutif</span><span class="cls eko">Ekonomi</span>kelas yang tersedia</span><span><span class="cls eks w">Kelas</span>garis putus = dari Wikipedia</span><span><span class="cls unk">kelas ?</span>belum terdata</span><span>Kode: GMR Gambir · PSE Pasar Senen · JNG Jatinegara · BKS Bekasi · CKR Cikarang · YK Tugu · LPN Lempuyangan</span></div>
     <table>
@@ -235,6 +235,7 @@
       <h2>Catatan</h2>
       <ul>
         <li>Hanya jadwal GAPEKA 2026 (berlaku mulai 1 Desember 2026).</li>
+        <li><b>Filter</b>: klik untuk menyalakan/mematikan. Filter bertumpuk sesuai urutan dipilih (nomor di tombol), dan jumlah kereta tiap langkah tampil di baris "Filter aktif". Dalam satu kelompok (mis. Pagi + Malam) cukup cocok salah satu; antar kelompok harus cocok semua. Jam berangkat dihitung dari stasiun pertama arah perjalanan. "Ekonomi" mencakup Ekonomi Premium dan Ekonomi.</li>
         <li><b>Kelas &amp; harga</b> diambil dari halaman 168Railway, yang memantau tiket.com untuk 10–14 Des 2026. Harga adalah harga terendah (mulai), bisa berubah. Harga hanya untuk kelas termurah yang terpantau.</li>
         <li>Label kelas bergaris putus berasal dari <b>Wikipedia</b> (id.wikipedia.org, revisi Okt–Nov 2026), karena tiket.com dan Traveloka tidak bisa dibaca otomatis. Termasuk: Fajar/Senja Utama Yk, Gajahwong, Jaka Tingkir, Bogowonto, Progo, Argo Dwipangga 15, Bengawan 315, serta kelas Luxury pada Taksaka, Argo Dwipangga, dan Gajayana. Untuk Gajahwong, sebagian isi artikel menyebut hanya Eksekutif dan Ekonomi, jadi Priority-nya perlu dicek.</li>
         <li><span class="cls unk">kelas ?</span> masih belum terdata: KA Borobudur (kereta baru, belum ada di Wikipedia/berita) dan Gajayana fakultatif (79F/80F). Cek di Access by KAI.</li>
@@ -684,7 +685,44 @@ const JKT = {
   ]
 };
 const ST_NAME = {GMR:"Gambir", PSE:"Pasar Senen", JNG:"Jatinegara", BKS:"Bekasi", CKR:"Cikarang", YK:"Yogyakarta (Tugu)", LPN:"Lempuyangan"};
-let dirJkt = "jy", fCls = "all", fJst = "all", fYst = "all";
+let dirJkt = "jy";
+// filter toggle: berlaku bertumpuk sesuai urutan dipilih; dalam satu kelompok = salah satu (ATAU), antar kelompok = semua (DAN)
+const depMin = t => mins((dirJkt === "yj" ? t.y[0] : t.j[0])[1]);
+const FILTERS = [
+  {id: "pagi",  g: "Berangkat", label: "Pagi",  hint: "03.00–10.59", test: t => { const m = depMin(t); return m >= 180 && m < 660; }},
+  {id: "siang", g: "Berangkat", label: "Siang", hint: "11.00–17.59", test: t => { const m = depMin(t); return m >= 660 && m < 1080; }},
+  {id: "malam", g: "Berangkat", label: "Malam", hint: "18.00–02.59", test: t => { const m = depMin(t); return m >= 1080 || m < 180; }},
+  {id: "eks", g: "Kelas", label: "Eksekutif", test: t => classes(t).some(k => k.id === "eks")},
+  {id: "eko", g: "Kelas", label: "Ekonomi", hint: "Premium & biasa", test: t => classes(t).some(k => k.id === "ekp" || k.id === "eko")},
+  {id: "GMR", g: "Stasiun Jakarta", label: "Gambir", test: t => t.j.some(([st]) => st === "GMR") || t.end === "GMR"},
+  {id: "PSE", g: "Stasiun Jakarta", label: "Pasar Senen", test: t => t.j.some(([st]) => st === "PSE") || t.end === "PSE"},
+  {id: "JNG", g: "Stasiun Jakarta", label: "Jatinegara", test: t => t.j.some(([st]) => st === "JNG")},
+  {id: "YK",  g: "Stasiun Yogya", label: "Tugu", test: t => t.y.some(([st]) => st === "YK")},
+  {id: "LPN", g: "Stasiun Yogya", label: "Lempuyangan", test: t => t.y.some(([st]) => st === "LPN")}
+];
+const FBY = Object.fromEntries(FILTERS.map(f => [f.id, f]));
+let picked = []; // id filter, urut sesuai dipilih
+
+function applyFilters(list, ids) {
+  const groups = {};
+  ids.forEach(id => (groups[FBY[id].g] = groups[FBY[id].g] || []).push(FBY[id]));
+  return list.filter(t => Object.values(groups).every(fs => fs.some(f => f.test(t))));
+}
+
+function renderFilterUI() {
+  const groups = [...new Set(FILTERS.map(f => f.g))];
+  $("#filtersJkt").innerHTML = groups.map(g => `<div class="frow"><span class="flabel">${g}</span>${
+    FILTERS.filter(f => f.g === g).map(f => {
+      const n = picked.indexOf(f.id);
+      return `<button class="chip${n >= 0 ? " on" : ""}" data-chip="${f.id}" aria-pressed="${n >= 0}">${n >= 0 ? `<span class="ord">${n + 1}</span>` : ""}${f.label}${f.hint ? ` <span class="hint">${f.hint}</span>` : ""}</button>`;
+    }).join("")}</div>`).join("");
+  const all = JKT[dirJkt];
+  if (!picked.length) { $("#activeJkt").hidden = true; return; }
+  // langkah bertumpuk: jumlah kereta setelah tiap filter ditambahkan
+  const steps = picked.map((id, i) => `<span class="step"><b>${i + 1}. ${FBY[id].label}</b> <span class="cnt">${applyFilters(all, picked.slice(0, i + 1)).length}</span><button class="x" data-unpick="${id}" aria-label="Lepas ${FBY[id].label}">×</button></span>`);
+  $("#activeJkt").hidden = false;
+  $("#activeJkt").innerHTML = `<span class="flabel">Filter aktif</span><span class="cnt0">${all.length} kereta</span> › ${steps.join(" › ")}<button class="clear" data-clear>Lepas semua filter</button>`;
+}
 const CLS_LABEL = {eks: "Eksekutif", lux: "Luxury", pri: "Priority", ekp: "Ekonomi Premium", eko: "Ekonomi"};
 const CLS_ORDER = ["eks", "lux", "pri", "ekp", "eko"];
 // daftar kelas: dari 168Railway (pantauan tiket.com) lalu tambahan dari Wikipedia (w)
@@ -698,16 +736,10 @@ function classes(t) {
 function renderJkt() {
   const toJ = dirJkt === "yj";
   document.querySelectorAll("[data-p=jkt]").forEach(b => b.classList.toggle("on", b.dataset.dir === dirJkt));
-  [["cls", fCls], ["jst", fJst], ["yst", fYst]].forEach(([k, v]) =>
-    document.querySelectorAll(`[data-f=${k}]`).forEach(b => b.classList.toggle("on", b.dataset.v === v)));
+  renderFilterUI();
   $("#theadJkt").innerHTML = `<tr><th>Kereta</th><th>Berangkat ${toJ ? "Yogya" : "Jakarta"}</th><th>Tiba ${toJ ? "Jakarta" : "Yogya"}</th><th class="hide">Lama</th><th class="hide">Mulai</th></tr>`;
 
-  // stasiun utama Jakarta (Gambir / Pasar Senen) untuk filter
-  const jMain = t => (t.j.find(([st]) => st === "GMR" || st === "PSE") || [t.end])[0] || t.end;
-  const rows = JKT[dirJkt].filter(t =>
-    (fCls === "all" || classes(t).some(k => k.id === fCls || (fCls === "eko" && k.id === "ekp"))) &&
-    (fJst === "all" || (fJst === "JNG" ? t.j.some(([st]) => st === "JNG") : jMain(t) === fJst)) &&
-    (fYst === "all" || t.y.some(([st]) => st === fYst)));
+  const rows = applyFilters(JKT[dirJkt], picked);
 
   const first = t => toJ ? t.y[0] : t.j[0];
   const last = t => toJ ? t.j[t.j.length - 1] : t.y[0];
@@ -778,9 +810,13 @@ document.querySelectorAll("[data-p]").forEach(b => b.onclick = () => {
   else dirJkt = b.dataset.dir;
   render();
 });
-document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => {
-  const v = b.dataset.v;
-  if (b.dataset.f === "cls") fCls = v; else if (b.dataset.f === "jst") fJst = v; else fYst = v;
+// klik chip / lepas filter (delegasi, karena tombol dibuat ulang tiap render)
+document.addEventListener("click", e => {
+  const chip = e.target.closest("[data-chip]"), un = e.target.closest("[data-unpick]"), clr = e.target.closest("[data-clear]");
+  if (!chip && !un && !clr) return;
+  if (chip) { const id = chip.dataset.chip; picked = picked.includes(id) ? picked.filter(x => x !== id) : [...picked, id]; }
+  if (un) picked = picked.filter(x => x !== un.dataset.unpick);
+  if (clr) picked = [];
   renderJkt();
 });
 document.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { g = b.dataset.g; render(); });
