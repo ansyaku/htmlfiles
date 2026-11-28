@@ -114,6 +114,22 @@
   .active-filters .x:hover { color: var(--warn); }
   .active-filters .clear { margin-left: auto; font: inherit; font-size: 12.5px; border: 1px solid var(--border); background: transparent; color: var(--warn); border-radius: 999px; padding: 4px 11px; cursor: pointer; }
   @media (max-width: 560px) { .flabel { min-width: 100%; } }
+  .fare-sum { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; }
+  .fs-title { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+  .fs-item { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 3px 0; font-size: 14px; color: var(--muted); }
+  .fs-k { min-width: 80px; color: var(--text); font-weight: 500; }
+  .fs-item b { color: var(--accent); font-size: 17px; font-family: 'DM Mono', monospace; }
+  .fs-note { font-size: 11.5px; color: var(--dim); margin-top: 6px; }
+  .fare-cell { white-space: nowrap; font-size: 13.5px; }
+  .fare-cell .fr { font-family: 'DM Mono', monospace; }
+  .fare-cell .fl { display: inline-block; width: 30px; font-family: 'DM Sans', system-ui, sans-serif; font-size: 11px; color: var(--dim); }
+  .fare-cell .fr.best { color: var(--accent); font-weight: 700; }
+  .fare-cell .crown { font-family: 'DM Sans', system-ui, sans-serif; font-size: 10px; font-weight: 700; background: var(--accent); color: var(--bg); border-radius: 4px; padding: 0 5px; }
+  .fare-cell .sold { color: var(--dim); text-decoration: line-through; font-size: 12px; }
+  .fare-cell .note { white-space: normal; }
+  .tag.tmb { border-color: var(--accent); color: var(--accent); }
+  .cls.pan, .cls.cmp { background: rgba(120, 70, 160, 0.12); color: #7a4aa8; }
+  @media (prefers-color-scheme: dark) { .cls.pan, .cls.cmp { color: #c8a2ec; } }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin: -4px 0 12px; }
   [hidden] { display: none !important; }
   @media (max-width: 560px) {
@@ -223,6 +239,7 @@
         <button data-p="jkt" data-dir="yj">Yogya → Jakarta</button>
       </div>
     </div>
+    <div class="fare-sum" id="fareSumJkt"></div>
     <div class="filters" id="filtersJkt"></div>
     <div class="active-filters" id="activeJkt" hidden></div>
     <div class="notice" id="noticeJkt"></div>
@@ -236,9 +253,11 @@
       <ul>
         <li>Hanya jadwal GAPEKA 2026 (berlaku mulai 1 Desember 2026).</li>
         <li><b>Filter</b>: klik untuk menyalakan/mematikan. Filter bertumpuk sesuai urutan dipilih (nomor di tombol), dan jumlah kereta tiap langkah tampil di baris "Filter aktif". Dalam satu kelompok (mis. Pagi + Malam) cukup cocok salah satu; antar kelompok harus cocok semua. Jam berangkat dihitung dari stasiun pertama arah perjalanan. "Ekonomi" mencakup Ekonomi Premium dan Ekonomi.</li>
-        <li><b>Kelas &amp; harga</b> diambil dari halaman 168Railway, yang memantau tiket.com untuk 10–14 Des 2026. Harga adalah harga terendah (mulai), bisa berubah. Harga hanya untuk kelas termurah yang terpantau.</li>
+        <li><b>Tarif</b> di kolom terakhir adalah harga termurah yang <b>masih tersedia</b> di booking.kai.id saat dicek 28 Nov 2026: Jumat 18 Des untuk Jakarta → Yogya, Minggu 20 Des untuk Yogya → Jakarta. Subkelas yang lebih murah sudah habis. "Habis" berarti semua subkelas kelas itu habis. Harga dan sisa kursi bisa berubah sewaktu-waktu. Kereta yang berhenti di Jatinegara dicek dari Jatinegara.</li>
+        <li>booking.kai.id hanya menulis "Ekonomi" tanpa membedakan Ekonomi Premium.</li>
+        <li><b>KA tambahan</b> (7003–7016) hanya muncul di booking.kai.id untuk tanggal tertentu (masa libur), tidak ada di GAPEKA.</li>
+        <li>Kelas Borobudur, Gajayana fakultatif, Singasari, Panoramic (Manahan), Compartment (Argo Semeru, Bima), dan Luxury (Argo Lawu) diambil dari booking.kai.id.</li>
         <li>Label kelas bergaris putus berasal dari <b>Wikipedia</b> (id.wikipedia.org, revisi Okt–Nov 2026), karena tiket.com dan Traveloka tidak bisa dibaca otomatis. Termasuk: Fajar/Senja Utama Yk, Gajahwong, Jaka Tingkir, Bogowonto, Progo, Argo Dwipangga 15, Bengawan 315, serta kelas Luxury pada Taksaka, Argo Dwipangga, dan Gajayana. Untuk Gajahwong, sebagian isi artikel menyebut hanya Eksekutif dan Ekonomi, jadi Priority-nya perlu dicek.</li>
-        <li><span class="cls unk">kelas ?</span> masih belum terdata: KA Borobudur (kereta baru, belum ada di Wikipedia/berita) dan Gajayana fakultatif (79F/80F). Cek di Access by KAI.</li>
         <li>Stasiun singgah di Jakarta (Jatinegara, Bekasi, Cikarang) diambil dari halaman per kereta. Filter <b>Jatinegara</b> menampilkan kereta yang benar-benar berhenti di Jatinegara; kereta dari Gambir umumnya hanya lewat. Data singgah belum lengkap untuk Taksaka 30/34, Bima 8, Manahan 62, dan Gajayana 80F (arah ke Yogya). Arah ke Jakarta: Gajayana 49 baru tercatat sampai Jatinegara, stasiun akhirnya (Gambir) disimpulkan dari pasangannya.</li>
         <li>Banyak kereta tidak berawal/berakhir di Yogya atau Jakarta (mis. lanjut ke Solo, Surabaya, Malang). Jam yang tampil adalah jam di stasiun Jakarta dan Yogya.</li>
         <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari. Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
@@ -624,9 +643,13 @@ function renderSmgPane() {
 //  x: catatan asal/tujuan, end: stasiun akhir Jakarta bila jamnya tak tercatat}
 const JKT = {
   jy: [
-    {n:"Borobudur", no:"78F", j:[["GMR","05.10"],["BKS","05.36"]], y:[["YK","12.32"],["LPN","12.41"]], f:1},
+    {n:"KA Tambahan", no:"7004", j:[["GMR","15.35"]], y:[["YK","22.24"]], c:"eks", ck:1, tmb:1, x:"Gambir – Surabaya Gubeng, lanjut ke Surabaya"},
+    {n:"KA Tambahan", no:"7014", j:[["PSE","16.10"],["JNG","16.23"]], y:[["LPN","23.50"]], c:"both", ck:1, tmb:1, x:"Pasar Senen – Lempuyangan"},
+    {n:"KA Tambahan", no:"7016", j:[["PSE","16.55"]], y:[["LPN","00.16"]], c:"both", ck:1, tmb:1, x:"Pasar Senen – Solo Balapan"},
+    {n:"KA Tambahan", no:"7006", j:[["GMR","22.50"]], y:[["YK","06.22"]], c:"eks", ck:1, kx:["pri"], tmb:1, x:"Gambir – Yogyakarta"},
+    {n:"Borobudur", no:"78F", c:"both", ck:1, j:[["GMR","05.10"],["BKS","05.36"]], y:[["YK","12.32"],["LPN","12.41"]], f:1},
     {n:"Fajar Utama Solo", no:"184", j:[["PSE","05.25"],["JNG","05.39"],["BKS","05.53"]], y:[["YK","12.56"]], c:"both", rp:370, x:"Lanjut ke Solo Balapan"},
-    {n:"Argo Semeru", no:"6", j:[["GMR","06.10"],["BKS","06.35"]], y:[["YK","12.46"]], c:"eks", rp:730, x:"Lanjut ke Surabaya Gubeng"},
+    {n:"Argo Semeru", no:"6", kx:["cmp"], j:[["GMR","06.10"],["BKS","06.35"]], y:[["YK","12.46"]], c:"eks", rp:730, x:"Lanjut ke Surabaya Gubeng"},
     {n:"Taksaka", no:"32", kw:["lux"], j:[["GMR","07.00"],["BKS","07.24"]], y:[["YK","13.16"]], c:"eks", rp:680},
     {n:"Fajar Utama Yk", no:"198", kw:["eks","ekp"], j:[["PSE","07.15"],["BKS","07.38"]], y:[["YK","15.13"]]},
     {n:"Gajahwong", no:"194", kw:["eks","ekp","pri"], j:[["PSE","07.40"],["JNG","07.52"],["BKS","08.06"]], y:[["LPN","15.49"]]},
@@ -634,40 +657,44 @@ const JKT = {
     {n:"Jaka Tingkir", no:"298", kw:["eko"], j:[["PSE","08.20"],["JNG","08.33"],["BKS","08.46"],["CKR","09.05"]], y:[["LPN","16.08"]], x:"Lanjut ke Solo Balapan"},
     {n:"Bengawan", no:"316", j:[["PSE","09.15"],["JNG","09.28"],["BKS","09.42"],["CKR","10.09"]], y:[["LPN","17.49"]], c:"eko", x:"Lanjut ke Purwosari"},
     {n:"Batavia", no:"126", j:[["GMR","09.40"],["BKS","10.07"]], y:[["YK","17.04"]], c:"both", rp:390, x:"Lanjut ke Solo Balapan"},
-    {n:"Manahan", no:"60", j:[["GMR","10.35"],["BKS","11.01"],["CKR","11.20"]], y:[["YK","17.31"]], c:"eks", rp:620, x:"Lanjut ke Solo Balapan"},
+    {n:"Manahan", no:"60", kx:["pan"], j:[["GMR","10.35"],["BKS","11.01"],["CKR","11.20"]], y:[["YK","17.31"]], c:"eks", rp:620, x:"Lanjut ke Solo Balapan"},
     {n:"Gayabaru Selatan", no:"90", j:[["PSE","11.10"],["BKS","11.33"],["CKR","11.52"]], y:[["LPN","18.56"]], c:"both", rp:410, x:"Lanjut ke Surabaya Gubeng"},
     {n:"Bangunkarta", no:"176", j:[["PSE","12.35"],["JNG","12.47"],["BKS","13.01"],["CKR","13.20"]], y:[["YK","20.19"]], c:"both", rp:330, x:"Lanjut ke Jombang"},
     {n:"Taksaka", no:"30", kw:["lux"], j:[["GMR","13.00"]], y:[["YK","19.21"]], c:"eks", rp:680},
-    {n:"Bima", no:"8", j:[["GMR","16.45"]], y:[["YK","23.22"]], c:"eks", rp:730, x:"Lanjut ke Surabaya Gubeng"},
-    {n:"Borobudur", no:"76F", j:[["GMR","17.00"],["BKS","17.26"],["CKR","17.45"]], y:[["YK","00.26"],["LPN","00.35"]], f:1},
+    {n:"Bima", no:"8", kx:["cmp"], j:[["GMR","16.45"]], y:[["YK","23.22"]], c:"eks", rp:730, x:"Lanjut ke Surabaya Gubeng"},
+    {n:"Borobudur", no:"76F", c:"both", ck:1, j:[["GMR","17.00"],["BKS","17.26"],["CKR","17.45"]], y:[["YK","00.26"],["LPN","00.35"]], f:1},
     {n:"Jayakarta", no:"290", j:[["PSE","17.15"],["JNG","17.28"],["BKS","17.42"],["CKR","18.01"]], y:[["LPN","00.45"]], c:"eko", rp:360, x:"Lanjut ke Surabaya Gubeng"},
     {n:"Bogowonto", no:"192", kw:["eks","eko"], j:[["PSE","17.45"],["JNG","17.57"],["BKS","18.11"],["CKR","18.30"]], y:[["YK","01.32"]], x:"Berakhir di Lempuyangan"},
     {n:"Senja Utama Yk", no:"196", kw:["eks","ekp"], j:[["PSE","18.50"],["BKS","19.14"]], y:[["YK","02.27"]]},
     {n:"Gajayana", no:"50", kw:["lux"], j:[["GMR","19.10"],["BKS","19.36"]], y:[["YK","01.48"]], c:"eks", rp:770, x:"Lanjut ke Malang"},
-    {n:"Argo Lawu", no:"14", j:[["GMR","20.30"],["BKS","20.55"]], y:[["YK","02.48"]], c:"eks", rp:670, x:"Lanjut ke Solo Balapan"},
+    {n:"Argo Lawu", no:"14", kx:["lux"], j:[["GMR","20.30"],["BKS","20.55"]], y:[["YK","02.48"]], c:"eks", rp:670, x:"Lanjut ke Solo Balapan"},
     {n:"Madiun Jaya", no:"182", j:[["PSE","21.10"],["BKS","21.33"]], y:[["YK","03.57"]], c:"both", rp:350, x:"Lanjut ke Madiun"},
     {n:"Mataram", no:"186", j:[["PSE","21.40"],["JNG","21.53"],["BKS","22.07"]], y:[["YK","05.16"]], c:"both", rp:370, x:"Lanjut ke Solo Balapan"},
     {n:"Singasari", no:"150", j:[["PSE","21.55"],["BKS","22.18"],["CKR","22.45"]], y:[["LPN","05.35"]], c:"eko", rp:350, x:"Lanjut ke Blitar"},
     {n:"Taksaka", no:"34", kw:["lux"], j:[["GMR","22.00"]], y:[["YK","04.22"]], c:"eks", rp:680},
-    {n:"Manahan", no:"62", j:[["GMR","22.35"]], y:[["YK","05.40"]], c:"eks", rp:620, x:"Lanjut ke Solo Balapan"},
+    {n:"Manahan", no:"62", kx:["pan"], j:[["GMR","22.35"]], y:[["YK","05.40"]], c:"eks", rp:620, x:"Lanjut ke Solo Balapan"},
     {n:"Progo", no:"300", kw:["eko"], j:[["PSE","23.45"],["JNG","23.57"],["BKS","00.11"]], y:[["LPN","07.24"]]},
-    {n:"Gajayana", no:"80F", j:[["GMR","00.05"]], y:[["YK","07.28"]], f:1, x:"Lanjut ke Malang"}
+    {n:"Gajayana", no:"80F", c:"both", ck:1, j:[["GMR","00.05"]], y:[["YK","07.28"]], f:1, x:"Lanjut ke Malang"}
   ],
   yj: [
-    {n:"Borobudur", no:"75F", y:[["LPN","06.10"],["YK","06.20"]], j:[["CKR","13.04"],["BKS","13.24"],["JNG","13.38"],["GMR","13.54"]], f:1},
+    {n:"KA Tambahan", no:"7013", y:[["LPN","05.25"]], j:[["PSE","13.01"]], c:"both", ck:1, tmb:1, x:"Lempuyangan – Pasar Senen"},
+    {n:"KA Tambahan", no:"7015", y:[["LPN","06.51"]], j:[["JNG","14.15"],["PSE","14.28"]], c:"both", ck:1, tmb:1, x:"Dari Solo Balapan"},
+    {n:"KA Tambahan", no:"7005", y:[["YK","09.35"]], j:[["JNG","16.46"],["GMR","17.01"]], c:"eks", ck:1, kx:["pri"], tmb:1, x:"Yogyakarta – Gambir"},
+    {n:"KA Tambahan", no:"7003", y:[["YK","16.05"]], j:[["JNG","22.45"],["GMR","22.59"]], c:"eks", ck:1, tmb:1, x:"Dari Surabaya Gubeng"},
+    {n:"Borobudur", no:"75F", c:"both", ck:1, y:[["LPN","06.10"],["YK","06.20"]], j:[["CKR","13.04"],["BKS","13.24"],["JNG","13.38"],["GMR","13.54"]], f:1},
     {n:"Fajar Utama Yk", no:"197", kw:["eks","ekp"], y:[["YK","07.00"]], j:[["BKS","14.24"],["JNG","14.38"],["PSE","14.51"]]},
     {n:"Taksaka", no:"29", kw:["lux"], y:[["YK","08.45"]], j:[["GMR","15.02"]], c:"eks", rp:680},
     {n:"Bogowonto", no:"191", kw:["eks","eko"], y:[["LPN","08.50"],["YK","08.58"]], j:[["CKR","16.08"],["BKS","16.27"],["PSE","16.51"]]},
-    {n:"Argo Lawu", no:"13", y:[["YK","09.10"]], j:[["GMR","15.29"]], c:"eks", rp:670, x:"Dari Solo Balapan"},
+    {n:"Argo Lawu", no:"13", kx:["lux"], y:[["YK","09.10"]], j:[["GMR","15.29"]], c:"eks", rp:670, x:"Dari Solo Balapan"},
     {n:"Madiun Jaya", no:"181", y:[["YK","10.09"]], j:[["BKS","16.37"],["JNG","16.51"],["PSE","17.04"]], c:"both", rp:350, x:"Dari Madiun"},
     {n:"Gayabaru Selatan", no:"89", y:[["LPN","10.24"]], j:[["CKR","17.34"],["BKS","17.53"],["JNG","18.06"],["PSE","18.19"]], c:"both", rp:410, x:"Dari Surabaya Gubeng"},
-    {n:"Manahan", no:"59", y:[["YK","11.00"]], j:[["CKR","17.20"],["BKS","17.39"],["JNG","17.54"],["GMR","18.09"]], c:"eks", rp:620, x:"Dari Solo Balapan"},
+    {n:"Manahan", no:"59", kx:["pan"], y:[["YK","11.00"]], j:[["CKR","17.20"],["BKS","17.39"],["JNG","17.54"],["GMR","18.09"]], c:"eks", rp:620, x:"Dari Solo Balapan"},
     {n:"Mataram", no:"185", y:[["YK","11.33"]], j:[["BKS","18.38"],["JNG","18.52"],["PSE","19.04"]], c:"both", rp:370, x:"Dari Solo Balapan"},
     {n:"Bangunkarta", no:"175", y:[["YK","11.46"]], j:[["BKS","19.27"],["JNG","19.41"],["PSE","19.54"]], c:"both", rp:330, x:"Dari Jombang"},
     {n:"Argo Semeru", no:"5", y:[["YK","12.57"]], j:[["BKS","19.10"],["JNG","19.23"],["GMR","19.39"]], c:"eks", rp:730, x:"Dari Surabaya Gubeng"},
     {n:"Progo", no:"299", kw:["eko"], y:[["LPN","13.30"]], j:[["BKS","21.14"],["JNG","21.28"],["PSE","21.41"]]},
     {n:"Taksaka", no:"33", kw:["lux"], y:[["YK","15.40"]], j:[["GMR","22.00"]], c:"eks", rp:680},
-    {n:"Borobudur", no:"77F", y:[["LPN","16.20"],["YK","16.30"]], j:[["CKR","23.28"],["BKS","23.48"],["JNG","00.04"],["GMR","00.18"]], f:1},
+    {n:"Borobudur", no:"77F", c:"both", ck:1, y:[["LPN","16.20"],["YK","16.30"]], j:[["CKR","23.28"],["BKS","23.48"],["JNG","00.04"],["GMR","00.18"]], f:1},
     {n:"Senja Utama Yk", no:"195", kw:["eks","ekp"], y:[["YK","17.50"]], j:[["BKS","00.59"],["JNG","01.13"],["PSE","01.26"]]},
     {n:"Senja Utama Solo", no:"183", y:[["YK","18.58"]], j:[["BKS","02.06"],["JNG","02.20"],["PSE","02.32"]], c:"both", rp:370, x:"Dari Solo Balapan"},
     {n:"Jayakarta", no:"289", y:[["LPN","19.05"]], j:[["CKR","02.25"],["BKS","02.44"],["JNG","02.58"],["PSE","03.11"]], c:"eko", rp:360, x:"Dari Surabaya Gubeng"},
@@ -676,14 +703,33 @@ const JKT = {
     {n:"Argo Dwipangga", no:"15", kw:["eks","lux"], y:[["YK","21.15"]], j:[["GMR","03.35"]], x:"Dari Solo Balapan"},
     {n:"Taksaka", no:"31", kw:["lux"], y:[["YK","21.40"]], j:[["GMR","04.02"]], c:"eks", rp:680},
     {n:"Singasari", no:"149", y:[["LPN","21.45"]], j:[["PSE","05.28"]], c:"eko", rp:350, x:"Dari Blitar"},
-    {n:"Bima", no:"7", y:[["YK","23.01"]], j:[["BKS","05.11"],["JNG","05.24"],["GMR","05.40"]], c:"eks", rp:730, x:"Dari Surabaya Gubeng"},
+    {n:"Bima", no:"7", kx:["cmp"], y:[["YK","23.01"]], j:[["BKS","05.11"],["JNG","05.24"],["GMR","05.40"]], c:"eks", rp:730, x:"Dari Surabaya Gubeng"},
     {n:"Batavia", no:"125", y:[["YK","23.09"]], j:[["BKS","05.49"],["JNG","06.02"],["GMR","06.19"]], c:"both", rp:390, x:"Dari Solo Balapan"},
-    {n:"Manahan", no:"61", y:[["YK","23.26"]], j:[["CKR","05.35"],["BKS","05.54"],["JNG","06.10"],["GMR","06.27"]], c:"eks", rp:620, x:"Dari Solo Balapan"},
+    {n:"Manahan", no:"61", kx:["pan"], y:[["YK","23.26"]], j:[["CKR","05.35"],["BKS","05.54"],["JNG","06.10"],["GMR","06.27"]], c:"eks", rp:620, x:"Dari Solo Balapan"},
     {n:"Jaka Tingkir", no:"297", kw:["eko"], y:[["LPN","00.05"]], j:[["CKR","06.56"],["JNG","07.26"],["PSE","07.39"]], x:"Dari Solo Balapan"},
     {n:"Bengawan", no:"315", kw:["eko"], y:[["LPN","00.26"]], j:[["CKR","07.33"],["BKS","07.53"],["JNG","08.07"],["PSE","08.20"]], x:"Dari Purwosari"},
-    {n:"Gajayana", no:"79F", y:[["YK","01.40"]], j:[["BKS","08.36"],["JNG","08.52"],["GMR","09.08"]], f:1, x:"Dari Malang"}
+    {n:"Gajayana", no:"79F", c:"both", ck:1, y:[["YK","01.40"]], j:[["BKS","08.36"],["JNG","08.52"],["GMR","09.08"]], f:1, x:"Dari Malang"}
   ]
 };
+
+// Tarif termurah yang MASIH TERSEDIA di booking.kai.id, dicek 28 Nov 2026 (ribu rupiah, dewasa).
+// jy = Jumat 18 Des 2026, yj = Minggu 20 Des 2026. 0 = semua subkelas habis. s = sisa kursi bila sedikit.
+const FARE_DATE = {jy: "Jum 18 Des", yj: "Min 20 Des"};
+const FARE = {
+  jy: {"184":{eko:480,eks:700},"198":{eko:420,eks:650},"176":{eko:410,eks:630},"192":{eko:430,eks:630},"196":{eko:420,eks:650},
+       "182":{eko:480,eks:700,s:14},"186":{eko:0,eks:0},"194":{eko:410,eks:600},"298":{eko:480},"290":{eko:360},"90":{eko:400,eks:600},
+       "150":{eko:0,eks:700,s:1},"316":{eko:0},"300":{eko:0},"80F":{eko:425,eks:775},"78F":{eko:420,eks:720},"76F":{eko:420,eks:720},
+       "6":{eks:730,cmp:2175},"32":{eks:765,lux:1665},"16":{eks:865,lux:1715},"126":{eko:480,eks:700},"60":{eks:815,pan:1330},
+       "30":{eks:765,lux:1665},"8":{eks:730,cmp:2175},"50":{eks:775,lux:1765},"14":{eks:865,lux:1715},"34":{eks:765,lux:1665},
+       "62":{eks:815,pan:1170},"7004":{eks:595},"7014":{eko:430,eks:570},"7016":{eko:480,eks:650},"7006":{eks:750,pri:1040}},
+  yj: {"79F":{eko:400,eks:735},"75F":{eko:420,eks:720},"197":{eko:420,eks:650},"29":{eks:765,lux:1665},"191":{eko:430,eks:630},
+       "13":{eks:865,lux:1715},"181":{eko:480,eks:700},"89":{eko:400,eks:600},"59":{eks:815,pan:1330},"185":{eko:480,eks:700},
+       "175":{eko:410,eks:630},"5":{eks:730},"299":{eko:370},"33":{eks:765,lux:1665},"77F":{eko:420,eks:720},"195":{eko:420,eks:650},
+       "183":{eko:480,eks:700},"289":{eko:360},"49":{eks:775,lux:1765},"193":{eko:410,eks:600},"15":{eks:865,lux:1715},
+       "31":{eks:765,lux:1665},"149":{eko:430,eks:700},"7":{eks:730,cmp:2175},"125":{eko:480,eks:700},"61":{eks:815,pan:1170},
+       "297":{eko:430},"315":{eko:0},"7013":{eko:430,eks:570},"7015":{eko:480,eks:650},"7005":{eks:750,pri:1040},"7003":{eks:595}}
+};
+const rb = n => `Rp${(n * 1000).toLocaleString("id-ID")}`;
 const ST_NAME = {GMR:"Gambir", PSE:"Pasar Senen", JNG:"Jatinegara", BKS:"Bekasi", CKR:"Cikarang", YK:"Yogyakarta (Tugu)", LPN:"Lempuyangan"};
 let dirJkt = "jy";
 // filter toggle: berlaku bertumpuk sesuai urutan dipilih; dalam satu kelompok = salah satu (ATAU), antar kelompok = semua (DAN)
@@ -723,21 +769,56 @@ function renderFilterUI() {
   $("#activeJkt").hidden = false;
   $("#activeJkt").innerHTML = `<span class="flabel">Filter aktif</span><span class="cnt0">${all.length} kereta</span> › ${steps.join(" › ")}<button class="clear" data-clear>Lepas semua filter</button>`;
 }
-const CLS_LABEL = {eks: "Eksekutif", lux: "Luxury", pri: "Priority", ekp: "Ekonomi Premium", eko: "Ekonomi"};
-const CLS_ORDER = ["eks", "lux", "pri", "ekp", "eko"];
+const CLS_LABEL = {eks: "Eksekutif", lux: "Luxury", pan: "Panoramic", cmp: "Compartment", pri: "Priority", ekp: "Ekonomi Premium", eko: "Ekonomi"};
+const CLS_ORDER = ["eks", "lux", "pan", "cmp", "pri", "ekp", "eko"];
 // daftar kelas: dari 168Railway (pantauan tiket.com) lalu tambahan dari Wikipedia (w)
 function classes(t) {
   const base = t.c === "both" ? ["eks", "eko"] : t.c ? [t.c] : [];
   const out = base.map(id => ({id, w: false}));
-  (t.kw || []).forEach(id => { if (!base.includes(id)) out.push({id, w: true}); });
+  (t.kx || []).forEach(id => { if (!base.includes(id)) { base.push(id); out.push({id, w: false}); } });
+  (t.kw || []).forEach(id => { if (!base.includes(id) && !(id === "ekp" && base.includes("eko") && t.ck)) out.push({id, w: true}); });
   return out.sort((a, b) => CLS_ORDER.indexOf(a.id) - CLS_ORDER.indexOf(b.id));
+}
+
+
+// sel tarif: Ekonomi & Eksekutif termurah yang masih tersedia, kelas lain kecil di bawahnya
+function fareCell(t) {
+  const f = FARE[dirJkt][t.no];
+  if (!f) return '<span class="note">belum dicek</span>';
+  const best = cheapest();
+  const one = (k, lab) => {
+    if (!(k in f)) return "";
+    if (!f[k]) return `<div class="fr"><span class="fl">${lab}</span> <span class="sold">habis</span></div>`;
+    const top = best[k] && best[k].no === t.no;
+    return `<div class="fr${top ? " best" : ""}"><span class="fl">${lab}</span> ${rb(f[k])}${top ? ' <span class="crown">termurah</span>' : ""}</div>`;
+  };
+  const extra = ["lux", "pan", "cmp", "pri"].filter(k => f[k]).map(k => `${CLS_LABEL[k]} ${rb(f[k])}`).join(" · ");
+  return one("eko", "Eko") + one("eks", "Eks") + (extra ? `<span class="note">${extra}</span>` : "") + (f.s ? `<span class="note">sisa ${f.s} kursi</span>` : "");
+}
+function cheapest() {
+  const out = {};
+  JKT[dirJkt].forEach(t => {
+    const f = FARE[dirJkt][t.no]; if (!f) return;
+    ["eko", "eks"].forEach(k => { if (f[k] && (!out[k] || f[k] < out[k].rp)) out[k] = {rp: f[k], no: t.no, t}; });
+  });
+  return out;
+}
+function renderFareSummary() {
+  const b = cheapest(), toJ = dirJkt === "yj";
+  const line = (k, lab) => {
+    if (!b[k]) return "";
+    const t = b[k].t, dep = toJ ? t.y[0] : t.j.find(([st]) => st === "JNG") || t.j[0], arr = toJ ? (t.j.find(([st]) => st === "JNG") || t.j[t.j.length - 1]) : t.y[0];
+    return `<div class="fs-item"><span class="fs-k">${lab}</span><b>${rb(b[k].rp)}</b><span>${esc(t.n)} ${esc(t.no)} · ${dep[0]} ${dep[1]} → ${arr[0]} ${arr[1]}</span></div>`;
+  };
+  $("#fareSumJkt").innerHTML = `<div class="fs-title">Termurah ${toJ ? "Minggu 20 Des · Yogya → Jakarta" : "Jumat 18 Des · Jakarta → Yogya"}</div>${line("eko", "Ekonomi")}${line("eks", "Eksekutif")}<div class="fs-note">Harga termurah yang masih tersedia di booking.kai.id, dicek 28 Nov 2026. Bisa berubah sewaktu-waktu.</div>`;
 }
 
 function renderJkt() {
   const toJ = dirJkt === "yj";
   document.querySelectorAll("[data-p=jkt]").forEach(b => b.classList.toggle("on", b.dataset.dir === dirJkt));
   renderFilterUI();
-  $("#theadJkt").innerHTML = `<tr><th>Kereta</th><th>Berangkat ${toJ ? "Yogya" : "Jakarta"}</th><th>Tiba ${toJ ? "Jakarta" : "Yogya"}</th><th class="hide">Lama</th><th class="hide">Mulai</th></tr>`;
+  renderFareSummary();
+  $("#theadJkt").innerHTML = `<tr><th>Kereta</th><th>Berangkat ${toJ ? "Yogya" : "Jakarta"}</th><th>Tiba ${toJ ? "Jakarta" : "Yogya"}</th><th class="hide">Lama</th><th>Tarif ${FARE_DATE[dirJkt]}</th></tr>`;
 
   const rows = applyFilters(JKT[dirJkt], picked);
 
@@ -775,11 +856,11 @@ function renderJkt() {
       arrCell = timeCell(arr, others && `singgah ${others}`, t.end ? `lanjut ke ${ST_NAME[t.end]} (jam tak tercatat)` : "") + over;
     }
     return `<tr${i === nextIdx ? ' class="next"' : ""}>
-      <td><b>${esc(t.n)}</b> <span class="no">${esc(t.no)}</span>${t.f ? '<span class="tag">fakultatif</span>' : ""}<div class="clsrow">${clsTag(t)}</div>${t.x ? `<span class="note">${esc(t.x)}</span>` : ""}</td>
+      <td><b>${esc(t.n)}</b> <span class="no">${esc(t.no)}</span>${t.f ? '<span class="tag">fakultatif</span>' : ""}${t.tmb ? '<span class="tag tmb">KA tambahan</span>' : ""}<div class="clsrow">${clsTag(t)}</div>${t.x ? `<span class="note">${esc(t.x)}</span>` : ""}</td>
       <td class="t dep">${depCell}</td>
       <td class="t">${arrCell}</td>
       <td class="t hide">${fmtDur(lama)}</td>
-      <td class="t hide">${t.rp ? `Rp${t.rp} rb` : "—"}</td>
+      <td class="fare-cell">${fareCell(t)}</td>
     </tr>`;
   }).join("") : '<tr><td colspan="5">Tidak ada kereta yang cocok dengan saringan ini.</td></tr>';
 }
