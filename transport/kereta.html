@@ -131,6 +131,19 @@
   .tag.tmb { border-color: var(--accent); color: var(--accent); }
   .cls.pan, .cls.cmp { background: rgba(120, 70, 160, 0.12); color: #7a4aa8; }
   @media (prefers-color-scheme: dark) { .cls.pan, .cls.cmp { color: #c8a2ec; } }
+  .guide h2 { font-size: 17px; margin: 26px 0 8px; }
+  .guide p, .guide li { font-size: 14.5px; color: var(--text); }
+  .guide ol, .guide ul { padding-left: 22px; }
+  .guide li { margin: 5px 0; }
+  .guide .small { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  .guide code { font-family: 'DM Mono', monospace; font-size: 12.5px; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; word-break: break-all; }
+  .copybox { position: relative; margin: 8px 0; }
+  .copybox pre { font-family: 'DM Mono', monospace; font-size: 12.5px; line-height: 1.55; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 76px 14px 16px; white-space: pre-wrap; word-break: break-word; color: var(--text); }
+  .copybtn { position: absolute; top: 8px; right: 8px; font: inherit; font-size: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--accent); border-radius: 999px; padding: 3px 11px; cursor: pointer; }
+  .copybtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  table.codes { margin-top: 6px; }
+  table.codes th { width: 110px; text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--text); }
+  table.codes td { font-size: 13.5px; }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin: -4px 0 12px; }
   [hidden] { display: none !important; }
   @media (max-width: 560px) {
@@ -148,6 +161,7 @@
       <button class="tab" data-tab="solo">Yogya ⇄ Solo</button>
       <button class="tab" data-tab="semarang">Yogya ⇄ Semarang</button>
       <button class="tab" data-tab="jakarta">Yogya ⇄ Jakarta</button>
+      <button class="tab" data-tab="panduan">Panduan</button>
     </nav>
   </div>
 </header>
@@ -266,6 +280,93 @@
         <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/jakarta-yogyakarta">Jakarta–Yogyakarta</a>, <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-jakarta">Yogyakarta–Jakarta</a>, dan halaman per kereta (bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
       </ul>
     </div>
+  </section>
+
+  <section class="pane guide" id="panduan">
+    <p class="lead">Langkah untuk membuat tab rute baru (misalnya Jakarta ⇄ Surabaya atau Jakarta ⇄ Malang) dengan hasil yang sama seperti tab Yogya ⇄ Jakarta: jadwal lengkap, kelas, filter, dan tarif termurah per tanggal.</p>
+
+    <h2>Prompt siap pakai</h2>
+    <p>Salin, ganti bagian <code>{…}</code>, lalu tempel ke Claude Code yang dijalankan dengan <code>claude --chrome</code>.</p>
+    <div class="copybox"><button class="copybtn" data-copy="promptText">Salin</button><pre id="promptText">Buat tab baru "Jakarta ⇄ {KOTA}" di transport/kereta.html (repo ansyaku/htmlfiles), dengan pola yang sama seperti tab Yogya ⇄ Jakarta. Ikuti tab "Panduan" di halaman itu.
+
+1. Jadwal GAPEKA 2026 semua kereta Jakarta ⇄ {KOTA}, pulang pergi, dari semua stasiun Jakarta (Gambir, Pasar Senen, Jatinegara) ke semua stasiun {KOTA} ({STASIUN_KOTA}). Pakai 168railway.com: halaman relasi dulu, lalu halaman per kereta untuk jam singgah Jatinegara/Bekasi/Cikarang. Ambil pelan-pelan, satu per satu, karena situsnya membatasi (HTTP 429).
+2. Kelas tiap kereta (Eksekutif, Ekonomi, plus Luxury/Panoramic/Compartment/Priority kalau ada). Sumber utama booking.kai.id; Wikipedia sebagai cadangan, ditandai garis putus.
+3. Tarif termurah yang masih tersedia, lewat Claude in Chrome di booking.kai.id: {HARI_PERGI} untuk Jakarta → {KOTA}, {HARI_PULANG} untuk {KOTA} → Jakarta. Per kelas: Eksekutif dan Ekonomi (Ekonomi Premium kalau terlihat, kalau tidak Ekonomi biasa). Kereta yang berhenti di Jatinegara dicari dari/ke Jatinegara saja supaya tidak berulang. Yang habis, cek hari yang sama seminggu kemudian.
+4. Filter toggle bertumpuk (Pagi/Siang/Malam, Eksekutif/Ekonomi, stasiun Jakarta, stasiun {KOTA}) dengan urutan pilih dan tombol lepas filter, kotak "Termurah", dan catatan sumber.
+5. Tes lokal (screenshot Chrome headless), lalu commit dan push ke main.</pre></div>
+    <p class="small">Contoh isian: <code>{KOTA}</code> = Surabaya, <code>{STASIUN_KOTA}</code> = Surabaya Pasarturi SBI, Surabaya Gubeng SGU; atau Malang, Malang ML dan Malang Kotalama MLK. Hari: tulis tanggal plus nama hari, mis. "Jumat 15 Jan 2027".</p>
+
+    <h2>1. Persiapan</h2>
+    <ol>
+      <li>Jalankan Claude Code dengan <code>claude --chrome</code> (atau <code>claude --chrome --continue</code> untuk melanjutkan). Tanpa itu, alat browser tidak tersedia dan tarif tidak bisa dicek.</li>
+      <li>Buka Brave/Chrome dengan ekstensi Claude in Chrome yang sudah login. Kalau muncul pilihan beberapa browser, pilih browser yang sedang kamu pakai.</li>
+      <li>Pastikan tanggal benar. Cek nama harinya, karena 19 Des 2026 ternyata Sabtu, bukan Jumat.</li>
+    </ol>
+
+    <h2>2. Jadwal (168Railway, GAPEKA 2026)</h2>
+    <ol>
+      <li><b>Halaman relasi:</b> <code>https://168railway.com/gapeka-2026/relasi/jakarta-yogyakarta</code> dan <code>…/yogyakarta-jakarta</code>. Ganti nama kota, mis. <code>jakarta-surabaya</code>, <code>jakarta-malang</code>. Isinya daftar kereta, jam di stasiun pertama/terakhir, dan sebagian kelas.</li>
+      <li><b>Halaman per kereta:</b> <code>https://168railway.com/gapeka-2026/ka/&lt;nomor&gt;-&lt;nama&gt;</code>, mis. <code>…/ka/184-fajar-utama-solo</code>. Kereta fakultatif memakai akhiran <code>-fakultatif</code> (<code>…/ka/80f-gajayana-fakultatif</code>). Dari sini didapat stasiun singgah (Jatinegara, Bekasi, Cikarang), stasiun akhir, dan apakah Jatinegara benar-benar berhenti atau hanya lewat.</li>
+      <li><b>Pembatasan:</b> situs ini membalas HTTP 429 kalau terlalu banyak permintaan. Ambil halaman <b>satu per satu</b>, sekitar 15 per sesi agent, dan ulangi yang gagal belakangan.</li>
+      <li>Banyak kereta tidak berawal/berakhir di kota tujuan (mis. lanjut ke Solo/Malang). Catat jam di stasiun Jakarta dan di stasiun kota tujuan saja.</li>
+    </ol>
+
+    <h2>3. Kelas</h2>
+    <ul>
+      <li><b>Paling akurat: booking.kai.id</b> (langkah 4). Hasil pencarian menampilkan semua varian, termasuk <i>Luxury</i> (nomor berakhiran L), <i>Panoramic</i> (PC), <i>Compartment</i> (CS), <i>Priority</i> (P), dan KA tambahan.</li>
+      <li><b>Cadangan: Wikipedia</b> (<code>id.wikipedia.org/wiki/Kereta_api_&lt;Nama&gt;</code>). Tandai dengan garis putus di halaman.</li>
+      <li>tiket.com (403) dan Traveloka (halaman template) tidak bisa dibaca otomatis.</li>
+      <li>booking.kai.id hanya menulis "Ekonomi" tanpa membedakan Ekonomi Premium.</li>
+    </ul>
+
+    <h2>4. Tarif (booking.kai.id lewat Claude in Chrome)</h2>
+    <ol>
+      <li>Buka URL pencarian ini di tab baru, satu kombinasi stasiun per kali:
+        <div class="copybox"><button class="copybtn" data-copy="urlText">Salin</button><pre id="urlText">https://booking.kai.id/?origination=JNG&amp;flexdatalist-origination=JATINEGARA&amp;destination=YK&amp;flexdatalist-destination=YOGYAKARTA&amp;tanggal=18-Desember-2026&amp;adult=1&amp;infant=0&amp;submit=Cari+%26+Pesan+Tiket</pre></div>
+        Ganti kode stasiun, nama stasiun (huruf besar), dan tanggal (<code>DD-Bulan-YYYY</code>, bulan dalam bahasa Indonesia).</li>
+      <li><b>Jangan pakai <code>fetch()</code> dari script.</b> Cloudflare membalas 403. Buka halaman dengan navigasi biasa, tunggu sekitar 3 detik, lalu baca hasilnya.</li>
+      <li>Ambil daftar subkelas yang masih tersedia dengan script ini (di tab hasil pencarian):
+        <div class="copybox"><button class="copybtn" data-copy="jsText">Salin</button><pre id="jsText">[...document.querySelectorAll('.name')].map(n => {
+  let c = n; for (let i = 0; i &lt; 8 &amp;&amp; !/Rp/.test(c.textContent); i++) c = c.parentElement;
+  const t = c.textContent.replace(/\s+/g, ' ').trim();
+  if (/Habis/.test(t)) return null;                       // lewati subkelas yang habis
+  const nm = n.textContent.replace(/\s+/g, ' ').trim();   // mis. "TAKSAKA LUXURY (32L)"
+  const no = (nm.match(/\((\w+)\)$/) || [])[1];
+  const k = t.match(/(Eksekutif|Ekonomi|Bisnis)[^()]*\((\w+)\)/) || [];
+  const tm = t.match(/\d\d:\d\d/g) || [];
+  const rp = +((t.match(/Rp ([\d.]+)/) || [])[1] || '0').replace(/\./g, '') / 1000;
+  const sisa = (t.match(/Tersisa (\d+)/) || [])[1];
+  return `${no} ${k[1]} ${tm[0]}-${tm[1]} ${rp}rb${sisa ? ' sisa' + sisa : ''} [${nm}]`;
+}).filter(Boolean).join('\n')</pre></div>
+        Outputnya bisa terpotong kalau terlalu panjang. Kalau begitu, ambil sebagian dengan <code>.split('\n').slice(30)</code>.</li>
+      <li><b>Urutan pencarian supaya tidak berulang:</b>
+        <ol type="a">
+          <li>Dari/ke <b>Jatinegara</b> dulu. Ini mencakup semua kereta yang berhenti di Jatinegara.</li>
+          <li>Lalu <b>Gambir</b>, untuk kereta eksekutif yang hanya lewat Jatinegara.</li>
+          <li>Lalu <b>Pasar Senen</b>, hanya untuk kereta yang tidak berhenti di Jatinegara.</li>
+          <li>Ulangi untuk tiap stasiun di kota tujuan.</li>
+        </ol></li>
+      <li>Per kereta, catat harga <b>termurah yang masih tersedia</b> untuk Ekonomi dan Eksekutif (subkelas yang lebih murah biasanya sudah habis), plus Luxury/Panoramic/Compartment/Priority kalau ada, dan sisa kursi kalau sedikit.</li>
+      <li>Kereta yang <b>habis</b>: cek hari yang sama seminggu kemudian dan tulis di bawah tarifnya.</li>
+      <li>Tulis tanggal pengecekan. Harga musim libur berubah cepat.</li>
+    </ol>
+
+    <h2>5. Kode stasiun</h2>
+    <table class="codes">
+      <tr><th>Jakarta</th><td>GMR Gambir · PSE Pasar Senen · JNG Jatinegara · BKS Bekasi · CKR Cikarang</td></tr>
+      <tr><th>Yogyakarta</th><td>YK Yogyakarta (Tugu) · LPN Lempuyangan</td></tr>
+      <tr><th>Surabaya</th><td>SBI Surabaya Pasarturi (jalur utara) · SGU Surabaya Gubeng (jalur selatan)</td></tr>
+      <tr><th>Malang</th><td>ML Malang · MLK Malang Kotalama</td></tr>
+    </table>
+    <p class="small">Cek ulang kodenya di kolom stasiun booking.kai.id sebelum dipakai.</p>
+
+    <h2>6. Membangun tab</h2>
+    <ul>
+      <li>Data tiap kereta: <code>{n, no, j:[[stasiun, jam]…], y:[[stasiun, jam]…], c, kw, kx, f, tmb, x}</code>. <code>j</code> = singgah di Jakarta sesuai urutan perjalanan, <code>y</code> = di kota tujuan, <code>c</code> = kelas dari sumber utama, <code>kw</code> = dari Wikipedia, <code>kx</code> = kelas tambahan dari KAI, <code>f</code> = fakultatif, <code>tmb</code> = KA tambahan.</li>
+      <li>Tarif: objek per arah <code>{nomor: {eko, eks, lux, pan, cmp, pri, s}}</code>. Nilai 0 berarti habis.</li>
+      <li>Kode tab Jakarta saat ini khusus Yogya (<code>JKT</code>, <code>renderJkt</code>). Untuk rute baru, jadikan fungsinya umum per rute: data, judul kolom, dan stasiun kota tujuan sebagai parameter.</li>
+      <li>Tes lokal dengan screenshot Chrome headless sebelum push, terutama tampilan filter dan kolom tarif.</li>
+    </ul>
   </section>
 </main>
 
@@ -884,6 +985,14 @@ function render() {
   renderJkt();
 }
 
+// tombol salin di tab Panduan
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]"); if (!b) return;
+  navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent).then(() => {
+    b.textContent = "Tersalin"; setTimeout(() => (b.textContent = "Salin"), 1500);
+  });
+});
+
 // tab rute (ikut tersimpan di URL: #solo / #semarang)
 const tabs = [...document.querySelectorAll(".tab")], panes = [...document.querySelectorAll(".pane")];
 function show(k) {
@@ -891,7 +1000,7 @@ function show(k) {
   tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === k));
   panes.forEach(p => p.classList.toggle("active", p.id === k));
   history.replaceState(null, "", "#" + k);
-  document.title = `Kereta Yogyakarta ⇄ ${{semarang: "Semarang", jakarta: "Jakarta"}[k] || "Solo"}`;
+  document.title = k === "panduan" ? "Panduan membuat tab rute kereta" : `Kereta Yogyakarta ⇄ ${{semarang: "Semarang", jakarta: "Jakarta"}[k] || "Solo"}`;
 }
 tabs.forEach(t => t.onclick = () => { show(t.dataset.tab); window.scrollTo(0, 0); });
 
