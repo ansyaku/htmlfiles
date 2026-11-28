@@ -217,6 +217,7 @@
         <button data-f="jst" data-v="all">Semua stasiun Jakarta</button>
         <button data-f="jst" data-v="GMR">Gambir</button>
         <button data-f="jst" data-v="PSE">Pasar Senen</button>
+        <button data-f="jst" data-v="JNG">Jatinegara</button>
       </div>
       <div class="seg" role="group" aria-label="Stasiun Yogya">
         <button data-f="yst" data-v="all">Tugu &amp; Lempuyangan</button>
@@ -237,7 +238,7 @@
         <li><b>Kelas &amp; harga</b> diambil dari halaman 168Railway, yang memantau tiket.com untuk 10–14 Des 2026. Harga adalah harga terendah (mulai), bisa berubah. Harga hanya untuk kelas termurah yang terpantau.</li>
         <li>Label kelas bergaris putus berasal dari <b>Wikipedia</b> (id.wikipedia.org, revisi Okt–Nov 2026), karena tiket.com dan Traveloka tidak bisa dibaca otomatis. Termasuk: Fajar/Senja Utama Yk, Gajahwong, Jaka Tingkir, Bogowonto, Progo, Argo Dwipangga 15, Bengawan 315, serta kelas Luxury pada Taksaka, Argo Dwipangga, dan Gajayana. Untuk Gajahwong, sebagian isi artikel menyebut hanya Eksekutif dan Ekonomi, jadi Priority-nya perlu dicek.</li>
         <li><span class="cls unk">kelas ?</span> masih belum terdata: KA Borobudur (kereta baru, belum ada di Wikipedia/berita) dan Gajayana fakultatif (79F/80F). Cek di Access by KAI.</li>
-        <li>Stasiun singgah di Jakarta (Jatinegara, Bekasi, Cikarang) hanya tampil kalau tercatat di halaman per kereta. Sebagian halaman tidak bisa dibuka karena dibatasi situs sumber, jadi untuk kereta itu hanya stasiun pertama/terakhir di Jakarta yang tampil. Arah ke Jakarta: bila hanya Jatinegara yang tercatat, stasiun akhirnya disimpulkan dari pasangan keretanya (tanpa jam).</li>
+        <li>Stasiun singgah di Jakarta (Jatinegara, Bekasi, Cikarang) diambil dari halaman per kereta. Filter <b>Jatinegara</b> menampilkan kereta yang benar-benar berhenti di Jatinegara; kereta dari Gambir umumnya hanya lewat. Data singgah belum lengkap untuk Taksaka 30/34, Bima 8, Manahan 62, dan Gajayana 80F (arah ke Yogya). Arah ke Jakarta: Gajayana 49 baru tercatat sampai Jatinegara, stasiun akhirnya (Gambir) disimpulkan dari pasangannya.</li>
         <li>Banyak kereta tidak berawal/berakhir di Yogya atau Jakarta (mis. lanjut ke Solo, Surabaya, Malang). Jam yang tampil adalah jam di stasiun Jakarta dan Yogya.</li>
         <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari. Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
         <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/jakarta-yogyakarta">Jakarta–Yogyakarta</a>, <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-jakarta">Yogyakarta–Jakarta</a>, dan halaman per kereta (bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
@@ -634,21 +635,21 @@ const JKT = {
     {n:"Batavia", no:"126", j:[["GMR","09.40"],["BKS","10.07"]], y:[["YK","17.04"]], c:"both", rp:390, x:"Lanjut ke Solo Balapan"},
     {n:"Manahan", no:"60", j:[["GMR","10.35"],["BKS","11.01"],["CKR","11.20"]], y:[["YK","17.31"]], c:"eks", rp:620, x:"Lanjut ke Solo Balapan"},
     {n:"Gayabaru Selatan", no:"90", j:[["PSE","11.10"],["BKS","11.33"],["CKR","11.52"]], y:[["LPN","18.56"]], c:"both", rp:410, x:"Lanjut ke Surabaya Gubeng"},
-    {n:"Bangunkarta", no:"176", j:[["PSE","12.35"]], y:[["YK","20.19"]], c:"both", rp:330, x:"Lanjut ke Jombang"},
+    {n:"Bangunkarta", no:"176", j:[["PSE","12.35"],["JNG","12.47"],["BKS","13.01"],["CKR","13.20"]], y:[["YK","20.19"]], c:"both", rp:330, x:"Lanjut ke Jombang"},
     {n:"Taksaka", no:"30", kw:["lux"], j:[["GMR","13.00"]], y:[["YK","19.21"]], c:"eks", rp:680},
     {n:"Bima", no:"8", j:[["GMR","16.45"]], y:[["YK","23.22"]], c:"eks", rp:730, x:"Lanjut ke Surabaya Gubeng"},
     {n:"Borobudur", no:"76F", j:[["GMR","17.00"],["BKS","17.26"],["CKR","17.45"]], y:[["YK","00.26"],["LPN","00.35"]], f:1},
-    {n:"Jayakarta", no:"290", j:[["PSE","17.15"]], y:[["LPN","00.45"]], c:"eko", rp:360, x:"Lanjut ke Surabaya Gubeng"},
-    {n:"Bogowonto", no:"192", kw:["eks","eko"], j:[["PSE","17.45"]], y:[["YK","01.32"]], x:"Berakhir di Lempuyangan"},
-    {n:"Senja Utama Yk", no:"196", kw:["eks","ekp"], j:[["PSE","18.50"]], y:[["YK","02.27"]]},
+    {n:"Jayakarta", no:"290", j:[["PSE","17.15"],["JNG","17.28"],["BKS","17.42"],["CKR","18.01"]], y:[["LPN","00.45"]], c:"eko", rp:360, x:"Lanjut ke Surabaya Gubeng"},
+    {n:"Bogowonto", no:"192", kw:["eks","eko"], j:[["PSE","17.45"],["JNG","17.57"],["BKS","18.11"],["CKR","18.30"]], y:[["YK","01.32"]], x:"Berakhir di Lempuyangan"},
+    {n:"Senja Utama Yk", no:"196", kw:["eks","ekp"], j:[["PSE","18.50"],["BKS","19.14"]], y:[["YK","02.27"]]},
     {n:"Gajayana", no:"50", kw:["lux"], j:[["GMR","19.10"],["BKS","19.36"]], y:[["YK","01.48"]], c:"eks", rp:770, x:"Lanjut ke Malang"},
     {n:"Argo Lawu", no:"14", j:[["GMR","20.30"],["BKS","20.55"]], y:[["YK","02.48"]], c:"eks", rp:670, x:"Lanjut ke Solo Balapan"},
-    {n:"Madiun Jaya", no:"182", j:[["PSE","21.10"]], y:[["YK","03.57"]], c:"both", rp:350, x:"Lanjut ke Madiun"},
-    {n:"Mataram", no:"186", j:[["PSE","21.40"]], y:[["YK","05.16"]], c:"both", rp:370, x:"Lanjut ke Solo Balapan"},
-    {n:"Singasari", no:"150", j:[["PSE","21.55"]], y:[["LPN","05.35"]], c:"eko", rp:350, x:"Lanjut ke Blitar"},
+    {n:"Madiun Jaya", no:"182", j:[["PSE","21.10"],["BKS","21.33"]], y:[["YK","03.57"]], c:"both", rp:350, x:"Lanjut ke Madiun"},
+    {n:"Mataram", no:"186", j:[["PSE","21.40"],["JNG","21.53"],["BKS","22.07"]], y:[["YK","05.16"]], c:"both", rp:370, x:"Lanjut ke Solo Balapan"},
+    {n:"Singasari", no:"150", j:[["PSE","21.55"],["BKS","22.18"],["CKR","22.45"]], y:[["LPN","05.35"]], c:"eko", rp:350, x:"Lanjut ke Blitar"},
     {n:"Taksaka", no:"34", kw:["lux"], j:[["GMR","22.00"]], y:[["YK","04.22"]], c:"eks", rp:680},
     {n:"Manahan", no:"62", j:[["GMR","22.35"]], y:[["YK","05.40"]], c:"eks", rp:620, x:"Lanjut ke Solo Balapan"},
-    {n:"Progo", no:"300", kw:["eko"], j:[["PSE","23.45"]], y:[["LPN","07.24"]]},
+    {n:"Progo", no:"300", kw:["eko"], j:[["PSE","23.45"],["JNG","23.57"],["BKS","00.11"]], y:[["LPN","07.24"]]},
     {n:"Gajayana", no:"80F", j:[["GMR","00.05"]], y:[["YK","07.28"]], f:1, x:"Lanjut ke Malang"}
   ],
   yj: [
@@ -657,8 +658,8 @@ const JKT = {
     {n:"Taksaka", no:"29", kw:["lux"], y:[["YK","08.45"]], j:[["GMR","15.02"]], c:"eks", rp:680},
     {n:"Bogowonto", no:"191", kw:["eks","eko"], y:[["LPN","08.50"],["YK","08.58"]], j:[["CKR","16.08"],["BKS","16.27"],["PSE","16.51"]]},
     {n:"Argo Lawu", no:"13", y:[["YK","09.10"]], j:[["GMR","15.29"]], c:"eks", rp:670, x:"Dari Solo Balapan"},
-    {n:"Madiun Jaya", no:"181", y:[["YK","10.09"]], j:[["JNG","16.51"]], end:"PSE", c:"both", rp:350, x:"Dari Madiun"},
-    {n:"Gayabaru Selatan", no:"89", y:[["LPN","10.24"]], j:[["JNG","18.06"]], end:"PSE", c:"both", rp:410, x:"Dari Surabaya Gubeng"},
+    {n:"Madiun Jaya", no:"181", y:[["YK","10.09"]], j:[["BKS","16.37"],["JNG","16.51"],["PSE","17.04"]], c:"both", rp:350, x:"Dari Madiun"},
+    {n:"Gayabaru Selatan", no:"89", y:[["LPN","10.24"]], j:[["CKR","17.34"],["BKS","17.53"],["JNG","18.06"],["PSE","18.19"]], c:"both", rp:410, x:"Dari Surabaya Gubeng"},
     {n:"Manahan", no:"59", y:[["YK","11.00"]], j:[["CKR","17.20"],["BKS","17.39"],["JNG","17.54"],["GMR","18.09"]], c:"eks", rp:620, x:"Dari Solo Balapan"},
     {n:"Mataram", no:"185", y:[["YK","11.33"]], j:[["BKS","18.38"],["JNG","18.52"],["PSE","19.04"]], c:"both", rp:370, x:"Dari Solo Balapan"},
     {n:"Bangunkarta", no:"175", y:[["YK","11.46"]], j:[["BKS","19.27"],["JNG","19.41"],["PSE","19.54"]], c:"both", rp:330, x:"Dari Jombang"},
@@ -667,17 +668,17 @@ const JKT = {
     {n:"Taksaka", no:"33", kw:["lux"], y:[["YK","15.40"]], j:[["GMR","22.00"]], c:"eks", rp:680},
     {n:"Borobudur", no:"77F", y:[["LPN","16.20"],["YK","16.30"]], j:[["CKR","23.28"],["BKS","23.48"],["JNG","00.04"],["GMR","00.18"]], f:1},
     {n:"Senja Utama Yk", no:"195", kw:["eks","ekp"], y:[["YK","17.50"]], j:[["BKS","00.59"],["JNG","01.13"],["PSE","01.26"]]},
-    {n:"Senja Utama Solo", no:"183", y:[["YK","18.58"]], j:[["JNG","02.20"]], end:"PSE", c:"both", rp:370, x:"Dari Solo Balapan"},
-    {n:"Jayakarta", no:"289", y:[["LPN","19.05"]], j:[["JNG","02.58"]], end:"PSE", c:"eko", rp:360, x:"Dari Surabaya Gubeng"},
+    {n:"Senja Utama Solo", no:"183", y:[["YK","18.58"]], j:[["BKS","02.06"],["JNG","02.20"],["PSE","02.32"]], c:"both", rp:370, x:"Dari Solo Balapan"},
+    {n:"Jayakarta", no:"289", y:[["LPN","19.05"]], j:[["CKR","02.25"],["BKS","02.44"],["JNG","02.58"],["PSE","03.11"]], c:"eko", rp:360, x:"Dari Surabaya Gubeng"},
     {n:"Gajayana", no:"49", kw:["lux"], y:[["YK","20.42"]], j:[["JNG","03.09"]], end:"GMR", c:"eks", rp:770, x:"Dari Malang"},
     {n:"Gajahwong", no:"193", kw:["eks","ekp","pri"], y:[["LPN","20.50"]], j:[["BKS","04.42"],["PSE","05.06"]]},
     {n:"Argo Dwipangga", no:"15", kw:["eks","lux"], y:[["YK","21.15"]], j:[["GMR","03.35"]], x:"Dari Solo Balapan"},
     {n:"Taksaka", no:"31", kw:["lux"], y:[["YK","21.40"]], j:[["GMR","04.02"]], c:"eks", rp:680},
     {n:"Singasari", no:"149", y:[["LPN","21.45"]], j:[["PSE","05.28"]], c:"eko", rp:350, x:"Dari Blitar"},
     {n:"Bima", no:"7", y:[["YK","23.01"]], j:[["BKS","05.11"],["JNG","05.24"],["GMR","05.40"]], c:"eks", rp:730, x:"Dari Surabaya Gubeng"},
-    {n:"Batavia", no:"125", y:[["YK","23.09"]], j:[["JNG","06.02"]], end:"GMR", c:"both", rp:390, x:"Dari Solo Balapan"},
-    {n:"Manahan", no:"61", y:[["YK","23.26"]], j:[["JNG","06.10"]], end:"GMR", c:"eks", rp:620, x:"Dari Solo Balapan"},
-    {n:"Jaka Tingkir", no:"297", kw:["eko"], y:[["LPN","00.05"]], j:[["JNG","07.26"]], end:"PSE", x:"Dari Solo Balapan"},
+    {n:"Batavia", no:"125", y:[["YK","23.09"]], j:[["BKS","05.49"],["JNG","06.02"],["GMR","06.19"]], c:"both", rp:390, x:"Dari Solo Balapan"},
+    {n:"Manahan", no:"61", y:[["YK","23.26"]], j:[["CKR","05.35"],["BKS","05.54"],["JNG","06.10"],["GMR","06.27"]], c:"eks", rp:620, x:"Dari Solo Balapan"},
+    {n:"Jaka Tingkir", no:"297", kw:["eko"], y:[["LPN","00.05"]], j:[["CKR","06.56"],["JNG","07.26"],["PSE","07.39"]], x:"Dari Solo Balapan"},
     {n:"Bengawan", no:"315", kw:["eko"], y:[["LPN","00.26"]], j:[["CKR","07.33"],["BKS","07.53"],["JNG","08.07"],["PSE","08.20"]], x:"Dari Purwosari"},
     {n:"Gajayana", no:"79F", y:[["YK","01.40"]], j:[["BKS","08.36"],["JNG","08.52"],["GMR","09.08"]], f:1, x:"Dari Malang"}
   ]
@@ -705,7 +706,7 @@ function renderJkt() {
   const jMain = t => (t.j.find(([st]) => st === "GMR" || st === "PSE") || [t.end])[0] || t.end;
   const rows = JKT[dirJkt].filter(t =>
     (fCls === "all" || classes(t).some(k => k.id === fCls || (fCls === "eko" && k.id === "ekp"))) &&
-    (fJst === "all" || jMain(t) === fJst) &&
+    (fJst === "all" || (fJst === "JNG" ? t.j.some(([st]) => st === "JNG") : jMain(t) === fJst)) &&
     (fYst === "all" || t.y.some(([st]) => st === fYst)));
 
   const first = t => toJ ? t.y[0] : t.j[0];
