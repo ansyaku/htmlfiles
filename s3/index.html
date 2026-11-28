@@ -52,6 +52,9 @@ tr.main td{border-bottom:0}
 .muted{color:var(--muted);font-size:13px}
 
 .hid{color:transparent;font-size:1px;user-select:none}
+
+.idtoggle{font:inherit;font-size:14px;padding:7px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);cursor:pointer}
+.idtoggle.on{background:#c8102e;border-color:#c8102e;color:#fff;font-weight:600}
 </style></head>
 <body><header><div class="hwrap"><h1 class="title">Riset: Topik Spesialisasi Ekonomi &amp; Calon Supervisor S3</h1><div class="sub">Diperbarui 28 Nov 2026. Versi lengkap sebelum dirapikan (termasuk hasil mentah Tahap 1a Gemini &amp; ChatGPT) disimpan sebagai arsip oleh Claude.</div><nav class="tabs"><button class="tab" data-tab="profil">Profil</button><button class="tab" data-tab="metode">Aturan &amp; Metode</button><button class="tab" data-tab="ringkasan">Summary</button><button class="tab" data-tab="area1">Area 1</button><button class="tab" data-tab="lit1">L1</button><button class="tab" data-tab="area2">Area 2</button><button class="tab" data-tab="lit2">L2</button><button class="tab" data-tab="area3">Area 3</button><button class="tab" data-tab="lit3">L3</button><button class="tab" data-tab="tambahan">Area Tambahan</button><button class="tab" data-tab="footnotes">Footnotes</button></nav></div></header><main><section class="pane" id="profil"><h2 id="fase-0--profil-peneliti-user">Fase 0 — Profil Peneliti
 [User]</h2>
@@ -2120,7 +2123,7 @@ non-buku (J1–J34), hasil riset paralel dan gabungan referensi Tahap 1b.
 Metadata artikel dicocokkan ke Crossref, buku ke OpenLibrary/ISBN.
 Diurutkan dari yang paling penting; tabel bisa difilter dan
 diurutkan.</em></p>
-<h3>Daftar Literatur</h3><nav class="subtabs" data-group="lit1"><button class="subtab" data-group="lit1" data-sub="lit10">Buku (0)</button><button class="subtab" data-group="lit1" data-sub="lit11">Jurnal &amp; non-buku (0)</button></nav><div class="subpane" data-group="lit1" id="lit10"><table>
+<h3>Daftar Literatur</h3><nav class="subtabs" data-group="lit1"><button class="subtab" data-group="lit1" data-sub="lit10">Buku (16)</button><button class="subtab" data-group="lit1" data-sub="lit11">Jurnal &amp; non-buku (34)</button></nav><div class="subpane" data-group="lit1" id="lit10"><table>
 <thead>
 <tr>
 <th>#</th>
@@ -4086,7 +4089,7 @@ non-buku (J1–J37), hasil riset paralel dan gabungan referensi Tahap 1b.
 Metadata artikel dicocokkan ke Crossref, buku ke OpenLibrary/ISBN.
 Diurutkan dari yang paling penting; tabel bisa difilter dan
 diurutkan.</em></p>
-<h3>Daftar Literatur</h3><nav class="subtabs" data-group="lit2"><button class="subtab" data-group="lit2" data-sub="lit20">Buku (0)</button><button class="subtab" data-group="lit2" data-sub="lit21">Jurnal &amp; non-buku (0)</button></nav><div class="subpane" data-group="lit2" id="lit20"><table>
+<h3>Daftar Literatur</h3><nav class="subtabs" data-group="lit2"><button class="subtab" data-group="lit2" data-sub="lit20">Buku (13)</button><button class="subtab" data-group="lit2" data-sub="lit21">Jurnal &amp; non-buku (37)</button></nav><div class="subpane" data-group="lit2" id="lit20"><table>
 <thead>
 <tr>
 <th>#</th>
@@ -6663,7 +6666,7 @@ non-buku (J1–J36), hasil riset paralel dan gabungan referensi Tahap 1b.
 Metadata artikel dicocokkan ke Crossref, buku ke OpenLibrary/ISBN.
 Diurutkan dari yang paling penting; tabel bisa difilter dan
 diurutkan.</em></p>
-<h3>Daftar Literatur</h3><nav class="subtabs" data-group="lit3"><button class="subtab" data-group="lit3" data-sub="lit30">Buku (0)</button><button class="subtab" data-group="lit3" data-sub="lit31">Jurnal &amp; non-buku (0)</button></nav><div class="subpane" data-group="lit3" id="lit30"><table>
+<h3>Daftar Literatur</h3><nav class="subtabs" data-group="lit3"><button class="subtab" data-group="lit3" data-sub="lit30">Buku (14)</button><button class="subtab" data-group="lit3" data-sub="lit31">Jurnal &amp; non-buku (36)</button></nav><div class="subpane" data-group="lit3" id="lit30"><table>
 <thead>
 <tr>
 <th>#</th>
@@ -8647,6 +8650,9 @@ document.querySelectorAll('table').forEach(tb=>{
  let sel=null;
  if(ki>=0){sel=document.createElement('select');['Semua kawasan',...new Set(rows.map(r=>r.cells[ki].textContent.trim()))].forEach(v=>{const o=document.createElement('option');o.textContent=v;sel.appendChild(o)});bar.appendChild(sel);}
  const ag=document.createElement('select');if(!isU)ag.style.display='none';['Semua agent','[Cl] Claude','[Ge] Gemini','[Gp] ChatGPT','Didukung 3 agent','Didukung ≥2 agent'].forEach(v=>{const o=document.createElement('option');o.textContent=v;ag.appendChild(o)});bar.appendChild(ag);
+ let idb=null;const ni=hs.indexOf('Negara'),afi=hs.indexOf('Afiliasi');
+ if(hs.includes('Nama')&&ni>=0){idb=document.createElement('button');idb.type='button';idb.className='idtoggle';idb.textContent='🇮🇩 Hanya Indonesia';idb.onclick=()=>{idb.classList.toggle('on');apply();};bar.appendChild(idb);}
+ const IDRX=/indonesia|universitas|institut teknologi|institut pertanian|gadjah mada|airlangga|padjadjaran|brin|kementerian|harapan kita|lpem|smeru|bappenas|kemenkes|bpjs/i;
  const cnt=document.createElement('span');cnt.className='tcount';bar.appendChild(cnt);
  tb.parentNode.insertBefore(bar,tb);
  rows.forEach(r=>[...r.cells].forEach(c=>{if(c.textContent.trim()==='✓')c.classList.add('ck')}));/*ck-mark*/
@@ -8655,7 +8661,7 @@ document.querySelectorAll('table').forEach(tb=>{
  function apply(){const t=q.value.toLowerCase();let n=0;rows.forEach(r=>{let ok=(r.textContent+(r._ann?r._ann.textContent:'')).toLowerCase().includes(t);
   if(ok&&sel&&sel.selectedIndex>0)ok=r.cells[ki].textContent.trim()===sel.value;
   const a=ag.selectedIndex; if(ok&&a>=1&&a<=3)ok=r.cells[ui].textContent.includes(['','[Cl]','[Ge]','[Gp]'][a]);
-  if(ok&&a===4)ok=nAg(r)===3; if(ok&&a===5)ok=nAg(r)>=2;
+  if(ok&&idb&&idb.classList.contains('on'))ok=IDRX.test(r.cells[ni].textContent+' '+(afi>=0?r.cells[afi].textContent:''));if(ok&&a===4)ok=nAg(r)===3; if(ok&&a===5)ok=nAg(r)>=2;
   r.style.display=ok?'':'none';if(r._ann)r._ann.style.display=ok?'':'none';if(ok)n++});cnt.textContent=n+' dari '+rows.length+(isU?' universitas':' baris');}
  [q,sel,ag].forEach(e=>e&&e.addEventListener('input',apply));apply();
  tb.querySelectorAll('thead th').forEach((th,ci)=>{th.classList.add('sortable');th.addEventListener('click',()=>{
