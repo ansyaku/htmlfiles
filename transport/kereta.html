@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kereta Tarif Khusus Yogyakarta ⇄ Solo Balapan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f0;
+    --card: #fffcf7;
+    --border: rgba(120, 90, 50, 0.16);
+    --accent: #9a5b13;
+    --accent-soft: rgba(154, 91, 19, 0.10);
+    --text: #2f261b;
+    --muted: #7c6a52;
+    --dim: #a8967c;
+    --warn: #8a3b12;
+    --krl: #2f6f8f; --krl-soft: rgba(47, 111, 143, 0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1612; --card: #231e18; --border: rgba(230, 200, 150, 0.14);
+      --accent: #e0a35a; --accent-soft: rgba(224, 163, 90, 0.12);
+      --text: #efe6d8; --muted: #b9a68a; --dim: #857660; --warn: #f0a070;
+      --krl: #7cc0e0; --krl-soft: rgba(124, 192, 224, 0.14);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; line-height: 1.5; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 40px 18px 80px; }
+  header { margin-bottom: 24px; }
+  .eyebrow { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); }
+  h1 { font-size: clamp(1.5rem, 4.5vw, 2.1rem); font-weight: 700; margin: 6px 0 10px; }
+  .lead { color: var(--muted); font-size: 15px; max-width: 640px; }
+  .fare { display: flex; gap: 10px; margin: 18px 0 6px; flex-wrap: wrap; }
+  .fare div { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+  .fare b { display: block; font-size: 20px; color: var(--accent); }
+  .fare span { font-size: 12px; color: var(--muted); }
+
+  .controls { position: sticky; top: 0; background: var(--bg); padding: 12px 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; background: var(--card); }
+  .seg button { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 14px; padding: 8px 14px; cursor: pointer; }
+  .seg button.on { background: var(--accent); color: var(--bg); font-weight: 500; }
+  .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+  .notice { font-size: 13px; color: var(--warn); background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin: 4px 0 14px; }
+
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 14.5px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); font-weight: 500; }
+  tr:last-child td { border-bottom: 0; }
+  td.t { font-family: 'DM Mono', monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.t.dep { font-weight: 500; color: var(--accent); }
+  td.no { color: var(--dim); font-family: 'DM Mono', monospace; font-size: 13px; }
+  .tag { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); margin-left: 6px; vertical-align: 1px; }
+  .note { display: block; font-size: 12px; color: var(--muted); }
+  tr.next td { background: var(--accent-soft); }
+
+  .notes { margin-top: 28px; font-size: 14px; color: var(--muted); }
+  .notes h2 { font-size: 15px; color: var(--text); margin-bottom: 8px; }
+  .notes li { margin: 0 0 6px 18px; }
+  .notes a { color: var(--accent); }
+  td.yia { min-width: 120px; }
+  .fare .krl b { color: var(--krl); }
+  tr.krl td { font-size: 13.5px; color: var(--muted); padding-top: 6px; padding-bottom: 6px; }
+  tr.krl td:first-child { padding-left: 34px; position: relative; }
+  tr.krl td:first-child::before { content: ""; position: absolute; left: 16px; top: 0; bottom: 50%; width: 10px; border-left: 2px solid var(--krl); border-bottom: 2px solid var(--krl); border-bottom-left-radius: 6px; opacity: .55; }
+  tr.krl td.t.dep { color: var(--krl); }
+  .krltag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .5px; padding: 1px 6px; border-radius: 4px; background: var(--krl-soft); color: var(--krl); margin-right: 6px; vertical-align: 1px; }
+  .katag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .5px; padding: 1px 6px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); margin-right: 6px; vertical-align: 1px; }
+  tr.ka td:first-child::before { border-color: var(--accent); }
+  tr.ka td.t.dep { color: var(--accent); }
+  tr.main td { border-top: 1px solid var(--border); }
+  .st { font-size: 10.5px; color: var(--dim); font-weight: 400; margin-left: 2px; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin: -4px 0 12px; }
+  [hidden] { display: none !important; }
+  @media (max-width: 560px) {
+    th.hide, td.hide { display: none; }
+    th, td { padding: 9px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Transport · Kereta Api</div>
+    <h1 id="title">Kereta tarif khusus Yogyakarta ⇄ Solo Balapan</h1>
+    <p class="lead" id="leadSmg" hidden>Belum ada KA langsung Yogyakarta–Semarang. Tiap baris utama adalah KA Solo ⇄ Semarang, dan di bawahnya ada sambungan Yogya ⇄ Solo terbaik dengan KA tarif khusus dan KRL, lengkap dengan waktu tunggu dan total perjalanan.</p>
+    <p class="lead" id="lead">Jadwal KA jarak jauh bertarif khusus (go show) dan KRL Commuter Line di rute Yogyakarta–Solo Balapan dalam satu daftar: kalau KA khusus sudah lewat, alternatif KRL langsung terlihat di bawahnya. Arah Solo → Yogya dilengkapi rekomendasi KA Bandara ke Bandara YIA (NYIA).</p>
+    <div class="fare">
+      <div><b>Rp65.000</b><span>KA khusus · Eksekutif</span></div>
+      <div><b>Rp55.000</b><span>KA khusus · Ekonomi</span></div>
+      <div class="krl"><b>Rp8.000</b><span>KRL sekali jalan</span></div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Rute">
+      <button data-route="slo" class="on">Yogya ⇄ Solo</button>
+      <button data-route="smg">Yogya ⇄ Semarang</button>
+    </div>
+    <div class="seg" role="group" aria-label="Arah">
+      <button data-dir="ys" class="on">Yogya → Solo</button>
+      <button data-dir="sy">Solo → Yogya</button>
+    </div>
+    <div class="seg" role="group" aria-label="Versi jadwal">
+      <button data-g="2026" class="on">Mulai 1 Des 2026</button>
+      <button data-g="2025">s.d. 30 Nov 2026</button>
+    </div>
+  </div>
+
+  <div class="notice" id="notice"></div>
+  <div class="legend" id="legendSmg" hidden><span><b>Baris utama</b> = KA Solo ⇄ Semarang</span><span><span class="katag">KA khusus</span><span class="krltag">KRL</span>baris menjorok = sambungan Yogya ⇄ Solo</span></div>
+  <div class="legend" id="legend"><span><b>Baris utama</b> = KA tarif khusus</span><span><span class="krltag">KRL</span>baris menjorok = alternatif KRL sebelum KA berikutnya</span></div>
+
+  <table>
+    <thead>
+      <tr><th>Kereta</th><th class="hide">No. KA</th><th id="hDep">Berangkat</th><th id="hArr">Tiba</th><th id="hYia" hidden>KA Bandara YIA</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <div class="notes">
+    <h2>Catatan</h2>
+    <ul id="notesSmg" hidden>
+      <li>Di GAPEKA 2026 tidak ada nomor KA yang berhenti di Yogyakarta/Lempuyangan sekaligus di Semarang Tawang/Poncol (dicek dari daftar keempat stasiun). Untuk GAPEKA 2025 juga tidak ditemukan, tapi pengecekannya tidak selengkap 2026.</li>
+      <li>Sambungan dari Yogya memakai KA tarif khusus (dari Stasiun Yogyakarta/Tugu) atau KRL. <b>KRL juga berhenti di Lempuyangan</b>, beberapa menit setelah Tugu (arah Solo) atau sebelum Tugu (arah Yogya).</li>
+      <li>Jeda pindah minimal: 15 menit di Solo Balapan. Untuk KA yang naik/turun di <b>Solo Jebres</b> (Matarmaja, Brawijaya, Brantas, Majapahit): 20 menit bila pakai KRL (KRL singgah Jebres), 35 menit bila pakai KA khusus (perlu pindah Balapan ⇄ Jebres).</li>
+      <li>Sambungan yang dipilih: arah ke Semarang = kereta Yogya yang tiba paling akhir tapi masih sempat; arah ke Yogya = kereta pertama yang masih terkejar. KA fakultatif tidak dipakai sebagai sambungan.</li>
+      <li>Jadwal 2025: jam KRL di Solo Balapan tidak tersedia, jadi diperkirakan (tanda ≈) dari jam Yogyakarta/Palur.</li>
+      <li>Tiket KA Solo ⇄ Semarang dibeli terpisah (Access by KAI), bukan tarif khusus.</li>
+      <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/solo-semarang">Solo–Semarang 2026</a>, <a href="https://168railway.com/gapeka-2026/relasi/semarang-solo">Semarang–Solo 2026</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/solo-ke-semarang">Solo–Semarang 2025</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/semarang-ke-solo">Semarang–Solo 2025</a> (bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
+    </ul>
+    <ul id="notesSlo">
+      <li>Semua kereta di daftar ini berangkat/tiba di <b>Stasiun Yogyakarta (Tugu)</b>, kecuali Batavia di jadwal lama (tiba di Purwosari / Lempuyangan).</li>
+      <li><b>Fajar Utama Solo</b> hanya arah Yogya → Solo; <b>Senja Utama Solo</b> hanya arah Solo → Yogya.</li>
+      <li><b>KA tarif khusus</b>: tiket lewat Access by KAI atau loket, mulai 2 jam sebelum berangkat, selama kursi masih ada.</li>
+      <li><b>KRL</b> berangkat/tiba di Stasiun Yogyakarta (Tugu) dan lanjut sampai Palur (lewat Solo Balapan &amp; Solo Jebres). Bayar dengan kartu uang elektronik atau QRIS di gerbang.</li>
+      <li><b>KA Bandara YIA</b> berangkat dari Stasiun Yogyakarta (Tugu), ±35–39 menit ke Bandara YIA. Rekomendasi memakai jeda pindah minimal 15 menit (35 menit bila tiba di Lempuyangan) dan tidak memakai KA Bandara fakultatif. Untuk penerbangan, sisakan waktu check-in di bandara.</li>
+      <li>Jadwal KA Bandara di halaman ini adalah GAPEKA 2025. Papan stasiun Tugu berlabel GAPEKA 2026 menampilkan jam yang sama, tapi jadwal 2026 lengkapnya belum terkonfirmasi.</li>
+      <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari.</li>
+      <li>Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
+      <li>Sumber jadwal: <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-solo">168Railway</a> , <a href="https://168railway.com/gapeka-2026/krl/yogyakarta">KRL 2026</a>, <a href="https://168railway.com/jadwal-kereta-api/commuter-line-yogyakarta">KRL 2025</a>, <a href="https://168railway.com/jadwal-kereta-api/bandara-yia">KA Bandara YIA</a> (disusun dari daftar waktu GAPEKA resmi; bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+// [nama, noKA, berangkat, tiba, catatan, fakultatif]
+const DATA = {
+  "2026": {
+    ys: [
+      ["Madiun Jaya","182","04.01","04.42"],
+      ["Mataram","186","05.21","06.13"],
+      ["Manahan","62","05.45","06.33"],
+      ["Sancaka","110","06.35","07.19"],
+      ["Malioboro Ekspres","190","10.35","11.25"],
+      ["Sancaka","112","11.20","12.04"],
+      ["Fajar Utama Solo","184","12.59","13.50"],
+      ["Lodaya","106","13.12","14.03"],
+      ["Argo Dwipangga","16","14.40","15.27"],
+      ["Sancaka","114","17.00","17.46"],
+      ["Batavia","126","17.09","18.01"],
+      ["Manahan","60","17.36","18.26"],
+      ["Wijayakusuma","172","18.30","19.19"],
+      ["Sancaka Utara","218F","20.11","21.01","",true],
+      ["Kertanegara","188","21.24","22.14"],
+      ["Sancaka","116F","22.15","23.01","",true],
+      ["Lodaya","108","02.09","03.00"],
+      ["Argo Lawu","14","02.53","03.42"],
+      ["Mutiara Selatan","96","03.15","03.56"]
+    ],
+    sy: [
+      ["Lodaya","105","07.10","07.56"],
+      ["Argo Lawu","13","08.20","09.05"],
+      ["Madiun Jaya","181","09.23","10.05"],
+      ["Sancaka","109","09.58","10.47"],
+      ["Manahan","59","10.10","10.55"],
+      ["Mataram","185","10.40","11.29"],
+      ["Sancaka Utara","217F","11.22","12.29","",true],
+      ["Kertanegara","187","13.51","14.42"],
+      ["Sancaka","111","14.17","15.07"],
+      ["Senja Utama Solo","183","18.05","18.54"],
+      ["Lodaya","107","19.20","20.06"],
+      ["Sancaka","113","19.34","20.23"],
+      ["Argo Dwipangga","15","20.25","21.10"],
+      ["Wijayakusuma","171","21.02","22.07"],
+      ["Mutiara Selatan","95","21.15","21.58"],
+      ["Batavia","125","22.05","23.05"],
+      ["Manahan","61","22.35","23.21"],
+      ["Malioboro Ekspres","189","23.51","00.41"],
+      ["Sancaka","115F","01.08","01.59","",true]
+    ]
+  },
+  "2025": {
+    ys: [
+      ["Madiun Jaya","144B","04.10","04.50"],
+      ["Mataram","76B","04.40","05.31"],
+      ["Manahan","64B","05.44","06.31"],
+      ["Sancaka","84B","06.45","07.30"],
+      ["Malioboro Ekspres","170B","10.50","11.40"],
+      ["Sancaka","82B","11.30","12.14"],
+      ["Fajar Utama Solo","74B","12.37","13.25"],
+      ["Lodaya","78D","13.20","14.07"],
+      ["Argo Dwipangga","16","14.56","15.45"],
+      ["Sancaka","86B","17.00","17.46"],
+      ["Batavia","PLB 7006","17.07","17.55","Tiba di Purwosari"],
+      ["Manahan","62B","17.28","18.18"],
+      ["Wijayakusuma","158","18.31","19.24"],
+      ["Sancaka Utara","236F","20.44","21.37"],
+      ["Kertanegara","168D","21.10","22.12"],
+      ["Sancaka","88B","22.25","23.11"],
+      ["Lodaya","80B","01.54","02.47"],
+      ["Mutiara Selatan","72","02.40","03.21"],
+      ["Argo Lawu","14","02.52","03.40"]
+    ],
+    sy: [
+      ["Lodaya","77D","07.15","08.01"],
+      ["Argo Lawu","13","08.30","09.15"],
+      ["Mataram","75B","08.40","09.29"],
+      ["Madiun Jaya","143B","09.18","10.00"],
+      ["Manahan","61B","09.50","10.35"],
+      ["Sancaka","81B","10.12","11.02"],
+      ["Sancaka Utara","235F","12.00","13.01"],
+      ["Kertanegara","167B","13.46","14.32"],
+      ["Sancaka","85B","14.27","15.17"],
+      ["Senja Utama Solo","73B","18.55","19.42"],
+      ["Lodaya","79B","19.10","19.57"],
+      ["Sancaka","83B","19.50","20.38"],
+      ["Argo Dwipangga","15","20.35","21.20"],
+      ["Wijayakusuma","157","21.19","22.20"],
+      ["Mutiara Selatan","71","21.30","22.11"],
+      ["Batavia","PLB 7005","22.00","22.47","Tiba di Lempuyangan"],
+      ["Manahan","63B","22.35","23.22"],
+      ["Malioboro Ekspres","169B","00.42","01.33"],
+      ["Sancaka","87B","01.13","02.04"]
+    ]
+  }
+};
+
+// KRL Commuter Line Yogyakarta (YK – Palur, lewat Solo Balapan)
+// {no, dep, arr, note, fak}; dep/arr null = jam di Solo Balapan tidak tersedia
+const KRL = {
+  "2026": {
+    ys: [
+      ["720","04.55","06.05","06.17"],["730F","06.00","07.10","07.20",1],["702","06.55","08.04","08.15"],
+      ["712","07.54","09.04","09.16"],["722","08.39","09.49","10.01"],["732F","09.34","10.45","10.56",1],
+      ["704","10.07","11.18","11.29"],["714","12.14","13.24","13.35"],["706","13.57","15.08","15.19"],
+      ["724F","14.50","16.00","16.11",1],["716","15.35","16.46","16.57"],["734F","16.14","17.34","17.44",1],
+      ["708","17.15","18.36","18.47"],["726","17.58","19.11","19.22"],["718","19.08","20.19","20.30"],
+      ["736","20.33","21.45","21.56"],["710F","21.33","22.47","22.58",1],["728","22.55","00.17","00.28"]
+    ].map(([no,dep,arr,pl,fak]) => ({no, dep, arr, fak, note:`Lanjut ke Palur, tiba ${pl}`})),
+    sy: [
+      ["701","05.10","05.23","06.33"],["711","06.10","06.25","07.33"],["721","07.05","07.17","08.26"],
+      ["731F","07.45","07.58","09.24",1],["703","08.25","08.38","09.57"],["713","10.45","10.57","12.04"],
+      ["705","12.15","12.27","13.42"],["723F","12.55","13.08","14.30",1],["715","13.45","13.57","15.22"],
+      ["733F","14.25","14.37","15.49",1],["707","15.28","15.40","16.49"],["725","16.28","16.40","17.49"],
+      ["717","17.10","17.22","18.33"],["735","18.35","18.48","19.58"],["709","19.50","20.02","21.23"],
+      ["727","21.10","21.22","22.40"]
+    ].map(([no,pl,dep,arr,fak]) => ({no, dep, arr, fak, note:`Dari Palur ${pl}`}))
+  },
+  "2025": {
+    ys: [
+      ["720","05.05","06.26"],["730F","06.00","07.20",1],["702","07.05","08.29"],["712","07.54","09.18"],
+      ["722","08.49","10.12"],["704","10.56","12.18"],["724","12.07","13.30"],["714","13.57","15.21"],
+      ["706","15.01","16.25"],["726","16.10","17.45"],["716","17.35","18.57"],["708","18.08","19.28"],
+      ["728","20.15","21.40"],["718A","21.25","22.44"],["710","22.35","23.54"]
+    ].map(([no,dep,pl,fak]) => ({no, dep, arr:null, fak, note:`Tiba Palur ${pl}`})),
+    sy: [
+      ["701","05.00","06.23"],["711","06.05","07.29"],["721","07.15","08.39"],["703","08.56","10.27"],
+      ["723","10.40","11.59"],["705","12.50","14.12"],["725","13.43","15.17"],["715","15.35","16.56"],
+      ["707","16.35","17.55"],["727","18.05","19.25"],["717","19.45","21.09"],["709","20.42","22.01"]
+    ].map(([no,pl,arr]) => ({no, dep:null, pl, arr, note:`Berangkat Palur ${pl} (±12–15 mnt sebelum Solo Balapan)`}))
+  }
+};
+
+// KA Bandara YIA dari Stasiun Yogyakarta (Tugu): [no, berangkat YK, tiba YIA, fakultatif]
+const YIA = [
+  ["521","04.20","04.59"],["561","05.10","05.49"],["547F","06.00","06.35",1],["523","06.30","07.09"],
+  ["535","07.40","08.15"],["549","07.57","08.32"],["525","08.33","09.12"],["563","08.55","09.34"],
+  ["537","09.28","10.03"],["551","09.51","10.26"],["539","11.03","11.38"],["527","12.00","12.39"],
+  ["565","12.35","13.14"],["553","13.28","14.03"],["529","14.13","14.52"],["541","15.02","15.37"],
+  ["555","15.30","16.05"],["567","15.49","16.28"],["531","16.07","16.46"],["543","16.48","17.23"],
+  ["557","17.15","17.50"],["569","18.25","19.04"],["559","18.50","19.25"],["533","19.16","19.55"],
+  ["545","20.12","20.47"]
+];
+const BUF_TUGU = 15, BUF_LPN = 35; // menit pindah kereta
+
+// KA Solo ⇄ Semarang (tidak ada KA langsung Yogya–Semarang; pindah di Solo)
+// [nama, noKA, berangkat, stasiun asal, tiba, stasiun tujuan, catatan, fakultatif]
+const SMG = {
+  "2026": {
+    ys: [
+      ["Joglosemarkerto","233","05.30","SLO","07.36","SMT","Lanjut ke Tegal"],
+      ["Banyubiru","337F","09.15","SLO","11.25","SMT","",1],
+      ["Pandawa","281","11.40","SLO","13.36","SMT"],
+      ["Matarmaja","287","14.58","SK","17.02","SMC","Malang – Pasar Senen"],
+      ["Brawijaya","53","16.04","SK","18.01","SMT","Malang – Gambir"],
+      ["Joglosemarkerto","235","16.34","SLO","18.50","SMT"],
+      ["Brantas","151","17.37","SK","19.30","SMT","Blitar – Pasar Senen"],
+      ["Banyubiru","259F","18.15","SLO","20.23","SMT","",1],
+      ["Pandawa","341","19.35","SLO","21.25","SMT"],
+      ["Majapahit","285","23.03","SK","01.04","SMT","Malang – Pasar Senen"],
+      ["Brawijaya","51","01.25","SK","03.13","SMT","Malang – Gambir"]
+    ],
+    sy: [
+      ["Pandawa","280","05.35","SMT","07.37","SLO"],
+      ["Banyubiru","338F","06.15","SMT","08.27","SLO","",1],
+      ["Brawijaya","54","11.00","SMT","12.46","SK","Gambir – Malang"],
+      ["Pandawa","340","14.45","SMT","16.28","SLO"],
+      ["Joglosemarkerto","238","14.51","SMC","17.20","SLO","Dari Tegal, juga singgah Semarang Tawang 15.01"],
+      ["Matarmaja","288","18.07","SMC","20.38","SK","Pasar Senen – Malang"],
+      ["Majapahit","286","19.59","SMT","21.57","SK","Pasar Senen – Malang"],
+      ["Joglosemarkerto","232","21.14","SMC","23.27","SLO","Dari Tegal, juga singgah Semarang Tawang 21.27"],
+      ["Brantas","152","21.48","SMT","23.54","SK","Pasar Senen – Blitar"],
+      ["Banyubiru","260F","22.05","SMT","00.13","SLO","",1],
+      ["Brawijaya","52","23.04","SMT","00.56","SK","Gambir – Malang"]
+    ]
+  },
+  "2025": {
+    ys: [
+      ["Joglosemarkerto","187A","05.10","SLO","07.16","SMT"],
+      ["Banyubiru","267","08.55","SLO","10.49","SMT"],
+      ["Matarmaja","269B","14.25","SK","16.27","SMC"],
+      ["Joglosemarkerto","189","15.50","SLO","18.02","SMT"],
+      ["Brantas","151","17.22","SK","19.18","SMT"],
+      ["Banyubiru Ekspres","231","17.50","SLO","20.02","SMT"],
+      ["Brawijaya","37","20.58","SK","22.49","SMT"],
+      ["Majapahit","245B","23.18","SK","00.55","SMT"]
+    ],
+    sy: [
+      ["Banyubiru","268","06.05","SMT","08.05","SLO"],
+      ["Joglosemarkerto","192A","14.19","SMC","16.40","SLO"],
+      ["Matarmaja","270","18.00","SMC","20.08","SK"],
+      ["Brantas","152","20.28","SMT","22.24","SK"],
+      ["Brawijaya","38","21.05","SMT","22.45","SK"],
+      ["Banyubiru Ekspres","232","21.15","SMT","23.17","SLO"],
+      ["Joglosemarkerto","186A","21.40","SMC","00.16","SLO"],
+      ["Majapahit","246B","23.20","SMT","01.11","SK"]
+    ]
+  }
+};
+const ST = {SLO: "Solo Balapan", SK: "Solo Jebres", SMT: "Semarang Tawang", SMC: "Semarang Poncol", YK: "Yogyakarta"};
+
+
+// Default ke jadwal yang berlaku hari ini (WIB)
+// Date yang jam/tanggal lokalnya = waktu WIB (UTC+7)
+function nowWIB() {
+  return new Date(Date.now() + (new Date().getTimezoneOffset() + 420) * 60000);
+}
+const now = nowWIB();
+let g = now >= new Date(2026, 11, 1) ? "2026" : "2025";
+let dir = "ys";
+let route = "slo";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mins = t => { const [h, m] = t.split(".").map(Number); return h * 60 + m; };
+
+// Rekomendasi KA Bandara YIA pertama yang masih terkejar setelah tiba di Yogyakarta
+function yiaCell(arr, lpn) {
+  if (!arr) return "—";
+  const ready = mins(arr) + (lpn ? BUF_LPN : BUF_TUGU);
+  const regular = YIA.filter(y => !y[3]);
+  let pick = regular.find(y => mins(y[1]) >= ready), besok = false;
+  if (!pick) { pick = regular[0]; besok = true; }
+  const wait = (mins(pick[1]) - mins(arr) + 1440) % 1440;
+  const waitTxt = wait >= 60 ? `${Math.floor(wait / 60)} j ${wait % 60} mnt` : `${wait} mnt`;
+  return `<span class="t dep">${pick[1]}</span>${besok ? '<span class="tag">besok</span>' : ""}
+    <span class="note">KA ${pick[0]} · tiba YIA ${pick[2]} · tunggu ${waitTxt}${lpn ? " · pindah dari Lempuyangan" : ""}</span>`;
+}
+
+
+// menit dalam "hari operasi" yang dimulai jam 04.00, supaya lewat tengah malam tetap urut
+const A = t => (mins(t) - 240 + 1440) % 1440;
+const dur = (a, b) => (mins(b) - mins(a) + 1440) % 1440;
+const fmtDur = m => m >= 60 ? `${Math.floor(m / 60)} j ${m % 60} mnt` : `${m} mnt`;
+// jeda pindah di Solo: 15 mnt di Solo Balapan; KA Semarang di Solo Jebres: KRL 20 mnt (KRL singgah Jebres), KA khusus 35 mnt
+const bufSolo = (st, krl) => st === "SLO" ? 15 : (krl ? 20 : 35);
+
+// pilihan sambungan Yogya ⇄ Solo Balapan
+function legOptions(d) {
+  const ka = DATA[g][d].filter(r => !r[5] && !(r[4] && /Purwosari/.test(r[4])))
+    .map(([name, no, dep, arr, note]) => ({name, no, dep, arr, note, krl: false}));
+  const krl = KRL[g][d].filter(r => !r.fak).map(r => {
+    if (d === "ys" && !r.arr) { const t = mins(r.dep) + 70; return {...r, arr: `${String(Math.floor(t / 60) % 24).padStart(2, "0")}.${String(t % 60).padStart(2, "0")}`, approx: true, krl: true}; }
+    if (d === "sy" && !r.dep) { const t = mins(r.pl) + 13; return {...r, dep: `${String(Math.floor(t / 60) % 24).padStart(2, "0")}.${String(t % 60).padStart(2, "0")}`, approx: true, krl: true}; }
+    return {...r, krl: true};
+  });
+  return {ka, krl};
+}
+
+function renderSmg() {
+  const toYk = dir === "sy";
+  const opts = legOptions(dir);
+  const mains = SMG[g][dir].map(([name, no, dep, st1, arr, st2, note, fak]) => ({name, no, dep, st1, arr, st2, note, fak}));
+
+  // cari sambungan untuk tiap KA Semarang
+  mains.forEach(m => {
+    m.subs = ["ka", "krl"].map(kind => {
+      const list = opts[kind], krl = kind === "krl";
+      if (!toYk) {
+        // Yogya → Solo: yang tiba paling akhir tapi masih sempat pindah
+        const solo = toYk ? m.st2 : m.st1;
+        const limit = A(m.dep) - bufSolo(solo, krl);
+        const ok = list.filter(o => A(o.dep) + dur(o.dep, o.arr) <= limit);
+        const o = ok.sort((a, b) => (A(b.dep) + dur(b.dep, b.arr)) - (A(a.dep) + dur(a.dep, a.arr)))[0];
+        if (!o) return {kind, none: true};
+        return {kind, o, wait: limit + bufSolo(solo, krl) - (A(o.dep) + dur(o.dep, o.arr)), total: A(m.dep) + dur(m.dep, m.arr) - A(o.dep)};
+      } else {
+        // Solo → Yogya: yang berangkat paling awal setelah tiba di Solo
+        const ready = A(m.dep) + dur(m.dep, m.arr) + bufSolo(m.st2, krl);
+        const ok = list.filter(o => A(o.dep) >= ready).sort((a, b) => A(a.dep) - A(b.dep));
+        const o = ok[0];
+        if (!o) return {kind, none: true};
+        const arrSolo = A(m.dep) + dur(m.dep, m.arr);
+        return {kind, o, wait: A(o.dep) - arrSolo, total: A(o.dep) + dur(o.dep, o.arr) - A(m.dep)};
+      }
+    });
+  });
+
+  // baris berikutnya: dari Yogya pakai jam berangkat sambungan paling akhir; dari Semarang pakai jam KA Semarang
+  const cur = now.getHours() * 60 + now.getMinutes();
+  const refOf = m => {
+    if (toYk) return mins(m.dep);
+    const deps = m.subs.filter(x => !x.none).map(x => x.o.dep);
+    return deps.length ? deps.map(mins).sort((a, b) => A2(b) - A2(a))[0] : mins(m.dep);
+  };
+  const A2 = x => (x - 240 + 1440) % 1440;
+  let nextIdx = -1, best = Infinity;
+  mains.forEach((m, i) => { const diff = (refOf(m) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
+
+  const tt = (t, st, approx) => `${approx ? "≈" : ""}${t} <span class="st">${st}</span>`;
+  $("#rows").innerHTML = mains.map((m, i) => {
+    const over = mins(m.arr) < mins(m.dep) ? ' <span class="note">+1 hari</span>' : "";
+    const solo = toYk ? m.st2 : m.st1;
+    const notes = [m.note, solo === "SK" ? (toYk ? "Turun di Solo Jebres" : "Naik di Solo Jebres") : ""].filter(Boolean).join(" · ");
+    const main = `<tr class="main${i === nextIdx ? " next" : ""}">
+      <td>${esc(m.name)}${m.fak ? '<span class="tag">fakultatif</span>' : ""}${notes ? `<span class="note">${esc(notes)}</span>` : ""}</td>
+      <td class="no hide">${esc(m.no)}</td>
+      <td class="t dep">${tt(m.dep, m.st1)}</td>
+      <td class="t">${tt(m.arr, m.st2)}${over}</td>
+    </tr>`;
+    const subs = m.subs.map(x => {
+      const tag = x.kind === "krl" ? '<span class="krltag">KRL</span>' : '<span class="katag">KA khusus</span>';
+      const cls = x.kind === "krl" ? "krl" : "krl ka";
+      if (x.none) return `<tr class="${cls}"><td colspan="4">${tag}<span class="note" style="display:inline">${toYk ? "Tidak ada sambungan ke Yogya setelah kereta ini" : "Tidak ada yang sempat dari Yogya"}</span></td></tr>`;
+      const o = x.o;
+      const name = x.kind === "krl" ? "Commuter Line" : esc(o.name);
+      const where = (toYk ? m.st2 : m.st1) === "SK" ? (x.kind === "krl" ? "Solo Balapan (KRL juga singgah Solo Jebres)" : "Solo (pindah Balapan ⇄ Jebres)") : "Solo Balapan";
+      const info = `${toYk ? "Lanjut ke Yogya" : "Dari Yogya"} · tunggu ${fmtDur(x.wait)} di ${where} · total ${fmtDur(x.total)}`;
+      return `<tr class="${cls}">
+        <td>${tag}${name}<span class="note">${info}</span></td>
+        <td class="no hide">${esc(o.no)}</td>
+        <td class="t dep">${tt(o.dep, toYk ? "SLO" : "YK", o.approx && toYk)}</td>
+        <td class="t">${tt(o.arr, toYk ? "YK" : "SLO", o.approx && !toYk)}</td>
+      </tr>`;
+    }).join("");
+    return main + subs;
+  }).join("");
+}
+
+function render() {
+  document.querySelectorAll("[data-dir]").forEach(b => b.classList.toggle("on", b.dataset.dir === dir));
+  document.querySelectorAll("[data-g]").forEach(b => b.classList.toggle("on", b.dataset.g === g));
+  document.querySelectorAll("[data-route]").forEach(b => b.classList.toggle("on", b.dataset.route === route));
+  const smg = route === "smg";
+  const city = smg ? "Semarang" : "Solo";
+  $("[data-dir=ys]").textContent = `Yogya → ${city}`;
+  $("[data-dir=sy]").textContent = `${city} → Yogya`;
+  $("#title").textContent = smg ? "Kereta Yogyakarta ⇄ Semarang (via Solo)" : "Kereta tarif khusus Yogyakarta ⇄ Solo Balapan";
+  document.title = $("#title").textContent;
+  $("#lead").hidden = smg; $("#leadSmg").hidden = !smg;
+  $("#legend").hidden = smg; $("#legendSmg").hidden = !smg;
+  $("#notesSlo").hidden = smg; $("#notesSmg").hidden = !smg;
+  if (smg) {
+    $("#hDep").textContent = "Berangkat";
+    $("#hArr").textContent = "Tiba";
+    $("#hYia").hidden = true;
+    $("#notice").textContent = (g === "2026"
+      ? "Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026. "
+      : "Jadwal GAPEKA 2025, berlaku sampai 30 November 2026. ")
+      + "Tidak ada KA langsung Yogyakarta–Semarang, jadi semua perjalanan pindah kereta di Solo.";
+    renderSmg();
+    return;
+  }
+  const toYk = dir === "sy";
+  $("#hDep").textContent = toYk ? "Berangkat SLO" : "Berangkat YK";
+  $("#hArr").textContent = toYk ? "Tiba YK" : "Tiba SLO";
+  $("#hYia").hidden = !toYk;
+  let notice = g === "2026"
+    ? "Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026."
+    : "Jadwal GAPEKA 2025, berlaku sampai 30 November 2026.";
+  if (g === "2025") notice += " Jam singgah KRL di Solo Balapan untuk jadwal ini tidak tersedia di sumber.";
+  if (toYk) notice += ` Kolom KA Bandara YIA: kereta pertama dari Stasiun Yogyakarta (Tugu) dengan jeda pindah minimal ${BUF_TUGU} menit.`;
+  $("#notice").textContent = notice;
+
+  // waktu acuan: jam berangkat, atau perkiraan dari Palur bila jam SLO tak ada
+  const ref = r => r.dep ? mins(r.dep) : mins(r.pl) + 13;
+  // gabung KA khusus + KRL, urut jam berangkat (hari operasi dihitung mulai 04.00)
+  const rows = [
+    ...DATA[g][dir].map(([name, no, dep, arr, note, fak]) => ({name, no, dep, arr, note, fak})),
+    ...KRL[g][dir].map(r => ({...r, krl: true}))
+  ].sort((a, b) => (ref(a) - 240 + 1440) % 1440 - (ref(b) - 240 + 1440) % 1440);
+
+  const cur = now.getHours() * 60 + now.getMinutes();
+  let nextIdx = -1, best = Infinity;
+  rows.forEach((r, i) => { const diff = (ref(r) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
+
+  $("#rows").innerHTML = rows.map((r, i) => {
+    const overnight = r.dep && r.arr && mins(r.arr) < mins(r.dep) ? ' <span class="note">+1 hari</span>' : "";
+    const lpn = r.note && /Lempuyangan/.test(r.note);
+    const cls = [r.krl && "krl", i === nextIdx && "next"].filter(Boolean).join(" ");
+    return `<tr${cls ? ` class="${cls}"` : ""}>
+      <td>${r.krl ? '<span class="krltag">KRL</span>Commuter Line' : esc(r.name)}${r.fak ? '<span class="tag">fakultatif</span>' : ""}${r.note ? `<span class="note">${esc(r.note)}</span>` : ""}</td>
+      <td class="no hide">${esc(r.no)}</td>
+      <td class="t dep">${r.dep || "—"}</td>
+      <td class="t">${r.arr || "—"}${overnight}</td>
+      ${toYk ? `<td class="yia">${yiaCell(r.arr, lpn)}</td>` : ""}
+    </tr>`;
+  }).join("");
+}
+
+document.querySelectorAll("[data-dir]").forEach(b => b.onclick = () => { dir = b.dataset.dir; render(); });
+document.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { g = b.dataset.g; render(); });
+document.querySelectorAll("[data-route]").forEach(b => b.onclick = () => { route = b.dataset.route; render(); });
+render();
+</script>
+</body>
+</html>
