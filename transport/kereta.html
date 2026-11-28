@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kereta Tarif Khusus Yogyakarta ⇄ Solo Balapan</title>
+<title>Kereta Yogyakarta ⇄ Solo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -29,17 +29,24 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; line-height: 1.5; }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 40px 18px 80px; }
-  header { margin-bottom: 24px; }
+  header.top { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--border); }
+  .hwrap { max-width: 860px; margin: 0 auto; padding: 22px 18px 0; }
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+  .tab { border: 0; background: none; color: var(--muted); font: inherit; font-size: 15px; padding: 9px 14px; border-bottom: 3px solid transparent; cursor: pointer; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; }
+  .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  main { max-width: 860px; margin: 0 auto; padding: 22px 18px 80px; }
+  .pane { display: none; scroll-margin-top: 200px; } .pane.active { display: block; }
   .eyebrow { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); }
-  h1 { font-size: clamp(1.5rem, 4.5vw, 2.1rem); font-weight: 700; margin: 6px 0 10px; }
+  h1 { font-size: clamp(1.3rem, 4vw, 1.7rem); font-weight: 700; margin: 4px 0 0; }
   .lead { color: var(--muted); font-size: 15px; max-width: 640px; }
   .fare { display: flex; gap: 10px; margin: 18px 0 6px; flex-wrap: wrap; }
   .fare div { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
   .fare b { display: block; font-size: 20px; color: var(--accent); }
   .fare span { font-size: 12px; color: var(--muted); }
 
-  .controls { position: sticky; top: 0; background: var(--bg); padding: 12px 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .controls { padding: 16px 0 10px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
   .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; background: var(--card); }
   .seg button { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 14px; padding: 8px 14px; cursor: pointer; }
   .seg button.on { background: var(--accent); color: var(--bg); font-weight: 500; }
@@ -86,48 +93,83 @@
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
+<header class="top">
+  <div class="hwrap">
     <div class="eyebrow">Transport · Kereta Api</div>
-    <h1 id="title">Kereta tarif khusus Yogyakarta ⇄ Solo Balapan</h1>
-    <p class="lead" id="leadSmg" hidden>Satu baris untuk satu perjalanan Yogyakarta ⇄ Semarang: KA Pandawa (langsung, mulai 1 Des 2026) atau kombinasi KA tarif khusus / KRL ke Solo lalu KA ke Semarang, diurutkan menurut jam berangkat.</p>
-    <p class="lead" id="lead">Jadwal KA jarak jauh bertarif khusus (go show) dan KRL Commuter Line di rute Yogyakarta–Solo Balapan dalam satu daftar: kalau KA khusus sudah lewat, alternatif KRL langsung terlihat di bawahnya. Arah Solo → Yogya dilengkapi rekomendasi KA Bandara ke Bandara YIA (NYIA).</p>
+    <h1>Jadwal Kereta dari Yogyakarta</h1>
+    <nav class="tabs">
+      <button class="tab" data-tab="solo">Yogya ⇄ Solo</button>
+      <button class="tab" data-tab="semarang">Yogya ⇄ Semarang</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="pane" id="solo">
+    <p class="lead">KA jarak jauh bertarif khusus (go show) dan KRL Commuter Line Yogyakarta–Solo Balapan dalam satu daftar: kalau KA khusus sudah lewat, alternatif KRL langsung terlihat di bawahnya. Arah Solo → Yogya dilengkapi rekomendasi KA Bandara ke Bandara YIA (NYIA).</p>
     <div class="fare">
       <div><b>Rp65.000</b><span>KA khusus · Eksekutif</span></div>
       <div><b>Rp55.000</b><span>KA khusus · Ekonomi</span></div>
       <div class="krl"><b>Rp8.000</b><span>KRL sekali jalan</span></div>
     </div>
-  </header>
-
-  <div class="controls">
-    <div class="seg" role="group" aria-label="Rute">
-      <button data-route="slo" class="on">Yogya ⇄ Solo</button>
-      <button data-route="smg">Yogya ⇄ Semarang</button>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Arah">
+        <button data-p="slo" data-dir="ys">Yogya → Solo</button>
+        <button data-p="slo" data-dir="sy">Solo → Yogya</button>
+      </div>
+      <div class="seg" role="group" aria-label="Versi jadwal">
+        <button data-g="2026">Mulai 1 Des 2026</button>
+        <button data-g="2025">s.d. 30 Nov 2026</button>
+      </div>
     </div>
-    <div class="seg" role="group" aria-label="Arah">
-      <button data-dir="ys" class="on">Yogya → Solo</button>
-      <button data-dir="sy">Solo → Yogya</button>
+    <div class="notice" id="noticeSlo"></div>
+    <div class="legend"><span><b>Baris utama</b> = KA tarif khusus</span><span><span class="krltag">KRL</span>baris menjorok = alternatif KRL sebelum KA berikutnya</span></div>
+    <table>
+      <thead id="theadSlo"></thead>
+      <tbody id="rowsSlo"></tbody>
+    </table>
+    <div class="notes">
+      <h2>Catatan</h2>
+      <ul>
+      <li>Semua kereta di daftar ini berangkat/tiba di <b>Stasiun Yogyakarta (Tugu)</b>, kecuali Batavia di jadwal lama (tiba di Purwosari / Lempuyangan).</li>
+      <li><b>Fajar Utama Solo</b> hanya arah Yogya → Solo; <b>Senja Utama Solo</b> hanya arah Solo → Yogya.</li>
+      <li><b>KA tarif khusus</b>: tiket lewat Access by KAI atau loket, mulai 2 jam sebelum berangkat, selama kursi masih ada.</li>
+      <li><b>KRL</b> berangkat/tiba di Stasiun Yogyakarta (Tugu) dan lanjut sampai Palur (lewat Solo Balapan &amp; Solo Jebres). Bayar dengan kartu uang elektronik atau QRIS di gerbang.</li>
+      <li><b>KA Bandara YIA</b> berangkat dari Stasiun Yogyakarta (Tugu), ±35–39 menit ke Bandara YIA. Rekomendasi memakai jeda pindah minimal 15 menit (35 menit bila tiba di Lempuyangan) dan tidak memakai KA Bandara fakultatif. Untuk penerbangan, sisakan waktu check-in di bandara.</li>
+      <li>Jadwal KA Bandara di halaman ini adalah GAPEKA 2025. Papan stasiun Tugu berlabel GAPEKA 2026 menampilkan jam yang sama, tapi jadwal 2026 lengkapnya belum terkonfirmasi.</li>
+      <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari.</li>
+      <li>Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
+      <li>Sumber jadwal: <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-solo">168Railway</a> , <a href="https://168railway.com/gapeka-2026/krl/yogyakarta">KRL 2026</a>, <a href="https://168railway.com/jadwal-kereta-api/commuter-line-yogyakarta">KRL 2025</a>, <a href="https://168railway.com/jadwal-kereta-api/bandara-yia">KA Bandara YIA</a> (disusun dari daftar waktu GAPEKA resmi; bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
+    </ul>
     </div>
-    <div class="seg" role="group" aria-label="Versi jadwal">
-      <button data-g="2026" class="on">Mulai 1 Des 2026</button>
-      <button data-g="2025">s.d. 30 Nov 2026</button>
+  </section>
+
+  <section class="pane" id="semarang">
+    <p class="lead">Satu baris untuk satu perjalanan Yogyakarta ⇄ Semarang: KA Pandawa (langsung, mulai 1 Des 2026) atau kombinasi KA tarif khusus / KRL ke Solo lalu KA ke Semarang, diurutkan menurut jam berangkat.</p>
+    <div class="fare">
+      <div><b>±Rp110.000</b><span>KA Pandawa · Eksekutif</span></div>
+      <div><b>Rp55–65 rb</b><span>KA khusus Yogya ⇄ Solo</span></div>
+      <div class="krl"><b>Rp8.000</b><span>KRL Yogya ⇄ Solo</span></div>
     </div>
-  </div>
-
-  <div class="notice" id="notice"></div>
-  <div class="legend" id="legendSmg" hidden><span><span class="tag" style="margin-left:0">langsung</span> tanpa ganti kereta</span><span>A → B = naik A, pindah di Solo, lalu naik B</span><span><span class="krltag">KRL</span>bagian perjalanan pakai KRL</span></div>
-  <div class="legend" id="legend"><span><b>Baris utama</b> = KA tarif khusus</span><span><span class="krltag">KRL</span>baris menjorok = alternatif KRL sebelum KA berikutnya</span></div>
-
-  <table>
-    <thead id="thead">
-      <tr><th>Kereta</th><th class="hide">No. KA</th><th id="hDep">Berangkat</th><th id="hArr">Tiba</th><th id="hYia" hidden>KA Bandara YIA</th></tr>
-    </thead>
-    <tbody id="rows"></tbody>
-  </table>
-
-  <div class="notes">
-    <h2>Catatan</h2>
-    <ul id="notesSmg" hidden>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Arah">
+        <button data-p="smg" data-dir="ys">Yogya → Semarang</button>
+        <button data-p="smg" data-dir="sy">Semarang → Yogya</button>
+      </div>
+      <div class="seg" role="group" aria-label="Versi jadwal">
+        <button data-g="2026">Mulai 1 Des 2026</button>
+        <button data-g="2025">s.d. 30 Nov 2026</button>
+      </div>
+    </div>
+    <div class="notice" id="noticeSmg"></div>
+    <div class="legend"><span><span class="tag" style="margin-left:0">langsung</span> tanpa ganti kereta</span><span>A → B = naik A, pindah di Solo, lalu naik B</span><span><span class="krltag">KRL</span>bagian perjalanan pakai KRL</span></div>
+    <table>
+      <thead id="theadSmg"></thead>
+      <tbody id="rowsSmg"></tbody>
+    </table>
+    <div class="notes">
+      <h2>Catatan</h2>
+      <ul>
       <li><b>KA Pandawa</b> (eksekutif, mulai ±Rp110.000) baru jalan mulai 1 Desember 2026: Yogyakarta ⇄ Solo Balapan ⇄ Semarang Tawang. Di daftar waktu GAPEKA nomor KA-nya berganti di Solo Balapan (mis. 282 → 281), tapi menurut KAI penumpang tidak perlu transit. Satu berita menyebut relasi ini berstatus fakultatif, jadi cek ketersediaan di Access by KAI.</li>
       <li>Pandawa tidak berhenti di Lempuyangan. KA 342 juga berhenti di Klaten.</li>
       <li>Sambungan dari Yogya memakai KA tarif khusus (dari Stasiun Yogyakarta/Tugu) atau KRL. <b>KRL juga berhenti di Lempuyangan</b>, beberapa menit setelah Tugu (arah Solo) atau sebelum Tugu (arah Yogya).</li>
@@ -139,19 +181,9 @@
       <li>Tiket KA Solo ⇄ Semarang dibeli terpisah (Access by KAI), bukan tarif khusus.</li>
       <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/solo-semarang">Solo–Semarang 2026</a>, <a href="https://168railway.com/gapeka-2026/relasi/semarang-solo">Semarang–Solo 2026</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/solo-ke-semarang">Solo–Semarang 2025</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/semarang-ke-solo">Semarang–Solo 2025</a>, <a href="https://168railway.com/gapeka-2026/ka/282-pandawa">KA Pandawa</a>, <a href="https://money.kompas.com/read/2026/11/05/080654326/ka-pandawa-yogyakarta-semarang-pp-beroperasi-1-desember-2026-cek-jadwalnya">Kompas</a> (bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
     </ul>
-    <ul id="notesSlo">
-      <li>Semua kereta di daftar ini berangkat/tiba di <b>Stasiun Yogyakarta (Tugu)</b>, kecuali Batavia di jadwal lama (tiba di Purwosari / Lempuyangan).</li>
-      <li><b>Fajar Utama Solo</b> hanya arah Yogya → Solo; <b>Senja Utama Solo</b> hanya arah Solo → Yogya.</li>
-      <li><b>KA tarif khusus</b>: tiket lewat Access by KAI atau loket, mulai 2 jam sebelum berangkat, selama kursi masih ada.</li>
-      <li><b>KRL</b> berangkat/tiba di Stasiun Yogyakarta (Tugu) dan lanjut sampai Palur (lewat Solo Balapan &amp; Solo Jebres). Bayar dengan kartu uang elektronik atau QRIS di gerbang.</li>
-      <li><b>KA Bandara YIA</b> berangkat dari Stasiun Yogyakarta (Tugu), ±35–39 menit ke Bandara YIA. Rekomendasi memakai jeda pindah minimal 15 menit (35 menit bila tiba di Lempuyangan) dan tidak memakai KA Bandara fakultatif. Untuk penerbangan, sisakan waktu check-in di bandara.</li>
-      <li>Jadwal KA Bandara di halaman ini adalah GAPEKA 2025. Papan stasiun Tugu berlabel GAPEKA 2026 menampilkan jam yang sama, tapi jadwal 2026 lengkapnya belum terkonfirmasi.</li>
-      <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari.</li>
-      <li>Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
-      <li>Sumber jadwal: <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-solo">168Railway</a> , <a href="https://168railway.com/gapeka-2026/krl/yogyakarta">KRL 2026</a>, <a href="https://168railway.com/jadwal-kereta-api/commuter-line-yogyakarta">KRL 2025</a>, <a href="https://168railway.com/jadwal-kereta-api/bandara-yia">KA Bandara YIA</a> (disusun dari daftar waktu GAPEKA resmi; bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
-    </ul>
-  </div>
-</div>
+    </div>
+  </section>
+</main>
 
 <script>
 // [nama, noKA, berangkat, tiba, catatan, fakultatif]
@@ -360,19 +392,22 @@ const PANDAWA = {
 const ST = {SLO: "Solo Balapan", SK: "Solo Jebres", SMT: "Semarang Tawang", SMC: "Semarang Poncol", YK: "Yogyakarta"};
 
 
-// Default ke jadwal yang berlaku hari ini (WIB)
+
 // Date yang jam/tanggal lokalnya = waktu WIB (UTC+7)
 function nowWIB() {
   return new Date(Date.now() + (new Date().getTimezoneOffset() + 420) * 60000);
 }
 const now = nowWIB();
+// default ke jadwal yang berlaku hari ini
 let g = now >= new Date(2026, 11, 1) ? "2026" : "2025";
-let dir = "ys";
-let route = "slo";
+let dirSlo = "ys", dirSmg = "ys";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const mins = t => { const [h, m] = t.split(".").map(Number); return h * 60 + m; };
+const noticeG = () => g === "2026"
+  ? "Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026."
+  : "Jadwal GAPEKA 2025, berlaku sampai 30 November 2026.";
 
 // Rekomendasi KA Bandara YIA pertama yang masih terkejar setelah tiba di Yogyakarta
 function yiaCell(arr, lpn) {
@@ -386,6 +421,7 @@ function yiaCell(arr, lpn) {
   return `<span class="t dep">${pick[1]}</span>${besok ? '<span class="tag">besok</span>' : ""}
     <span class="note">KA ${pick[0]} · tiba YIA ${pick[2]} · tunggu ${waitTxt}${lpn ? " · pindah dari Lempuyangan" : ""}</span>`;
 }
+
 
 
 // menit dalam "hari operasi" yang dimulai jam 04.00, supaya lewat tengah malam tetap urut
@@ -408,19 +444,19 @@ function legOptions(d) {
 }
 
 function renderSmg() {
-  const toYk = dir === "sy";
-  const opts = legOptions(dir);
+  const toYk = dirSmg === "sy";
+  const opts = legOptions(dirSmg);
   const trips = [];
 
   // 1) KA Pandawa: langsung Yogyakarta ⇄ Semarang Tawang (nomor KA berganti di Solo Balapan)
-  (PANDAWA[g] ? PANDAWA[g][dir] : []).forEach(([no1, no2, dep, arrSlo, depSlo, arr, note]) => {
+  (PANDAWA[g] ? PANDAWA[g][dirSmg] : []).forEach(([no1, no2, dep, arrSlo, depSlo, arr, note]) => {
     trips.push({dep, depSt: toYk ? "SMT" : "YK", arr, arrSt: toYk ? "YK" : "SMT", direct: true,
       route: `<b>Pandawa</b> <span class="tag">langsung</span>`,
       detail: `KA ${no1}/${no2} · singgah Solo Balapan ${arrSlo}–${depSlo}${note ? " · " + note : ""}`});
   });
 
   // 2) Sambungan: KA khusus / KRL Yogya ⇄ Solo + KA Solo ⇄ Semarang
-  SMG[g][dir].forEach(([name, no, dep, st1, arr, st2, note, fak]) => {
+  SMG[g][dirSmg].forEach(([name, no, dep, st1, arr, st2, note, fak]) => {
     if (PANDAWA[g] && name === "Pandawa") return; // sudah ada sebagai perjalanan langsung
     const solo = toYk ? st2 : st1;
     ["ka", "krl"].forEach(kind => {
@@ -461,7 +497,7 @@ function renderSmg() {
   trips.forEach((t, i) => { const diff = (mins(t.dep) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
 
   const tt = (t, st, approx) => `${approx ? "≈" : ""}${t} <span class="st">${st}</span>`;
-  $("#rows").innerHTML = trips.length ? trips.map((t, i) => {
+  $("#rowsSmg").innerHTML = trips.length ? trips.map((t, i) => {
     const over = mins(t.arr) < mins(t.dep) ? ' <span class="note">+1 hari</span>' : "";
     const cls = [t.direct && "direct", t.krl && "krlrow", i === nextIdx && "next"].filter(Boolean).join(" ");
     return `<tr${cls ? ` class="${cls}"` : ""}>
@@ -474,54 +510,28 @@ function renderSmg() {
   }).join("") : '<tr><td colspan="5">Tidak ada perjalanan.</td></tr>';
 }
 
-function render() {
-  document.querySelectorAll("[data-dir]").forEach(b => b.classList.toggle("on", b.dataset.dir === dir));
-  document.querySelectorAll("[data-g]").forEach(b => b.classList.toggle("on", b.dataset.g === g));
-  document.querySelectorAll("[data-route]").forEach(b => b.classList.toggle("on", b.dataset.route === route));
-  const smg = route === "smg";
-  const city = smg ? "Semarang" : "Solo";
-  $("[data-dir=ys]").textContent = `Yogya → ${city}`;
-  $("[data-dir=sy]").textContent = `${city} → Yogya`;
-  $("#title").textContent = smg ? "Kereta Yogyakarta ⇄ Semarang (via Solo)" : "Kereta tarif khusus Yogyakarta ⇄ Solo Balapan";
-  document.title = $("#title").textContent;
-  $("#lead").hidden = smg; $("#leadSmg").hidden = !smg;
-  $("#legend").hidden = smg; $("#legendSmg").hidden = !smg;
-  $("#notesSlo").hidden = smg; $("#notesSmg").hidden = !smg;
-  if (smg) {
-    const toYk = dir === "sy";
-    $("#thead").innerHTML = `<tr><th>Berangkat ${toYk ? "Semarang" : "Yogya"}</th><th>Tiba ${toYk ? "Yogya" : "Semarang"}</th><th>Total</th><th>Naik</th>${toYk ? "<th>KA Bandara YIA</th>" : ""}</tr>`;
-    $("#notice").textContent = (g === "2026"
-      ? "Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026. "
-      : "Jadwal GAPEKA 2025, berlaku sampai 30 November 2026. ")
-      + (g === "2026" ? "KA Pandawa melayani Yogyakarta ⇄ Semarang Tawang langsung. Selain itu bisa pindah kereta di Solo." : "Di jadwal ini belum ada KA langsung Yogyakarta–Semarang, jadi semua perjalanan pindah kereta di Solo.");
-    renderSmg();
-    return;
-  }
-  $("#thead").innerHTML = `<tr><th>Kereta</th><th class="hide">No. KA</th><th id="hDep">Berangkat</th><th id="hArr">Tiba</th><th id="hYia" hidden>KA Bandara YIA</th></tr>`;
-  const toYk = dir === "sy";
-  $("#hDep").textContent = toYk ? "Berangkat SLO" : "Berangkat YK";
-  $("#hArr").textContent = toYk ? "Tiba YK" : "Tiba SLO";
-  $("#hYia").hidden = !toYk;
-  let notice = g === "2026"
-    ? "Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026."
-    : "Jadwal GAPEKA 2025, berlaku sampai 30 November 2026.";
+
+function renderSlo() {
+  const toYk = dirSlo === "sy";
+  $("#theadSlo").innerHTML = `<tr><th>Kereta</th><th class="hide">No. KA</th><th>${toYk ? "Berangkat SLO" : "Berangkat YK"}</th><th>${toYk ? "Tiba YK" : "Tiba SLO"}</th>${toYk ? "<th>KA Bandara YIA</th>" : ""}</tr>`;
+  let notice = noticeG();
   if (g === "2025") notice += " Jam singgah KRL di Solo Balapan untuk jadwal ini tidak tersedia di sumber.";
   if (toYk) notice += ` Kolom KA Bandara YIA: kereta pertama dari Stasiun Yogyakarta (Tugu) dengan jeda pindah minimal ${BUF_TUGU} menit.`;
-  $("#notice").textContent = notice;
+  $("#noticeSlo").textContent = notice;
 
   // waktu acuan: jam berangkat, atau perkiraan dari Palur bila jam SLO tak ada
   const ref = r => r.dep ? mins(r.dep) : mins(r.pl) + 13;
   // gabung KA khusus + KRL, urut jam berangkat (hari operasi dihitung mulai 04.00)
   const rows = [
-    ...DATA[g][dir].map(([name, no, dep, arr, note, fak]) => ({name, no, dep, arr, note, fak})),
-    ...KRL[g][dir].map(r => ({...r, krl: true}))
+    ...DATA[g][dirSlo].map(([name, no, dep, arr, note, fak]) => ({name, no, dep, arr, note, fak})),
+    ...KRL[g][dirSlo].map(r => ({...r, krl: true}))
   ].sort((a, b) => (ref(a) - 240 + 1440) % 1440 - (ref(b) - 240 + 1440) % 1440);
 
   const cur = now.getHours() * 60 + now.getMinutes();
   let nextIdx = -1, best = Infinity;
   rows.forEach((r, i) => { const diff = (ref(r) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
 
-  $("#rows").innerHTML = rows.map((r, i) => {
+  $("#rowsSlo").innerHTML = rows.map((r, i) => {
     const overnight = r.dep && r.arr && mins(r.arr) < mins(r.dep) ? ' <span class="note">+1 hari</span>' : "";
     const lpn = r.note && /Lempuyangan/.test(r.note);
     const cls = [r.krl && "krl", i === nextIdx && "next"].filter(Boolean).join(" ");
@@ -535,10 +545,44 @@ function render() {
   }).join("");
 }
 
-document.querySelectorAll("[data-dir]").forEach(b => b.onclick = () => { dir = b.dataset.dir; render(); });
+function renderSmgPane() {
+  const toYk = dirSmg === "sy";
+  $("#theadSmg").innerHTML = `<tr><th>Berangkat ${toYk ? "Semarang" : "Yogya"}</th><th>Tiba ${toYk ? "Yogya" : "Semarang"}</th><th>Total</th><th>Naik</th>${toYk ? "<th>KA Bandara YIA</th>" : ""}</tr>`;
+  $("#noticeSmg").textContent = noticeG() + " " + (g === "2026"
+    ? "KA Pandawa melayani Yogyakarta ⇄ Semarang Tawang langsung. Selain itu bisa pindah kereta di Solo."
+    : "Di jadwal ini belum ada KA langsung Yogyakarta–Semarang, jadi semua perjalanan pindah kereta di Solo.");
+  renderSmg();
+}
+
+function render() {
+  document.querySelectorAll("[data-g]").forEach(b => b.classList.toggle("on", b.dataset.g === g));
+  document.querySelectorAll("[data-p=slo]").forEach(b => b.classList.toggle("on", b.dataset.dir === dirSlo));
+  document.querySelectorAll("[data-p=smg]").forEach(b => b.classList.toggle("on", b.dataset.dir === dirSmg));
+  renderSlo();
+  renderSmgPane();
+}
+
+// tab rute (ikut tersimpan di URL: #solo / #semarang)
+const tabs = [...document.querySelectorAll(".tab")], panes = [...document.querySelectorAll(".pane")];
+function show(k) {
+  if (!document.getElementById(k)) k = tabs[0].dataset.tab;
+  tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === k));
+  panes.forEach(p => p.classList.toggle("active", p.id === k));
+  history.replaceState(null, "", "#" + k);
+  document.title = `Kereta ${k === "semarang" ? "Yogyakarta ⇄ Semarang" : "Yogyakarta ⇄ Solo"}`;
+}
+tabs.forEach(t => t.onclick = () => { show(t.dataset.tab); window.scrollTo(0, 0); });
+
+document.querySelectorAll("[data-p]").forEach(b => b.onclick = () => {
+  if (b.dataset.p === "slo") dirSlo = b.dataset.dir; else dirSmg = b.dataset.dir;
+  render();
+});
 document.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { g = b.dataset.g; render(); });
-document.querySelectorAll("[data-route]").forEach(b => b.onclick = () => { route = b.dataset.route; render(); });
+show(location.hash.slice(1));
 render();
+// jangan biarkan browser menggulir ke #solo/#semarang (tertutup header)
+window.addEventListener("load", () => window.scrollTo(0, 0));
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 </script>
 </body>
 </html>
