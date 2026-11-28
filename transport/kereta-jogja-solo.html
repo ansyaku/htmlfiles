@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kereta Tarif Khusus Yogyakarta ⇄ Solo Balapan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f0;
+    --card: #fffcf7;
+    --border: rgba(120, 90, 50, 0.16);
+    --accent: #9a5b13;
+    --accent-soft: rgba(154, 91, 19, 0.10);
+    --text: #2f261b;
+    --muted: #7c6a52;
+    --dim: #a8967c;
+    --warn: #8a3b12;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1612; --card: #231e18; --border: rgba(230, 200, 150, 0.14);
+      --accent: #e0a35a; --accent-soft: rgba(224, 163, 90, 0.12);
+      --text: #efe6d8; --muted: #b9a68a; --dim: #857660; --warn: #f0a070;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; line-height: 1.5; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 40px 18px 80px; }
+  header { margin-bottom: 24px; }
+  .eyebrow { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); }
+  h1 { font-size: clamp(1.5rem, 4.5vw, 2.1rem); font-weight: 700; margin: 6px 0 10px; }
+  .lead { color: var(--muted); font-size: 15px; max-width: 640px; }
+  .fare { display: flex; gap: 10px; margin: 18px 0 6px; flex-wrap: wrap; }
+  .fare div { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+  .fare b { display: block; font-size: 20px; color: var(--accent); }
+  .fare span { font-size: 12px; color: var(--muted); }
+
+  .controls { position: sticky; top: 0; background: var(--bg); padding: 12px 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; background: var(--card); }
+  .seg button { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 14px; padding: 8px 14px; cursor: pointer; }
+  .seg button.on { background: var(--accent); color: var(--bg); font-weight: 500; }
+  .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+  .notice { font-size: 13px; color: var(--warn); background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin: 4px 0 14px; }
+
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 14.5px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); font-weight: 500; }
+  tr:last-child td { border-bottom: 0; }
+  td.t { font-family: 'DM Mono', monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.t.dep { font-weight: 500; color: var(--accent); }
+  td.no { color: var(--dim); font-family: 'DM Mono', monospace; font-size: 13px; }
+  .tag { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); margin-left: 6px; vertical-align: 1px; }
+  .note { display: block; font-size: 12px; color: var(--muted); }
+  tr.next td { background: var(--accent-soft); }
+
+  .notes { margin-top: 28px; font-size: 14px; color: var(--muted); }
+  .notes h2 { font-size: 15px; color: var(--text); margin-bottom: 8px; }
+  .notes li { margin: 0 0 6px 18px; }
+  .notes a { color: var(--accent); }
+  @media (max-width: 560px) {
+    th.hide, td.hide { display: none; }
+    th, td { padding: 9px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Transport · Kereta Api</div>
+    <h1>Kereta tarif khusus Yogyakarta ⇄ Solo Balapan</h1>
+    <p class="lead">Jadwal 15 KA jarak jauh yang punya tarif khusus (go show) di rute Yogyakarta–Solo Balapan. Tiket dibeli lewat Access by KAI atau loket, mulai 2 jam sebelum berangkat, selama kursi masih ada.</p>
+    <div class="fare">
+      <div><b>Rp65.000</b><span>Eksekutif</span></div>
+      <div><b>Rp55.000</b><span>Ekonomi</span></div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Arah">
+      <button data-dir="ys" class="on">Yogya → Solo</button>
+      <button data-dir="sy">Solo → Yogya</button>
+    </div>
+    <div class="seg" role="group" aria-label="Versi jadwal">
+      <button data-g="2026" class="on">Mulai 1 Des 2026</button>
+      <button data-g="2025">s.d. 30 Nov 2026</button>
+    </div>
+  </div>
+
+  <div class="notice" id="notice"></div>
+
+  <table>
+    <thead>
+      <tr><th>Kereta</th><th class="hide">No. KA</th><th id="hDep">Berangkat</th><th id="hArr">Tiba</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <div class="notes">
+    <h2>Catatan</h2>
+    <ul>
+      <li>Semua kereta di daftar ini berangkat/tiba di <b>Stasiun Yogyakarta (Tugu)</b>, kecuali Batavia di jadwal lama (tiba di Purwosari / Lempuyangan).</li>
+      <li><b>Fajar Utama Solo</b> hanya arah Yogya → Solo; <b>Senja Utama Solo</b> hanya arah Solo → Yogya.</li>
+      <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari.</li>
+      <li>Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
+      <li>Sumber jadwal: <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-solo">168Railway</a> (disusun dari daftar waktu GAPEKA resmi; bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+// [nama, noKA, berangkat, tiba, catatan, fakultatif]
+const DATA = {
+  "2026": {
+    ys: [
+      ["Madiun Jaya","182","04.01","04.42"],
+      ["Mataram","186","05.21","06.13"],
+      ["Manahan","62","05.45","06.33"],
+      ["Sancaka","110","06.35","07.19"],
+      ["Malioboro Ekspres","190","10.35","11.25"],
+      ["Sancaka","112","11.20","12.04"],
+      ["Fajar Utama Solo","184","12.59","13.50"],
+      ["Lodaya","106","13.12","14.03"],
+      ["Argo Dwipangga","16","14.40","15.27"],
+      ["Sancaka","114","17.00","17.46"],
+      ["Batavia","126","17.09","18.01"],
+      ["Manahan","60","17.36","18.26"],
+      ["Wijayakusuma","172","18.30","19.19"],
+      ["Sancaka Utara","218F","20.11","21.01","",true],
+      ["Kertanegara","188","21.24","22.14"],
+      ["Sancaka","116F","22.15","23.01","",true],
+      ["Lodaya","108","02.09","03.00"],
+      ["Argo Lawu","14","02.53","03.42"],
+      ["Mutiara Selatan","96","03.15","03.56"]
+    ],
+    sy: [
+      ["Lodaya","105","07.10","07.56"],
+      ["Argo Lawu","13","08.20","09.05"],
+      ["Madiun Jaya","181","09.23","10.05"],
+      ["Sancaka","109","09.58","10.47"],
+      ["Manahan","59","10.10","10.55"],
+      ["Mataram","185","10.40","11.29"],
+      ["Sancaka Utara","217F","11.22","12.29","",true],
+      ["Kertanegara","187","13.51","14.42"],
+      ["Sancaka","111","14.17","15.07"],
+      ["Senja Utama Solo","183","18.05","18.54"],
+      ["Lodaya","107","19.20","20.06"],
+      ["Sancaka","113","19.34","20.23"],
+      ["Argo Dwipangga","15","20.25","21.10"],
+      ["Wijayakusuma","171","21.02","22.07"],
+      ["Mutiara Selatan","95","21.15","21.58"],
+      ["Batavia","125","22.05","23.05"],
+      ["Manahan","61","22.35","23.21"],
+      ["Malioboro Ekspres","189","23.51","00.41"],
+      ["Sancaka","115F","01.08","01.59","",true]
+    ]
+  },
+  "2025": {
+    ys: [
+      ["Madiun Jaya","144B","04.10","04.50"],
+      ["Mataram","76B","04.40","05.31"],
+      ["Manahan","64B","05.44","06.31"],
+      ["Sancaka","84B","06.45","07.30"],
+      ["Malioboro Ekspres","170B","10.50","11.40"],
+      ["Sancaka","82B","11.30","12.14"],
+      ["Fajar Utama Solo","74B","12.37","13.25"],
+      ["Lodaya","78D","13.20","14.07"],
+      ["Argo Dwipangga","16","14.56","15.45"],
+      ["Sancaka","86B","17.00","17.46"],
+      ["Batavia","PLB 7006","17.07","17.55","Tiba di Purwosari"],
+      ["Manahan","62B","17.28","18.18"],
+      ["Wijayakusuma","158","18.31","19.24"],
+      ["Sancaka Utara","236F","20.44","21.37"],
+      ["Kertanegara","168D","21.10","22.12"],
+      ["Sancaka","88B","22.25","23.11"],
+      ["Lodaya","80B","01.54","02.47"],
+      ["Mutiara Selatan","72","02.40","03.21"],
+      ["Argo Lawu","14","02.52","03.40"]
+    ],
+    sy: [
+      ["Lodaya","77D","07.15","08.01"],
+      ["Argo Lawu","13","08.30","09.15"],
+      ["Mataram","75B","08.40","09.29"],
+      ["Madiun Jaya","143B","09.18","10.00"],
+      ["Manahan","61B","09.50","10.35"],
+      ["Sancaka","81B","10.12","11.02"],
+      ["Sancaka Utara","235F","12.00","13.01"],
+      ["Kertanegara","167B","13.46","14.32"],
+      ["Sancaka","85B","14.27","15.17"],
+      ["Senja Utama Solo","73B","18.55","19.42"],
+      ["Lodaya","79B","19.10","19.57"],
+      ["Sancaka","83B","19.50","20.38"],
+      ["Argo Dwipangga","15","20.35","21.20"],
+      ["Wijayakusuma","157","21.19","22.20"],
+      ["Mutiara Selatan","71","21.30","22.11"],
+      ["Batavia","PLB 7005","22.00","22.47","Tiba di Lempuyangan"],
+      ["Manahan","63B","22.35","23.22"],
+      ["Malioboro Ekspres","169B","00.42","01.33"],
+      ["Sancaka","87B","01.13","02.04"]
+    ]
+  }
+};
+
+// Default ke jadwal yang berlaku hari ini (WIB)
+// Date yang jam/tanggal lokalnya = waktu WIB (UTC+7)
+function nowWIB() {
+  return new Date(Date.now() + (new Date().getTimezoneOffset() + 420) * 60000);
+}
+const now = nowWIB();
+let g = now >= new Date(2026, 11, 1) ? "2026" : "2025";
+let dir = "ys";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mins = t => { const [h, m] = t.split(".").map(Number); return h * 60 + m; };
+
+function render() {
+  document.querySelectorAll("[data-dir]").forEach(b => b.classList.toggle("on", b.dataset.dir === dir));
+  document.querySelectorAll("[data-g]").forEach(b => b.classList.toggle("on", b.dataset.g === g));
+  $("#hDep").textContent = dir === "ys" ? "Berangkat YK" : "Berangkat SLO";
+  $("#hArr").textContent = dir === "ys" ? "Tiba SLO" : "Tiba YK";
+  $("#notice").textContent = g === "2026"
+    ? "Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026."
+    : "Jadwal GAPEKA 2025, berlaku sampai 30 November 2026.";
+
+  const rows = DATA[g][dir];
+  const cur = now.getHours() * 60 + now.getMinutes();
+  // kereta berikutnya: jam berangkat terdekat setelah sekarang (lewat tengah malam ikut dihitung)
+  let nextIdx = -1, best = Infinity;
+  rows.forEach((r, i) => { const diff = (mins(r[2]) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
+
+  $("#rows").innerHTML = rows.map((r, i) => {
+    const [name, no, dep, arr, note, fak] = r;
+    const overnight = mins(arr) < mins(dep) ? ' <span class="note">+1 hari</span>' : "";
+    return `<tr${i === nextIdx ? ' class="next"' : ""}>
+      <td>${esc(name)}${fak ? '<span class="tag">fakultatif</span>' : ""}${note ? `<span class="note">${esc(note)}</span>` : ""}</td>
+      <td class="no hide">${esc(no)}</td>
+      <td class="t dep">${dep}</td>
+      <td class="t">${arr}${overnight}</td>
+    </tr>`;
+  }).join("");
+}
+
+document.querySelectorAll("[data-dir]").forEach(b => b.onclick = () => { dir = b.dataset.dir; render(); });
+document.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { g = b.dataset.g; render(); });
+render();
+</script>
+</body>
+</html>
