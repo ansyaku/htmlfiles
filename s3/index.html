@@ -1,6 +1,6 @@
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Persiapan S3 — The Ansyaku's Atelier</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"><style>:root{--navy:#0f1f4b;--royal:#1a3a8c;--blue:#2451b3;--sky:#4a80d4;--ice:#eef3fc;--paper:#ffffff;--gold:#c9a84c;--gold-l:#e8d08a;--fg:#0d1b3e;--muted:#5a6f99;--line:#dfe6f3;--soft:#f4f7fd;--accent:#1a3a8c;--code:#eef2fa;--bg:#ffffff}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0;background:var(--ice);color:var(--fg);font:15.5px/1.7 'DM Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 /* hero */
 .hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#0a1535 0%,#0f2060 45%,#1a3a8c 100%);color:#fff;padding:46px 32px 40px;text-align:center}
@@ -16,7 +16,7 @@ body{margin:0;background:var(--ice);color:var(--fg);font:15.5px/1.7 'DM Sans',-a
 /* tabs */
 header{position:sticky;top:0;z-index:20;background:rgba(15,31,75,.96);backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(13,27,62,.18)}
 .tabs{max-width:1180px;margin:0 auto;padding:10px 24px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
-.tab{border:1px solid transparent;background:transparent;color:#c9d6f2;font:inherit;font-size:14px;font-weight:500;padding:7px 16px;border-radius:999px;cursor:pointer;transition:.18s}
+.tab{white-space:nowrap;flex:0 0 auto;border:1px solid transparent;background:transparent;color:#c9d6f2;font:inherit;font-size:14px;font-weight:500;padding:7px 16px;border-radius:999px;cursor:pointer;transition:.18s}
 .tab:hover{color:#fff;background:rgba(255,255,255,.08)}
 .tab.active{background:var(--gold);color:var(--navy);font-weight:600;box-shadow:0 2px 10px rgba(201,168,76,.35)}
 /* content */
@@ -76,8 +76,48 @@ tr.main td{border-bottom:0}
 .idtoggle.on{background:#c8102e;border-color:#c8102e;color:#fff}
 .hid{color:transparent;font-size:1px;user-select:none}
 footer{text-align:center;color:var(--muted);font-size:12.5px;padding:26px 16px 40px;border-top:1px solid var(--line);background:var(--paper)}
-@media (max-width:800px){.hero{padding:38px 18px 30px}.back{position:static;display:inline-block;margin-bottom:10px}main{padding:18px 14px 70px}h2{font-size:28px}.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}}
+
 @media print{header{position:static}.pane,.subpane{display:block!important}table{max-height:none}}
+
+/* ---------- mobile ---------- */
+@media (max-width:700px){
+ body{font-size:15px}
+ .hero{padding:26px 16px 22px}
+ .back{position:static;display:inline-block;margin-bottom:6px;font-size:12.5px}
+ .eyebrow{font-size:10px;letter-spacing:.18em;margin-bottom:6px}
+ .title{font-size:30px}
+ .lede{font-size:14px}
+ .sub{display:none}
+ .tabs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:4px;padding:8px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .tabs::-webkit-scrollbar{display:none}
+ .tab{font-size:13.5px;padding:6px 13px}
+ main{padding:16px 12px 70px}
+ .pane>*{max-width:100%!important}
+ h2{font-size:26px;margin:18px 0 10px}
+ h3{font-size:21px;margin:24px 0 8px}
+ h4{font-size:15px;padding:8px 12px}
+ .tbar input{min-width:0;width:100%;flex:1 1 100%}
+ .subtabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+ .subtabs::-webkit-scrollbar{display:none}
+ .subtab{white-space:nowrap;flex:0 0 auto}
+ /* tables become cards */
+ table{display:block;max-height:none;overflow:visible;border:0;background:transparent;box-shadow:none;border-radius:0;margin:8px 0 18px}
+ thead{display:none}
+ tbody{display:block}
+ tbody tr{display:block;background:var(--paper);border:1px solid var(--line);border-radius:12px;margin:0 0 10px;padding:10px 14px;box-shadow:0 1px 4px rgba(13,27,62,.06)}
+ tbody tr.main{margin-bottom:0;border-bottom:0;border-radius:12px 12px 0 0;padding-bottom:4px}
+ tbody tr.ann{border-top:0;border-radius:0 0 12px 12px;margin-bottom:12px;padding-top:0;background:var(--paper)}
+ td{display:block;border:0!important;padding:3px 0!important;background:transparent!important;font-size:14px}
+ td.empty{display:none}
+ td[data-label]:before{content:attr(data-label);display:block;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:1px}
+ td:first-child[data-label="#"]{display:inline-block;background:var(--ice);color:var(--royal);font-weight:700;font-size:12px;padding:1px 9px!important;border-radius:999px;margin-bottom:4px}
+ td:first-child[data-label="#"]:before{display:none}
+ tr.ann td{padding:8px 10px!important;background:#f7f9fe!important;border-radius:8px;font-size:13.5px}
+ td.ck{text-align:left}
+ td[data-label^="Area ("]{display:inline-block;margin-right:14px}
+ td[data-label^="Area ("].empty{display:none}
+ td[data-label="Jumlah area"]{display:inline-block}
+}
 </style></head>
 <body><section class="hero"><div class="glow"></div><div class="hero-in"><a class="back" href="../kendali.html">← Kendali</a><p class="eyebrow">The Ansyaku's Atelier · Riset</p><h1 class="title">Persiapan S3 Ekonomi</h1><p class="lede">Topik spesialisasi, literatur, peneliti, dan calon universitas</p><p class="sub">Diperbarui 28 Nov 2026. Versi lengkap sebelum dirapikan (termasuk hasil mentah Tahap 1a Gemini &amp; ChatGPT) disimpan sebagai arsip oleh Claude.</p></div></section><header><nav class="tabs"><button class="tab" data-tab="profil">Profil</button><button class="tab" data-tab="metode">Aturan &amp; Metode</button><button class="tab" data-tab="ringkasan">Summary</button><button class="tab" data-tab="area1">Area 1</button><button class="tab" data-tab="lit1">L1</button><button class="tab" data-tab="area2">Area 2</button><button class="tab" data-tab="lit2">L2</button><button class="tab" data-tab="area3">Area 3</button><button class="tab" data-tab="lit3">L3</button><button class="tab" data-tab="tambahan">Area Tambahan</button><button class="tab" data-tab="footnotes">Footnotes</button></nav></header><main><section class="pane" id="profil"><h3 id="prinsip--preferensi-kata-user">Prinsip &amp; preferensi (kata
 user)</h3>
@@ -9048,6 +9088,7 @@ document.querySelectorAll('nav.subtabs').forEach(n=>{const f=n.querySelector('.s
 document.querySelectorAll('table').forEach(tb=>{const hs=[...tb.querySelectorAll('thead th')];const ai=hs.findIndex(th=>th.textContent.trim()==='Anotasi');if(ai<0)return;
  hs[ai].remove();const n=hs.length-1;[...tb.tBodies[0].rows].forEach(r=>{const c=r.cells[ai];const t=c.innerHTML;c.remove();r.cells[0].rowSpan=2;r.classList.add('main');
  const ar=document.createElement('tr');ar.className='ann';const td=document.createElement('td');td.colSpan=n-1;td.innerHTML=t?'<span class="annlab">Anotasi</span> '+t:'';ar.appendChild(td);r.after(ar);r._ann=ar;});});
+document.querySelectorAll('table').forEach(tb=>{const hs=[...tb.querySelectorAll('thead th')].map(th=>th.textContent.replace(/[↕↑↓]/g,'').trim());[...tb.tBodies].forEach(bd=>[...bd.rows].forEach(r=>{if(r.classList.contains('ann'))return;[...r.cells].forEach((c,i)=>{if(hs[i])c.dataset.label=hs[i];if(!c.textContent.trim())c.classList.add('empty');});}));});
 document.querySelectorAll('table').forEach(tb=>{
  const hs=[...tb.querySelectorAll('thead th')].map(th=>th.textContent.trim());
  const isU=hs.includes('Universitas');if(!(isU||hs.includes('Judul')||hs.includes('Nama')))return;
