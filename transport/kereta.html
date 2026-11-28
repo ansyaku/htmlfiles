@@ -96,8 +96,8 @@
   .clsrow { line-height: 1.2; }
   span.no { color: var(--dim); font-family: 'DM Mono', monospace; font-size: 12px; }
   .big { font-size: 15px; }
-  #rowsJkt td.t .note { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; white-space: normal; color: var(--muted); }
-  #rowsJkt td { vertical-align: top; }
+  #rowsJkt td.t .note, #rowsMlg td.t .note { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; white-space: normal; color: var(--muted); }
+  #rowsJkt td, #rowsMlg td { vertical-align: top; }
   .filters { display: flex; flex-direction: column; gap: 8px; margin: 2px 0 12px; }
   .frow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
   .flabel { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); min-width: 112px; }
@@ -161,6 +161,7 @@
       <button class="tab" data-tab="solo">Yogya ⇄ Solo</button>
       <button class="tab" data-tab="semarang">Yogya ⇄ Semarang</button>
       <button class="tab" data-tab="jakarta">Yogya ⇄ Jakarta</button>
+      <button class="tab" data-tab="malang">Yogya ⇄ Malang</button>
       <button class="tab" data-tab="panduan">Panduan</button>
     </nav>
   </div>
@@ -250,8 +251,8 @@
     <p class="lead">Semua KA jarak jauh Jakarta ⇄ Yogyakarta per GAPEKA 2026 (mulai 1 Desember 2026), dari Gambir maupun Pasar Senen, ke Stasiun Yogyakarta (Tugu) maupun Lempuyangan. Saring dengan tombol filter: bisa digabung, berlaku sesuai urutan dipilih.</p>
     <div class="controls">
       <div class="seg" role="group" aria-label="Arah">
-        <button data-p="jkt" data-dir="jy">Jakarta → Yogya</button>
-        <button data-p="jkt" data-dir="yj">Yogya → Jakarta</button>
+        <button data-p="Jkt" data-dir="jy">Jakarta → Yogya</button>
+        <button data-p="Jkt" data-dir="yj">Yogya → Jakarta</button>
       </div>
     </div>
     <div class="fare-sum" id="fareSumJkt"></div>
@@ -278,6 +279,38 @@
         <li>Banyak kereta tidak berawal/berakhir di Yogya atau Jakarta (mis. lanjut ke Solo, Surabaya, Malang). Jam yang tampil adalah jam di stasiun Jakarta dan Yogya.</li>
         <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari. Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
         <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/jakarta-yogyakarta">Jakarta–Yogyakarta</a>, <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-jakarta">Yogyakarta–Jakarta</a>, dan halaman per kereta (bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="pane" id="malang">
+    <p class="lead">Semua KA jarak jauh Malang ⇄ Yogyakarta per GAPEKA 2026 (mulai 1 Desember 2026), dari Malang, Malang Kotalama, dan Kepanjen, ke Stasiun Yogyakarta (Tugu) maupun Lempuyangan. Saring dengan tombol filter: bisa digabung, berlaku sesuai urutan dipilih.</p>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Arah">
+        <button data-p="Mlg" data-dir="jy">Malang → Yogya</button>
+        <button data-p="Mlg" data-dir="yj">Yogya → Malang</button>
+      </div>
+    </div>
+    <div class="fare-sum" id="fareSumMlg"></div>
+    <div class="filters" id="filtersMlg"></div>
+    <div class="active-filters" id="activeMlg" hidden></div>
+    <div class="notice" id="noticeMlg"></div>
+    <div class="legend"><span><span class="cls eks">Eksekutif</span><span class="cls eko">Ekonomi</span>kelas yang tersedia</span><span><span class="cls eks w">Kelas</span>garis putus = dari Wikipedia</span><span><span class="cls unk">kelas ?</span>belum terdata</span><span>Kode: ML Malang · MLK Malang Kotalama · KPN Kepanjen · YK Tugu · LPN Lempuyangan</span></div>
+    <table>
+      <thead id="theadMlg"></thead>
+      <tbody id="rowsMlg"></tbody>
+    </table>
+    <div class="notes">
+      <h2>Catatan</h2>
+      <ul>
+        <li>Hanya jadwal GAPEKA 2026 (berlaku mulai 1 Desember 2026). 6 kereta tiap arah.</li>
+        <li><b>Lempuyangan:</b> tidak ada kereta Malang ⇄ Yogyakarta yang berhenti di Lempuyangan. Semuanya hanya lewat dan berhenti di Stasiun Yogyakarta (Tugu). booking.kai.id juga tidak menampilkan kereta Malang → Lempuyangan.</li>
+        <li><b>Filter</b>: klik untuk menyalakan/mematikan. Filter bertumpuk sesuai urutan dipilih (nomor di tombol), dan jumlah kereta tiap langkah tampil di baris "Filter aktif". Dalam satu kelompok cukup cocok salah satu; antar kelompok harus cocok semua. "Ekonomi" mencakup Ekonomi Premium dan Ekonomi.</li>
+        <li><b>Tarif</b> di kolom terakhir adalah harga termurah yang <b>masih tersedia</b> di booking.kai.id saat dicek 28 Nov 2026, dari/ke Stasiun Malang: Jumat 18 Des untuk Malang → Yogya, Minggu 20 Des untuk Yogya → Malang. Semua kereta masih tersedia, jadi tidak perlu digeser ke minggu berikutnya. Harga bisa berubah sewaktu-waktu.</li>
+        <li><b>Kelas</b> diambil dari booking.kai.id: Gajayana punya Luxury, Malabar 85/86 punya Priority. booking.kai.id hanya menulis "Ekonomi" tanpa membedakan Ekonomi Premium.</li>
+        <li>Semua kereta ini tidak berawal/berakhir di Yogya (lanjut ke Bandung, Purwokerto, atau Gambir). Jam yang tampil adalah jam di area Malang dan di Yogya.</li>
+        <li>KA bertanda <span class="tag">fakultatif</span> tidak jalan setiap hari. Baris yang disorot adalah kereta berikutnya dari jam sekarang (WIB).</li>
+        <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/malang-yogyakarta">Malang–Yogyakarta</a>, <a href="https://168railway.com/gapeka-2026/relasi/yogyakarta-malang">Yogyakarta–Malang</a>, halaman per kereta, dan booking.kai.id. Cek ulang di Access by KAI sebelum berangkat.</li>
       </ul>
     </div>
   </section>
@@ -364,7 +397,7 @@
     <ul>
       <li>Data tiap kereta: <code>{n, no, j:[[stasiun, jam]…], y:[[stasiun, jam]…], c, kw, kx, f, tmb, x}</code>. <code>j</code> = singgah di Jakarta sesuai urutan perjalanan, <code>y</code> = di kota tujuan, <code>c</code> = kelas dari sumber utama, <code>kw</code> = dari Wikipedia, <code>kx</code> = kelas tambahan dari KAI, <code>f</code> = fakultatif, <code>tmb</code> = KA tambahan.</li>
       <li>Tarif: objek per arah <code>{nomor: {eko, eks, lux, pan, cmp, pri, s}}</code>. Nilai 0 berarti habis.</li>
-      <li>Kode tab Jakarta saat ini khusus Yogya (<code>JKT</code>, <code>renderJkt</code>). Untuk rute baru, jadikan fungsinya umum per rute: data, judul kolom, dan stasiun kota tujuan sebagai parameter.</li>
+      <li>Tab rute ⇄ Yogya dibuat dengan <code>makeRoute({...})</code> lalu didaftarkan di <code>ROUTES</code> (lihat contoh <code>Mlg</code>). Isi: data, tarif, nama kota, stasiun kota itu, stasiun yang diutamakan, dan judul ringkasan. Salin satu <code>&lt;section class="pane"&gt;</code>, ganti akhiran id-nya (mis. <code>Mlg</code>), lalu tambah tombol tab. Untuk rute yang tidak lewat Yogya (mis. Jakarta ⇄ Surabaya), sisi "Yogya" di mesin ini perlu dijadikan parameter juga.</li>
       <li>Tes lokal dengan screenshot Chrome headless sebelum push, terutama tampilan filter dan kolom tarif.</li>
     </ul>
   </section>
@@ -840,44 +873,6 @@ const FARE_NEXT = {
 };
 const rb = n => `Rp${(n * 1000).toLocaleString("id-ID")}`;
 const ST_NAME = {GMR:"Gambir", PSE:"Pasar Senen", JNG:"Jatinegara", BKS:"Bekasi", CKR:"Cikarang", YK:"Yogyakarta (Tugu)", LPN:"Lempuyangan"};
-let dirJkt = "jy";
-// filter toggle: berlaku bertumpuk sesuai urutan dipilih; dalam satu kelompok = salah satu (ATAU), antar kelompok = semua (DAN)
-const depMin = t => mins((dirJkt === "yj" ? t.y[0] : t.j[0])[1]);
-const FILTERS = [
-  {id: "pagi",  g: "Berangkat", label: "Pagi",  hint: "03.00–10.59", test: t => { const m = depMin(t); return m >= 180 && m < 660; }},
-  {id: "siang", g: "Berangkat", label: "Siang", hint: "11.00–17.59", test: t => { const m = depMin(t); return m >= 660 && m < 1080; }},
-  {id: "malam", g: "Berangkat", label: "Malam", hint: "18.00–02.59", test: t => { const m = depMin(t); return m >= 1080 || m < 180; }},
-  {id: "eks", g: "Kelas", label: "Eksekutif", test: t => classes(t).some(k => k.id === "eks")},
-  {id: "eko", g: "Kelas", label: "Ekonomi", hint: "Premium & biasa", test: t => classes(t).some(k => k.id === "ekp" || k.id === "eko")},
-  {id: "GMR", g: "Stasiun Jakarta", label: "Gambir", test: t => t.j.some(([st]) => st === "GMR") || t.end === "GMR"},
-  {id: "PSE", g: "Stasiun Jakarta", label: "Pasar Senen", test: t => t.j.some(([st]) => st === "PSE") || t.end === "PSE"},
-  {id: "JNG", g: "Stasiun Jakarta", label: "Jatinegara", test: t => t.j.some(([st]) => st === "JNG")},
-  {id: "YK",  g: "Stasiun Yogya", label: "Tugu", test: t => t.y.some(([st]) => st === "YK")},
-  {id: "LPN", g: "Stasiun Yogya", label: "Lempuyangan", test: t => t.y.some(([st]) => st === "LPN")}
-];
-const FBY = Object.fromEntries(FILTERS.map(f => [f.id, f]));
-let picked = []; // id filter, urut sesuai dipilih
-
-function applyFilters(list, ids) {
-  const groups = {};
-  ids.forEach(id => (groups[FBY[id].g] = groups[FBY[id].g] || []).push(FBY[id]));
-  return list.filter(t => Object.values(groups).every(fs => fs.some(f => f.test(t))));
-}
-
-function renderFilterUI() {
-  const groups = [...new Set(FILTERS.map(f => f.g))];
-  $("#filtersJkt").innerHTML = groups.map(g => `<div class="frow"><span class="flabel">${g}</span>${
-    FILTERS.filter(f => f.g === g).map(f => {
-      const n = picked.indexOf(f.id);
-      return `<button class="chip${n >= 0 ? " on" : ""}" data-chip="${f.id}" aria-pressed="${n >= 0}">${n >= 0 ? `<span class="ord">${n + 1}</span>` : ""}${f.label}${f.hint ? ` <span class="hint">${f.hint}</span>` : ""}</button>`;
-    }).join("")}</div>`).join("");
-  const all = JKT[dirJkt];
-  if (!picked.length) { $("#activeJkt").hidden = true; return; }
-  // langkah bertumpuk: jumlah kereta setelah tiap filter ditambahkan
-  const steps = picked.map((id, i) => `<span class="step"><b>${i + 1}. ${FBY[id].label}</b> <span class="cnt">${applyFilters(all, picked.slice(0, i + 1)).length}</span><button class="x" data-unpick="${id}" aria-label="Lepas ${FBY[id].label}">×</button></span>`);
-  $("#activeJkt").hidden = false;
-  $("#activeJkt").innerHTML = `<span class="flabel">Filter aktif</span><span class="cnt0">${all.length} kereta</span> › ${steps.join(" › ")}<button class="clear" data-clear>Lepas semua filter</button>`;
-}
 const CLS_LABEL = {eks: "Eksekutif", lux: "Luxury", pan: "Panoramic", cmp: "Compartment", pri: "Priority", ekp: "Ekonomi Premium", eko: "Ekonomi"};
 const CLS_ORDER = ["eks", "lux", "pan", "cmp", "pri", "ekp", "eko"];
 // daftar kelas: dari 168Railway (pantauan tiket.com) lalu tambahan dari Wikipedia (w)
@@ -890,91 +885,171 @@ function classes(t) {
 }
 
 
-// sel tarif: Ekonomi & Eksekutif termurah yang masih tersedia, kelas lain kecil di bawahnya
-function fareCell(t) {
-  const f = FARE[dirJkt][t.no];
-  if (!f) return '<span class="note">belum dicek</span>';
-  const best = cheapest();
-  const one = (k, lab) => {
-    if (!(k in f)) return "";
-    if (!f[k]) return `<div class="fr"><span class="fl">${lab}</span> <span class="sold">habis</span></div>`;
-    const top = best[k] && best[k].no === t.no;
-    return `<div class="fr${top ? " best" : ""}"><span class="fl">${lab}</span> ${rb(f[k])}${top ? ' <span class="crown">termurah</span>' : ""}</div>`;
+
+// ===== Rute kota lain ⇄ Yogyakarta: satu mesin untuk tab Jakarta, Malang, dst. =====
+// cfg: key (akhiran id elemen, mis. "Jkt"), data {jy, yj}, fare {jy, yj}, fareDate, fareNext, fareNextDate,
+//      city (nama kota lawan), cityStations [[kode, label]], pref (stasiun yang diutamakan di ringkasan, mis. "JNG"),
+//      sumTitle {jy, yj}, checked (tanggal cek tarif)
+function makeRoute(cfg) {
+  const R = {dir: "jy", picked: [], cfg};
+  const depMin = t => mins((R.dir === "yj" ? t.y[0] : t.j[0])[1]);
+  const FILTERS = [
+    {id: "pagi",  g: "Berangkat", label: "Pagi",  hint: "03.00–10.59", test: t => { const m = depMin(t); return m >= 180 && m < 660; }},
+    {id: "siang", g: "Berangkat", label: "Siang", hint: "11.00–17.59", test: t => { const m = depMin(t); return m >= 660 && m < 1080; }},
+    {id: "malam", g: "Berangkat", label: "Malam", hint: "18.00–02.59", test: t => { const m = depMin(t); return m >= 1080 || m < 180; }},
+    {id: "eks", g: "Kelas", label: "Eksekutif", test: t => classes(t).some(k => k.id === "eks")},
+    {id: "eko", g: "Kelas", label: "Ekonomi", hint: "Premium & biasa", test: t => classes(t).some(k => k.id === "ekp" || k.id === "eko")},
+    ...cfg.cityStations.map(([id, label]) => ({id, g: `Stasiun ${cfg.city}`, label, test: t => t.j.some(([st]) => st === id) || t.end === id})),
+    {id: "YK",  g: "Stasiun Yogya", label: "Tugu", test: t => t.y.some(([st]) => st === "YK")},
+    {id: "LPN", g: "Stasiun Yogya", label: "Lempuyangan", test: t => t.y.some(([st]) => st === "LPN")}
+  ];
+  const FBY = Object.fromEntries(FILTERS.map(f => [f.id, f]));
+  const el = id => $(`#${id}${cfg.key}`);
+
+  // filter toggle: bertumpuk sesuai urutan dipilih; dalam satu kelompok = ATAU, antar kelompok = DAN
+  function applyFilters(list, ids) {
+    const groups = {};
+    ids.forEach(id => (groups[FBY[id].g] = groups[FBY[id].g] || []).push(FBY[id]));
+    return list.filter(t => Object.values(groups).every(fs => fs.some(f => f.test(t))));
+  }
+  function renderFilterUI() {
+    const all = cfg.data[R.dir];
+    const groups = [...new Set(FILTERS.map(f => f.g))];
+    el("filters").innerHTML = groups.map(g => `<div class="frow"><span class="flabel">${g}</span>${
+      FILTERS.filter(f => f.g === g).map(f => {
+        const n = R.picked.indexOf(f.id);
+        const none = !all.some(f.test); // mis. tidak ada kereta yang berhenti di Lempuyangan
+        return `<button class="chip${n >= 0 ? " on" : ""}" data-r="${cfg.key}" data-chip="${f.id}" aria-pressed="${n >= 0}"${none && n < 0 ? ' title="Tidak ada kereta di stasiun ini"' : ""}>${n >= 0 ? `<span class="ord">${n + 1}</span>` : ""}${f.label}${f.hint ? ` <span class="hint">${f.hint}</span>` : ""}${none ? ' <span class="hint">(0)</span>' : ""}</button>`;
+      }).join("")}</div>`).join("");
+    if (!R.picked.length) { el("active").hidden = true; return; }
+    const steps = R.picked.map((id, i) => `<span class="step"><b>${i + 1}. ${FBY[id].label}</b> <span class="cnt">${applyFilters(all, R.picked.slice(0, i + 1)).length}</span><button class="x" data-r="${cfg.key}" data-unpick="${id}" aria-label="Lepas ${FBY[id].label}">×</button></span>`);
+    el("active").hidden = false;
+    el("active").innerHTML = `<span class="flabel">Filter aktif</span><span class="cnt0">${all.length} kereta</span> › ${steps.join(" › ")}<button class="clear" data-r="${cfg.key}" data-clear>Lepas semua filter</button>`;
+  }
+
+  function cheapest() {
+    const out = {};
+    cfg.data[R.dir].forEach(t => {
+      const f = cfg.fare[R.dir][t.no]; if (!f) return;
+      ["eko", "eks"].forEach(k => { if (f[k] && (!out[k] || f[k] < out[k].rp)) out[k] = {rp: f[k], no: t.no, t}; });
+    });
+    return out;
+  }
+  // sel tarif: Ekonomi & Eksekutif termurah yang masih tersedia, kelas lain kecil di bawahnya
+  function fareCell(t, best) {
+    const f = cfg.fare[R.dir][t.no];
+    if (!f) return '<span class="note">belum dicek</span>';
+    const one = (k, lab) => {
+      if (!(k in f)) return "";
+      if (!f[k]) return `<div class="fr"><span class="fl">${lab}</span> <span class="sold">habis</span></div>`;
+      const top = best[k] && best[k].no === t.no;
+      return `<div class="fr${top ? " best" : ""}"><span class="fl">${lab}</span> ${rb(f[k])}${top ? ' <span class="crown">termurah</span>' : ""}</div>`;
+    };
+    const extra = ["lux", "pan", "cmp", "pri"].filter(k => f[k]).map(k => `${CLS_LABEL[k]} ${rb(f[k])}`).join(" · ");
+    const nx = (cfg.fareNext || {jy: {}, yj: {}})[R.dir][t.no];
+    const next = nx ? `<span class="note nextwk">${cfg.fareNextDate[R.dir]}: ${["eko", "eks"].filter(k => k in nx).map(k => `${k === "eko" ? "Eko" : "Eks"} ${nx[k] ? rb(nx[k]) : "habis"}`).join(" · ")}</span>` : "";
+    return one("eko", "Eko") + one("eks", "Eks") + (extra ? `<span class="note">${extra}</span>` : "") + (f.s ? `<span class="note">sisa ${f.s} kursi</span>` : "") + next;
+  }
+  function renderFareSummary(b) {
+    const toY = R.dir === "jy";
+    const pick = list => list.find(([st]) => st === cfg.pref);
+    const line = (k, lab) => {
+      if (!b[k]) return "";
+      const t = b[k].t;
+      const dep = toY ? (pick(t.j) || t.j[0]) : t.y[0];
+      const arr = toY ? t.y[0] : (pick(t.j) || t.j[t.j.length - 1]);
+      return `<div class="fs-item"><span class="fs-k">${lab}</span><b>${rb(b[k].rp)}</b><span>${esc(t.n)} ${esc(t.no)} · ${dep[0]} ${dep[1]} → ${arr[0]} ${arr[1]}</span></div>`;
+    };
+    el("fareSum").innerHTML = `<div class="fs-title">Termurah ${cfg.sumTitle[R.dir]}</div>${line("eko", "Ekonomi")}${line("eks", "Eksekutif")}<div class="fs-note">Harga termurah yang masih tersedia di booking.kai.id, dicek ${cfg.checked}. Bisa berubah sewaktu-waktu.</div>`;
+  }
+
+  R.render = function () {
+    const toJ = R.dir === "yj";
+    document.querySelectorAll(`[data-p=${cfg.key}]`).forEach(b => b.classList.toggle("on", b.dataset.dir === R.dir));
+    renderFilterUI();
+    const best = cheapest();
+    renderFareSummary(best);
+    el("thead").innerHTML = `<tr><th>Kereta</th><th>Berangkat ${toJ ? "Yogya" : cfg.city}</th><th>Tiba ${toJ ? cfg.city : "Yogya"}</th><th class="hide">Lama</th><th>Tarif ${cfg.fareDate[R.dir]}</th></tr>`;
+
+    const rows = applyFilters(cfg.data[R.dir], R.picked);
+    const first = t => toJ ? t.y[0] : t.j[0];
+    const last = t => toJ ? t.j[t.j.length - 1] : t.y[0];
+    rows.sort((a, b) => A(first(a)[1]) - A(first(b)[1]));
+
+    const cur = now.getHours() * 60 + now.getMinutes();
+    let nextIdx = -1, bestD = Infinity;
+    rows.forEach((t, i) => { const diff = (mins(first(t)[1]) - cur + 1440) % 1440; if (diff < bestD) { bestD = diff; nextIdx = i; } });
+
+    el("notice").textContent = `Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026. Menampilkan ${rows.length} dari ${cfg.data[R.dir].length} kereta.`;
+
+    const clsTag = t => {
+      const ks = classes(t);
+      if (!ks.length) return '<span class="cls unk">kelas ?</span>';
+      return ks.map(k => `<span class="cls ${k.id}${k.w ? " w" : ""}"${k.w ? ' title="Sumber: Wikipedia"' : ""}>${CLS_LABEL[k.id]}</span>`).join("");
+    };
+    const stopList = (list, skip) => list.filter((_, i) => i !== skip).map(([st, tm]) => `${st} ${tm}`).join(" · ");
+    const timeCell = (main, others, extra) =>
+      `<span class="big">${main[1]}</span> <span class="st">${main[0]}</span>${others ? `<span class="note">${others}</span>` : ""}${extra ? `<span class="note">${extra}</span>` : ""}`;
+
+    el("rows").innerHTML = rows.length ? rows.map((t, i) => {
+      const dep = first(t), arr = last(t);
+      const over = mins(arr[1]) < mins(dep[1]) ? ' <span class="note">+1 hari</span>' : "";
+      let depCell, arrCell;
+      if (!toJ) {
+        depCell = timeCell(dep, stopList(t.j, 0) && `juga naik di ${stopList(t.j, 0)}`);
+        arrCell = timeCell(t.y[0], t.y.length > 1 ? `lalu ${stopList(t.y, 0)}` : "") + over;
+      } else {
+        depCell = timeCell(dep, t.y.length > 1 ? `juga naik di ${stopList(t.y, 0)}` : "");
+        const others = t.j.slice(0, -1).map(([st, tm]) => `${st} ${tm}`).join(" · ");
+        arrCell = timeCell(arr, others && `singgah ${others}`, t.end ? `lanjut ke ${ST_NAME[t.end]} (jam tak tercatat)` : "") + over;
+      }
+      return `<tr${i === nextIdx ? ' class="next"' : ""}>
+        <td><b>${esc(t.n)}</b> <span class="no">${esc(t.no)}</span>${t.f ? '<span class="tag">fakultatif</span>' : ""}${t.tmb ? '<span class="tag tmb">KA tambahan</span>' : ""}<div class="clsrow">${clsTag(t)}</div>${t.x ? `<span class="note">${esc(t.x)}</span>` : ""}</td>
+        <td class="t dep">${depCell}</td>
+        <td class="t">${arrCell}</td>
+        <td class="t hide">${fmtDur(dur(dep[1], arr[1]))}</td>
+        <td class="fare-cell">${fareCell(t, best)}</td>
+      </tr>`;
+    }).join("") : '<tr><td colspan="5">Tidak ada kereta yang cocok dengan saringan ini.</td></tr>';
   };
-  const extra = ["lux", "pan", "cmp", "pri"].filter(k => f[k]).map(k => `${CLS_LABEL[k]} ${rb(f[k])}`).join(" · ");
-  const nx = FARE_NEXT[dirJkt][t.no];
-  const next = nx ? `<span class="note nextwk">${FARE_NEXT_DATE[dirJkt]}: ${["eko", "eks"].filter(k => k in nx).map(k => `${k === "eko" ? "Eko" : "Eks"} ${nx[k] ? rb(nx[k]) : "habis"}`).join(" · ")}</span>` : "";
-  return one("eko", "Eko") + one("eks", "Eks") + (extra ? `<span class="note">${extra}</span>` : "") + (f.s ? `<span class="note">sisa ${f.s} kursi</span>` : "") + next;
-}
-function cheapest() {
-  const out = {};
-  JKT[dirJkt].forEach(t => {
-    const f = FARE[dirJkt][t.no]; if (!f) return;
-    ["eko", "eks"].forEach(k => { if (f[k] && (!out[k] || f[k] < out[k].rp)) out[k] = {rp: f[k], no: t.no, t}; });
-  });
-  return out;
-}
-function renderFareSummary() {
-  const b = cheapest(), toJ = dirJkt === "yj";
-  const line = (k, lab) => {
-    if (!b[k]) return "";
-    const t = b[k].t, dep = toJ ? t.y[0] : t.j.find(([st]) => st === "JNG") || t.j[0], arr = toJ ? (t.j.find(([st]) => st === "JNG") || t.j[t.j.length - 1]) : t.y[0];
-    return `<div class="fs-item"><span class="fs-k">${lab}</span><b>${rb(b[k].rp)}</b><span>${esc(t.n)} ${esc(t.no)} · ${dep[0]} ${dep[1]} → ${arr[0]} ${arr[1]}</span></div>`;
-  };
-  $("#fareSumJkt").innerHTML = `<div class="fs-title">Termurah ${toJ ? "Minggu 20 Des · Yogya → Jakarta" : "Jumat 18 Des · Jakarta → Yogya"}</div>${line("eko", "Ekonomi")}${line("eks", "Eksekutif")}<div class="fs-note">Harga termurah yang masih tersedia di booking.kai.id, dicek 28 Nov 2026. Bisa berubah sewaktu-waktu.</div>`;
+  return R;
 }
 
-function renderJkt() {
-  const toJ = dirJkt === "yj";
-  document.querySelectorAll("[data-p=jkt]").forEach(b => b.classList.toggle("on", b.dataset.dir === dirJkt));
-  renderFilterUI();
-  renderFareSummary();
-  $("#theadJkt").innerHTML = `<tr><th>Kereta</th><th>Berangkat ${toJ ? "Yogya" : "Jakarta"}</th><th>Tiba ${toJ ? "Jakarta" : "Yogya"}</th><th class="hide">Lama</th><th>Tarif ${FARE_DATE[dirJkt]}</th></tr>`;
+// ===== Malang ⇄ Yogyakarta (GAPEKA 2026) =====
+// j = singgah di area Malang (ML Malang, MLK Malang Kotalama, KPN Kepanjen), y = di Yogya. Tidak ada yang berhenti di Lempuyangan.
+const MLG = {
+  jy: [
+    {n:"Malabar", no:"87", j:[["ML","05.10"],["MLK","05.19"],["KPN","05.40"]], y:[["YK","11.14"]], c:"both", ck:1, x:"Lanjut ke Bandung"},
+    {n:"Kertanegara", no:"187", j:[["ML","08.30"],["MLK","08.39"],["KPN","08.59"]], y:[["YK","14.42"]], c:"both", ck:1, x:"Lanjut ke Purwokerto"},
+    {n:"Gajayana", no:"49", j:[["ML","15.00"],["MLK","15.09"],["KPN","15.30"]], y:[["YK","20.37"]], c:"eks", ck:1, kx:["lux"], x:"Lanjut ke Gambir"},
+    {n:"Malabar", no:"85", j:[["ML","16.45"],["MLK","16.53"],["KPN","17.10"]], y:[["YK","22.31"]], c:"both", ck:1, kx:["pri"], x:"Lanjut ke Bandung"},
+    {n:"Malioboro Ekspres", no:"189", j:[["ML","18.35"],["MLK","18.43"],["KPN","19.00"]], y:[["YK","00.41"]], c:"both", ck:1, x:"Lanjut ke Purwokerto"},
+    {n:"Gajayana", no:"79F", j:[["ML","19.20"],["MLK","19.28"],["KPN","19.49"]], y:[["YK","01.34"]], c:"both", ck:1, f:1, x:"Lanjut ke Gambir"}
+  ],
+  yj: [
+    {n:"Malabar", no:"86", y:[["YK","01.15"]], j:[["KPN","06.40"],["MLK","07.00"],["ML","07.10"]], c:"both", ck:1, kx:["pri"], x:"Dari Bandung"},
+    {n:"Gajayana", no:"50", y:[["YK","01.53"]], j:[["KPN","07.10"],["MLK","07.31"],["ML","07.41"]], c:"eks", ck:1, kx:["lux"], x:"Dari Gambir"},
+    {n:"Gajayana", no:"80F", y:[["YK","07.34"]], j:[["KPN","13.32"],["MLK","13.53"],["ML","14.03"]], c:"both", ck:1, f:1, x:"Dari Gambir, juga berhenti di Klaten"},
+    {n:"Malioboro Ekspres", no:"190", y:[["YK","10.35"]], j:[["KPN","16.29"],["MLK","16.47"],["ML","17.02"]], c:"both", ck:1, x:"Dari Purwokerto"},
+    {n:"Malabar", no:"88", y:[["YK","16.26"]], j:[["KPN","22.11"],["MLK","22.29"],["ML","22.38"]], c:"both", ck:1, x:"Dari Bandung"},
+    {n:"Kertanegara", no:"188", y:[["YK","21.24"]], j:[["KPN","03.06"],["MLK","03.27"],["ML","03.37"]], c:"both", ck:1, x:"Dari Purwokerto"}
+  ]
+};
+// tarif termurah yang masih tersedia di booking.kai.id (Malang ⇄ Yogyakarta), dicek 28 Nov 2026, ribu rupiah
+const MLG_FARE = {
+  jy: {"87":{eko:360,eks:600},"187":{eko:320,eks:500},"49":{eks:775,lux:1575},"85":{eko:360,eks:600,pri:865},"189":{eko:320,eks:470},"79F":{eko:425,eks:775}},
+  yj: {"86":{eko:360,eks:600,pri:865},"50":{eks:775,lux:1765},"80F":{eko:400,eks:735},"190":{eko:290,eks:420},"88":{eko:345,eks:565},"188":{eko:290,eks:450}}
+};
 
-  const rows = applyFilters(JKT[dirJkt], picked);
+const ROUTES = {
+  Jkt: makeRoute({key: "Jkt", data: JKT, fare: FARE, fareDate: FARE_DATE, fareNext: FARE_NEXT, fareNextDate: FARE_NEXT_DATE,
+    city: "Jakarta", cityStations: [["GMR", "Gambir"], ["PSE", "Pasar Senen"], ["JNG", "Jatinegara"]], pref: "JNG",
+    sumTitle: {jy: "Jumat 18 Des · Jakarta → Yogya", yj: "Minggu 20 Des · Yogya → Jakarta"}, checked: "28 Nov 2026"}),
+  Mlg: makeRoute({key: "Mlg", data: MLG, fare: MLG_FARE, fareDate: {jy: "Jum 18 Des", yj: "Min 20 Des"},
+    city: "Malang", cityStations: [["ML", "Malang"], ["MLK", "Malang Kotalama"], ["KPN", "Kepanjen"]], pref: "ML",
+    sumTitle: {jy: "Jumat 18 Des · Malang → Yogya", yj: "Minggu 20 Des · Yogya → Malang"}, checked: "28 Nov 2026"})
+};
 
-  const first = t => toJ ? t.y[0] : t.j[0];
-  const last = t => toJ ? t.j[t.j.length - 1] : t.y[0];
-  rows.sort((a, b) => A(first(a)[1]) - A(first(b)[1]));
-
-  const cur = now.getHours() * 60 + now.getMinutes();
-  let nextIdx = -1, best = Infinity;
-  rows.forEach((t, i) => { const diff = (mins(first(t)[1]) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
-
-  const total = JKT[dirJkt].length;
-  $("#noticeJkt").textContent = `Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026. Menampilkan ${rows.length} dari ${total} kereta.`;
-
-  const clsTag = t => {
-    const ks = classes(t);
-    if (!ks.length) return '<span class="cls unk">kelas ?</span>';
-    return ks.map(k => `<span class="cls ${k.id}${k.w ? " w" : ""}"${k.w ? ' title="Sumber: Wikipedia"' : ""}>${CLS_LABEL[k.id]}</span>`).join("");
-  };
-  const stopList = (list, skip) => list.filter((_, i) => i !== skip).map(([st, tm]) => `${st} ${tm}`).join(" · ");
-  const timeCell = (main, others, extra) =>
-    `<span class="big">${main[1]}</span> <span class="st">${main[0]}</span>${others ? `<span class="note">${others}</span>` : ""}${extra ? `<span class="note">${extra}</span>` : ""}`;
-
-  $("#rowsJkt").innerHTML = rows.length ? rows.map((t, i) => {
-    const dep = first(t), arr = last(t);
-    const lama = dur(dep[1], arr[1]);
-    const over = mins(arr[1]) < mins(dep[1]) ? ' <span class="note">+1 hari</span>' : "";
-    let depCell, arrCell;
-    if (!toJ) {
-      depCell = timeCell(dep, stopList(t.j, 0) && `juga naik di ${stopList(t.j, 0)}`);
-      arrCell = timeCell(t.y[0], t.y.length > 1 ? `lalu ${stopList(t.y, 0)}` : "") + over;
-    } else {
-      depCell = timeCell(dep, t.y.length > 1 ? `juga naik di ${stopList(t.y, 0)}` : "");
-      const others = t.j.slice(0, -1).map(([st, tm]) => `${st} ${tm}`).join(" · ");
-      arrCell = timeCell(arr, others && `singgah ${others}`, t.end ? `lanjut ke ${ST_NAME[t.end]} (jam tak tercatat)` : "") + over;
-    }
-    return `<tr${i === nextIdx ? ' class="next"' : ""}>
-      <td><b>${esc(t.n)}</b> <span class="no">${esc(t.no)}</span>${t.f ? '<span class="tag">fakultatif</span>' : ""}${t.tmb ? '<span class="tag tmb">KA tambahan</span>' : ""}<div class="clsrow">${clsTag(t)}</div>${t.x ? `<span class="note">${esc(t.x)}</span>` : ""}</td>
-      <td class="t dep">${depCell}</td>
-      <td class="t">${arrCell}</td>
-      <td class="t hide">${fmtDur(lama)}</td>
-      <td class="fare-cell">${fareCell(t)}</td>
-    </tr>`;
-  }).join("") : '<tr><td colspan="5">Tidak ada kereta yang cocok dengan saringan ini.</td></tr>';
-}
 
 function render() {
   document.querySelectorAll("[data-g]").forEach(b => b.classList.toggle("on", b.dataset.g === g));
@@ -982,7 +1057,7 @@ function render() {
   document.querySelectorAll("[data-p=smg]").forEach(b => b.classList.toggle("on", b.dataset.dir === dirSmg));
   renderSlo();
   renderSmgPane();
-  renderJkt();
+  Object.values(ROUTES).forEach(r => r.render());
 }
 
 // tombol salin di tab Panduan
@@ -1000,24 +1075,25 @@ function show(k) {
   tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === k));
   panes.forEach(p => p.classList.toggle("active", p.id === k));
   history.replaceState(null, "", "#" + k);
-  document.title = k === "panduan" ? "Panduan membuat tab rute kereta" : `Kereta Yogyakarta ⇄ ${{semarang: "Semarang", jakarta: "Jakarta"}[k] || "Solo"}`;
+  document.title = k === "panduan" ? "Panduan membuat tab rute kereta" : `Kereta Yogyakarta ⇄ ${{semarang: "Semarang", jakarta: "Jakarta", malang: "Malang"}[k] || "Solo"}`;
 }
 tabs.forEach(t => t.onclick = () => { show(t.dataset.tab); window.scrollTo(0, 0); });
 
 document.querySelectorAll("[data-p]").forEach(b => b.onclick = () => {
   if (b.dataset.p === "slo") dirSlo = b.dataset.dir;
   else if (b.dataset.p === "smg") dirSmg = b.dataset.dir;
-  else dirJkt = b.dataset.dir;
+  else { ROUTES[b.dataset.p].dir = b.dataset.dir; ROUTES[b.dataset.p].render(); return; }
   render();
 });
 // klik chip / lepas filter (delegasi, karena tombol dibuat ulang tiap render)
 document.addEventListener("click", e => {
   const chip = e.target.closest("[data-chip]"), un = e.target.closest("[data-unpick]"), clr = e.target.closest("[data-clear]");
   if (!chip && !un && !clr) return;
-  if (chip) { const id = chip.dataset.chip; picked = picked.includes(id) ? picked.filter(x => x !== id) : [...picked, id]; }
-  if (un) picked = picked.filter(x => x !== un.dataset.unpick);
-  if (clr) picked = [];
-  renderJkt();
+  const R = ROUTES[(chip || un || clr).dataset.r];
+  if (chip) { const id = chip.dataset.chip; R.picked = R.picked.includes(id) ? R.picked.filter(x => x !== id) : [...R.picked, id]; }
+  if (un) R.picked = R.picked.filter(x => x !== un.dataset.unpick);
+  if (clr) R.picked = [];
+  R.render();
 });
 document.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { g = b.dataset.g; render(); });
 show(location.hash.slice(1));
