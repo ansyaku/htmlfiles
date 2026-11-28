@@ -74,6 +74,9 @@
   tr.ka td.t.dep { color: var(--accent); }
   tr.main td { border-top: 1px solid var(--border); }
   .st { font-size: 10.5px; color: var(--dim); font-weight: 400; margin-left: 2px; }
+  tr.direct td { background: var(--accent-soft); }
+  tr.direct.next td { background: rgba(154, 91, 19, 0.2); }
+  tr.krlrow td.t.dep { color: var(--krl); }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin: -4px 0 12px; }
   [hidden] { display: none !important; }
   @media (max-width: 560px) {
@@ -87,7 +90,7 @@
   <header>
     <div class="eyebrow">Transport · Kereta Api</div>
     <h1 id="title">Kereta tarif khusus Yogyakarta ⇄ Solo Balapan</h1>
-    <p class="lead" id="leadSmg" hidden>Belum ada KA langsung Yogyakarta–Semarang. Tiap baris utama adalah KA Solo ⇄ Semarang, dan di bawahnya ada sambungan Yogya ⇄ Solo terbaik dengan KA tarif khusus dan KRL, lengkap dengan waktu tunggu dan total perjalanan.</p>
+    <p class="lead" id="leadSmg" hidden>Satu baris untuk satu perjalanan Yogyakarta ⇄ Semarang: KA Pandawa (langsung, mulai 1 Des 2026) atau kombinasi KA tarif khusus / KRL ke Solo lalu KA ke Semarang, diurutkan menurut jam berangkat.</p>
     <p class="lead" id="lead">Jadwal KA jarak jauh bertarif khusus (go show) dan KRL Commuter Line di rute Yogyakarta–Solo Balapan dalam satu daftar: kalau KA khusus sudah lewat, alternatif KRL langsung terlihat di bawahnya. Arah Solo → Yogya dilengkapi rekomendasi KA Bandara ke Bandara YIA (NYIA).</p>
     <div class="fare">
       <div><b>Rp65.000</b><span>KA khusus · Eksekutif</span></div>
@@ -112,11 +115,11 @@
   </div>
 
   <div class="notice" id="notice"></div>
-  <div class="legend" id="legendSmg" hidden><span><b>Baris utama</b> = KA Solo ⇄ Semarang</span><span><span class="katag">KA khusus</span><span class="krltag">KRL</span>baris menjorok = sambungan Yogya ⇄ Solo</span></div>
+  <div class="legend" id="legendSmg" hidden><span><span class="tag" style="margin-left:0">langsung</span> tanpa ganti kereta</span><span>A → B = naik A, pindah di Solo, lalu naik B</span><span><span class="krltag">KRL</span>bagian perjalanan pakai KRL</span></div>
   <div class="legend" id="legend"><span><b>Baris utama</b> = KA tarif khusus</span><span><span class="krltag">KRL</span>baris menjorok = alternatif KRL sebelum KA berikutnya</span></div>
 
   <table>
-    <thead>
+    <thead id="thead">
       <tr><th>Kereta</th><th class="hide">No. KA</th><th id="hDep">Berangkat</th><th id="hArr">Tiba</th><th id="hYia" hidden>KA Bandara YIA</th></tr>
     </thead>
     <tbody id="rows"></tbody>
@@ -125,13 +128,16 @@
   <div class="notes">
     <h2>Catatan</h2>
     <ul id="notesSmg" hidden>
-      <li>Di GAPEKA 2026 tidak ada nomor KA yang berhenti di Yogyakarta/Lempuyangan sekaligus di Semarang Tawang/Poncol (dicek dari daftar keempat stasiun). Untuk GAPEKA 2025 juga tidak ditemukan, tapi pengecekannya tidak selengkap 2026.</li>
+      <li><b>KA Pandawa</b> (eksekutif, mulai ±Rp110.000) baru jalan mulai 1 Desember 2026: Yogyakarta ⇄ Solo Balapan ⇄ Semarang Tawang. Di daftar waktu GAPEKA nomor KA-nya berganti di Solo Balapan (mis. 282 → 281), tapi menurut KAI penumpang tidak perlu transit. Satu berita menyebut relasi ini berstatus fakultatif, jadi cek ketersediaan di Access by KAI.</li>
+      <li>Pandawa tidak berhenti di Lempuyangan. KA 342 juga berhenti di Klaten.</li>
       <li>Sambungan dari Yogya memakai KA tarif khusus (dari Stasiun Yogyakarta/Tugu) atau KRL. <b>KRL juga berhenti di Lempuyangan</b>, beberapa menit setelah Tugu (arah Solo) atau sebelum Tugu (arah Yogya).</li>
       <li>Jeda pindah minimal: 15 menit di Solo Balapan. Untuk KA yang naik/turun di <b>Solo Jebres</b> (Matarmaja, Brawijaya, Brantas, Majapahit): 20 menit bila pakai KRL (KRL singgah Jebres), 35 menit bila pakai KA khusus (perlu pindah Balapan ⇄ Jebres).</li>
-      <li>Sambungan yang dipilih: arah ke Semarang = kereta Yogya yang tiba paling akhir tapi masih sempat; arah ke Yogya = kereta pertama yang masih terkejar. KA fakultatif tidak dipakai sebagai sambungan.</li>
-      <li>Jadwal 2025: jam KRL di Solo Balapan tidak tersedia, jadi diperkirakan (tanda ≈) dari jam Yogyakarta/Palur.</li>
+      <li>Untuk perjalanan pindah kereta, tiap KA Solo ⇄ Semarang dipasangkan dengan KA tarif khusus dan KRL terdekat (arah ke Semarang: yang tiba di Solo paling akhir tapi masih sempat; arah ke Yogya: yang pertama masih terkejar). Kombinasi dengan tunggu lebih dari 3 jam tidak ditampilkan. KA tarif khusus/KRL fakultatif tidak dipakai.</li>
+      <li>Arah ke Yogya dilengkapi rekomendasi KA Bandara YIA (jeda pindah 15 menit di Stasiun Yogyakarta).</li>
+      <li>Kombinasi yang kalah (ada pilihan lain yang berangkat lebih lambat tapi tiba sama atau lebih cepat) tidak ditampilkan.</li>
+      <li>Jadwal 2025: jam KRL di Solo Balapan tidak tersedia, jadi waktu tunggu di Solo untuk KRL diperkirakan (tanda ±).</li>
       <li>Tiket KA Solo ⇄ Semarang dibeli terpisah (Access by KAI), bukan tarif khusus.</li>
-      <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/solo-semarang">Solo–Semarang 2026</a>, <a href="https://168railway.com/gapeka-2026/relasi/semarang-solo">Semarang–Solo 2026</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/solo-ke-semarang">Solo–Semarang 2025</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/semarang-ke-solo">Semarang–Solo 2025</a> (bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
+      <li>Sumber: 168Railway <a href="https://168railway.com/gapeka-2026/relasi/solo-semarang">Solo–Semarang 2026</a>, <a href="https://168railway.com/gapeka-2026/relasi/semarang-solo">Semarang–Solo 2026</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/solo-ke-semarang">Solo–Semarang 2025</a>, <a href="https://168railway.com/jadwal-kereta-api/rute/semarang-ke-solo">Semarang–Solo 2025</a>, <a href="https://168railway.com/gapeka-2026/ka/282-pandawa">KA Pandawa</a>, <a href="https://money.kompas.com/read/2026/11/05/080654326/ka-pandawa-yogyakarta-semarang-pp-beroperasi-1-desember-2026-cek-jadwalnya">Kompas</a> (bukan situs KAI). Cek ulang di Access by KAI sebelum berangkat.</li>
     </ul>
     <ul id="notesSlo">
       <li>Semua kereta di daftar ini berangkat/tiba di <b>Stasiun Yogyakarta (Tugu)</b>, kecuali Batavia di jadwal lama (tiba di Purwosari / Lempuyangan).</li>
@@ -342,6 +348,15 @@ const SMG = {
     ]
   }
 };
+
+// KA Pandawa (GAPEKA 2026): langsung Yogyakarta ⇄ Semarang Tawang, nomor KA berganti di Solo Balapan
+// [no KA 1, no KA 2, berangkat, tiba SLO, berangkat SLO, tiba, catatan]
+const PANDAWA = {
+  "2026": {
+    ys: [["282","281","10.50","11.35","11.40","13.36"], ["342","341","18.35","19.31","19.35","21.25","juga berhenti di Klaten"]],
+    sy: [["280","279","05.35","07.37","07.45","08.34"], ["340","339","14.45","16.28","16.35","17.22"]]
+  }
+};
 const ST = {SLO: "Solo Balapan", SK: "Solo Jebres", SMT: "Semarang Tawang", SMC: "Semarang Poncol", YK: "Yogyakarta"};
 
 
@@ -376,7 +391,7 @@ function yiaCell(arr, lpn) {
 // menit dalam "hari operasi" yang dimulai jam 04.00, supaya lewat tengah malam tetap urut
 const A = t => (mins(t) - 240 + 1440) % 1440;
 const dur = (a, b) => (mins(b) - mins(a) + 1440) % 1440;
-const fmtDur = m => m >= 60 ? `${Math.floor(m / 60)} j ${m % 60} mnt` : `${m} mnt`;
+const fmtDur = m => m >= 60 ? `${Math.floor(m / 60)} j${m % 60 ? ` ${m % 60} mnt` : ""}` : `${m} mnt`;
 // jeda pindah di Solo: 15 mnt di Solo Balapan; KA Semarang di Solo Jebres: KRL 20 mnt (KRL singgah Jebres), KA khusus 35 mnt
 const bufSolo = (st, krl) => st === "SLO" ? 15 : (krl ? 20 : 35);
 
@@ -395,71 +410,68 @@ function legOptions(d) {
 function renderSmg() {
   const toYk = dir === "sy";
   const opts = legOptions(dir);
-  const mains = SMG[g][dir].map(([name, no, dep, st1, arr, st2, note, fak]) => ({name, no, dep, st1, arr, st2, note, fak}));
+  const trips = [];
 
-  // cari sambungan untuk tiap KA Semarang
-  mains.forEach(m => {
-    m.subs = ["ka", "krl"].map(kind => {
-      const list = opts[kind], krl = kind === "krl";
+  // 1) KA Pandawa: langsung Yogyakarta ⇄ Semarang Tawang (nomor KA berganti di Solo Balapan)
+  (PANDAWA[g] ? PANDAWA[g][dir] : []).forEach(([no1, no2, dep, arrSlo, depSlo, arr, note]) => {
+    trips.push({dep, depSt: toYk ? "SMT" : "YK", arr, arrSt: toYk ? "YK" : "SMT", direct: true,
+      route: `<b>Pandawa</b> <span class="tag">langsung</span>`,
+      detail: `KA ${no1}/${no2} · singgah Solo Balapan ${arrSlo}–${depSlo}${note ? " · " + note : ""}`});
+  });
+
+  // 2) Sambungan: KA khusus / KRL Yogya ⇄ Solo + KA Solo ⇄ Semarang
+  SMG[g][dir].forEach(([name, no, dep, st1, arr, st2, note, fak]) => {
+    if (PANDAWA[g] && name === "Pandawa") return; // sudah ada sebagai perjalanan langsung
+    const solo = toYk ? st2 : st1;
+    ["ka", "krl"].forEach(kind => {
+      const krl = kind === "krl", list = opts[kind], buf = bufSolo(solo, krl);
+      let o;
       if (!toYk) {
-        // Yogya → Solo: yang tiba paling akhir tapi masih sempat pindah
-        const solo = toYk ? m.st2 : m.st1;
-        const limit = A(m.dep) - bufSolo(solo, krl);
-        const ok = list.filter(o => A(o.dep) + dur(o.dep, o.arr) <= limit);
-        const o = ok.sort((a, b) => (A(b.dep) + dur(b.dep, b.arr)) - (A(a.dep) + dur(a.dep, a.arr)))[0];
-        if (!o) return {kind, none: true};
-        return {kind, o, wait: limit + bufSolo(solo, krl) - (A(o.dep) + dur(o.dep, o.arr)), total: A(m.dep) + dur(m.dep, m.arr) - A(o.dep)};
+        const limit = A(dep) - buf;
+        o = list.filter(x => A(x.dep) + dur(x.dep, x.arr) <= limit)
+          .sort((a, b) => (A(b.dep) + dur(b.dep, b.arr)) - (A(a.dep) + dur(a.dep, a.arr)))[0];
       } else {
-        // Solo → Yogya: yang berangkat paling awal setelah tiba di Solo
-        const ready = A(m.dep) + dur(m.dep, m.arr) + bufSolo(m.st2, krl);
-        const ok = list.filter(o => A(o.dep) >= ready).sort((a, b) => A(a.dep) - A(b.dep));
-        const o = ok[0];
-        if (!o) return {kind, none: true};
-        const arrSolo = A(m.dep) + dur(m.dep, m.arr);
-        return {kind, o, wait: A(o.dep) - arrSolo, total: A(o.dep) + dur(o.dep, o.arr) - A(m.dep)};
+        const ready = A(dep) + dur(dep, arr) + buf;
+        o = list.filter(x => A(x.dep) >= ready).sort((a, b) => A(a.dep) - A(b.dep))[0];
       }
+      if (!o) return;
+      const wait = toYk ? A(o.dep) - (A(dep) + dur(dep, arr)) : A(dep) - (A(o.dep) + dur(o.dep, o.arr));
+      if (wait > 180) return; // terlalu lama menunggu, tidak praktis
+      const leg = krl ? '<span class="krltag">KRL</span>' : `<b>${esc(o.name)}</b>`;
+      const smgTrain = `<b>${esc(name)}</b>${fak ? '<span class="tag">fakultatif</span>' : ""}`;
+      const where = solo === "SK" ? (krl ? "Solo Jebres" : (toYk ? "Solo (Jebres → Balapan)" : "Solo (Balapan → Jebres)")) : "Solo Balapan";
+      trips.push({
+        dep: toYk ? dep : o.dep, depSt: toYk ? st1 : "YK",
+        arr: toYk ? o.arr : arr, arrSt: toYk ? "YK" : st2,
+        approx: o.approx, krl,
+        route: toYk ? `${smgTrain} → ${leg}` : `${leg} → ${smgTrain}`,
+        detail: `Pindah di ${where}, tunggu ${o.approx ? "±" : ""}${fmtDur(wait)}`
+      });
     });
   });
 
-  // baris berikutnya: dari Yogya pakai jam berangkat sambungan paling akhir; dari Semarang pakai jam KA Semarang
+  trips.forEach(t => { t.total = dur(t.dep, t.arr); t.s = A(t.dep); t.e = t.s + t.total; });
+  // buang kombinasi yang kalah: ada pilihan lain yang berangkat sama/lebih lambat dan tiba sama/lebih cepat
+  const kept = trips.filter(t => !trips.some(u => u !== t && u.s >= t.s && u.e <= t.e && (u.s > t.s || u.e < t.e)));
+  trips.length = 0; trips.push(...kept);
+  trips.sort((a, b) => A(a.dep) - A(b.dep) || A(a.arr) - A(b.arr));
+
   const cur = now.getHours() * 60 + now.getMinutes();
-  const refOf = m => {
-    if (toYk) return mins(m.dep);
-    const deps = m.subs.filter(x => !x.none).map(x => x.o.dep);
-    return deps.length ? deps.map(mins).sort((a, b) => A2(b) - A2(a))[0] : mins(m.dep);
-  };
-  const A2 = x => (x - 240 + 1440) % 1440;
   let nextIdx = -1, best = Infinity;
-  mains.forEach((m, i) => { const diff = (refOf(m) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
+  trips.forEach((t, i) => { const diff = (mins(t.dep) - cur + 1440) % 1440; if (diff < best) { best = diff; nextIdx = i; } });
 
   const tt = (t, st, approx) => `${approx ? "≈" : ""}${t} <span class="st">${st}</span>`;
-  $("#rows").innerHTML = mains.map((m, i) => {
-    const over = mins(m.arr) < mins(m.dep) ? ' <span class="note">+1 hari</span>' : "";
-    const solo = toYk ? m.st2 : m.st1;
-    const notes = [m.note, solo === "SK" ? (toYk ? "Turun di Solo Jebres" : "Naik di Solo Jebres") : ""].filter(Boolean).join(" · ");
-    const main = `<tr class="main${i === nextIdx ? " next" : ""}">
-      <td>${esc(m.name)}${m.fak ? '<span class="tag">fakultatif</span>' : ""}${notes ? `<span class="note">${esc(notes)}</span>` : ""}</td>
-      <td class="no hide">${esc(m.no)}</td>
-      <td class="t dep">${tt(m.dep, m.st1)}</td>
-      <td class="t">${tt(m.arr, m.st2)}${over}</td>
+  $("#rows").innerHTML = trips.length ? trips.map((t, i) => {
+    const over = mins(t.arr) < mins(t.dep) ? ' <span class="note">+1 hari</span>' : "";
+    const cls = [t.direct && "direct", t.krl && "krlrow", i === nextIdx && "next"].filter(Boolean).join(" ");
+    return `<tr${cls ? ` class="${cls}"` : ""}>
+      <td class="t dep">${tt(t.dep, t.depSt)}</td>
+      <td class="t">${tt(t.arr, t.arrSt)}${over}</td>
+      <td class="t">${fmtDur(t.total)}</td>
+      <td>${t.route}<span class="note">${t.detail}</span></td>
+      ${toYk ? `<td class="yia">${yiaCell(t.arr, false)}</td>` : ""}
     </tr>`;
-    const subs = m.subs.map(x => {
-      const tag = x.kind === "krl" ? '<span class="krltag">KRL</span>' : '<span class="katag">KA khusus</span>';
-      const cls = x.kind === "krl" ? "krl" : "krl ka";
-      if (x.none) return `<tr class="${cls}"><td colspan="4">${tag}<span class="note" style="display:inline">${toYk ? "Tidak ada sambungan ke Yogya setelah kereta ini" : "Tidak ada yang sempat dari Yogya"}</span></td></tr>`;
-      const o = x.o;
-      const name = x.kind === "krl" ? "Commuter Line" : esc(o.name);
-      const where = (toYk ? m.st2 : m.st1) === "SK" ? (x.kind === "krl" ? "Solo Balapan (KRL juga singgah Solo Jebres)" : "Solo (pindah Balapan ⇄ Jebres)") : "Solo Balapan";
-      const info = `${toYk ? "Lanjut ke Yogya" : "Dari Yogya"} · tunggu ${fmtDur(x.wait)} di ${where} · total ${fmtDur(x.total)}`;
-      return `<tr class="${cls}">
-        <td>${tag}${name}<span class="note">${info}</span></td>
-        <td class="no hide">${esc(o.no)}</td>
-        <td class="t dep">${tt(o.dep, toYk ? "SLO" : "YK", o.approx && toYk)}</td>
-        <td class="t">${tt(o.arr, toYk ? "YK" : "SLO", o.approx && !toYk)}</td>
-      </tr>`;
-    }).join("");
-    return main + subs;
-  }).join("");
+  }).join("") : '<tr><td colspan="5">Tidak ada perjalanan.</td></tr>';
 }
 
 function render() {
@@ -476,16 +488,16 @@ function render() {
   $("#legend").hidden = smg; $("#legendSmg").hidden = !smg;
   $("#notesSlo").hidden = smg; $("#notesSmg").hidden = !smg;
   if (smg) {
-    $("#hDep").textContent = "Berangkat";
-    $("#hArr").textContent = "Tiba";
-    $("#hYia").hidden = true;
+    const toYk = dir === "sy";
+    $("#thead").innerHTML = `<tr><th>Berangkat ${toYk ? "Semarang" : "Yogya"}</th><th>Tiba ${toYk ? "Yogya" : "Semarang"}</th><th>Total</th><th>Naik</th>${toYk ? "<th>KA Bandara YIA</th>" : ""}</tr>`;
     $("#notice").textContent = (g === "2026"
       ? "Jadwal GAPEKA 2026, berlaku mulai 1 Desember 2026. "
       : "Jadwal GAPEKA 2025, berlaku sampai 30 November 2026. ")
-      + "Tidak ada KA langsung Yogyakarta–Semarang, jadi semua perjalanan pindah kereta di Solo.";
+      + (g === "2026" ? "KA Pandawa melayani Yogyakarta ⇄ Semarang Tawang langsung. Selain itu bisa pindah kereta di Solo." : "Di jadwal ini belum ada KA langsung Yogyakarta–Semarang, jadi semua perjalanan pindah kereta di Solo.");
     renderSmg();
     return;
   }
+  $("#thead").innerHTML = `<tr><th>Kereta</th><th class="hide">No. KA</th><th id="hDep">Berangkat</th><th id="hArr">Tiba</th><th id="hYia" hidden>KA Bandara YIA</th></tr>`;
   const toYk = dir === "sy";
   $("#hDep").textContent = toYk ? "Berangkat SLO" : "Berangkat YK";
   $("#hArr").textContent = toYk ? "Tiba YK" : "Tiba SLO";
