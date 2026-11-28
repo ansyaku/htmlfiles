@@ -127,6 +127,7 @@
   .fare-cell .crown { font-family: 'DM Sans', system-ui, sans-serif; font-size: 10px; font-weight: 700; background: var(--accent); color: var(--bg); border-radius: 4px; padding: 0 5px; }
   .fare-cell .sold { color: var(--dim); text-decoration: line-through; font-size: 12px; }
   .fare-cell .note { white-space: normal; }
+  .fare-cell .nextwk { margin-top: 3px; padding-top: 3px; border-top: 1px dashed var(--border); }
   .tag.tmb { border-color: var(--accent); color: var(--accent); }
   .cls.pan, .cls.cmp { background: rgba(120, 70, 160, 0.12); color: #7a4aa8; }
   @media (prefers-color-scheme: dark) { .cls.pan, .cls.cmp { color: #c8a2ec; } }
@@ -254,6 +255,7 @@
         <li>Hanya jadwal GAPEKA 2026 (berlaku mulai 1 Desember 2026).</li>
         <li><b>Filter</b>: klik untuk menyalakan/mematikan. Filter bertumpuk sesuai urutan dipilih (nomor di tombol), dan jumlah kereta tiap langkah tampil di baris "Filter aktif". Dalam satu kelompok (mis. Pagi + Malam) cukup cocok salah satu; antar kelompok harus cocok semua. Jam berangkat dihitung dari stasiun pertama arah perjalanan. "Ekonomi" mencakup Ekonomi Premium dan Ekonomi.</li>
         <li><b>Tarif</b> di kolom terakhir adalah harga termurah yang <b>masih tersedia</b> di booking.kai.id saat dicek 28 Nov 2026: Jumat 18 Des untuk Jakarta → Yogya, Minggu 20 Des untuk Yogya → Jakarta. Subkelas yang lebih murah sudah habis. "Habis" berarti semua subkelas kelas itu habis. Harga dan sisa kursi bisa berubah sewaktu-waktu. Kereta yang berhenti di Jatinegara dicek dari Jatinegara.</li>
+        <li>Untuk kereta yang habis, ditambahkan cek hari yang sama seminggu kemudian (Jumat 25 Des / Minggu 27 Des) di bawah tarifnya.</li>
         <li>booking.kai.id hanya menulis "Ekonomi" tanpa membedakan Ekonomi Premium.</li>
         <li><b>KA tambahan</b> (7003–7016) hanya muncul di booking.kai.id untuk tanggal tertentu (masa libur), tidak ada di GAPEKA.</li>
         <li>Kelas Borobudur, Gajayana fakultatif, Singasari, Panoramic (Manahan), Compartment (Argo Semeru, Bima), dan Luxury (Argo Lawu) diambil dari booking.kai.id.</li>
@@ -729,6 +731,12 @@ const FARE = {
        "31":{eks:765,lux:1665},"149":{eko:430,eks:700},"7":{eks:730,cmp:2175},"125":{eko:480,eks:700},"61":{eks:815,pan:1170},
        "297":{eko:430},"315":{eko:0},"7013":{eko:430,eks:570},"7015":{eko:480,eks:650},"7005":{eks:750,pri:1040},"7003":{eks:595}}
 };
+// cek ulang kereta yang habis, hari yang sama seminggu kemudian (dicek 28 Nov 2026)
+const FARE_NEXT_DATE = {jy: "Jum 25 Des", yj: "Min 27 Des"};
+const FARE_NEXT = {
+  jy: {"186":{eko:0,eks:700}, "150":{eko:0,eks:700}, "316":{eko:0}, "300":{eko:0}},
+  yj: {"315":{eko:0}}
+};
 const rb = n => `Rp${(n * 1000).toLocaleString("id-ID")}`;
 const ST_NAME = {GMR:"Gambir", PSE:"Pasar Senen", JNG:"Jatinegara", BKS:"Bekasi", CKR:"Cikarang", YK:"Yogyakarta (Tugu)", LPN:"Lempuyangan"};
 let dirJkt = "jy";
@@ -793,7 +801,9 @@ function fareCell(t) {
     return `<div class="fr${top ? " best" : ""}"><span class="fl">${lab}</span> ${rb(f[k])}${top ? ' <span class="crown">termurah</span>' : ""}</div>`;
   };
   const extra = ["lux", "pan", "cmp", "pri"].filter(k => f[k]).map(k => `${CLS_LABEL[k]} ${rb(f[k])}`).join(" · ");
-  return one("eko", "Eko") + one("eks", "Eks") + (extra ? `<span class="note">${extra}</span>` : "") + (f.s ? `<span class="note">sisa ${f.s} kursi</span>` : "");
+  const nx = FARE_NEXT[dirJkt][t.no];
+  const next = nx ? `<span class="note nextwk">${FARE_NEXT_DATE[dirJkt]}: ${["eko", "eks"].filter(k => k in nx).map(k => `${k === "eko" ? "Eko" : "Eks"} ${nx[k] ? rb(nx[k]) : "habis"}`).join(" · ")}</span>` : "";
+  return one("eko", "Eko") + one("eks", "Eks") + (extra ? `<span class="note">${extra}</span>` : "") + (f.s ? `<span class="note">sisa ${f.s} kursi</span>` : "") + next;
 }
 function cheapest() {
   const out = {};
